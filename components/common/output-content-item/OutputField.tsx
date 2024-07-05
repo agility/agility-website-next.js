@@ -1,7 +1,7 @@
 import {AgilityPic, renderHTML} from "@agility/nextjs"
 import OutputNestedContentItem from "./OutputNestedContentItem"
 import {useEffect, useMemo, useState} from "react"
-import {FaCaretDown} from "react-icons/fa6"
+import {IconCaretDown} from "@tabler/icons-react"
 import {default as cn} from "classnames"
 
 interface Props {
@@ -61,7 +61,7 @@ export default function OutputField({fieldName, fieldValue}: Props) {
 						className="hover:text-purple-600 transition-all flex gap-1 items-center"
 					>
 						<span>{fieldName}:</span>
-						<FaCaretDown className={cn("transition-transform", isExpanded ? "rotate-0" : "-rotate-90")} />
+						<IconCaretDown className={cn("transition-transform", isExpanded ? "rotate-0" : "-rotate-90")} />
 					</button>
 				) : (
 					<span>{fieldName}:</span>

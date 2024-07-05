@@ -16,7 +16,7 @@ export const getAgilityContext = () => {
 
 	return {
 		locales: agilityConfig.locales,
-		locale: "en-us",
+		locale: "en-ca",
 		sitemap: agilityConfig.channelName,
 		isPreview,
 		isDevelopmentMode

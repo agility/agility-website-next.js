@@ -78,6 +78,16 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 					return
 				}
+
+				if (metaTag && metaTag.name && metaTag.content) {
+
+					otherMetaData[metaTag.name] = metaTag.content
+
+					return
+				}
+
+
+
 			}
 			console.warn("Could not output tag in Additional Header Markup", item)
 		}
@@ -95,10 +105,13 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	//#endregion
 
 
+	let title = agilityData.sitemapNode?.title
+	if (!title.includes("Agility")) title = `${title} | Agility CMS`
+
 
 	const metaData: Metadata = {
-		metadataBase: new URL('https://preview-tests-nov-2023.vercel.app'),
-		title: `${agilityData.sitemapNode?.title} | ${header?.siteName || ""}`,
+		metadataBase: new URL('https://agilitycms.com'),
+		title,
 		description: agilityData.page?.seo?.metaDescription,
 		keywords: agilityData.page?.seo?.metaKeywords,
 		openGraph: {

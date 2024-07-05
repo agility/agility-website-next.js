@@ -9,35 +9,19 @@ module.exports = {
 
 	theme: {
 		fontFamily: {
-			sans: ['var(--font-inter)', ...fontFamily.sans],
+			sans: ["TTInterphasesPro", "sans-serif"]
 		},
-		extend: {
 
+		extend: {
+			boxShadow: {
+				b: "0 5px 8px -1px rgba(0, 0, 0, 0.1)",
+			},
 			colors: {
 				transparent: "transparent",
-				agility: "#222",
-				primary: {
-					100: "#a273ff",
-					200: "#935bff",
-					300: "#8344ff",
-					400: "#742cff",
-					500: "#6415FF",
-					600: "#5a13e6",
-					700: "#5011cc",
-					800: "#460fb3",
-					900: "#3c0d99",
-				},
-				secondary: {
-					100: "#7c8ba1",
-					200: "#667892",
-					300: "#506582",
-					400: "#3a5173",
-					500: "#243E63",
-					600: "#203859",
-					700: "#1d324f",
-					800: "#192b45",
-					900: "#16253b",
-				},
+				primaryHighlight: "#f4f4f4",
+				primary: "#2a3846",
+				highlight: "#5800d4", //purple
+				background: "#e9f0f5", //light grey
 			},
 		},
 	},

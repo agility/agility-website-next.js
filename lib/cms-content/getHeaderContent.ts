@@ -1,32 +1,29 @@
-import { ContentItem, ImageField } from "@agility/nextjs"
-
-import getAgilitySDK from "../cms/getAgilitySDK"
-import { unstable_cache } from "next/cache"
-import { getAgilityContext } from "../cms/useAgilityContext"
-import { cacheConfig } from "../cms/cacheConfig"
+import { ImageField, URLField } from "@agility/nextjs"
 import { getContentList } from "lib/cms/getContentList"
-import { getSitemapNested } from "lib/cms/getSitemapNested"
+import { ContentItem } from "@agility/content-fetch"
+import { Header } from "lib/types/Header"
+import { TopLevelNav } from "lib/types/TopLevelNav"
+import { SubLevelNav } from "lib/types/SubLevelNav"
+import { MegaMenuItem } from "lib/types/MegaMenuItem"
 
 
-interface ILink {
-	title: string
-	path: string
-}
 
-export interface IHeaderData {
-	siteName: string
-	logo: ImageField
-	links: ILink[]
-}
-
-interface IHeader {
-	siteName: string
-	logo: ImageField
-}
 
 interface Props {
 	locale: string
 	sitemap: string
+}
+
+export interface MenuLink {
+	menuItem: ContentItem<TopLevelNav>,
+	subMenuList?: ContentItem<SubLevelNav>[]
+	megaMenuList?: ContentItem<MegaMenuItem>[]
+}
+
+export interface HeaderContent {
+	header: ContentItem<Header>
+	links: MenuLink[]
+
 }
 
 /**
@@ -39,66 +36,99 @@ interface Props {
  * @param {Props} { locale, sitemap }
  * @return {*}
  */
-export const getHeaderContent = async ({ locale, sitemap }: Props) => {
+export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<HeaderContent> => {
 
 
 	// set up content item
-	let contentItem: ContentItem<IHeader> | null = null
+	let header: ContentItem<Header> | null = null
 
 	// set up links
 	let links = []
 
 	try {
 		// try to fetch our site header
-		let header = await getContentList({
-			referenceName: "siteheader",
+		let headerList = await getContentList({
+			referenceName: "globalheader",
 			languageCode: locale,
 			take: 1,
+			contentLinkDepth: 0
 		})
 
 		// if we have a header, set as content item
-		if (header && header.items && header.items.length > 0) {
-			contentItem = header.items[0]
+		if (headerList && headerList.items && headerList.items.length > 0) {
+			header = headerList.items[0]
 		}
 
-		if (!contentItem) {
-			return null
-		}
-	} catch (error) {
-		if (console) console.error("Could not load site header item.", error)
-		return null
-	}
+		if (!header) throw Error("No header found.")
 
-	try {
-		// get the nested sitemap
-		let nodes = await getSitemapNested({
-			channelName: sitemap,
-			languageCode: locale,
-		})
+		//expand out the menu structure with MULTIPLE CALLS so that we can purge the cache for any level :)
+		if (header?.fields.menuStructure.referencename) {
 
-		// grab the top level links that are visible on menu
-		links = nodes
-			.filter((node: any) => node.visible.menu)
-			.map((node: any) => {
-
-				const path = node.path
-
-				return {
-					title: node.menuText || node.title,
-					path: path === "/home" ? "/" : path,
-				}
+			const menuStructureList = await getContentList({
+				referenceName: header.fields.menuStructure.referencename,
+				languageCode: locale,
+				contentLinkDepth: 0
 			})
 
+			for (let i = 0; i < menuStructureList.items.length; i++) {
+				const menuItem: ContentItem<TopLevelNav> = menuStructureList.items[i]
+
+				let subMenuList: ContentItem<SubLevelNav>[] | undefined = undefined
+				let megaMenuList: ContentItem<MegaMenuItem>[] | undefined = undefined
+
+				//grab the mega menu if needed
+				if (menuItem.fields.megaContent && menuItem.fields.megaContent.referencename) {
+					const res = await getContentList({
+						referenceName: menuItem.fields.megaContent.referencename,
+						languageCode: locale,
+					})
+
+					if (res && res.items && res.items.length > 0) {
+						megaMenuList = res.items
+					}
+
+
+				}
+
+				if (menuItem.fields.subNavigation && menuItem.fields.subNavigation.referencename) {
+
+					//expand out the subnav
+					const res = await getContentList({
+						referenceName: menuItem.fields.subNavigation.referencename,
+						languageCode: locale,
+						contentLinkDepth: 0,
+						take: 100
+
+					})
+
+					if (res && res.items && res.items.length > 0) {
+						subMenuList = res.items as ContentItem<SubLevelNav>[]
+					}
+
+
+				}
+
+				links.push({
+					menuItem,
+					subMenuList,
+					megaMenuList
+
+				})
+
+			}
+		}
+		return {
+			header,
+			links
+		}
+
 	} catch (error) {
-		if (console) console.error("Could not load nested sitemap.", error)
+		if (console) console.error("Could not load site header item.", error)
+		throw new Error("Could not load site header.")
 	}
 
-	// return clean object...
-	return {
-		siteName: contentItem.fields.siteName,
-		logo: contentItem.fields.logo,
-		links,
-	} as IHeaderData
+
+
 }
 
 

@@ -2,12 +2,13 @@ import {draftMode} from "next/headers"
 import LoadingWidget from "components/common/LoadingWidget"
 import PreviewBar from "components/common/PreviewBar"
 import SiteFooter from "components/common/SiteFooter"
-import SiteHeader from "components/common/SiteHeader"
+import SiteHeader from "components/common/header/SiteHeader"
 
 import {useAgilityContext} from "lib/cms/useAgilityContext"
 
 import {Inter} from "next/font/google"
 
+import "/styles/fonts.css"
 import "/styles/globals.css"
 
 import {getHeaderContent} from "lib/cms-content/getHeaderContent"
@@ -22,7 +23,7 @@ const inter = Inter({
 export default async function RootLayout({children}: {children: React.ReactNode}) {
 	const {locale, sitemap, isDevelopmentMode, isPreview} = useAgilityContext()
 
-	const header = await getHeaderContent({sitemap, locale})
+	const headerContent = await getHeaderContent({sitemap, locale})
 
 	async function startPreviewMode(pathname: string) {
 		"use server"
@@ -41,20 +42,19 @@ export default async function RootLayout({children}: {children: React.ReactNode}
 	}
 
 	return (
-		<html lang="en" className={inter.className}>
+		<html lang="en" className="font-sans text-primary">
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				<div id="site-wrapper">
 					<div id="site">
-						<PreviewBar {...{isDevelopmentMode, isPreview, startPreviewMode}} />
-
 						<div className="flex flex-col min-h-screen">
-							<SiteHeader {...{header}} />
+							<SiteHeader {...{headerContent}} />
 
 							<main className={`flex-grow`}>{children}</main>
 							<SiteFooter />
 						</div>
 					</div>
 				</div>
+				{(isPreview || isDevelopmentMode) && <PreviewBar {...{isDevelopmentMode, isPreview, startPreviewMode}} />}
 			</body>
 		</html>
 	)
