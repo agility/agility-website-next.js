@@ -27,8 +27,6 @@ export const MenuItemOutput = ({link}: Props) => {
 
 	const hasMegaContent = !!(megaTitle && megaContent && megaContent.length > 0)
 
-	console.log("megaContent", hasMegaContent)
-
 	/**
 	 * Show the sub menu after a delay and set the over state for the popover
 	 * @param closeMethod
