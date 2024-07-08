@@ -10,7 +10,7 @@ interface CachedResponse<T> {
 
 export const getCachedObject = async <T>(key: string): Promise<CachedResponse<T> | null> => {
 
-	const isNetlify = process.env.NETLIFY === 'true' || process.env.NETLIFY_DEV === 'true' || (!!process.env.NETLIFY_FUNCTIONS_TOKEN)
+	const isNetlify = (!!process.env.NETLIFY_BLOBS_CONTEXT)
 	console.log("isNetlify", isNetlify)
 	if (!isNetlify) {
 
