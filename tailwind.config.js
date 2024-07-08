@@ -21,6 +21,8 @@ module.exports = {
 				primaryHighlight: "#f4f4f4",
 				primary: "#2a3846",
 				highlight: "#5800d4", //purple
+				"highlight-dark": "#4600a8", //dark purple
+				"highlight-light": "#5800d4", //light purple
 				background: "#e9f0f5", //light grey
 			},
 		},

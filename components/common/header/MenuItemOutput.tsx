@@ -109,8 +109,8 @@ export const MenuItemOutput = ({link}: Props) => {
 						<PopoverButton
 							ref={refPopoverButton}
 							className={classNames(
-								"text-sm leading-6 font-medium text-secondary-500",
-								"group-hover:text-highlight focus:outline-none focus:text-highlight transition-all duration-300"
+								"text-sm leading-6 font-medium text-secondary-500 rounded-full ",
+								"group-hover:text-highlight focus:outline-none transition-all"
 							)}
 						>
 							<IconChevronDown
