@@ -13,6 +13,9 @@ export const getCachedObject = async <T>(key: string): Promise<CachedResponse<T>
 	const isNetlify = process.env.NETLIFY === 'true' || process.env.NETLIFY_DEV === 'true'
 	console.log("isNetlify", isNetlify)
 	if (!isNetlify) {
+
+		console.log("env", process.env)
+
 		//use local file cache unless we are on netlify
 		const cacheDir = path.join(process.cwd(), '.next', 'cache', 'agility');
 		const cacheFilePath = path.join(cacheDir, `${key}.json`);
