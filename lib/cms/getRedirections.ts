@@ -1,10 +1,12 @@
 import getAgilitySDK from "lib/cms/getAgilitySDK"
 import { cacheConfig } from "lib/cms/cacheConfig"
-
+import { getStore } from "@netlify/blobs";
 
 import fs from 'fs';
 import path from 'path';
 import { DateTime } from "luxon";
+import { getCachedObject } from "lib/persistant-cache/getCachedObject";
+import { setCachedObject } from "lib/persistant-cache/setCachedObject";
 
 
 
@@ -34,7 +36,6 @@ interface RedirectionsMap {
  */
 export const getRedirections = async (): Promise<RedirectionsMap> => {
 
-
 	const agilitySDK = getAgilitySDK()
 
 	//don't cache the redirections with nextjs cache - we are gonna do that manually...
@@ -46,47 +47,17 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 
 	try {
 
-		const cacheDir = path.join(process.cwd(), '.next', 'cache', 'agility');
-		const cacheFilePath = path.join(cacheDir, `redirections.json`);
+		const key = 'redirections'
+		let redirectionRes = await getCachedObject<RedirectionsMap>(key)
 
-		// Ensure the cache directory exists
-		if (!fs.existsSync(cacheDir)) {
-			fs.mkdirSync(cacheDir, { recursive: true });
+		if (redirectionRes && redirectionRes.isUpToDate) {
+			//if the redirections are up to date, return them...
+			return redirectionRes.item
 		}
 
-		let redirections: RedirectionsMap | null = null
 		let lastAccessDate: Date | null | undefined = undefined
 
-
-
-
-		//check that the cache file exists
-		if (fs.existsSync(cacheFilePath)) {
-			const fileStats = await fs.promises.stat(cacheFilePath)
-			const lastModTime = fileStats.mtime
-			const redirectionStr = await fs.promises.readFile(cacheFilePath, 'utf-8')
-			if (redirectionStr) {
-				try {
-					redirections = JSON.parse(redirectionStr) as RedirectionsMap
-					lastAccessDate = new Date(redirections.lastAccessDate)
-
-					//check if the last mod date is less then 60 seconds ago, if so, return the cached data
-					const dtLastMode = DateTime.fromJSDate(lastModTime)
-
-					const numSeconds = DateTime.now().diff(dtLastMode, "seconds").seconds
-
-					//if we wrote this file less than 60 seconds ago, return the cached data
-					if (numSeconds < cacheConfig.cacheDuration) {
-						return redirections
-					}
-
-				} catch (error) {
-					console.error('Failed to parse cached redirections:', error);
-				}
-			}
-		}
-
-		const redirectionsFromServer = await agilitySDK.getUrlRedirections({ lastAccessDate });
+		const redirectionsFromServer = await agilitySDK.getUrlRedirections({ lastAccessDate }) as Redirections
 
 		if (!redirectionsFromServer.isUpToDate) {
 
@@ -98,7 +69,7 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 			}
 
 			// Convert the server redirections list to a dictionary for fast lookups
-			redirectionsFromServer.items.forEach((redirection: Redirection) => {
+			redirectionsFromServer.items.forEach((redirection) => {
 
 				//massage the origin key in case the user has a leading ~/ or leading https:// absolute path
 				let key = redirection.originUrl.toLowerCase()
@@ -117,26 +88,21 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 				redirectionsMap.items[key] = redirection
 			});
 
-			// Write the server redirections to the cache file
-			await fs.promises.writeFile(cacheFilePath, JSON.stringify(redirectionsMap), 'utf-8');
-		} else {
+			// Write the server redirections to cache
+			await setCachedObject(key, redirectionsMap)
 
-			// Re-write the cached redirections to the cache file
-			await fs.promises.writeFile(cacheFilePath, JSON.stringify(redirections), 'utf-8');
+			return redirectionsMap
 		}
 
-		if (!redirections) {
-			return {
-				lastAccessDate: DateTime.now().toISO(),
-				isUpToDate: false,
-				items: {}
-			}
-		}
-
-		return redirections;
 	} catch (error) {
 		console.error('Failed to fetch or cache redirections:', error);
-		throw error; // Rethrow or handle as needed
+	}
+
+	//if we get here, there's a problem, return an empty object
+	return {
+		lastAccessDate: DateTime.now().toISO(),
+		isUpToDate: false,
+		items: {}
 	}
 
 }

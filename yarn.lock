@@ -144,6 +144,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@netlify/blobs@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@netlify/blobs/-/blobs-8.0.0.tgz#9f57f0cfe372e3ec5502496ad23250bddf612971"
+  integrity sha512-p9DdRSPvDuFhl9PYODWRo5QYWB4Du/lX5gbZNmwmtw+xfcaIpPD3lWs8I1OwHcpVgbay0Ik4JfCT75ZiPylKgA==
+
 "@next/env@14.2.4":
   version "14.2.4"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-14.2.4.tgz#5546813dc4f809884a37d257b254a5ce1b0248d7"
