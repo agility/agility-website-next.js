@@ -5,7 +5,7 @@ import path from 'path';
 
 
 export const setCachedObject = async (key: string, object: any): Promise<void> => {
-	const isNetlify = process.env.NETLIFY === 'true' || process.env.NETLIFY_DEV === 'true'
+	const isNetlify = process.env.NETLIFY === 'true' || process.env.NETLIFY_DEV === 'true' || (!!process.env.NETLIFY_FUNCTIONS_TOKEN)
 
 	if (!isNetlify) {
 		//use local file cache unless we are on netlify
