@@ -29,12 +29,16 @@ interface RedirectionsMap {
 	items: { [key: string]: Redirection }
 }
 
+interface Props {
+	forceUpdate?: boolean
+}
+
 /**
  * Get the list of redirections, from cache if possible.
  * @param params
  * @returns
  */
-export const getRedirections = async (): Promise<RedirectionsMap> => {
+export const getRedirections = async ({ forceUpdate = false }: Props): Promise<RedirectionsMap> => {
 
 	const agilitySDK = getAgilitySDK()
 
@@ -50,7 +54,7 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 		const key = 'redirections'
 		let redirectionRes = await getCachedObject<RedirectionsMap>(key)
 
-		if (redirectionRes && redirectionRes.isUpToDate) {
+		if (!forceUpdate && redirectionRes && redirectionRes.isUpToDate) {
 			//if the redirections are up to date, return them...
 			return redirectionRes.item
 		}
@@ -59,6 +63,7 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 
 		const redirectionsFromServer = await agilitySDK.getUrlRedirections({ lastAccessDate }) as Redirections
 
+		//only update the cache if the server has new data, or we are forcing an update
 		if (!redirectionsFromServer.isUpToDate) {
 
 			// Convert the server redirections to a dictionary
@@ -89,7 +94,7 @@ export const getRedirections = async (): Promise<RedirectionsMap> => {
 			});
 
 			// Write the server redirections to cache
-			await setCachedObject(key, redirectionsMap)
+			await setCachedObject(key, JSON.stringify(redirectionsMap))
 
 			return redirectionsMap
 		}

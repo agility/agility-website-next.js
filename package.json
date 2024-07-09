@@ -37,6 +37,7 @@
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/luxon": "^3.1.0",
 		"autoprefixer": "^10.4.13",
+		"bloom-filters": "^3.0.2",
 		"postcss": "^8.4.19",
 		"prettier": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.5",

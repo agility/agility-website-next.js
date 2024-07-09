@@ -9,7 +9,7 @@ import NotFound from "./not-found"
 import InlineError from "components/common/InlineError"
 import { cacheConfig } from "lib/cms/cacheConfig"
 import { checkRedirect } from "lib/cms-content/checkRedirect"
-import { redirect } from "next/navigation"
+import { redirect, permanentRedirect } from "next/navigation"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const runtime = "nodejs"
@@ -33,11 +33,6 @@ export async function generateMetadata(
 
 export default async function Page({ params, searchParams }: PageProps) {
 	//const {isPreview} = getAgilityContext()
-
-	const redirection = await checkRedirect({ params })
-	if (redirection) {
-		redirect(redirection.destinationUrl)
-	}
 
 	const agilityData = await getAgilityPage({ params })
 

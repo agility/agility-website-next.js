@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server'
 import { getDynamicPageURL } from "@agility/nextjs/node"
+import { checkRedirect } from 'lib/cms-content/checkRedirect'
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
 
+
+	const ext = request.nextUrl.pathname.includes(".") ? request.nextUrl.pathname.split('.').pop() : null
 
 	/*****************************
 	 * *** AGILITY MIDDLEWARE ***
@@ -12,6 +15,7 @@ export async function middleware(request: NextRequest) {
 	 * 2: Check if we are exiting preview
 	 * 3: Check if this is a direct to a dynamic page
 	 *    based on a content id
+	 * 4: Check if this is a redirect
 	 *******************************/
 	const previewQ = request.nextUrl.searchParams.get("AgilityPreview")
 	let contentIDStr = request.nextUrl.searchParams.get("ContentID") as string || ""
@@ -54,8 +58,42 @@ export async function middleware(request: NextRequest) {
 	}
 
 
+	//check for a redirect
+	if ((!ext || ext.length === 0)) {
+
+		const redirection = await checkRedirect({ path: request.nextUrl.pathname })
+
+		if (redirection) {
+			console.log("redirecting", redirection)
+			if (redirection.destinationUrl.startsWith("/")) {
+				const url = request.nextUrl.clone()
+				url.pathname = redirection.destinationUrl
+				return NextResponse.redirect(url, redirection.statusCode)
+			} else {
+				return NextResponse.redirect(redirection.destinationUrl, redirection.statusCode)
+			}
+
+		} else {
+			console.log("did not find a redirect for this path...", request.nextUrl.pathname)
+		}
+	}
 
 
+}
 
 
+export const config = {
+	// https://nextjs.org/docs/messages/edge-dynamic-code-evaluation
+	unstable_allowDynamic: [
+	],
+	matcher: [
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - api (API routes)
+		 * - _next/static (static files)
+		 * - _next/image (image optimization files)
+		 * - favicon.ico (favicon file)
+		 */
+		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+	],
 }

@@ -83,6 +83,7 @@
         "npm:@types/react-dom@18.0.9",
         "npm:@types/react@18.0.25",
         "npm:autoprefixer@^10.4.13",
+        "npm:bloom-filters@^3.0.2",
         "npm:classnames@^2.3.2",
         "npm:eslint-config-next@13.0.3",
         "npm:eslint@8.27.0",

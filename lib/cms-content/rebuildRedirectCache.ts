@@ -1,0 +1,41 @@
+import { getRedirections } from "lib/cms/getRedirections"
+import { ScalableBloomFilter } from 'bloom-filters'
+import { setCachedObject } from "lib/persistant-cache/setCachedObject"
+
+export const rebuildRedirectCache = async () => {
+
+	try {
+		console.log("Rebuilding redirect cache...")
+		//force a rebuild the redirection cache
+		const redirections = await getRedirections({ forceUpdate: true })
+
+		const allKeys = Object.keys(redirections.items)
+
+		//rebuild the bloom filter
+		const filter = new ScalableBloomFilter(allKeys.length, 0.0001)
+
+		//add the origin urls from the redirections to the bloom filter
+		for (const k in redirections.items) {
+			let key = k
+			if (key.startsWith("~/")) key = key.substring(1)
+
+			if (key.includes("://")) {
+				const hostIndex = key.indexOf("/", key.indexOf("://") + 3)
+				key = key.substring(hostIndex)
+			}
+			filter.add(key)
+		}
+
+
+		const filterJson = filter.saveAsJSON()
+		const filterStr = JSON.stringify(filterJson)
+
+		//put the bloom filter in the persistent cache
+		setCachedObject('redirections-bloom-filter', filterStr)
+
+
+	} catch (error) {
+		console.error("Error rebuilding redirect cache", error)
+	}
+
+}

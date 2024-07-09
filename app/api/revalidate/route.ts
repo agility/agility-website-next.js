@@ -1,16 +1,17 @@
+import { rebuildRedirectCache } from "lib/cms-content/rebuildRedirectCache";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IRevalidateRequest {
 	state: string,
 	instanceGuid: string
-	languageCode: string
+	languageCode?: string
 	referenceName?: string
 	contentID?: number
 	contentVersionID?: number
 	pageID?: number
 	pageVersionID?: number
-	changeDateUTC: string
+	changeDateUTC?: string
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -44,6 +45,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 			console.log("Revalidating page and sitemap tags:", pageTag, sitemapTagFlat, sitemapTagNested)
 		}
+	} else if (data.contentID === undefined && data.pageID === undefined) {
+		//if no content or page id is provided, it's for a URL redirection
+		await rebuildRedirectCache()
 	}
 
 	return new Response(`OK`, {
