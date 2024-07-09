@@ -85,6 +85,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
 	// https://nextjs.org/docs/messages/edge-dynamic-code-evaluation
 	unstable_allowDynamic: [
+		'/lib/cms-content/checkRedirect.ts',
 		'/node_modules/bloom-filters/**'
 	],
 	matcher: [
