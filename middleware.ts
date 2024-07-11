@@ -64,13 +64,26 @@ export async function middleware(request: NextRequest) {
 		const redirection = await checkRedirect({ path: request.nextUrl.pathname })
 
 		if (redirection) {
-			console.log("redirecting", redirection)
+			//redirect to the destination url
+			//cache the redirect for 10 minutes
 			if (redirection.destinationUrl.startsWith("/")) {
+				//handle relative paths
 				const url = request.nextUrl.clone()
 				url.pathname = redirection.destinationUrl
-				return NextResponse.redirect(url, redirection.statusCode)
+				return NextResponse.redirect(url, {
+					status: redirection.statusCode,
+					headers: {
+						"Cache-Control": "public,maxage=600, stale-while-revalidate"
+					}
+				})
 			} else {
-				return NextResponse.redirect(redirection.destinationUrl, redirection.statusCode)
+				//handle absolute paths
+				return NextResponse.redirect(redirection.destinationUrl, {
+					status: redirection.statusCode,
+					headers: {
+						"Cache-Control": "public,maxage=3600, stale-while-revalidate"
+					}
+				})
 			}
 
 		} else {
