@@ -85,9 +85,6 @@ export async function middleware(request: NextRequest) {
 					}
 				})
 			}
-
-		} else {
-			console.log("did not find a redirect for this path...", request.nextUrl.pathname)
 		}
 	}
 
