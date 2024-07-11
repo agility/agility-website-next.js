@@ -2,6 +2,11 @@ import { getRedirections } from "lib/cms/getRedirections"
 import { ScalableBloomFilter } from 'bloom-filters'
 import { setCachedObject } from "lib/persistant-cache/setCachedObject"
 
+
+/**
+ * Rebuild the redirection cache and bloom filter.
+ * Inpired by this: https://nextjs.org/docs/app/building-your-application/routing/redirecting#managing-redirects-at-scale-advanced
+ */
 export const rebuildRedirectCache = async () => {
 
 	try {

@@ -3,7 +3,15 @@ import { PageProps } from "lib/cms/getAgilityPage"
 import { getRedirections, Redirection } from "lib/cms/getRedirections"
 import { getCachedObject } from "lib/persistant-cache/getCachedObject"
 
+/**
+ * Check if a path should be redirected.
+ * Uses a bloom filter to quickly check if the path is in the list of redirections before actually getting the full list of redirects.
+ * Inspired by this: https://nextjs.org/docs/app/building-your-application/routing/redirecting#managing-redirects-at-scale-advanced
+ * @param param0
+ * @returns
+ */
 export const checkRedirect = async ({ path }: { path: string }): Promise<Redirection | null> => {
+
 
 
 	//get the bloom filter first
