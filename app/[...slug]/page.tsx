@@ -11,6 +11,7 @@ import { cacheConfig } from "lib/cms/cacheConfig"
 import { checkRedirect } from "lib/cms-content/checkRedirect"
 import { redirect, permanentRedirect } from "next/navigation"
 import { NextRequest } from "next/server"
+import { DateTime } from "luxon"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const runtime = "nodejs"
@@ -42,11 +43,14 @@ export default async function Page({ params, searchParams }: PageProps) {
 
 	const AgilityPageTemplate = getPageTemplate(agilityData.pageTemplateName || "")
 
+	const dtStr = DateTime.now().toISO()
+
 	return (
 		<div
 			data-agility-page={agilityData.page?.pageID}
 			data-agility-dynamic-content={agilityData.sitemapNode.contentID}
 		>
+			<div>Server time: {dtStr}</div>
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
