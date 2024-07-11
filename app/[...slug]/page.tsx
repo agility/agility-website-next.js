@@ -10,6 +10,7 @@ import InlineError from "components/common/InlineError"
 import { cacheConfig } from "lib/cms/cacheConfig"
 import { checkRedirect } from "lib/cms-content/checkRedirect"
 import { redirect, permanentRedirect } from "next/navigation"
+import { NextRequest } from "next/server"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const runtime = "nodejs"

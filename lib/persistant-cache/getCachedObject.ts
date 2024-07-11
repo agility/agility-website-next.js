@@ -7,20 +7,17 @@ interface CachedResponse<T> {
 	item: T
 }
 
+
+
 export const getCachedObject = async <T>(key: string, isString?: boolean): Promise<CachedResponse<T> | null> => {
 
 	const isNetlify = (!!process.env.NETLIFY_BLOBS_CONTEXT) || (!!process.env.NETLIFY_PURGE_API_TOKEN)
-	console.log("isNetlify", isNetlify)
 
 	if (isNetlify) {
 
 		//use netlify blobs for caching
 		const cacheStore = getStore("agility-cms-website-cache");
 		const options = (!!isString) ? { type: "text" } : { type: "json" }
-
-		console.log("key", key)
-		console.log("isString", isString)
-		console.log("options", options)
 
 		//@ts-ignore
 		const res = await cacheStore.getWithMetadata(key, options)

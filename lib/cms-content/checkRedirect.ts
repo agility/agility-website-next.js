@@ -13,9 +13,13 @@ import { getCachedObject } from "lib/persistant-cache/getCachedObject"
 export const checkRedirect = async ({ path }: { path: string }): Promise<Redirection | null> => {
 
 
-
+	const start = performance.now();
 	//get the bloom filter first
 	const filterStr = await getCachedObject<string>('redirections-bloom-filter', true)
+
+	const end = performance.now();
+
+	console.log("Time to get bloom filter from cache", end - start)
 
 	if (!filterStr || !filterStr.item) {
 		return null

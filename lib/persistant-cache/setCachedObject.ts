@@ -4,8 +4,6 @@ export const setCachedObject = async (key: string, objectJSON: string): Promise<
 
 	const isNetlify = (!!process.env.NETLIFY_BLOBS_CONTEXT) || (!!process.env.NETLIFY_PURGE_API_TOKEN)
 
-	console.log("setCachedObject", key, "isNetlify", isNetlify)
-
 	if (isNetlify) {
 		//write to netlify blobs
 		const cacheStore = getStore("agility-cms-website-cache");
