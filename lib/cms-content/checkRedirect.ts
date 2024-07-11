@@ -12,6 +12,8 @@ import { getCachedObject } from "lib/persistant-cache/getCachedObject"
  */
 export const checkRedirect = async ({ path }: { path: string }): Promise<Redirection | null> => {
 
+	//if the path is the root, obviously don't redirect
+	if (path === "/") return null
 
 	const start = performance.now();
 	//get the bloom filter first
@@ -19,7 +21,10 @@ export const checkRedirect = async ({ path }: { path: string }): Promise<Redirec
 
 	const end = performance.now();
 
-	console.log("Time to get bloom filter from cache", end - start)
+	const timeToGetBloomFilter = end - start
+	if (timeToGetBloomFilter > 100) {
+		console.warn("WARNING: Time to get Redirect Bloom Filter is too long:", timeToGetBloomFilter, "ms")
+	}
 
 	if (!filterStr || !filterStr.item) {
 		return null
