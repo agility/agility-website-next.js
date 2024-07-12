@@ -6,9 +6,18 @@ import Link from "next/link"
 import classNames from "classnames"
 
 import { HeaderContent } from "lib/cms-content/getHeaderContent"
-import { PopoverGroup } from "@headlessui/react"
+import {
+	Dialog,
+	DialogBackdrop,
+	DialogPanel,
+	Disclosure,
+	DisclosureButton,
+	DisclosurePanel,
+	PopoverGroup
+} from "@headlessui/react"
 import { MenuItemOutput } from "./MenuItemOutput"
 import { LinkButton } from "components/micro/LinkButton"
+import { IconChevronDown, IconX } from "@tabler/icons-react"
 
 interface Props {
 	headerContent: HeaderContent
@@ -17,6 +26,8 @@ interface Props {
 const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
+
+	console.log("HEaderContent", header)
 
 	const [isScrolled, setIsScrolled] = useState(false)
 
@@ -138,70 +149,119 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 			</div>
 
 			{/* MOBILE NAV */}
-			<div
-				className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right lg:hidden z-20"
-				style={{ display: open ? "block" : "none" }}
+			<Dialog
+				open={open}
+				onClose={setOpen}
+				transition
+				className={classNames("lg:hidden", "transition duration-300 ease-out data-[closed]:opacity-0")}
 			>
-				<div className="rounded-lg shadow-lg">
-					<div className="rounded-lg shadow-xs bg-white divide-y-2 divide-gray-50">
-						<div className="pt-5 pb-6 px-5 space-y-6">
-							<div className="flex items-center justify-between ">
-								<div>
-									<Link href="/" className="flex items-center">
-										<img
-											className="h-9 w-auto"
-											src={header.fields.stickyLogo.url}
-											alt={header.fields.stickyLogo.label}
-											width={header.fields.stickyLogo.height}
-											height={header.fields.stickyLogo.width}
-										/>
-									</Link>
-								</div>
-								<div className="">
-									<button
-										onClick={() => setOpen(!open)}
-										aria-label="Toggle Menu"
-										type="button"
-										className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-300"
-									>
-										{/* <!-- Heroicon name: x --> */}
-										<svg
-											className="h-6 w-6"
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-										>
-											<path
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												strokeWidth="2"
-												d="M6 18L18 6M6 6l12 12"
-											/>
-										</svg>
-									</button>
-								</div>
-							</div>
-							<div>
-								<nav className="grid gap-y-8 ">
-									{links.map((link, index) => {
+				<DialogBackdrop
+					transition
+					className="fixed inset-0 bg-black/30 duration-300 ease-out data-[closed]:opacity-0"
+				/>
+				<div className="fixed inset-0 z-10" />
+				<DialogPanel
+					className={classNames(
+						"fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+					)}
+				>
+					<div className="flex items-center justify-between">
+						<a href="#" className="-m-1.5 p-1.5">
+							<span className="sr-only">Agility CMS</span>
+							<img alt="" src={header.fields.mobileLogo.url} className="h-8 w-auto" />
+						</a>
+						<button
+							type="button"
+							onClick={() => setOpen(false)}
+							className="-m-2.5 rounded-md p-2.5 text-gray-700"
+						>
+							<span className="sr-only">Close menu</span>
+							<IconX aria-hidden="true" className="h-6 w-6" />
+						</button>
+					</div>
+					<div className="mt-6 flow-root">
+						<div className="-my-6 divide-y divide-gray-500/10">
+							<div className="space-y-2 py-6">
+								{links.map((link, index) => {
+									if (link.subMenuList && link.subMenuList.length > 0) {
+										//has sub menu
+										return (
+											<Disclosure as="div" key={`mobile-${index}`} className="-mx-3">
+												<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+													<Link
+														href={link.menuItem.fields.uRL.href}
+														target={link.menuItem.fields.uRL.target}
+														key={`mobile-${index}`}
+														className="hover:text-highlight transition-colors"
+													>
+														{link.menuItem.fields.title}
+													</Link>
+													<IconChevronDown
+														aria-hidden="true"
+														className="h-5 w-5 flex-none group-data-[open]:rotate-180"
+													/>
+												</DisclosureButton>
+												<DisclosurePanel className="mt-2 space-y-2">
+													{link.subMenuList.map((subLink, subIndex) => (
+														<DisclosureButton
+															key={subLink.fields.title}
+															as="a"
+															href={subLink.fields.uRL.href}
+															className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary hover:bg-gray-50 hover:text-highlight transition-all"
+														>
+															{subLink.fields.title}
+														</DisclosureButton>
+													))}
+												</DisclosurePanel>
+											</Disclosure>
+										)
+									} else {
+										//no sub menu
 										return (
 											<Link
 												href={link.menuItem.fields.uRL.href}
 												target={link.menuItem.fields.uRL.target}
 												key={`mobile-${index}`}
-												className="text-sm leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-300"
+												className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
 											>
 												{link.menuItem.fields.title}
 											</Link>
 										)
-									})}
-								</nav>
+									}
+								})}
+							</div>
+							<div className="py-6 flex flex-col gap-2">
+								{
+									/* Contact Us */
+									header.fields.contactus && (
+										<LinkButton
+											href={header.fields.contactus.href}
+											target={header.fields.contactus.target}
+											type="primary"
+											className="block"
+										>
+											{header.fields.contactus.text}
+										</LinkButton>
+									)
+								}
+
+								{
+									/* Sign In */
+									header.fields.primaryButton && (
+										<LinkButton
+											href={header.fields.primaryButton.href}
+											target={header.fields.primaryButton.target}
+											type="secondary"
+										>
+											{header.fields.primaryButton.text}
+										</LinkButton>
+									)
+								}
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</DialogPanel>
+			</Dialog>
 		</header>
 	)
 }

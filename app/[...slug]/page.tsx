@@ -39,40 +39,38 @@ export async function generateMetadata(
  * Generate the list of pages that we want to generate a build time
  * @returns
  */
-export async function generateStaticParams() {
-	console.log("*** generateStaticParams ***")
+//TODO: determine if we even need this...
+// export async function generateStaticParams() {
 
-	const agilitySDK = getAgilitySDK_NonReact()
+// 	const agilitySDK = getAgilitySDK_NonReact()
 
-	//const channelName: process.env.AGILITY_SITEMAP || "website",
-	const languageCode = process.env.AGILITY_LOCALES || "en-ca"
+// 	//const channelName: process.env.AGILITY_SITEMAP || "website",
+// 	const languageCode = process.env.AGILITY_LOCALES || "en-ca"
 
-	agilitySDK.config.fetchConfig = {
-		next: {
-			tags: [`agility-sitemap-flat-${languageCode}`],
-			revalidate: cacheConfig.cacheDuration
-		}
-	}
+// 	agilitySDK.config.fetchConfig = {
+// 		next: {
+// 			tags: [`agility-sitemap-flat-${languageCode}`],
+// 			revalidate: cacheConfig.cacheDuration
+// 		}
+// 	}
 
-	const sitemap = await agilitySDK.getSitemapFlat({
-		channelName: process.env.AGILITY_SITEMAP || "website",
-		languageCode
-	})
+// 	const sitemap = await agilitySDK.getSitemapFlat({
+// 		channelName: process.env.AGILITY_SITEMAP || "website",
+// 		languageCode
+// 	})
 
-	const paths = Object.keys(sitemap).map((path, index) => {
-		const thePath = index === 0 ? "/" : path
+// 	const paths = Object.keys(sitemap).map((path, index) => {
+// 		const thePath = index === 0 ? "/" : path
 
-		return {
-			params: {
-				slug: thePath.split("/").filter((x) => x)
-			}
-		}
-	})
+// 		return {
+// 			params: {
+// 				slug: thePath.split("/").filter((x) => x)
+// 			}
+// 		}
+// 	})
 
-	console.log("paths", paths.length)
-
-	return paths
-}
+// 	return paths
+// }
 
 export default async function Page({ params, searchParams }: PageProps) {
 	//const {isPreview} = getAgilityContext()
