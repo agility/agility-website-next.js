@@ -20,6 +20,10 @@ export const FooterSubscribe = ({
 	subscribeConfirmationMessage,
 	newsletterSignupForm
 }: Props) => {
+	if (!newsletterSignupForm) {
+		return null
+	}
+
 	const { portalId, formId }: HubspotForm = JSON.parse(newsletterSignupForm)
 	const divID = `form_${formId}`
 
