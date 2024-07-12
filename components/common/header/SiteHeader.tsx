@@ -27,8 +27,6 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
 
-	console.log("HEaderContent", header)
-
 	const [isScrolled, setIsScrolled] = useState(false)
 
 	/**
@@ -51,7 +49,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 
 	if (!header) {
 		return (
-			<header className="relative p-8 text-center">
+			<header className="relative p-8 text-center ">
 				<p className="text-gray-400 font-bold">No Header Available</p>
 			</header>
 		)
@@ -60,7 +58,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	return (
 		<header
 			className={classNames(
-				"w-full mx-auto bg-white px-8 sticky top-0  transition-shadow",
+				"w-full mx-auto bg-white px-8 sticky top-0  transition-shadow z-[2]",
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>
@@ -189,6 +187,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 											<Disclosure as="div" key={`mobile-${index}`} className="-mx-3">
 												<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
 													<Link
+														onClick={() => setOpen(false)}
 														href={link.menuItem.fields.uRL.href}
 														target={link.menuItem.fields.uRL.target}
 														key={`mobile-${index}`}
@@ -207,6 +206,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 															key={subLink.fields.title}
 															as="a"
 															href={subLink.fields.uRL.href}
+															onClick={() => setOpen(false)}
 															className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary hover:bg-gray-50 hover:text-highlight transition-all"
 														>
 															{subLink.fields.title}
@@ -223,6 +223,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 												target={link.menuItem.fields.uRL.target}
 												key={`mobile-${index}`}
 												className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+												onClick={() => setOpen(false)}
 											>
 												{link.menuItem.fields.title}
 											</Link>
@@ -239,6 +240,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 											target={header.fields.contactus.target}
 											type="primary"
 											className="block"
+											onClick={() => setOpen(false)}
 										>
 											{header.fields.contactus.text}
 										</LinkButton>
@@ -252,6 +254,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 											href={header.fields.primaryButton.href}
 											target={header.fields.primaryButton.target}
 											type="secondary"
+											onClick={() => setOpen(false)}
 										>
 											{header.fields.primaryButton.text}
 										</LinkButton>

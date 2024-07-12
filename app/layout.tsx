@@ -1,29 +1,29 @@
-import {draftMode} from "next/headers"
+import { draftMode } from "next/headers"
 import LoadingWidget from "components/common/LoadingWidget"
 import PreviewBar from "components/common/PreviewBar"
-import SiteFooter from "components/common/SiteFooter"
+import SiteFooter from "components/common/footer/SiteFooter"
 import SiteHeader from "components/common/header/SiteHeader"
 
-import {useAgilityContext} from "lib/cms/useAgilityContext"
+import { useAgilityContext } from "lib/cms/useAgilityContext"
 
-import {Inter} from "next/font/google"
+import { Inter } from "next/font/google"
 
 import "/styles/fonts.css"
 import "/styles/globals.css"
 
-import {getHeaderContent} from "lib/cms-content/getHeaderContent"
-import {redirect} from "next/navigation"
-import {NextRequest} from "next/server"
+import { getHeaderContent } from "lib/cms-content/getHeaderContent"
+import { redirect } from "next/navigation"
+import { NextRequest } from "next/server"
 
 const inter = Inter({
 	subsets: ["latin"],
-	variable: "--font-inter",
+	variable: "--font-inter"
 })
 
-export default async function RootLayout({children}: {children: React.ReactNode}) {
-	const {locale, sitemap, isDevelopmentMode, isPreview} = useAgilityContext()
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
 
-	const headerContent = await getHeaderContent({sitemap, locale})
+	const headerContent = await getHeaderContent({ sitemap, locale })
 
 	async function startPreviewMode(pathname: string) {
 		"use server"
@@ -47,14 +47,16 @@ export default async function RootLayout({children}: {children: React.ReactNode}
 				<div id="site-wrapper">
 					<div id="site">
 						<div className="flex flex-col min-h-screen">
-							<SiteHeader {...{headerContent}} />
+							<SiteHeader {...{ headerContent }} />
 
 							<main className={`flex-grow`}>{children}</main>
 							<SiteFooter />
 						</div>
 					</div>
 				</div>
-				{(isPreview || isDevelopmentMode) && <PreviewBar {...{isDevelopmentMode, isPreview, startPreviewMode}} />}
+				{(isPreview || isDevelopmentMode) && (
+					<PreviewBar {...{ isDevelopmentMode, isPreview, startPreviewMode }} />
+				)}
 			</body>
 		</html>
 	)

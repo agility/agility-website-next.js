@@ -11,6 +11,13 @@
 /* Import tailwind utility styles */
 @tailwind utilities;
 
+.hover-shadow-white {
+	transition: text-shadow 0.1s;
+	&:hover {
+		text-shadow: #fff 1px 0;
+	}
+}
+
 /*
 .prose h1,
 .prose h2,

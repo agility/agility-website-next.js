@@ -1,7 +1,8 @@
 "use client"
 
-import React, {useState} from "react"
-import {IconLink, IconAdjustments, IconMinus} from "@tabler/icons-react"
+import React, { useState } from "react"
+import { IconLink, IconAdjustments, IconMinus } from "@tabler/icons-react"
+import classNames from "classnames"
 
 interface Props {
 	isPreview: boolean | undefined
@@ -46,7 +47,7 @@ const AgilityLogoLarge = () => {
 /**
  * This is a preview bar that is enabled by default to handle viewing content in preview & live mode, remove this for production use.
  **/
-const PreviewBar = ({isPreview, isDevelopmentMode, startPreviewMode}: Props) => {
+const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) => {
 	const [isSelecting, setIsSelecting] = useState(false)
 	const [visible, setVisible] = useState(true)
 	const [open, setOpen] = useState(false)
@@ -83,9 +84,11 @@ const PreviewBar = ({isPreview, isDevelopmentMode, startPreviewMode}: Props) => 
 
 	return !isSelecting ? (
 		<ul
-			className={`transition-opacity duration-1000 ${
-				visible ? "opacity-100" : "opacity-0"
-			} fixed top-1/2 transform -translate-y-1/2 p-2 flex flex-col gap-y-[10px] ml-4 bg-white shadow-xl rounded-lg border border-gray-300 items-center`}
+			className={classNames(
+				`transition-opacity duration-1000 z-10`,
+				visible ? "opacity-100" : "opacity-0",
+				"fixed top-1/2 transform -translate-y-1/2 p-2 flex flex-col gap-y-[10px] ml-4 bg-white shadow-xl rounded-lg border border-gray-300 items-center"
+			)}
 		>
 			<li>
 				<AgilityLogo />
@@ -113,7 +116,7 @@ const PreviewBar = ({isPreview, isDevelopmentMode, startPreviewMode}: Props) => 
 			</li>
 		</ul>
 	) : (
-		<div className="fixed top-1/2 transform -translate-y-1/2 p-6  flex flex-col ml-4 bg-white shadow-xl  rounded-md w-[368px] border-gray-300">
+		<div className="fixed z-10 top-1/2 transform -translate-y-1/2 p-6  flex flex-col ml-4 bg-white shadow-xl  rounded-md w-[368px] border-gray-300">
 			{/* Modal Header */}
 			<div className="flex w-full justify-between items-center pb-6 mb-6 border-b border-b-gray-200">
 				<div className="flex gap-x-3 items-end ">
@@ -134,7 +137,11 @@ const PreviewBar = ({isPreview, isDevelopmentMode, startPreviewMode}: Props) => 
 			</div>
 			{/* Modal Selects  */}
 			<div className="text-sm">
-				{isDevelopmentMode ? "You are currently in Development Mode." : isPreview ? "You are in Preview Mode." : "Live"}
+				{isDevelopmentMode
+					? "You are currently in Development Mode."
+					: isPreview
+						? "You are in Preview Mode."
+						: "Live"}
 			</div>
 
 			<div className="flex w-full justify-evenly items-center pt-6 mt-6 border-t border-b-gray-200">

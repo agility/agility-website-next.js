@@ -73,9 +73,6 @@ export async function generateMetadata(
 // }
 
 export default async function Page({ params, searchParams }: PageProps) {
-	//const {isPreview} = getAgilityContext()
-	console.log("params", params)
-	console.log("render date", DateTime.now().toISO())
 	const agilityData = await getAgilityPage({ params })
 
 	//if the page is not found...
