@@ -1,31 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import React, {useLayoutEffect, useState} from "react"
+import React, { useLayoutEffect, useState } from "react"
 import Link from "next/link"
 import classNames from "classnames"
 
-import {HeaderContent} from "lib/cms-content/getHeaderContent"
-import {
-	Dialog,
-	DialogPanel,
-	Disclosure,
-	DisclosureButton,
-	DisclosurePanel,
-	Popover,
-	PopoverButton,
-	PopoverGroup,
-	PopoverPanel,
-} from "@headlessui/react"
-import {MenuItemOutput} from "./MenuItemOutput"
-import {LinkButton} from "components/micro/LinkButton"
-import {useLabelContext} from "@headlessui/react/dist/components/label/label"
+import { HeaderContent } from "lib/cms-content/getHeaderContent"
+import { PopoverGroup } from "@headlessui/react"
+import { MenuItemOutput } from "./MenuItemOutput"
+import { LinkButton } from "components/micro/LinkButton"
 
 interface Props {
 	headerContent: HeaderContent
 }
 
-const SiteHeader = ({headerContent: {header, links}}: Props) => {
+const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
 
@@ -81,7 +70,11 @@ const SiteHeader = ({headerContent: {header, links}}: Props) => {
 						{
 							/* Contact Us */
 							header.fields.contactus && (
-								<LinkButton href={header.fields.contactus.href} target={header.fields.contactus.target} type="primary">
+								<LinkButton
+									href={header.fields.contactus.href}
+									target={header.fields.contactus.target}
+									type="primary"
+								>
 									{header.fields.contactus.text}
 								</LinkButton>
 							)
@@ -100,7 +93,12 @@ const SiteHeader = ({headerContent: {header, links}}: Props) => {
 								viewBox="0 0 24 24"
 								stroke="currentColor"
 							>
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="2"
+									d="M4 6h16M4 12h16M4 18h16"
+								/>
 							</svg>
 						</button>
 					</div>
@@ -113,7 +111,11 @@ const SiteHeader = ({headerContent: {header, links}}: Props) => {
 						{
 							/* Contact Us */
 							header.fields.contactus && (
-								<LinkButton href={header.fields.contactus.href} target={header.fields.contactus.target} type="primary">
+								<LinkButton
+									href={header.fields.contactus.href}
+									target={header.fields.contactus.target}
+									type="primary"
+								>
 									{header.fields.contactus.text}
 								</LinkButton>
 							)
@@ -135,9 +137,10 @@ const SiteHeader = ({headerContent: {header, links}}: Props) => {
 				</div>
 			</div>
 
+			{/* MOBILE NAV */}
 			<div
 				className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right lg:hidden z-20"
-				style={{display: open ? "block" : "none"}}
+				style={{ display: open ? "block" : "none" }}
 			>
 				<div className="rounded-lg shadow-lg">
 					<div className="rounded-lg shadow-xs bg-white divide-y-2 divide-gray-50">
@@ -169,7 +172,12 @@ const SiteHeader = ({headerContent: {header, links}}: Props) => {
 											viewBox="0 0 24 24"
 											stroke="currentColor"
 										>
-											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth="2"
+												d="M6 18L18 6M6 6l12 12"
+											/>
 										</svg>
 									</button>
 								</div>
