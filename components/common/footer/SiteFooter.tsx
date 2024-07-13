@@ -18,6 +18,13 @@ export default async function SiteFooter() {
 		expandAllContentLinks: true
 	})
 
+	const adjustLink = (url: any) => {
+		if (url.startsWith("https://agilitycms.com")) {
+			return url.replace("https://agilitycms.com", "")
+		}
+		return url
+	}
+
 	if (!footerRes || !footerRes.items || footerRes.items.length === 0) {
 		return null
 	}
@@ -38,7 +45,10 @@ export default async function SiteFooter() {
 									{footer.fields.column1Links.map((link: any) => (
 										<div key={link.contentID}>
 											{
-												<Link href={link.fields.uRL.href} target={link.fields.uRL.target}>
+												<Link
+													href={adjustLink(link.fields.uRL.href)}
+													target={link.fields.uRL.target}
+												>
 													{link.fields.title || link.fields.uRL.text}
 												</Link>
 											}
@@ -52,7 +62,10 @@ export default async function SiteFooter() {
 									{footer.fields.column2Links.map((link: any) => (
 										<div key={link.contentID}>
 											{
-												<Link href={link.fields.uRL.href} target={link.fields.uRL.target}>
+												<Link
+													href={adjustLink(link.fields.uRL.href)}
+													target={link.fields.uRL.target}
+												>
 													{link.fields.title || link.fields.uRL.text}
 												</Link>
 											}
@@ -66,7 +79,10 @@ export default async function SiteFooter() {
 									{footer.fields.column3Links.map((link: any) => (
 										<div key={link.contentID}>
 											{
-												<Link href={link.fields.uRL.href} target={link.fields.uRL.target}>
+												<Link
+													href={adjustLink(link.fields.uRL.href)}
+													target={link.fields.uRL.target}
+												>
 													{link.fields.title || link.fields.uRL.text}
 												</Link>
 											}
@@ -80,7 +96,10 @@ export default async function SiteFooter() {
 									{footer.fields.column4Links.map((link: any) => (
 										<div key={link.contentID}>
 											{
-												<Link href={link.fields.uRL.href} target={link.fields.uRL.target}>
+												<Link
+													href={adjustLink(link.fields.uRL.href)}
+													target={link.fields.uRL.target}
+												>
 													{link.fields.title || link.fields.uRL.text}
 												</Link>
 											}
