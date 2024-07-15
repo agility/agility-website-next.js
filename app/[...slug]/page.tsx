@@ -87,7 +87,6 @@ export default async function Page({ params, searchParams }: PageProps) {
 			data-agility-page={agilityData.page?.pageID}
 			data-agility-dynamic-content={agilityData.sitemapNode.contentID}
 		>
-			<div>Server time: {dtStr}</div>
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
