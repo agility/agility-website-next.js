@@ -41,69 +41,65 @@ export default async function SiteFooter() {
 						<div className="flex-1 md:grid  md:grid-cols-2 lg:grid-cols-4 gap-2">
 							<div className="flex-1 pt-8">
 								<h4 className="font-medium">{footer.fields.column1Title}</h4>
-								<ul className="mt-2 flex flex-col gap-2 text-gray-100 text-sm">
+								<ul className="mt-2 flex flex-col text-gray-100 text-sm">
 									{footer.fields.column1Links.map((link: any) => (
-										<div key={link.contentID}>
-											{
-												<Link
-													href={adjustLink(link.fields.uRL.href)}
-													target={link.fields.uRL.target}
-												>
-													{link.fields.title || link.fields.uRL.text}
-												</Link>
-											}
-										</div>
+										<li key={link.contentID}>
+											<Link
+												href={adjustLink(link.fields.uRL.href)}
+												target={link.fields.uRL.target}
+												className="block py-1"
+											>
+												{link.fields.title || link.fields.uRL.text}
+											</Link>
+										</li>
 									))}
 								</ul>
 							</div>
 							<div className="flex-1 pt-8">
 								<h4 className="font-medium">{footer.fields.column2Title}</h4>
-								<ul className="mt-2 flex flex-col gap-2 text-gray-100 text-sm">
+								<ul className="mt-2 flex flex-col text-gray-100 text-sm">
 									{footer.fields.column2Links.map((link: any) => (
-										<div key={link.contentID}>
-											{
-												<Link
-													href={adjustLink(link.fields.uRL.href)}
-													target={link.fields.uRL.target}
-												>
-													{link.fields.title || link.fields.uRL.text}
-												</Link>
-											}
-										</div>
+										<li key={link.contentID}>
+											<Link
+												href={adjustLink(link.fields.uRL.href)}
+												target={link.fields.uRL.target}
+												className="block py-1"
+											>
+												{link.fields.title || link.fields.uRL.text}
+											</Link>
+										</li>
 									))}
 								</ul>
 							</div>
 							<div className="flex-1 pt-8">
 								<h4 className="font-medium">{footer.fields.column3Title}</h4>
-								<ul className="mt-2 flex flex-col gap-2 text-gray-100 text-sm">
+								<ul className="mt-2 flex flex-col text-gray-100 text-sm">
 									{footer.fields.column3Links.map((link: any) => (
-										<div key={link.contentID}>
-											{
-												<Link
-													href={adjustLink(link.fields.uRL.href)}
-													target={link.fields.uRL.target}
-												>
-													{link.fields.title || link.fields.uRL.text}
-												</Link>
-											}
-										</div>
+										<li key={link.contentID}>
+											<Link
+												href={adjustLink(link.fields.uRL.href)}
+												target={link.fields.uRL.target}
+												className="block py-1"
+											>
+												{link.fields.title || link.fields.uRL.text}
+											</Link>
+										</li>
 									))}
 								</ul>
 							</div>
 							<div className="flex-1 pt-8">
 								<h4 className="font-medium">{footer.fields.column4Title}</h4>
-								<ul className="mt-2 flex flex-col gap-2 text-gray-100 text-sm">
+								<ul className="mt-2 flex flex-col text-gray-100 text-sm">
 									{footer.fields.column4Links.map((link: any) => (
-										<div key={link.contentID}>
-											{
-												<Link
-													href={adjustLink(link.fields.uRL.href)}
-													target={link.fields.uRL.target}
-												>
-													{link.fields.title || link.fields.uRL.text}
-												</Link>
-											}
-										</div>
+										<li key={link.contentID}>
+											<Link
+												href={adjustLink(link.fields.uRL.href)}
+												target={link.fields.uRL.target}
+												className="block py-1"
+											>
+												{link.fields.title || link.fields.uRL.text}
+											</Link>
+										</li>
 									))}
 								</ul>
 							</div>
@@ -136,12 +132,13 @@ export default async function SiteFooter() {
 				<div className="max-w-screen-xl mx-auto lg:flex lg:flex-row-reverse lg:items-center lg:justify-between">
 					<ul className="flex justify-center lg:justify-start gap-4 mt-4 lg:mt-0">
 						{footer.fields.followLinks.map((social: any) => (
-							<li key={social.contentID} className="mx-4 lg:mx-0">
+							<li key={social.contentID} className="mx-4 lg:mx-0 -my-2">
 								<a
 									href={social.fields.followURL.href}
 									title={`Follow Agility CMS on ${social.fields.title}`}
 									target="_blank"
 									rel="noreferrer"
+									className="p-2 block "
 								>
 									<img
 										src={social.fields.logo.url}
@@ -160,18 +157,18 @@ export default async function SiteFooter() {
 						<div className="text-center lg:text-left">
 							{footer.fields.copyright} {year}
 						</div>
-						<div className="lg:ml-8 flex flex-wrap justify-center lg:justify-start gap-1 mt-4 lg:mt-0">
+						<div className="lg:ml-8 flex flex-wrap justify-center lg:justify-start mt-4 lg:mt-0">
 							{footer.fields.bottomLinks.map((link: any, index: number) => (
 								<div key={link.contentID}>
 									<Link
-										className="hover-shadow-white"
+										className="hover-shadow-white  p-1 px-2"
 										href={link.fields.uRL.href}
 										target={link.fields.uRL.target}
 									>
 										{link.fields.title}
 									</Link>
 									{index < footer.fields.bottomLinks.length - 1 && (
-										<span className="ml-2 mr-1 text-white">|</span>
+										<span className=" text-white">|</span>
 									)}
 								</div>
 							))}
