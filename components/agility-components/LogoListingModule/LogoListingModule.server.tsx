@@ -2,6 +2,7 @@ import { renderHTML, Module, UnloadedModuleProps, ImageField, URLField, ContentI
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { LogoListingModuleClient } from "./LogoListingModule.client"
+import { shuffle } from "lodash"
 
 export interface LogoItem {
 	title: string
@@ -32,7 +33,7 @@ export const LogoListingModule = async ({ module, languageCode }: UnloadedModule
 						{title}
 					</h3>
 				</div>
-				<LogoListingModuleClient logos={logos.map((l) => l.fields)} />
+				<LogoListingModuleClient logos={shuffle(logos.map((l) => l.fields))} />
 				<div className="border-t border-t-background "></div>
 			</div>
 		</Container>

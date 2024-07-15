@@ -1,11 +1,11 @@
 "use client"
 import Slider from "react-slick"
-import { shuffle } from "lodash"
 
 import { LogoItem } from "./LogoListingModule.server"
 
 import "styles/react-slick.css"
 import Link from "next/link"
+import { Fragment } from "react"
 
 interface Props {
 	logos: LogoItem[]
@@ -51,15 +51,14 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 		<>
 			{/* @ts-ignore */}
 			<Slider {...settings} className="">
-				{shuffle(logos).map((logo, index) => {
+				{logos.map((logo, index) => {
 					let src = `${logo.logo.url}?format=auto&h=128`
 					if (logo.logo.url.endsWith(".svg")) src = logo.logo.url
 
 					return (
-						<>
+						<Fragment key={index}>
 							{logo.uRL ? (
 								<Link
-									key={index}
 									href={logo.uRL.href}
 									target={logo.uRL.target}
 									title={logo.uRL.text || logo.title}
@@ -69,12 +68,12 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 									<img src={src} alt={logo.logo.label || logo.title} className="h-16 w-auto" />
 								</Link>
 							) : (
-								<div key={index} className="px-4 my-3">
+								<div className="px-4 my-3">
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img src={src} alt={logo.title} className="h-16 w-auto" />
 								</div>
 							)}
-						</>
+						</Fragment>
 					)
 				})}
 			</Slider>
