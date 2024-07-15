@@ -9,10 +9,16 @@ module.exports = {
 
 	theme: {
 		fontFamily: {
-			sans: ["TTInterphasesPro", "sans-serif"]
+			sans: ["Muli", "sans-serif"]
 		},
 
 		extend: {
+			fontWeight: {
+				medium: 600,
+			},
+			fontSize: {
+				"5xl": "2.5rem"
+			},
 			boxShadow: {
 				b: "0 5px 8px -1px rgba(0, 0, 0, 0.1)",
 			},

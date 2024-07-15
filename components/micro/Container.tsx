@@ -5,7 +5,7 @@ type Props = {} & DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 export const Container = ({ children, className, ...props }: Props) => {
 	return (
-		<section className={clsx("my-20")} {...props}>
+		<section className={clsx("py-14")} {...props}>
 			{children}
 		</section>
 	)

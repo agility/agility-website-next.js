@@ -6,19 +6,11 @@ import SiteHeader from "components/common/header/SiteHeader"
 
 import { useAgilityContext } from "lib/cms/useAgilityContext"
 
-import { Inter } from "next/font/google"
-
-import "/styles/fonts.css"
 import "/styles/globals.css"
 
 import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
 import { NextRequest } from "next/server"
-
-const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-inter"
-})
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()

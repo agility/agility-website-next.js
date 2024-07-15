@@ -2,6 +2,8 @@
 || Global styles & custom css can be written here.
 */
 
+@import url("https://use.typekit.net/arl7bjd.css");
+
 /* Import tailwind base styles */
 @tailwind base;
 
