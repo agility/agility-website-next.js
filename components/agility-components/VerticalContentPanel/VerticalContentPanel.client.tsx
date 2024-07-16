@@ -28,10 +28,6 @@ export const VerticalContentPanelClient = ({ contentID, panels }: Props) => {
 	const [activePanel, setActivePanel] = useState(0)
 	const [open, setOpen] = useState(true)
 
-	useEffect(() => {
-		console.log("RENDERED")
-	}, [])
-
 	return (
 		<div className="lg:flex gap-2 items-center">
 			<div className="lg:w-1/2 lg:flex lg:flex-col">
@@ -56,7 +52,6 @@ export const VerticalContentPanelClient = ({ contentID, panels }: Props) => {
 								value={index}
 								checked={activePanel === index}
 								onChange={() => {
-									console.log("ACTIVE PANEL", index)
 									setOpen(false)
 
 									setTimeout(() => {
