@@ -38,6 +38,7 @@
 		"@agility/nextjs": "^14.0.1",
 		"@netlify/blobs": "^8.0.0",
 		"@tailwindcss/typography": "^0.5.13",
+		"@types/lodash": "^4.17.7",
 		"@types/luxon": "^3.1.0",
 		"@types/react-slick": "^0.23.13",
 		"autoprefixer": "^10.4.13",
