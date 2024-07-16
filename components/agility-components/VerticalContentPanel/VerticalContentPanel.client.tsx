@@ -15,10 +15,11 @@ interface VerticalPanel {
 
 interface Props {
 	contentID: number
+	textSide: "right" | "left"
 	panels: VerticalPanel[]
 }
 
-export const VerticalContentPanelClient = ({ contentID, panels }: Props) => {
+export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Props) => {
 	const idStr = `module-${contentID}`
 
 	const activatePanel = (index: number) => {
@@ -29,7 +30,7 @@ export const VerticalContentPanelClient = ({ contentID, panels }: Props) => {
 	const [open, setOpen] = useState(true)
 
 	return (
-		<div className="lg:flex gap-2 items-center">
+		<div className={clsx("lg:flex gap-2 items-center", textSide === "right" ? "lg:flex-row-reverse" : "")}>
 			<div className="lg:w-1/2 lg:flex lg:flex-col">
 				{panels.map((panel, index) => (
 					<div

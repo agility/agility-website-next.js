@@ -14,8 +14,8 @@ interface VerticalPanel {
 
 interface IVerticalContentPanel {
 	title?: string
-	textSide?: string
 	description?: string
+	textSide: "right" | "left"
 	verticalContentPanels: {
 		referencename: string
 		fulllist: boolean
@@ -28,7 +28,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 		languageCode
 	})
 
-	const { description, title, verticalContentPanels } = fields
+	const { description, title, verticalContentPanels, textSide } = fields
 
 	const resPanels = await getContentList({ referenceName: verticalContentPanels.referencename, languageCode })
 
@@ -42,7 +42,11 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 			</div>
 
 			<div className="max-w-screen-xl mx-auto mt-14">
-				<VerticalContentPanelClient contentID={contentID} panels={panels.map((p) => p.fields)} />
+				<VerticalContentPanelClient
+					contentID={contentID}
+					textSide={textSide}
+					panels={panels.map((p) => p.fields)}
+				/>
 			</div>
 		</Container>
 	)
