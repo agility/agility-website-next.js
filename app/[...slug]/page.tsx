@@ -41,7 +41,6 @@ export async function generateMetadata(
  */
 //TODO: determine if we even need this...
 // export async function generateStaticParams() {
-
 // 	const agilitySDK = getAgilitySDK_NonReact()
 
 // 	//const channelName: process.env.AGILITY_SITEMAP || "website",

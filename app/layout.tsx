@@ -1,16 +1,15 @@
 import { draftMode } from "next/headers"
-import LoadingWidget from "components/common/LoadingWidget"
 import PreviewBar from "components/common/PreviewBar"
 import SiteFooter from "components/common/footer/SiteFooter"
 import SiteHeader from "components/common/header/SiteHeader"
 
 import { useAgilityContext } from "lib/cms/useAgilityContext"
+import { GoogleTagManager } from "@next/third-parties/google"
 
 import "/styles/globals.css"
 
 import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
-import { NextRequest } from "next/server"
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
@@ -35,6 +34,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 	return (
 		<html lang="en" className="font-sans text-primary">
+			<head>
+				<head>
+					<link rel="preload" href="https://use.typekit.net/agd8vyu.css" as="style" />
+
+					<link rel="stylesheet" href="https://use.typekit.net/agd8vyu.css" />
+				</head>
+			</head>
+			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				<div id="site-wrapper">
 					<div id="site">

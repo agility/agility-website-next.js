@@ -8,6 +8,7 @@ import NoComponentFound from "./NoComponentFound";
 import { CenteredContentPanel } from "./CenteredContentPanel";
 import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server";
 import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server";
+import SingleTestimonialPanel from "./SingleTestimonialPanel";
 
 
 
@@ -24,7 +25,8 @@ const allModules = [
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },
 	{ name: "LogoListingModule", module: LogoListingModule },
-	{ name: "VerticalContentPanel", module: VerticalContentPanelServer }
+	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
+	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
 ];
 
 /**

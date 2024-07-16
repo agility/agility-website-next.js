@@ -2,8 +2,6 @@
 || Global styles & custom css can be written here.
 */
 
-@import url("https://use.typekit.net/arl7bjd.css");
-
 /* Import tailwind base styles */
 @tailwind base;
 
@@ -20,6 +18,13 @@
 	}
 }
 
+h1 {
+	letter-spacing: -0.4px;
+}
+
+h2 {
+	letter-spacing: -0.35px;
+}
 /*
 .prose h1,
 .prose h2,

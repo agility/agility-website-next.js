@@ -1,3 +1,3 @@
 export interface IAuthor {
-	name: String
+	name: string
 }
