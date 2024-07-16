@@ -6,7 +6,7 @@ interface Props {
 	href?: string
 	target?: string
 	children: React.ReactNode
-	type: "primary" | "secondary" | "secondary-inverted"
+	type: "primary" | "secondary" | "secondary-inverted" | "alternate"
 	size?: "sm" | "md" | "lg"
 	buttonType?: "button" | "submit" | "reset"
 	className?: string
@@ -33,7 +33,9 @@ export const LinkButton = ({
 				? "text-white bg-highlight-light"
 				: type === "secondary"
 					? "text-highlight-light bg-white hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
-					: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white",
+					: type === "alternate"
+						? "bg-secondary ring-2 ring-secondary ring-inset"
+						: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white",
 			"focus:outline-none focus:text-primary-500 focus:bg-gray-50 ",
 			className
 		)

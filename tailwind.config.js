@@ -26,6 +26,7 @@ module.exports = {
 				transparent: "transparent",
 				primaryHighlight: "#f4f4f4",
 				primary: "#2a3846",
+				secondary: "#ffc414", //yellow
 				highlight: "#4501A8", //purple
 				"highlight-dark": "#370286", //dark purple
 				"highlight-light": "#5800d4", //light purple

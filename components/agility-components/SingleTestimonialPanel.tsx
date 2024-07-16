@@ -5,6 +5,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { ITestimonial } from "lib/types/ITestimonial"
 import test from "node:test"
 import { shuffle } from "lodash"
+import { LinkButton } from "components/micro/LinkButton"
 
 interface ISingleTestimonialPanel {
 	cTAButton: URLField
@@ -22,8 +23,9 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 
 	if (!testimonials || testimonials.length === 0) return null
 
+	//get the first one randomly
 	const testimonial = shuffle(testimonials)[0]
-	console.log("testimonial", testimonial)
+
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
 			<section className="isolate overflow-hidden bg-white px-6 lg:px-8">
@@ -85,6 +87,17 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 							</div>
 						</figcaption>
 					</figure>
+					<div className="flex justify-center">
+						<LinkButton
+							href={cTAButton.href}
+							target={cTAButton.target}
+							className="mt-8"
+							size="md"
+							type="alternate"
+						>
+							{cTAButton.text}
+						</LinkButton>
+					</div>
 				</div>
 			</section>
 		</Container>

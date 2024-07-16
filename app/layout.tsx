@@ -36,8 +36,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<html lang="en" className="font-sans text-primary">
 			<head>
 				<head>
-					<link rel="preload" href="https://use.typekit.net/agd8vyu.css" as="style" />
+					<link rel="preconnect" href="https://static.agilitycms.com" />
+					<link rel="preconnect" href="https://p.typekit.net" />
+					<link rel="preconnect" href="https://js.hsforms.net" />
+					<link rel="preconnect" href="https://forms.hsforms.com" />
+					<link rel="preconnect" href="www.googletagmanager.com" />
 
+					<link rel="preload" href="https://use.typekit.net/agd8vyu.css" as="style" />
 					<link rel="stylesheet" href="https://use.typekit.net/agd8vyu.css" />
 				</head>
 			</head>

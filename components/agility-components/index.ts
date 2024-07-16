@@ -9,6 +9,7 @@ import { CenteredContentPanel } from "./CenteredContentPanel";
 import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server";
 import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server";
 import SingleTestimonialPanel from "./SingleTestimonialPanel";
+import CaseStudyRotator from "./CaseStudyRotator";
 
 
 
@@ -27,6 +28,7 @@ const allModules = [
 	{ name: "LogoListingModule", module: LogoListingModule },
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
 	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
+	{ name: "CaseStudyRotator", module: CaseStudyRotator },
 ];
 
 /**
