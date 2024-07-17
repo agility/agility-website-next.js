@@ -1,0 +1,33 @@
+.case-study-slider {
+	.slick-prev,
+	.slick-next {
+		padding: 0px;
+		&::before {
+			content: "";
+		}
+	}
+
+	.slick-active {
+		.off-slide {
+			opacity: 0;
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.slick-prev {
+		left: -20px;
+	}
+	.slick-next {
+		right: -20px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.slick-prev {
+		left: 100px;
+	}
+	.slick-next {
+		right: 100px;
+	}
+}

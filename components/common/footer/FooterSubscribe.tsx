@@ -39,8 +39,8 @@ export const FooterSubscribe = ({
 							region: "na1",
 							portalId,
 							formId,
-							target: `#${divID}`,
-							redirectUrl: subscribeRedirect ? subscribeRedirect : undefined
+							target: `#${divID}`
+							//HACK: don't do a redirect here... redirectUrl: subscribeRedirect ? subscribeRedirect : undefined
 						})
 					}
 				}}

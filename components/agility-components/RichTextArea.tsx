@@ -15,6 +15,8 @@ const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 		languageCode
 	})
 
+	if (!textblob) return null
+
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
 			<div className="max-w-5xl mx-auto my-12 md:mt-18 lg:mt-20">

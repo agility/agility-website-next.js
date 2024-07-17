@@ -9,7 +9,7 @@ import { CenteredContentPanel } from "./CenteredContentPanel";
 import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server";
 import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server";
 import SingleTestimonialPanel from "./SingleTestimonialPanel";
-import CaseStudyRotator from "./CaseStudyRotator";
+import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
 
 
 

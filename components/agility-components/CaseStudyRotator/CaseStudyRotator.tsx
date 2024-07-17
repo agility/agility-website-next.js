@@ -6,6 +6,8 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import { ITestimonial } from "lib/types/ITestimonial"
+import { CaseStudyRotatorClient, MinCaseStudy } from "./CaseStudyRotator.client"
+import { stripHtml } from "lib/utils/strip-html"
 
 interface ICaseStudyRotator {
 	title: string
@@ -33,7 +35,8 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 		referenceName: fields.caseStudies.referencename,
 		languageCode,
 		//@ts-ignore
-		filters: [f]
+		filters: [f],
+		expandAllContentLinks: true
 	})
 
 	if (!lstCaseStudies || lstCaseStudies.length === 0) return null
@@ -42,12 +45,36 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 
 	const lst: ContentItem<ICaseStudy>[] = lstCaseStudies.items
 
-	console.log("CASE STUDY ROTATOR", fields)
-	console.log("CASE STUDY ROTATOR", lst[0])
+	console.log("lst", lst[0])
+
+	const minCaseStudies: MinCaseStudy[] = lst
+		.filter(
+			(l) =>
+				l.fields.title &&
+				l.fields.clientNames &&
+				l.fields.excerpt &&
+				l.fields.customerLogo &&
+				l.fields.uRL &&
+				l.fields.image
+		)
+		.map((l) => {
+			return {
+				contentID: l.contentID,
+				title: l.fields.title,
+				clientNames: l.fields.clientNames || "",
+				excerpt: stripHtml(l.fields.excerpt, 200) || "",
+				customerLogo: l.fields.customerLogo,
+				uRL: l.fields.uRL || "",
+				image: l.fields.image
+			}
+		})
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="max-w-5xl mx-auto my-12 md:mt-18 lg:mt-20">CASE</div>
+			<div className="max-w-5xl mx-auto text-center ">
+				{title && <h2 className="text-4xl text-balance">{title}</h2>}
+			</div>
+			<CaseStudyRotatorClient {...{ caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }} />
 		</Container>
 	)
 }
