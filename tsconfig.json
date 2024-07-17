@@ -30,8 +30,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "lib/image-loaders/agility-loader.js"
-, "components/agility-components/VerticalContentPanel/VerticalContentPanel.servertsx"  ],
+    "lib/image-loaders/agility-loader.js",
+    "components/agility-components/VerticalContentPanel/VerticalContentPanel.servertsx",
+    "components/agility-components/CaseStudyRotator/CaseStudyRotator.client.tsxCOPY",
+    "components/agility-components/CaseStudyRotator/CaseStudyRotator.client.tsxEX"
+  ],
   "exclude": [
     "node_modules"
   ]

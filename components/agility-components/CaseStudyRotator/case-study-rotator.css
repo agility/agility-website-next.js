@@ -1,33 +1,31 @@
-.case-study-slider {
-	.slick-prev,
-	.slick-next {
-		padding: 0px;
-		&::before {
-			content: "";
-		}
-	}
+.embla {
+	margin: auto;
 
-	.slick-active {
-		.off-slide {
-			opacity: 0;
-		}
+	--slide-height: 350px;
+	--slide-spacing: 10px;
+	--slide-size: 100%;
+
+	@media (min-width: 1024px) {
+		--slide-height: 450px;
+		--slide-spacing: 5px;
+		--slide-size: calc(100% - 300px);
 	}
 }
 
-@media (max-width: 600px) {
-	.slick-prev {
-		left: -20px;
-	}
-	.slick-next {
-		right: -20px;
-	}
+.embla__viewport {
+	overflow: hidden;
 }
-
-@media (min-width: 1200px) {
-	.slick-prev {
-		left: 100px;
-	}
-	.slick-next {
-		right: 100px;
-	}
+.embla__container {
+	backface-visibility: hidden;
+	display: flex;
+	touch-action: pan-y pinch-zoom;
+	margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+	flex: 0 0 var(--slide-size);
+	min-width: 0;
+	padding-left: var(--slide-spacing);
+}
+.embla__slide__number {
+	height: var(--slide-height);
 }

@@ -74,7 +74,9 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 			<div className="max-w-5xl mx-auto text-center ">
 				{title && <h2 className="text-4xl text-balance">{title}</h2>}
 			</div>
-			<CaseStudyRotatorClient {...{ caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }} />
+			<CaseStudyRotatorClient
+				{...{ contentID, caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }}
+			/>
 		</Container>
 	)
 }

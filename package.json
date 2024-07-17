@@ -21,6 +21,8 @@
 		"@types/react-dom": "18.0.9",
 		"classnames": "^2.3.2",
 		"clsx": "^2.1.1",
+		"embla-carousel": "^8.1.6",
+		"embla-carousel-react": "^8.1.6",
 		"eslint": "8.27.0",
 		"eslint-config-next": "13.0.3",
 		"html-react-parser": "^3.0.4",
