@@ -8,7 +8,7 @@ import clsx from "clsx"
 import "./case-study-rotator.css"
 import { LinkButton } from "components/micro/LinkButton"
 import { NextButton, PrevButton, usePrevNextButtons } from "./PrevNextButtons"
-
+import { useRouter } from "next/navigation"
 export interface MinCaseStudy {
 	contentID: number
 	title: string
@@ -26,6 +26,8 @@ interface Props {
 }
 
 export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }: Props) => {
+	const router = useRouter()
+
 	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 0 })
 
 	const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi)
@@ -40,11 +42,13 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 								imgUrl += "&w=900"
 							}
 
+							const caseStudyUrl = `/resources/case-studies/${caseStudy.uRL}`
+
 							return (
-								<div className={clsx("embla__slide")} key={caseStudy.contentID}>
+								<div className={clsx("embla__slide group")} key={caseStudy.contentID}>
 									<div className="embla__slide__number relative mx-4 h-[320px] overflow-clip lg:h-[450px] xl:h-[550px]">
 										<div
-											className="absolute left-0 top-0 h-full w-full bg-cover transition-all hover:scale-105"
+											className="absolute left-0 top-0 h-full w-full bg-cover transition-all group-hover:scale-105"
 											style={{ backgroundImage: `url(${imgUrl})` }}
 										></div>
 										<div
@@ -53,7 +57,12 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 												"pointer-events-none w-2/3 md:w-1/2"
 											)}
 										>
-											<div className="flex flex-col gap-5 p-4 lg:px-12 lg:py-16">
+											<div
+												className="pointer-events-auto flex cursor-pointer flex-col gap-5 p-4 lg:px-12 lg:py-16"
+												onClick={() => {
+													router.push(caseStudyUrl)
+												}}
+											>
 												<h3 className={clsx("text-base font-medium md:text-lg lg:text-2xl")}>
 													{caseStudy.title}
 												</h3>
@@ -64,7 +73,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 													<div className="mt-4">
 														<LinkButton
 															type="alternate"
-															href={`/resources/case-studies/${caseStudy.uRL}`}
+															href={caseStudyUrl}
 															size="md"
 															className="pointer-events-auto text-primary"
 														>
@@ -83,8 +92,8 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 						})}
 					</div>
 				</div>
-				<div className="pointer-events-none absolute top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
-				<div className="pointer-events-none absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
+				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
+				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
 				<div className="pointer-events-none absolute top-[45%] flex w-full justify-between px-4 lg:px-14">
 					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
 					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
