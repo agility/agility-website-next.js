@@ -18,8 +18,6 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 
 	const { cTA1, cTA2, description, title } = fields
 
-	console.log("CenteredCTAPanel -> fields", fields)
-
 	return (
 		<Container
 			id={`${contentID}`}
