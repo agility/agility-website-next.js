@@ -37,10 +37,10 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 				<div className="overflow-hidden" ref={emblaRef}>
 					<div className="embla__container">
 						{caseStudies.map((caseStudy, index) => {
-							let imgUrl = `${caseStudy.image.url}?format=auto`
-							if (caseStudy.image.width > 900) {
-								imgUrl += "&w=900"
-							}
+							// let imgUrl = `${caseStudy.image.url}?format=auto`
+							// if (caseStudy.image.width > 900) {
+							// 	imgUrl += "&w=900"
+							// }
 
 							const caseStudyUrl = `/resources/case-studies/${caseStudy.uRL}`
 
@@ -49,8 +49,19 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 									<div className="embla__slide__number relative mx-4 h-[320px] overflow-clip lg:h-[450px] xl:h-[550px]">
 										<div
 											className="absolute left-0 top-0 h-full w-full bg-cover transition-all group-hover:scale-105"
-											style={{ backgroundImage: `url(${imgUrl})` }}
-										></div>
+											// style={{ backgroundImage: `url(${imgUrl})` }}
+										>
+											<AgilityPic
+												image={caseStudy.image}
+												alt={caseStudy.image.label || caseStudy.title}
+												className="h-full w-full object-cover"
+												fallbackWidth={320}
+												sources={[
+													{ media: "(min-width: 768px)", width: 900 },
+													{ media: "(min-width: 640px)", width: 640 }
+												]}
+											/>
+										</div>
 										<div
 											className={clsx(
 												"absolute left-0 top-0 h-full overflow-hidden bg-black/40 font-normal text-white",
@@ -84,7 +95,11 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 											</div>
 										</div>
 										<div className="absolute bottom-5 right-5 flex h-16 w-32 items-center justify-center overflow-clip rounded-md bg-white px-3 py-1 shadow-md md:w-32">
-											<AgilityPic image={caseStudy.customerLogo} className="w-14 md:w-40" />
+											<AgilityPic
+												image={caseStudy.customerLogo}
+												className="w-14 md:w-40"
+												fallbackWidth={160}
+											/>
 										</div>
 									</div>
 								</div>
