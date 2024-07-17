@@ -1,11 +1,9 @@
-import { Filter } from "@agility/content-fetch/dist/types/Filter"
-import { renderHTML, Module, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ICaseStudy } from "lib/types/ICaseStudy"
-import { ITestimonial } from "lib/types/ITestimonial"
 import { CaseStudyRotatorClient, MinCaseStudy } from "./CaseStudyRotator.client"
 import { stripHtml } from "lib/utils/strip-html"
 
@@ -45,8 +43,6 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 
 	const lst: ContentItem<ICaseStudy>[] = lstCaseStudies.items
 
-	console.log("lst", lst[0])
-
 	const minCaseStudies: MinCaseStudy[] = lst
 		.filter(
 			(l) =>
@@ -71,8 +67,8 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="max-w-5xl mx-auto text-center ">
-				{title && <h2 className="text-4xl text-balance">{title}</h2>}
+			<div className="mx-auto max-w-5xl text-center">
+				{title && <h2 className="text-balance text-4xl">{title}</h2>}
 			</div>
 			<CaseStudyRotatorClient
 				{...{ contentID, caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }}
