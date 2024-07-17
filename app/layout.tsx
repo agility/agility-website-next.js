@@ -42,15 +42,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<link rel="preconnect" href="https://forms.hsforms.com" />
 					<link rel="preconnect" href="www.googletagmanager.com" />
 
-					<link rel="preload" href="https://use.typekit.net/agd8vyu.css" as="style" />
-					<link rel="stylesheet" href="https://use.typekit.net/agd8vyu.css" />
+					<link rel="preload" href="https://use.typekit.net/arl7bjd.css" as="style" />
+					<link rel="stylesheet" href="https://use.typekit.net/arl7bjd.css" />
 				</head>
 			</head>
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				<div id="site-wrapper">
 					<div id="site">
-						<div className="flex flex-col min-h-screen">
+						<div className="flex min-h-screen flex-col">
 							<SiteHeader {...{ headerContent }} />
 
 							<main className={`flex-grow`}>{children}</main>

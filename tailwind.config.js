@@ -9,7 +9,7 @@ module.exports = {
 
 	theme: {
 		fontFamily: {
-			sans: ["Muli", "sans-serif"]
+			sans: ["muli", "sans-serif"]
 		},
 
 		extend: {
