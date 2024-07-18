@@ -69,12 +69,16 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 											)}
 										>
 											<div
-												className="pointer-events-auto flex cursor-pointer flex-col gap-5 p-4 lg:px-12 lg:py-16"
+												className="pointer-events-auto flex cursor-pointer flex-col gap-5 p-4 lg:px-12 lg:pt-12"
 												onClick={() => {
 													router.push(caseStudyUrl)
 												}}
 											>
-												<h3 className={clsx("text-base font-medium md:text-lg lg:text-2xl")}>
+												<h3
+													className={clsx(
+														"text-lg font-medium md:text-lg lg:text-xl xl:text-2xl"
+													)}
+												>
 													{caseStudy.title}
 												</h3>
 												<p className={clsx("line-clamp-5 text-sm md:text-base")}>
