@@ -12,6 +12,7 @@ import SingleTestimonialPanel from "./SingleTestimonialPanel";
 import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
 import CenteredCTAPanel from "./CenteredCTAPanel";
 import RightORLeftContentModule from "./RightORLeftContentModule";
+import TriplePanelComparisonModule from "./TriplePanelComparisonModule";
 
 
 
@@ -32,7 +33,8 @@ const allModules = [
 	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
 	{ name: "CaseStudyRotator", module: CaseStudyRotator },
 	{ name: "CenteredCTAPanel", module: CenteredCTAPanel },
-	{ name: "RightORLeftContentModule", module: RightORLeftContentModule }
+	{ name: "RightORLeftContentModule", module: RightORLeftContentModule },
+	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule }
 ];
 
 /**
