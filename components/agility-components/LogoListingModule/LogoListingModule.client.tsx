@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const LogoListingModuleClient = ({ logos }: Props) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, dragFree: false }, [
+	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, dragFree: true }, [
 		Autoplay({ playOnInit: true, delay: 5000 })
 	])
 
@@ -21,20 +21,12 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 		<div className="logo-listing embla">
 			<div className="embla__viewport" ref={emblaRef}>
 				<div className="embla__container">
-					{/* {[1, 2, 3, 4, 5, 6, 7].map((index) => (
-						<div className="embla__slide" key={index}>
-							<div className="embla__slide__number">
-								<span>{index + 1}</span>
-							</div>
-						</div>
-					))} */}
-
 					{logos.map((logo, index) => {
 						let src = `${logo.logo.url}?format=auto&h=128`
 						if (logo.logo.url.endsWith(".svg")) src = logo.logo.url
 
 						return (
-							<div className="embla__slide flex justify-center" key={index}>
+							<div className="embla__slide flex items-center justify-center" key={index}>
 								{logo.uRL ? (
 									<Link
 										href={logo.uRL.href}
@@ -43,7 +35,7 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 										className="my-3 block"
 									>
 										{/* eslint-disable-next-line @next/next/no-img-element */}
-										<img src={src} alt={logo.logo.label || logo.title} className="h-16 w-auto" />
+										<img src={src} alt={logo.logo.label || logo.title} className="w-32" />
 									</Link>
 								) : (
 									<div className="my-3">
