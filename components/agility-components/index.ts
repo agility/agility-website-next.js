@@ -11,6 +11,7 @@ import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalConte
 import SingleTestimonialPanel from "./SingleTestimonialPanel";
 import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
 import CenteredCTAPanel from "./CenteredCTAPanel";
+import RightORLeftContentModule from "./RightORLeftContentModule";
 
 
 
@@ -31,6 +32,7 @@ const allModules = [
 	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
 	{ name: "CaseStudyRotator", module: CaseStudyRotator },
 	{ name: "CenteredCTAPanel", module: CenteredCTAPanel },
+	{ name: "RightORLeftContentModule", module: RightORLeftContentModule }
 ];
 
 /**

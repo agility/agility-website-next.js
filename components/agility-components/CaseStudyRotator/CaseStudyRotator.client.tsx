@@ -76,7 +76,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 											>
 												<h3
 													className={clsx(
-														"text-lg font-medium md:text-lg lg:text-xl xl:text-2xl"
+														"text-lg` font-medium md:text-lg lg:text-xl xl:text-2xl"
 													)}
 												>
 													{caseStudy.title}
