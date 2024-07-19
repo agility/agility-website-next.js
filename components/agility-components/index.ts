@@ -13,6 +13,9 @@ import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
 import CenteredCTAPanel from "./CenteredCTAPanel";
 import RightORLeftContentModule from "./RightORLeftContentModule";
 import TriplePanelComparisonModule from "./TriplePanelComparisonModule";
+import RightOrLeftSteps from "./RightOrLeftSteps";
+import FeaturedResources from "./FeaturedResources";
+import NewIntegrationListingModule from "./NewIntegrationListingModule";
 
 
 
@@ -34,7 +37,10 @@ const allModules = [
 	{ name: "CaseStudyRotator", module: CaseStudyRotator },
 	{ name: "CenteredCTAPanel", module: CenteredCTAPanel },
 	{ name: "RightORLeftContentModule", module: RightORLeftContentModule },
-	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule }
+	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule },
+	{ name: "RightOrLeftSteps", module: RightOrLeftSteps },
+	{ name: "FeaturedResources", module: FeaturedResources },
+	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule }
 ];
 
 /**

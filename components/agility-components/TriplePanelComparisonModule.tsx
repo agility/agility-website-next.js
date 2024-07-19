@@ -29,20 +29,21 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 		languageCode
 	})
 
-	console.log("TriplePanelComparisonModule -> fields", fields)
-
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
+		<Container
+			id={`${contentID}`}
+			data-agility-component={contentID}
+			className="bg-gradient-to-b from-background/60 to-white/0"
+		>
 			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
-				<div className="mx-auto max-w-4xl">
-					<h2 className="text-balance text-center text-5xl font-medium">{fields.title}</h2>
-					{fields.description && (
-						<div
-							className="prose mt-5 max-w-none text-balance text-center"
-							dangerouslySetInnerHTML={renderHTML(fields.description)}
-						></div>
-					)}
-				</div>
+				<h2 className="text-balance text-center text-5xl font-medium">{fields.title}</h2>
+				{fields.description && (
+					<div
+						className="prose mt-5 max-w-none text-balance text-center"
+						dangerouslySetInnerHTML={renderHTML(fields.description)}
+					></div>
+				)}
+
 				<div className="mt-8 grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3">
 					{fields.panel1Graphic && fields.panel1Title && (
 						<div className="flex flex-col gap-4">

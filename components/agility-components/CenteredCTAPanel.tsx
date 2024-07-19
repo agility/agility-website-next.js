@@ -1,6 +1,7 @@
 import { renderHTML, Module, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
+import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { getContentItem } from "lib/cms/getContentItem"
 
 interface ICenteredCTAPanel {
@@ -27,6 +28,7 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 			<div className="absolute -top-7 h-12 w-12 rotate-45 bg-white" style={{ left: "calc(50% - 24px)" }}></div>
 			<div className="md:pt-18 mx-auto max-w-5xl py-12 text-center lg:pt-20">
 				{title && <h2 className="text-balance text-5xl">{title}</h2>}
+				<ThreeDashLine />
 				{description && (
 					<div className="mt-2 text-balance text-xl" dangerouslySetInnerHTML={renderHTML(description)} />
 				)}

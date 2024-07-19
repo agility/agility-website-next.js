@@ -39,6 +39,8 @@
 	"devDependencies": {
 		"@agility/content-fetch": "2.0.2",
 		"@agility/nextjs": "^14.0.1",
+		"@apollo/client": "^3.10.8",
+		"@apollo/experimental-nextjs-app-support": "^0.11.2",
 		"@netlify/blobs": "^8.0.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/he": "^1.2.3",

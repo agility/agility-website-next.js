@@ -49,8 +49,8 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 
 	if (!header) {
 		return (
-			<header className="relative p-8 text-center ">
-				<p className="text-gray-400 font-bold">No Header Available</p>
+			<header className="relative p-8 text-center">
+				<p className="font-bold text-gray-400">No Header Available</p>
 			</header>
 		)
 	}
@@ -58,12 +58,12 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	return (
 		<header
 			className={classNames(
-				"w-full mx-auto bg-white px-8 sticky top-0  transition-shadow z-[2]",
+				"sticky top-0 z-[2] mx-auto w-full bg-white px-8 transition-shadow",
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>
-			<div className="max-w-screen-xl mx-auto">
-				<div className="flex justify-between items-center py-6 lg:justify-start lg:space-x-10 w-full">
+			<div className="mx-auto max-w-screen-xl">
+				<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 					<div className="lg:w-0 lg:flex-1">
 						<Link href="/" className="flex items-center">
 							<img
@@ -75,7 +75,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							/>
 						</Link>
 					</div>
-					<div className="-mr-2 -my-2 lg:hidden flex gap-1 items-center">
+					<div className="-my-2 -mr-2 flex items-center gap-1 lg:hidden">
 						{
 							/* Contact Us */
 							header.fields.contactus && (
@@ -92,7 +92,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							onClick={() => setOpen(!open)}
 							aria-label="Toggle Menu"
 							type="button"
-							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+							className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
 						>
 							{/* <!-- Heroicon name: menu --> */}
 							<svg
@@ -111,7 +111,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							</svg>
 						</button>
 					</div>
-					<PopoverGroup as="nav" className="hidden lg:flex space-x-4 items-center">
+					<PopoverGroup as="nav" className="hidden items-center space-x-1 lg:flex">
 						{links.map((link, index) => {
 							return <MenuItemOutput key={link.menuItem.contentID} link={link} />
 						})}
@@ -191,7 +191,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 														href={link.menuItem.fields.uRL.href}
 														target={link.menuItem.fields.uRL.target}
 														key={`mobile-${index}`}
-														className="hover:text-highlight transition-colors"
+														className="transition-colors hover:text-highlight"
 													>
 														{link.menuItem.fields.title}
 													</Link>
@@ -207,7 +207,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 															as="a"
 															href={subLink.fields.uRL.href}
 															onClick={() => setOpen(false)}
-															className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary hover:bg-gray-50 hover:text-highlight transition-all"
+															className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary transition-all hover:bg-gray-50 hover:text-highlight"
 														>
 															{subLink.fields.title}
 														</DisclosureButton>
@@ -231,7 +231,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 									}
 								})}
 							</div>
-							<div className="py-6 flex flex-col gap-2">
+							<div className="flex flex-col gap-2 py-6">
 								{
 									/* Contact Us */
 									header.fields.contactus && (

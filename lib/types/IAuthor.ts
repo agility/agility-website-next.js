@@ -1,3 +1,8 @@
+import { ImageField } from "@agility/nextjs"
+
 export interface IAuthor {
-	name: string
+	title: string
+	jobTitle?: string
+	image?: ImageField
+	textBlob?: string
 }

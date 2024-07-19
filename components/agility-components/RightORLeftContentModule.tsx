@@ -48,7 +48,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
-					<h2 className="text-5xl font-medium">{title}</h2>
+					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
 					{description && (
 						<div className="prose mt-5 max-w-none" dangerouslySetInnerHTML={renderHTML(description)}></div>
 					)}
