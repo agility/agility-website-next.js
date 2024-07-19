@@ -1,8 +1,10 @@
-import { renderHTML, Module, UnloadedModuleProps } from "@agility/nextjs"
-import { gql } from "@apollo/client"
+import { renderHTML, Module, UnloadedModuleProps, AgilityPic } from "@agility/nextjs"
+import { gql } from "lib/__generated__"
 import { Container } from "components/micro/Container"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
+import { url } from "inspector"
+import Link from "next/link"
 
 interface INewIntegrationListingModule {
 	cTATitle: string
@@ -14,15 +16,10 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 		languageCode
 	})
 
-	console.log("NewIntegrationListingModule -> fields", fields)
 	const { cTATitle } = fields
 
-	console.log("NewIntegrationListingModule -> integrations", cTATitle)
-
-	const { query } = await getAgilityGraphQLClient({ referenceNames: ["integrations"] })
-	const { data } = await query({
-		query: gql`
-			{
+	const gqlQuery = gql(`
+			query integrations {
 				integrations {
 					contentID
 					fields {
@@ -45,14 +42,60 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 					}
 				}
 			}
-		`
-	})
+		`)
 
-	console.log("NewIntegrationListingModule -> data", data)
+	const { query } = await getAgilityGraphQLClient({ referenceNames: ["integrations"] })
+	const { data } = await query({ query: gqlQuery })
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">INTEGRATIONS</div>
+			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
+				INTEGRATIONS
+				<div>
+					{data.integrations?.map((integration) => {
+						if (!integration || !integration.fields) return null
+
+						const {
+							uRL,
+							title,
+							logo,
+							integrationType: integrationTypes,
+							companyDescription
+						} = integration.fields
+
+						const integrationType =
+							integrationTypes && integrationTypes?.length > 0 ? integrationTypes[0] : null
+
+						let url = `/partners/integrations/${uRL}`
+
+						return (
+							<div
+								key={integration.contentID}
+								className="flex flex-col items-center rounded-lg bg-gray-100 p-4"
+							>
+								{logo && (
+									<AgilityPic
+										image={{
+											url: logo.url,
+											label: logo.label || title || "",
+											height: logo.height,
+											width: logo.width,
+											filesize: 0,
+											target: "_blank"
+										}}
+										fallbackWidth={200}
+									/>
+								)}
+								<h3>{title}</h3>
+								<p>{companyDescription}</p>
+								{integrationType && <p>{integrationType.fields?.title}</p>}
+
+								<Link href={url}>Learn More</Link>
+							</div>
+						)
+					})}
+				</div>
+			</div>
 		</Container>
 	)
 }

@@ -1,16 +1,17 @@
 {
-	"name": "agility-next-starter",
-	"version": "13.0.0",
+	"name": "agility-website",
+	"version": "14.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"build-swa": "next build && rm -rf ./.next/cache",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"generate": "graphql-codegen"
 	},
 	"engines": {
-		"node": "18.x"
+		"node": ">=18.x"
 	},
 	"dependencies": {
 		"@headlessui/react": "^2.1.2",
@@ -41,6 +42,10 @@
 		"@agility/nextjs": "^14.0.1",
 		"@apollo/client": "^3.10.8",
 		"@apollo/experimental-nextjs-app-support": "^0.11.2",
+		"@dotenvx/dotenvx": "^1.6.4",
+		"@graphql-codegen/cli": "^5.0.2",
+		"@graphql-codegen/client-preset": "^4.3.2",
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@netlify/blobs": "^8.0.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/he": "^1.2.3",
@@ -48,6 +53,7 @@
 		"@types/luxon": "^3.1.0",
 		"autoprefixer": "^10.4.13",
 		"bloom-filters": "^3.0.2",
+		"graphql": "^16.9.0",
 		"he": "^1.2.0",
 		"postcss": "^8.4.19",
 		"prettier": "^3.3.2",
