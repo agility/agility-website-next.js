@@ -15,7 +15,8 @@ import RightORLeftContentModule from "./RightORLeftContentModule";
 import TriplePanelComparisonModule from "./TriplePanelComparisonModule";
 import RightOrLeftSteps from "./RightOrLeftSteps";
 import FeaturedResources from "./FeaturedResources";
-import NewIntegrationListingModule from "./NewIntegrationListingModule";
+import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule";
+import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server";
 
 
 
@@ -40,7 +41,8 @@ const allModules = [
 	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule },
 	{ name: "RightOrLeftSteps", module: RightOrLeftSteps },
 	{ name: "FeaturedResources", module: FeaturedResources },
-	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule }
+	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule },
+	{ name: "TwoPanelFeatureComparison", module: TwoPanelFeatureComparison },
 ];
 
 /**

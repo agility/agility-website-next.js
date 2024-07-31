@@ -5,9 +5,12 @@ import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 import { url } from "inspector"
 import Link from "next/link"
+import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
+import { NewIntegrationListingModuleClient } from "./NewIntegrationListingModule.client"
 
 interface INewIntegrationListingModule {
 	cTATitle: string
+	filterLabel?: string
 }
 
 const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -16,7 +19,7 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 		languageCode
 	})
 
-	const { cTATitle } = fields
+	const { cTATitle, filterLabel = "All integrations" } = fields
 
 	const gqlQuery = gql(`
 			query integrations {
@@ -47,55 +50,26 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 	const { query } = await getAgilityGraphQLClient({ referenceNames: ["integrations"] })
 	const { data } = await query({ query: gqlQuery })
 
+	const allTypes: ComboboItem[] = []
+
+	data.integrations?.forEach((integration) => {
+		if (!integration || !integration.fields) return null
+
+		const { integrationType: integrationTypes } = integration.fields
+
+		const integrationType = integrationTypes && integrationTypes?.length > 0 ? integrationTypes[0] : null
+
+		if (integrationType) {
+			allTypes.push({
+				text: integrationType.fields?.title || "",
+				value: integrationType.contentID
+			})
+		}
+	})
+
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
-				INTEGRATIONS
-				<div>
-					{data.integrations?.map((integration) => {
-						if (!integration || !integration.fields) return null
-
-						const {
-							uRL,
-							title,
-							logo,
-							integrationType: integrationTypes,
-							companyDescription
-						} = integration.fields
-
-						const integrationType =
-							integrationTypes && integrationTypes?.length > 0 ? integrationTypes[0] : null
-
-						let url = `/partners/integrations/${uRL}`
-
-						return (
-							<div
-								key={integration.contentID}
-								className="flex flex-col items-center rounded-lg bg-gray-100 p-4"
-							>
-								{logo && (
-									<AgilityPic
-										image={{
-											url: logo.url,
-											label: logo.label || title || "",
-											height: logo.height,
-											width: logo.width,
-											filesize: 0,
-											target: "_blank"
-										}}
-										fallbackWidth={200}
-									/>
-								)}
-								<h3>{title}</h3>
-								<p>{companyDescription}</p>
-								{integrationType && <p>{integrationType.fields?.title}</p>}
-
-								<Link href={url}>Learn More</Link>
-							</div>
-						)
-					})}
-				</div>
-			</div>
+			<NewIntegrationListingModuleClient {...{ data, allTypes, cTATitle, filterLabel }} />
 		</Container>
 	)
 }

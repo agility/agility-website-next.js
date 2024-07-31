@@ -16,9 +16,11 @@ export async function middleware(request: NextRequest) {
 	 * 3: Check if this is a direct to a dynamic page
 	 *    based on a content id
 	 * 4: Check if this is a redirect
+	 * 5: Check if this is a forbidden request (403)
 	 *******************************/
 	const previewQ = request.nextUrl.searchParams.get("AgilityPreview")
 	let contentIDStr = request.nextUrl.searchParams.get("ContentID") as string || ""
+	const referer = request.headers.get("referer")
 
 	if (request.nextUrl.searchParams.has("agilitypreviewkey")) {
 		//*** this is a preview request ***
@@ -55,6 +57,25 @@ export async function middleware(request: NextRequest) {
 				return NextResponse.redirect(redirectUrl)
 			}
 		}
+	} else if (referer) {
+
+		const badReferers = [
+			"trafficpeak.io"
+		]
+
+		const found = badReferers.find(bad => referer.includes(bad))
+
+		if (found) {
+			//*** this is a request from trafficpeak.io ***
+			//redirect to the homepage
+			return NextResponse.rewrite(`${request.nextUrl.protocol}//${request.nextUrl.host}/403`, {
+				status: 403,
+				headers: {
+					"Cache-Control": "public,maxage=3600, stale-while-revalidate"
+				}
+			})
+		}
+
 	}
 
 
