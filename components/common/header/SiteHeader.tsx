@@ -58,7 +58,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	return (
 		<header
 			className={classNames(
-				"sticky top-0 z-[2] mx-auto w-full bg-white px-8 transition-shadow",
+				"sticky top-0 z-10 mx-auto w-full bg-white px-8 transition-shadow",
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>

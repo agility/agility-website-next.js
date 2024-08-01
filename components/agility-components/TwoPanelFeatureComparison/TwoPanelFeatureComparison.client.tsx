@@ -37,7 +37,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 			//check if the first element is visible (intersecting)
 			if (entries.length === 0) return
 			const entry = entries[0]
-			console.log("isIntersection", entry.isIntersecting)
+
 			if (entry.isIntersecting) {
 				setSelectedGroup(0)
 			} else {
@@ -47,11 +47,15 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 
 		let observer = new IntersectionObserver(callback, options)
 		observer.observe(elem1)
+
+		return () => {
+			observer.disconnect()
+		}
 	}, [idStr1, idStr2])
 
 	return (
 		<>
-			<div className="sticky top-6 z-10 pt-14">
+			<div className="sticky top-6 z-10 hidden pt-14 md:block">
 				<div className="flex justify-center border-b border-b-gray-500">
 					<button
 						className={clsx(
@@ -83,6 +87,17 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 					</button>
 				</div>
 			</div>
+			<div
+				className={clsx(
+					"border-b border-b-gray-400 bg-background p-4 text-center font-bold text-highlight-light md:hidden"
+				)}
+				onClick={() => {
+					setSelectedGroup(0)
+					document.getElementById(idStr1)?.scrollIntoView({ behavior: "smooth" })
+				}}
+			>
+				{group1Title}
+			</div>
 			<div id={idStr1} className="bg-background">
 				<Container className="mx-auto max-w-5xl">
 					{/* output group 1 */}
@@ -99,10 +114,16 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 							<div
 								key={panel.contentID}
 								className={clsx(
-									"flex gap-4 pt-20",
-									panel.fields.graphicLocation === "left" ? "flex-row-reverse" : ""
+									"gap-4 pt-20 md:flex",
+									panel.fields.graphicLocation === "right" ? "flex-row-reverse" : ""
 								)}
 							>
+								<div className="relative flex-1">
+									<div className="relative left-0 top-0 z-[2] flex justify-center md:flex-none">
+										<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+									</div>
+									<img src={img2} alt="" className="absolute left-0 top-0 -mb-[100%] max-w-full" />
+								</div>
 								<div className="flex-1">
 									<h3 className="text-4xl">{panel.fields.title}</h3>
 									<div
@@ -125,12 +146,6 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 										))}
 									</div>
 								</div>
-								<div className="relative flex-1">
-									<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
-									<div className="absolute left-0 top-0">
-										<AgilityPic image={panel.fields.graphic} className="max-w-full" />
-									</div>
-								</div>
 							</div>
 						)
 					})}
@@ -140,6 +155,13 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 
 			<div className="">
 				<div className="h-14 bg-background"></div>
+				<div
+					className={clsx(
+						"border-b border-b-slate-600 bg-black p-4 text-center font-bold text-secondary md:hidden"
+					)}
+				>
+					{group2Title}
+				</div>
 				<div id={idStr2} className="bg-black">
 					<Container className="mx-auto max-w-5xl">
 						{/* output group 2 */}
@@ -156,10 +178,16 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 								<div
 									key={panel.contentID}
 									className={clsx(
-										"flex gap-4 pt-20",
-										panel.fields.graphicLocation === "left" ? "flex-row-reverse" : ""
+										"gap-4 pt-20 md:flex",
+										panel.fields.graphicLocation === "right" ? "flex-row-reverse" : ""
 									)}
 								>
+									<div className="relative flex-1">
+										<div className="relative left-0 top-0 z-[2] flex justify-center md:flex-none">
+											<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+										</div>
+										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
+									</div>
 									<div className="flex-1">
 										<h3 className="text-4xl text-white">{panel.fields.title}</h3>
 										<div
@@ -180,12 +208,6 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 													</div>
 												</div>
 											))}
-										</div>
-									</div>
-									<div className="relative flex-1">
-										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
-										<div className="absolute left-0 top-0">
-											<AgilityPic image={panel.fields.graphic} className="max-w-full" />
 										</div>
 									</div>
 								</div>

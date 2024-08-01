@@ -49,10 +49,6 @@ export const TwoPanelFeatureComparison = async ({ module, languageCode }: Unload
 		languageCode
 	})
 
-	console.log("TwoPanelFeatureComparison", fields)
-	console.log("group1Panels", group1Panels.items[0].fields)
-	//console.log("group2Panels", group2Panels)
-
 	return (
 		<TwoPanelFeatureComparisonClient
 			{...{

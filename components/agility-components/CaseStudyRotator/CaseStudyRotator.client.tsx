@@ -101,7 +101,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 										<div className="absolute bottom-5 right-5 flex h-16 w-32 items-center justify-center overflow-clip rounded-md bg-white px-3 py-1 shadow-md md:w-32">
 											<AgilityPic
 												image={caseStudy.customerLogo}
-												className="w-14 md:w-40"
+												className="max-h-[60px] max-w-full"
 												fallbackWidth={160}
 											/>
 										</div>
