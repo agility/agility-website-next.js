@@ -28,12 +28,9 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 		referenceName: fields.faqs.referencename
 	})
 
-	if (!lstFaqs) return null
+	if (!lstFaqs || lstFaqs.items.length < 1) return null
 
 	const faqs = lstFaqs.items as ContentItem<Faq>[]
-
-	console.log("fields", fields)
-	console.log("faqs", faqs)
 
 	return (
 		<Container className="mx-auto max-w-5xl">

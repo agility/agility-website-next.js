@@ -18,6 +18,8 @@ import FeaturedResources from "./FeaturedResources";
 import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule";
 import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server";
 import { Faqs } from "./Faqs";
+import { TriplePanelModule } from "./TriplePanelModule";
+import { GuideLinks } from "./GuideLinks";
 
 
 
@@ -44,7 +46,9 @@ const allModules = [
 	{ name: "FeaturedResources", module: FeaturedResources },
 	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule },
 	{ name: "TwoPanelFeatureComparison", module: TwoPanelFeatureComparison },
-	{ name: "Faqs", module: Faqs }
+	{ name: "Faqs", module: Faqs },
+	{ name: "TriplePanelModule", module: TriplePanelModule },
+	{ name: "GuideLinks", module: GuideLinks },
 ];
 
 /**

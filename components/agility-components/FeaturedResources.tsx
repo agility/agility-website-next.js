@@ -35,13 +35,9 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 	//@ts-ignore
 	const res = await getContentList({ referenceName: resources.referencename, languageCode, filters: [f] })
 
-	console.log("resources", res.items.length, res)
-
 	const lstResources: ContentItem<IResource>[] = res.items
 
 	if (!lstResources || lstResources.length === 0) return null
-
-	console.log("FeaturedResources -> fields", lstResources[0])
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
