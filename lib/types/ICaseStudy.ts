@@ -15,6 +15,7 @@ export interface ICaseStudy {
 	cTA?: any
 	caseStudyIndustries?: ContentItem<IIndustry>[]
 	caseStudyChallenges?: ContentItem<IChallenge>[]
+	contentPanelCopy?: string
 	topContent?: string
 	gallery: {
 		galleryID: number,

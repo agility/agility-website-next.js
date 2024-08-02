@@ -32,7 +32,7 @@ export const LinkButton = ({
 			type === "primary"
 				? "text-white bg-highlight-light"
 				: type === "secondary"
-					? "text-highlight-light bg-white hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
+					? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
 					: type === "alternate"
 						? "bg-secondary ring-2 ring-secondary ring-inset"
 						: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",

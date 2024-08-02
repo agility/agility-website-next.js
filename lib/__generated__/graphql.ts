@@ -19,6 +19,17 @@ export type Scalars = {
   Decimal: { input: any; output: any; }
 };
 
+export type DynamicType = {
+  __typename?: 'DynamicType';
+  fieldName?: Maybe<Scalars['String']['output']>;
+  menuTextFormula: Scalars['String']['output'];
+  pageNameFormula: Scalars['String']['output'];
+  referenceName: Scalars['String']['output'];
+  titleFormula: Scalars['String']['output'];
+  visibleOnMenu?: Maybe<Scalars['Boolean']['output']>;
+  visibleOnSitemap?: Maybe<Scalars['Boolean']['output']>;
+};
+
 export type File = {
   __typename?: 'File';
   fileSize: Scalars['Int']['output'];
@@ -46,6 +57,12 @@ export type Image = {
   width: Scalars['Int']['output'];
 };
 
+export type ItemType = {
+  __typename?: 'ItemType';
+  contentID?: Maybe<Scalars['Int']['output']>;
+  properties?: Maybe<PagePropertiesType>;
+};
+
 export type Link = {
   __typename?: 'Link';
   href: Scalars['String']['output'];
@@ -61,6 +78,58 @@ export type Media = {
   url: Scalars['String']['output'];
 };
 
+export type Page = {
+  __typename?: 'Page';
+  /** The dynamic of the item. */
+  dynamic?: Maybe<DynamicType>;
+  /** The exclude from output cache of the item. */
+  excludeFromOutputCache?: Maybe<Scalars['Boolean']['output']>;
+  /** The menu text of the item. */
+  menuText?: Maybe<Scalars['String']['output']>;
+  /** The name of the item. */
+  name?: Maybe<Scalars['String']['output']>;
+  /** The unique identifier of the item. */
+  pageID?: Maybe<Scalars['Int']['output']>;
+  /** The page type of the item. */
+  pageType?: Maybe<Scalars['String']['output']>;
+  /** The path of the item. */
+  path?: Maybe<Scalars['String']['output']>;
+  /** The properties of the item. */
+  properties?: Maybe<PagePropertiesType>;
+  /** The redirect URL of the item. */
+  redirectUrl?: Maybe<Scalars['String']['output']>;
+  /** The scripts of the item. */
+  scripts?: Maybe<ScriptsType>;
+  /** The secure page of the item. */
+  securePage?: Maybe<Scalars['Boolean']['output']>;
+  /** The SEO of the item. */
+  seo?: Maybe<SeoType>;
+  /** The template name of the item. */
+  templateName?: Maybe<Scalars['String']['output']>;
+  /** The title of the item. */
+  title?: Maybe<Scalars['String']['output']>;
+  /** The visible of the item. */
+  visible?: Maybe<VisibleType>;
+  /** The zones of the item. */
+  zones?: Maybe<Array<Maybe<ZoneType>>>;
+};
+
+
+export type PageZonesArgs = {
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type PagePropertiesType = {
+  __typename?: 'PagePropertiesType';
+  modified?: Maybe<Scalars['DateTime']['output']>;
+  state: Scalars['String']['output'];
+  versionID?: Maybe<Scalars['Int']['output']>;
+};
+
 export type PropertiesType = {
   __typename?: 'PropertiesType';
   definitionName: Scalars['String']['output'];
@@ -71,8 +140,18 @@ export type PropertiesType = {
   versionID: Scalars['Int']['output'];
 };
 
+export type RedirectUrlType = {
+  __typename?: 'RedirectUrlType';
+  target: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+};
+
 export type Root = {
   __typename?: 'Root';
+  ag_pages?: Maybe<Array<Maybe<Page>>>;
+  ag_sitemapflat?: Maybe<Array<Maybe<SitemapFlat>>>;
+  ag_sitemapnested?: Maybe<Array<Maybe<SitemapNested>>>;
+  ag_urlredirections?: Maybe<Array<Maybe<UrlRedirection>>>;
   alltestimonials?: Maybe<Array<Maybe<Testimonial>>>;
   allyoursitesinoneinstan7bdb2c?: Maybe<Array<Maybe<Triplepanelmodule>>>;
   allyoursitesinoneinstanab7ac2?: Maybe<Array<Maybe<Triplepanelmodule>>>;
@@ -271,6 +350,7 @@ export type Root = {
   new_centeredctapanel16188c4705?: Maybe<Array<Maybe<Centeredctapanel>>>;
   new_centeredctapanel16188f1ef7?: Maybe<Array<Maybe<Centeredctapanel>>>;
   new_centeredctapanel23130eb512?: Maybe<Array<Maybe<Centeredctapanel>>>;
+  new_centeredctapanel26157bb742fe?: Maybe<Array<Maybe<Centeredctapanel>>>;
   new_centeredctapanel161831a962?: Maybe<Array<Maybe<Centeredctapanel>>>;
   new_centeredctapanel161845fe17?: Maybe<Array<Maybe<Centeredctapanel>>>;
   new_centeredctapanel161876eba3?: Maybe<Array<Maybe<Centeredctapanel>>>;
@@ -441,6 +521,7 @@ export type Root = {
   new_rightorleftsteps2612d0688?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps2613?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps2614?: Maybe<Array<Maybe<Rightorleftsteps>>>;
+  new_rightorleftsteps2614c4f75?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps2615b5fea?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps2617da742?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps2618c069a?: Maybe<Array<Maybe<Rightorleftsteps>>>;
@@ -451,11 +532,14 @@ export type Root = {
   new_rightorleftsteps261051d48?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps23156943f?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_rightorleftsteps231627418?: Maybe<Array<Maybe<Rightorleftsteps>>>;
+  new_rightorleftsteps261840000?: Maybe<Array<Maybe<Rightorleftsteps>>>;
+  new_rightorleftsteps261904659?: Maybe<Array<Maybe<Rightorleftsteps>>>;
   new_singletestimonialpan6f3ab7?: Maybe<Array<Maybe<Singletestimonialpanel>>>;
   new_singletestimonialpan73a952?: Maybe<Array<Maybe<Singletestimonialpanel>>>;
   new_singletestimonialpana62ac1?: Maybe<Array<Maybe<Singletestimonialpanel>>>;
   new_singletestimonialpanc0f291?: Maybe<Array<Maybe<Singletestimonialpanel>>>;
   new_triplepanelcompariso0a946c?: Maybe<Array<Maybe<Triplepanelcomparisonmodule>>>;
+  new_triplepanelcompariso8c46d2?: Maybe<Array<Maybe<Triplepanelcomparisonmodule>>>;
   new_triplepanelcompariso52b888?: Maybe<Array<Maybe<Triplepanelcomparisonmodule>>>;
   new_triplepanelcompariso52c3e4?: Maybe<Array<Maybe<Triplepanelcomparisonmodule>>>;
   new_triplepanelcompariso947f50?: Maybe<Array<Maybe<Triplepanelcomparisonmodule>>>;
@@ -533,6 +617,7 @@ export type Root = {
   new_verticalcontentpanelbbf644?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
   new_verticalcontentpanelbf14cf?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
   new_verticalcontentpanelcd84bd?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
+  new_verticalcontentpaneld91aca?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
   new_verticalcontentpanele409fc?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
   new_verticalcontentpanelf5a29f?: Maybe<Array<Maybe<Verticalcontentpanel>>>;
   new_videomodule?: Maybe<Array<Maybe<Videomodule>>>;
@@ -691,6 +776,35 @@ export type Root = {
   testimonials25612580?: Maybe<Array<Maybe<Testimonials>>>;
   whitegloveservice?: Maybe<Array<Maybe<Faqitem>>>;
   workingatagilitypanels?: Maybe<Array<Maybe<Tabpanel>>>;
+};
+
+
+export type RootAg_PagesArgs = {
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  pageID?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RootAg_SitemapflatArgs = {
+  channelName?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type RootAg_SitemapnestedArgs = {
+  channelName?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type RootAg_UrlredirectionsArgs = {
+  lastAccessDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 
@@ -2674,6 +2788,16 @@ export type RootNew_Centeredctapanel23130eb512Args = {
 };
 
 
+export type RootNew_Centeredctapanel26157bb742feArgs = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type RootNew_Centeredctapanel161831a962Args = {
   contentID?: InputMaybe<Scalars['Int']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
@@ -4374,6 +4498,16 @@ export type RootNew_Rightorleftsteps2614Args = {
 };
 
 
+export type RootNew_Rightorleftsteps2614c4f75Args = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type RootNew_Rightorleftsteps2615b5feaArgs = {
   contentID?: InputMaybe<Scalars['Int']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
@@ -4474,6 +4608,26 @@ export type RootNew_Rightorleftsteps231627418Args = {
 };
 
 
+export type RootNew_Rightorleftsteps261840000Args = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RootNew_Rightorleftsteps261904659Args = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type RootNew_Singletestimonialpan6f3ab7Args = {
   contentID?: InputMaybe<Scalars['Int']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
@@ -4515,6 +4669,16 @@ export type RootNew_Singletestimonialpanc0f291Args = {
 
 
 export type RootNew_Triplepanelcompariso0a946cArgs = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RootNew_Triplepanelcompariso8c46d2Args = {
   contentID?: InputMaybe<Scalars['Int']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
@@ -5285,6 +5449,16 @@ export type RootNew_Verticalcontentpanelbf14cfArgs = {
 
 
 export type RootNew_Verticalcontentpanelcd84bdArgs = {
+  contentID?: InputMaybe<Scalars['Int']['input']>;
+  direction?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type RootNew_Verticalcontentpaneld91acaArgs = {
   contentID?: InputMaybe<Scalars['Int']['input']>;
   direction?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
@@ -6873,6 +7047,13 @@ export type RootWorkingatagilitypanelsArgs = {
   take?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type ScriptsType = {
+  __typename?: 'ScriptsType';
+  bottom?: Maybe<Scalars['String']['output']>;
+  excludedFromGlobal?: Maybe<Scalars['Boolean']['output']>;
+  top?: Maybe<Scalars['String']['output']>;
+};
+
 export type SeoType = {
   __typename?: 'SeoType';
   menuVisible?: Maybe<Scalars['Boolean']['output']>;
@@ -6880,6 +7061,57 @@ export type SeoType = {
   metaHTML: Scalars['String']['output'];
   metaKeywords: Scalars['String']['output'];
   sitemapVisible?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type SitemapFlat = {
+  __typename?: 'SitemapFlat';
+  isFolder: Scalars['Boolean']['output'];
+  menuText: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  pageID: Scalars['Int']['output'];
+  path: Scalars['String']['output'];
+  redirecturl?: Maybe<RedirectUrlType>;
+  title?: Maybe<Scalars['String']['output']>;
+  visible?: Maybe<VisibleType>;
+};
+
+export type SitemapNested = {
+  __typename?: 'SitemapNested';
+  children?: Maybe<Array<Maybe<SitemapNested>>>;
+  isFolder: Scalars['Boolean']['output'];
+  menuText: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  pageID: Scalars['Int']['output'];
+  path: Scalars['String']['output'];
+  redirecturl?: Maybe<RedirectUrlType>;
+  title?: Maybe<Scalars['String']['output']>;
+  visible?: Maybe<VisibleType>;
+};
+
+
+export type SitemapNestedChildrenArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UrlRedirection = {
+  __typename?: 'URLRedirection';
+  destinationUrl: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  originUrl: Scalars['String']['output'];
+  statusCode: Scalars['Int']['output'];
+};
+
+export type VisibleType = {
+  __typename?: 'VisibleType';
+  menu?: Maybe<Scalars['Boolean']['output']>;
+  sitemap?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type ZoneType = {
+  __typename?: 'ZoneType';
+  item?: Maybe<ItemType>;
+  module?: Maybe<Scalars['String']['output']>;
+  zoneName?: Maybe<Scalars['String']['output']>;
 };
 
 export type Agilitycodetemplate = {
@@ -9233,8 +9465,10 @@ export type Newintegrationlistingmodule_Fields = {
   __typename?: 'newintegrationlistingmodule_fields';
   cTATitle?: Maybe<Scalars['String']['output']>;
   desktopSpace?: Maybe<Scalars['String']['output']>;
+  filterLabel?: Maybe<Scalars['String']['output']>;
   mobileSpace?: Maybe<Scalars['String']['output']>;
   partners?: Maybe<Array<Maybe<Integrations>>>;
+  partners_SortIdField?: Maybe<Scalars['String']['output']>;
   partners_TextField?: Maybe<Scalars['String']['output']>;
   partners_ValueField?: Maybe<Scalars['String']['output']>;
   showPagination?: Maybe<Scalars['Boolean']['output']>;
@@ -11252,6 +11486,23 @@ export type Twopanelfeaturecomparison_FieldsGroup2PanelsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Typeformmodule = {
+  __typename?: 'typeformmodule';
+  /** The unique identifier of the item. */
+  contentID?: Maybe<Scalars['Int']['output']>;
+  fields?: Maybe<Typeformmodule_Fields>;
+  properties?: Maybe<PropertiesType>;
+  seo?: Maybe<SeoType>;
+};
+
+export type Typeformmodule_Fields = {
+  __typename?: 'typeformmodule_fields';
+  buttonColor?: Maybe<Scalars['String']['output']>;
+  buttonLabel?: Maybe<Scalars['String']['output']>;
+  display?: Maybe<Scalars['String']['output']>;
+  form?: Maybe<Scalars['String']['output']>;
 };
 
 export type Urllist = {

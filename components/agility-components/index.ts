@@ -20,6 +20,8 @@ import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelF
 import { Faqs } from "./Faqs";
 import { TriplePanelModule } from "./TriplePanelModule";
 import { GuideLinks } from "./GuideLinks";
+import { NewIntegrationModule } from "./NewIntegrationModule";
+import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimonial";
 
 
 
@@ -49,6 +51,8 @@ const allModules = [
 	{ name: "Faqs", module: Faqs },
 	{ name: "TriplePanelModule", module: TriplePanelModule },
 	{ name: "GuideLinks", module: GuideLinks },
+	{ name: "NewIntegrationModule", module: NewIntegrationModule },
+	{ name: "RightOrLeftCaseStudyTestimonial", module: RightOrLeftCaseStudyTestimonial },
 ];
 
 /**
