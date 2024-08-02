@@ -16,11 +16,12 @@ interface IRightOrLeftSteps {
 	placeholderImage: "true" | "false"
 	textSide: "left" | "right"
 	image: ImageField
+	darkMode?: boolean
 }
 
 const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const {
-		fields: { description, heading, image, placeholderImage, step, subTitle, textSide, title },
+		fields: { description, heading, image, placeholderImage, step, subTitle, textSide, title, darkMode },
 		contentID
 	} = await getContentItem<IRightOrLeftSteps>({
 		contentID: module.contentid,
@@ -28,14 +29,19 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 	})
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
+		<Container
+			id={`${contentID}`}
+			data-agility-component={contentID}
+			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
+		>
 			<div className="mx-auto max-w-5xl">
 				{title && <h2 className="text-balance text-center text-4xl leading-10 sm:leading-tight">{title}</h2>}
 				{subTitle && <h4 className="mb-10 mt-4 text-balance text-center">{subTitle}</h4>}
 
 				<div
 					className={clsx(
-						"flex flex-col items-center from-background to-white/0 px-6 py-5",
+						"flex flex-col items-center px-6 py-5",
+						darkMode ? "from-slate-800 to-white/0" : "from-background to-white/0",
 						textSide === "right" ? "bg-gradient-to-l md:flex-row" : "bg-gradient-to-r md:flex-row-reverse"
 					)}
 				>
@@ -57,7 +63,12 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 					<div className="flex flex-1 flex-col justify-center gap-4 p-4">
 						{step && (
 							<div>
-								<span className="rounded-full bg-highlight-light px-4 py-1 text-sm font-medium uppercase text-white">
+								<span
+									className={clsx(
+										"rounded-full px-4 py-1 text-sm font-medium uppercase",
+										darkMode ? "bg-secondary text-black" : "bg-highlight-light text-white"
+									)}
+								>
 									{step}
 								</span>
 							</div>

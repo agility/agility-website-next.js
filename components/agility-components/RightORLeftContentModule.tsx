@@ -12,21 +12,29 @@ interface IRightORLeftContentModule {
 	cTA2Optional?: URLField
 	textSide: "left" | "right"
 	graphic: ImageField
+	darkMode?: boolean
+	breadcrumb?: string
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const {
-		fields: { cTA1Optional, cTA2Optional, description, graphic, textSide, title },
+		fields: { cTA1Optional, cTA2Optional, description, graphic, textSide, title, darkMode, breadcrumb },
 		contentID
 	} = await getContentItem<IRightORLeftContentModule>({
 		contentID: module.contentid,
 		languageCode
 	})
+
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
+		<Container
+			id={`${contentID}`}
+			data-agility-component={contentID}
+			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
+		>
 			<div
 				className={clsx(
 					"md:mt-18 mx-auto my-12 flex max-w-5xl flex-col items-center gap-4 lg:mt-20",
+
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row"
 				)}
 			>
@@ -48,11 +56,15 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
+					{breadcrumb && <div className="mb-2">{breadcrumb}</div>}
 					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
 					{description && (
-						<div className="prose mt-5 max-w-none" dangerouslySetInnerHTML={renderHTML(description)}></div>
+						<div
+							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
+							dangerouslySetInnerHTML={renderHTML(description)}
+						></div>
 					)}
-					<div className="mt-5 flex gap-2">
+					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
 							<LinkButton type="primary" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
 								{cTA1Optional.text}

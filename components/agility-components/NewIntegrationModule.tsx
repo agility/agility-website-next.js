@@ -60,7 +60,7 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 
 	const partners = data[fields.integrationPartners.referencename] as IIntegration[]
 	return (
-		<div className="my-14 bg-background">
+		<div className="bg-background">
 			<Container className="mx-auto max-w-6xl">
 				<div
 					className={clsx(

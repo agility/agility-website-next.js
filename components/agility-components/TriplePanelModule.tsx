@@ -6,6 +6,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronRight } from "@tabler/icons-react"
+import clsx from "clsx"
 
 interface PanelContentItem {
 	title: string
@@ -20,6 +21,7 @@ interface ITriplePanelModule {
 	triplePanelItems: {
 		referencename: string
 	}
+	darkMode?: boolean
 }
 
 export const TriplePanelModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -27,6 +29,8 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 		contentID: module.contentid,
 		languageCode
 	})
+
+	const darkMode = fields.darkMode
 
 	const lst = await getContentList({
 		languageCode,
@@ -38,52 +42,61 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 	const items = lst.items as ContentItem<PanelContentItem>[]
 
 	return (
-		<Container className="mx-auto max-w-7xl">
-			<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
-			{fields.description && (
-				<div
-					className="mt-4 text-center text-lg"
-					dangerouslySetInnerHTML={renderHTML(fields.description)}
-				></div>
-			)}
+		<Container
+			id={`${contentID}`}
+			data-agility-component={contentID}
+			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
+		>
+			<div className="mx-auto max-w-6xl">
+				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
+				{fields.description && (
+					<div
+						className="mt-4 text-center text-lg"
+						dangerouslySetInnerHTML={renderHTML(fields.description)}
+					></div>
+				)}
 
-			<div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-				{items.map((item, index) => (
-					<div key={index} className="">
-						{item.fields.graphic && (
-							<div className="mb-4">
-								{item.fields.graphic.url.endsWith(".svg") ? (
-									<img
-										src={item.fields.graphic.url}
-										alt={item.fields.graphic.label}
-										className="w-16"
-									/>
-								) : (
-									<AgilityPic image={item.fields.graphic} className="w-16" fallbackWidth={63} />
-								)}
-							</div>
-						)}
-						<h3 className="text-balance text-xl font-semibold">{item.fields.title}</h3>
-						{item.fields.description && (
-							<div className="mt-4" dangerouslySetInnerHTML={renderHTML(item.fields.description)}></div>
-						)}
-					</div>
-				))}
-			</div>
-
-			{fields.cTAButton && (
-				<div className="mt-14 text-center">
-					<LinkButton
-						href={fields.cTAButton.href}
-						className="flex items-center gap-1"
-						type="alternate"
-						size="md"
-					>
-						<span>{fields.cTAButton.text}</span>
-						<IconChevronRight size={18} stroke={2} />
-					</LinkButton>
+				<div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+					{items.map((item, index) => (
+						<div key={index} className={clsx("mb-4 p-6", darkMode ? "bg-slate-700" : "")}>
+							{item.fields.graphic && (
+								<div>
+									{item.fields.graphic.url.endsWith(".svg") ? (
+										<img
+											src={item.fields.graphic.url}
+											alt={item.fields.graphic.label}
+											className="w-16"
+										/>
+									) : (
+										<AgilityPic image={item.fields.graphic} className="w-16" fallbackWidth={63} />
+									)}
+								</div>
+							)}
+							<h3 className="text-balance text-xl font-semibold">{item.fields.title}</h3>
+							{item.fields.description && (
+								<div
+									className="mt-4"
+									dangerouslySetInnerHTML={renderHTML(item.fields.description)}
+								></div>
+							)}
+						</div>
+					))}
 				</div>
-			)}
+
+				{fields.cTAButton && (
+					<div className="mt-14 text-center">
+						<LinkButton
+							href={fields.cTAButton.href}
+							className="flex items-center gap-1"
+							type={darkMode ? "secondary-inverted" : "alternate"}
+							size="md"
+						>
+							<span>{fields.cTAButton.text}</span>
+							<IconChevronRight size={18} stroke={2} />
+						</LinkButton>
+					</div>
+				)}
+			</div>
 		</Container>
 	)
 }

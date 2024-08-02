@@ -47,7 +47,7 @@ export const GuideLinks = async ({ module, languageCode }: UnloadedModuleProps) 
 	const items = lst.items as ContentItem<Link>[]
 
 	return (
-		<div className="relative mt-14 overflow-clip bg-highlight-dark px-10 py-36 text-white">
+		<div className="relative overflow-clip bg-highlight-dark px-10 py-36 text-white">
 			<img src={bgImg} alt="" className="absolute -right-1/4 -top-1/2" />
 			<div className="absolute -bottom-20 -left-20 opacity-10">
 				<div className="relative h-72 w-72">
