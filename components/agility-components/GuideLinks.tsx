@@ -55,7 +55,7 @@ export const GuideLinks = async ({ module, languageCode }: UnloadedModuleProps) 
 					<IconSettings size={260} className="absolute bottom-0 left-0" />
 				</div>
 			</div>
-			<div className="relative mx-auto flex max-w-5xl flex-col gap-5 lg:flex-row">
+			<div className="relative mx-auto flex max-w-5xl flex-col gap-5 lg:flex-row lg:items-center">
 				<div className="flex flex-col gap-5 lg:w-1/2 xl:w-2/5">
 					<img src={imgURL} alt="icon" className="w-12" />
 

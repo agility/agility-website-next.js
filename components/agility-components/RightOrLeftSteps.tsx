@@ -16,17 +16,18 @@ interface IRightOrLeftSteps {
 	placeholderImage: "true" | "false"
 	textSide: "left" | "right"
 	image: ImageField
-	darkMode?: boolean
+	darkMode?: string
 }
 
 const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const {
-		fields: { description, heading, image, placeholderImage, step, subTitle, textSide, title, darkMode },
-		contentID
-	} = await getContentItem<IRightOrLeftSteps>({
+	const { fields, contentID } = await getContentItem<IRightOrLeftSteps>({
 		contentID: module.contentid,
 		languageCode
 	})
+
+	const { description, heading, image, placeholderImage, step, subTitle, textSide, title } = fields
+
+	const darkMode = fields.darkMode === "true"
 
 	return (
 		<Container

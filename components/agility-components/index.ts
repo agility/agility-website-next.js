@@ -22,6 +22,8 @@ import { TriplePanelModule } from "./TriplePanelModule";
 import { GuideLinks } from "./GuideLinks";
 import { NewIntegrationModule } from "./NewIntegrationModule";
 import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimonial";
+import { TwoBoxContent } from "./2BoxContent";
+import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing";
 
 
 
@@ -53,6 +55,8 @@ const allModules = [
 	{ name: "GuideLinks", module: GuideLinks },
 	{ name: "NewIntegrationModule", module: NewIntegrationModule },
 	{ name: "RightOrLeftCaseStudyTestimonial", module: RightOrLeftCaseStudyTestimonial },
+	{ name: "2BoxContent", "module": TwoBoxContent },
+	{ name: "G2CrowdReviewListing", module: G2CrowdReviewListing }
 ];
 
 /**

@@ -10,7 +10,7 @@ interface ICenteredCTAPanel {
 	description?: string
 	cTA1?: URLField
 	cTA2?: URLField
-	darkMode?: boolean
+	darkMode?: string
 }
 
 const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -19,7 +19,8 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 		languageCode
 	})
 
-	const { cTA1, cTA2, description, title, darkMode } = fields
+	const { cTA1, cTA2, description, title } = fields
+	const darkMode = fields.darkMode === "true"
 
 	return (
 		<Container

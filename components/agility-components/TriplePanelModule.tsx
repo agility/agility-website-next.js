@@ -21,7 +21,7 @@ interface ITriplePanelModule {
 	triplePanelItems: {
 		referencename: string
 	}
-	darkMode?: boolean
+	darkMode?: string
 }
 
 export const TriplePanelModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -30,7 +30,7 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 		languageCode
 	})
 
-	const darkMode = fields.darkMode
+	const darkMode = fields.darkMode === "true"
 
 	const lst = await getContentList({
 		languageCode,

@@ -12,18 +12,19 @@ interface IRightORLeftContentModule {
 	cTA2Optional?: URLField
 	textSide: "left" | "right"
 	graphic: ImageField
-	darkMode?: boolean
+	darkMode?: string
 	breadcrumb?: string
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const {
-		fields: { cTA1Optional, cTA2Optional, description, graphic, textSide, title, darkMode, breadcrumb },
-		contentID
-	} = await getContentItem<IRightORLeftContentModule>({
+	const { fields, contentID } = await getContentItem<IRightORLeftContentModule>({
 		contentID: module.contentid,
 		languageCode
 	})
+
+	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb } = fields
+
+	const darkMode = fields.darkMode === "true"
 
 	return (
 		<Container
