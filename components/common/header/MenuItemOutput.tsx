@@ -124,7 +124,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 						transition
 						anchor="bottom start"
 						className={classNames(
-							"absolute z-10 -ml-36 mt-3 bg-white shadow-lg ring-1 ring-gray-900/5",
+							"absolute z-[51] -ml-36 mt-3 bg-white shadow-lg ring-1 ring-gray-900/5",
 							hasMegaContent ? "w-screen max-w-lg" : "",
 							"transition data-[closed]:translate-y-1 data-[closed]:opacity-0",
 							"data-[enter]:duration-200 data-[enter]:ease-out",

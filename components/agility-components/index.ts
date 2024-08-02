@@ -17,6 +17,7 @@ import RightOrLeftSteps from "./RightOrLeftSteps";
 import FeaturedResources from "./FeaturedResources";
 import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule";
 import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server";
+import { Faqs } from "./Faqs";
 
 
 
@@ -43,6 +44,7 @@ const allModules = [
 	{ name: "FeaturedResources", module: FeaturedResources },
 	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule },
 	{ name: "TwoPanelFeatureComparison", module: TwoPanelFeatureComparison },
+	{ name: "Faqs", module: Faqs }
 ];
 
 /**

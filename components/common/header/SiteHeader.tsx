@@ -58,7 +58,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	return (
 		<header
 			className={classNames(
-				"sticky top-0 z-10 mx-auto w-full bg-white px-8 transition-shadow",
+				"sticky top-0 z-50 mx-auto w-full bg-white px-8 transition-shadow",
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>
@@ -157,10 +157,10 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 					transition
 					className="fixed inset-0 bg-black/30 duration-300 ease-out data-[closed]:opacity-0"
 				/>
-				<div className="fixed inset-0 z-10" />
+				<div className="fixed inset-0 z-[51]" />
 				<DialogPanel
 					className={classNames(
-						"fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+						"fixed inset-y-0 right-0 z-[52] w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
 					)}
 				>
 					<div className="flex items-center justify-between">
