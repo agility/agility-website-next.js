@@ -24,6 +24,8 @@ import { NewIntegrationModule } from "./NewIntegrationModule";
 import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimonial";
 import { TwoBoxContent } from "./2BoxContent";
 import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing";
+import { CaseStudyListing } from "./CaseStudyListing/CaseStudyListing";
+import { CaseStudyContentPanel } from "./CaseStudyContentPanel";
 
 
 
@@ -56,7 +58,9 @@ const allModules = [
 	{ name: "NewIntegrationModule", module: NewIntegrationModule },
 	{ name: "RightOrLeftCaseStudyTestimonial", module: RightOrLeftCaseStudyTestimonial },
 	{ name: "2BoxContent", "module": TwoBoxContent },
-	{ name: "G2CrowdReviewListing", module: G2CrowdReviewListing }
+	{ name: "G2CrowdReviewListing", module: G2CrowdReviewListing },
+	{ name: "CaseStudyListing", module: CaseStudyListing },
+	{ name: "CaseStudyContentPanel", module: CaseStudyContentPanel }
 ];
 
 /**

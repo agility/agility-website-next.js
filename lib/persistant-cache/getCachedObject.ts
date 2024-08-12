@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
 import { getStore } from "@netlify/blobs";
 
-
 interface CachedResponse<T> {
 	isUpToDate: boolean
 	item: T
@@ -34,7 +33,9 @@ export const getCachedObject = async <T>(key: string, isString?: boolean): Promi
 		}
 
 	} else {
-		//TODO: handle non-netlify caching
+		//TODO: add support for Vercel, Azure, AWS, etc.
+
+
 	}
 
 	return null

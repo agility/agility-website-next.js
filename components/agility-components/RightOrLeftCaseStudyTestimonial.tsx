@@ -59,7 +59,7 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 				</div>
 				<div className="flex-1">
 					<div className="pr-14">
-						<AgilityPic image={fields.image} className="w-full" />
+						<AgilityPic image={fields.image} className="w-full" fallbackWidth={640} />
 					</div>
 					<div className="relative -mt-28 ml-[20%] w-4/5 rounded bg-white p-4 pl-10 shadow-md">
 						<div className="text-lg">{testimonial.fields.excerpt}</div>

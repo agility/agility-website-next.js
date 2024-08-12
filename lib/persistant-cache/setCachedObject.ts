@@ -1,5 +1,6 @@
 import { getStore } from "@netlify/blobs";
 
+
 export const setCachedObject = async (key: string, objectJSON: string): Promise<void> => {
 
 	const isNetlify = (!!process.env.NETLIFY_BLOBS_CONTEXT) || (!!process.env.NETLIFY_PURGE_API_TOKEN)
@@ -13,6 +14,9 @@ export const setCachedObject = async (key: string, objectJSON: string): Promise<
 			}
 		});
 	} else {
-		//TODO: handle non-netlify caching
+
+		//TODO: add support for Vercel, Azure, AWS, etc.
+
+
 	}
 }

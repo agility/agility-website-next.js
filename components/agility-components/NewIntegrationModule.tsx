@@ -55,7 +55,7 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 
 	const gqlQuery = gql(q)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: ["integrations"] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: [fields.integrationPartners.referencename] })
 	const { data } = await query({ query: gqlQuery })
 
 	const partners = data[fields.integrationPartners.referencename] as IIntegration[]

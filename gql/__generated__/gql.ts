@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n\t\tquery supporting {\n\n\t\t\tcasestudyindustries {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tcasestudychallenges {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.SupportingDocument,
     "\n\t\t\tquery integrations {\n\t\t\t\tintegrations {\n\t\t\t\t\tcontentID\n\t\t\t\t\tfields {\n\t\t\t\t\t\ttitle\n\t\t\t\t\t\tcompanyDescription\n\t\t\t\t\t\tintegrationType {\n\t\t\t\t\t\t\tcontentID\n\t\t\t\t\t\t\tfields {\n\t\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tuRL\n\t\t\t\t\t\tlogo {\n\t\t\t\t\t\t\tlabel\n\t\t\t\t\t\t\turl\n\t\t\t\t\t\t\theight\n\t\t\t\t\t\t\twidth\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t": types.IntegrationsDocument,
 };
 
@@ -30,6 +31,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\t\tquery supporting {\n\n\t\t\tcasestudyindustries {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tcasestudychallenges {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery supporting {\n\n\t\t\tcasestudyindustries {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tcasestudychallenges {\n\t\t\t\tcontentID\n\t\t\t\tfields {\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

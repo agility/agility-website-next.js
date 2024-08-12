@@ -74,6 +74,10 @@ export async function generateMetadata(
 export default async function Page({ params, searchParams }: PageProps) {
 	const agilityData = await getAgilityPage({ params })
 
+	//add the search params to the global data
+	if (!agilityData.globalData) agilityData.globalData = {}
+	agilityData.globalData.searchParams = searchParams
+
 	//if the page is not found...
 	if (!agilityData.page) return NotFound()
 

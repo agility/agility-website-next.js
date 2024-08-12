@@ -26,7 +26,9 @@ export interface ICaseStudy {
 	},
 	bottomContent?: string
 	quote?: string
-	metrics?: ContentItem<IMetric>[]
+	metrics?: {
+		referencename: string
+	}
 	brandFGColor?: string
 	brandBGColor?: string
 	imagePosition?: string

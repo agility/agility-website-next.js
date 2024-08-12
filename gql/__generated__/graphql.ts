@@ -63,12 +63,7 @@ export type ItemType = {
   properties?: Maybe<PagePropertiesType>;
 };
 
-export type Link = {
-  __typename?: 'Link';
-  href: Scalars['String']['output'];
-  target: Scalars['String']['output'];
-  text: Scalars['String']['output'];
-};
+
 
 export type Media = {
   __typename?: 'Media';
@@ -7422,9 +7417,11 @@ export type Casestudy_Fields = {
   cTAID?: Maybe<Scalars['Int']['output']>;
   cTAName?: Maybe<Scalars['String']['output']>;
   caseStudyChallenges?: Maybe<Array<Maybe<Casestudychallenge>>>;
+  caseStudyChallenges_SortIdField?: Maybe<Scalars['String']['output']>;
   caseStudyChallenges_TextField?: Maybe<Scalars['String']['output']>;
   caseStudyChallenges_ValueField?: Maybe<Scalars['String']['output']>;
   caseStudyIndustries?: Maybe<Array<Maybe<Casestudyindustry>>>;
+  caseStudyIndustries_SortIdField?: Maybe<Scalars['String']['output']>;
   caseStudyIndustries_TextField?: Maybe<Scalars['String']['output']>;
   caseStudyIndustries_ValueField?: Maybe<Scalars['String']['output']>;
   clientNames?: Maybe<Scalars['String']['output']>;
@@ -7448,11 +7445,13 @@ export type Casestudy_Fields = {
   quote?: Maybe<Scalars['String']['output']>;
   relatedResources?: Maybe<Array<Maybe<Resource>>>;
   relatedResourcesTitle?: Maybe<Scalars['String']['output']>;
+  relatedResources_SortIdField?: Maybe<Scalars['String']['output']>;
   relatedResources_TextField?: Maybe<Scalars['String']['output']>;
   relatedResources_ValueField?: Maybe<Scalars['String']['output']>;
   rightContentCopy?: Maybe<Scalars['String']['output']>;
   rotatorCTAbuttonText?: Maybe<Scalars['String']['output']>;
   rotatorCaseStudies?: Maybe<Array<Maybe<Casestudy>>>;
+  rotatorCaseStudies_SortIdField?: Maybe<Scalars['String']['output']>;
   rotatorCaseStudies_TextField?: Maybe<Scalars['String']['output']>;
   rotatorCaseStudies_ValueField?: Maybe<Scalars['String']['output']>;
   rotatorDarkMode?: Maybe<Scalars['Boolean']['output']>;
@@ -11568,10 +11567,16 @@ export type Videomodule_Fields = {
   videointrotext?: Maybe<Scalars['String']['output']>;
 };
 
+export type SupportingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SupportingQuery = { __typename?: 'Root', casestudyindustries?: Array<{ __typename?: 'casestudyindustry', contentID?: number | null, fields?: { __typename?: 'casestudyindustry_fields', title?: string | null } | null } | null> | null, casestudychallenges?: Array<{ __typename?: 'casestudychallenge', contentID?: number | null, fields?: { __typename?: 'casestudychallenge_fields', title?: string | null } | null } | null> | null };
+
 export type IntegrationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type IntegrationsQuery = { __typename?: 'Root', integrations?: Array<{ __typename?: 'integrations', contentID?: number | null, fields?: { __typename?: 'integrations_fields', title?: string | null, companyDescription?: string | null, uRL?: string | null, integrationType?: Array<{ __typename?: 'integrationtype', contentID?: number | null, fields?: { __typename?: 'integrationtype_fields', title?: string | null } | null } | null> | null, logo?: { __typename?: 'Image', label?: string | null, url: string, height: number, width: number } | null } | null } | null> | null };
 
 
-export const IntegrationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"integrations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"integrations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentID"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"companyDescription"}},{"kind":"Field","name":{"kind":"Name","value":"integrationType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentID"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"uRL"}},{"kind":"Field","name":{"kind":"Name","value":"logo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]}}]} as unknown as DocumentNode<IntegrationsQuery, IntegrationsQueryVariables>;
+export const SupportingDocument = { "kind": "Document", "definitions": [{ "kind": "OperationDefinition", "operation": "query", "name": { "kind": "Name", "value": "supporting" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "casestudyindustries" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "contentID" } }, { "kind": "Field", "name": { "kind": "Name", "value": "fields" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "title" } }] } }] } }, { "kind": "Field", "name": { "kind": "Name", "value": "casestudychallenges" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "contentID" } }, { "kind": "Field", "name": { "kind": "Name", "value": "fields" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "title" } }] } }] } }] } }] } as unknown as DocumentNode<SupportingQuery, SupportingQueryVariables>;
+export const IntegrationsDocument = { "kind": "Document", "definitions": [{ "kind": "OperationDefinition", "operation": "query", "name": { "kind": "Name", "value": "integrations" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "integrations" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "contentID" } }, { "kind": "Field", "name": { "kind": "Name", "value": "fields" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "title" } }, { "kind": "Field", "name": { "kind": "Name", "value": "companyDescription" } }, { "kind": "Field", "name": { "kind": "Name", "value": "integrationType" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "contentID" } }, { "kind": "Field", "name": { "kind": "Name", "value": "fields" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "title" } }] } }] } }, { "kind": "Field", "name": { "kind": "Name", "value": "uRL" } }, { "kind": "Field", "name": { "kind": "Name", "value": "logo" }, "selectionSet": { "kind": "SelectionSet", "selections": [{ "kind": "Field", "name": { "kind": "Name", "value": "label" } }, { "kind": "Field", "name": { "kind": "Name", "value": "url" } }, { "kind": "Field", "name": { "kind": "Name", "value": "height" } }, { "kind": "Field", "name": { "kind": "Name", "value": "width" } }] } }] } }] } }] } }] } as unknown as DocumentNode<IntegrationsQuery, IntegrationsQueryVariables>;

@@ -22,7 +22,7 @@ export const getAgilityGraphQLClient = ({ referenceNames }: Props) => {
 		const uri = `https://api.aglty.io/v1/${process.env.AGILITY_GUID}/${isPreview ? "preview" : "fetch"}/${process.env.AGILITY_LOCALES}/graphql`
 
 		const apiKey = isPreview ? process.env.AGILITY_API_PREVIEW_KEY : process.env.AGILITY_API_FETCH_KEY
-		console.log("getAgilityGraphQLClient -> apiKey", apiKey)
+
 		return new ApolloClient({
 			cache: new InMemoryCache(),
 			link: new HttpLink({
@@ -34,9 +34,7 @@ export const getAgilityGraphQLClient = ({ referenceNames }: Props) => {
 				//set up the caching...
 				fetchOptions: isPreview ? { cache: "no-store" } : {
 					next: {
-						tags: [
-							referenceNames.map((referenceName) => `agility-content-${referenceName}-${locale}`)
-						],
+						tags: referenceNames.map((referenceName) => `agility-content-${referenceName}-${locale}`),
 						revalidate: cacheConfig.cacheDuration,
 					},
 				},

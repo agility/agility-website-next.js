@@ -4,7 +4,7 @@ import { AgilityPic } from "@agility/nextjs"
 import { IconChevronRight } from "@tabler/icons-react"
 import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
 import { LinkButton } from "components/micro/LinkButton"
-import { IntegrationsQuery } from "lib/__generated__/graphql"
+import { IntegrationsQuery } from "gql/__generated__/graphql"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 
