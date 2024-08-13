@@ -2,6 +2,9 @@ import { ContentItem, ImageField } from "@agility/nextjs"
 import { IAuthor } from "./IAuthor"
 import { IResourceType } from "./IResourceType"
 import { IResourceTopic } from "./IResourceTopic"
+import { IEmptyContentItem } from "./IEmptyContentItem"
+
+
 
 export interface IResource {
 	title?: string,
@@ -13,7 +16,7 @@ export interface IResource {
 	formTitle?: string
 	author?: ContentItem<IAuthor>,
 	date?: string,
-	resourceType?: ContentItem<IResourceType>,
+	resourceType?: ContentItem<IResourceType> | IEmptyContentItem,
 	resourceTopic?: ContentItem<IResourceTopic>,
 	image?: ImageField,
 	excerpt?: string

@@ -2,6 +2,7 @@
 
 import React from "react"
 import useEmblaCarousel from "embla-carousel-react"
+
 import { AgilityPic, ImageField } from "@agility/nextjs"
 import clsx from "clsx"
 
@@ -20,13 +21,20 @@ export interface MinCaseStudy {
 }
 
 interface Props {
-	contentID: number
 	cTAbuttonText: string
 	caseStudies: MinCaseStudy[]
 }
 
-export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }: Props) => {
+export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) => {
 	const router = useRouter()
+
+	if (caseStudies.length < 2) return null
+	if (caseStudies.length === 2) {
+		//if we only have 2 case studies, duplicate them so we have at least 4
+		caseStudies = [...caseStudies, ...caseStudies]
+	}
+
+	console.log("caseStudies", caseStudies.length)
 
 	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 0 })
 
@@ -45,7 +53,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText, contentID }
 							const caseStudyUrl = `/resources/case-studies/${caseStudy.uRL}`
 
 							return (
-								<div className={clsx("embla__slide group")} key={caseStudy.contentID}>
+								<div className={clsx("embla__slide group")} key={index}>
 									<div className="embla__slide__number relative mx-4 h-[320px] overflow-clip lg:h-[450px] xl:h-[550px]">
 										<div
 											className="absolute left-0 top-0 h-full w-full bg-cover transition-all group-hover:scale-105"

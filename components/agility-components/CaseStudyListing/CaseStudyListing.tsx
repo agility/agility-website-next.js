@@ -87,10 +87,10 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 	const { data } = await query({ query: gqlQuery })
 
 	const currentIndustry = industryQStr
-		? data.casestudyindustries?.find((i) => i?.fields?.title?.toLowerCase().replace(" ", "-") === industryQStr)
+		? data.casestudyindustries?.find((i) => i?.fields?.title?.toLowerCase().replaceAll(" ", "-") === industryQStr)
 		: null
 	const currentChallenge = challengeQStr
-		? data.casestudychallenges?.find((c) => c?.fields?.title?.toLowerCase().replace(" ", "-") === challengeQStr)
+		? data.casestudychallenges?.find((c) => c?.fields?.title?.toLowerCase().replaceAll(" ", "-") === challengeQStr)
 		: null
 
 	//filter the case studies
@@ -100,10 +100,10 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		?.filter((cs) => {
 			const foundChallenge =
 				!currentChallenge ||
-				cs?.fields?.caseStudyChallenges?.find((c) => c?.contentID === currentChallenge?.contentID)
+				cs?.fields?.caseStudyChallenges?.find((c) => c?.contentID === currentChallenge?.contentID) !== undefined
 			const foundIndustry =
 				!currentIndustry ||
-				cs?.fields?.caseStudyChallenges?.find((c) => c?.contentID === currentChallenge?.contentID)
+				cs?.fields?.caseStudyIndustries?.find((c) => c?.contentID === currentIndustry?.contentID) !== undefined
 
 			return foundChallenge && foundIndustry
 		})

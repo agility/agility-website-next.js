@@ -1,7 +1,5 @@
 import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import { ContentItem } from "@agility/content-fetch"
-import { Container } from "components/micro/Container"
-import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import { IKeyValuePair } from "lib/types/IKeyValuePair"
@@ -11,7 +9,6 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 	if (!dynamicPageItem) return null
 
 	const caseStudy = dynamicPageItem?.fields as ICaseStudy
-	console.log("CaseStudyContentPanel -> case study", caseStudy.metrics)
 
 	let metrics: ContentItem<IKeyValuePair>[] = []
 
@@ -29,8 +26,14 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 		<div className="px-8 lg:px-0">
 			<div className="flex flex-col lg:flex-row">
 				<div className="lg:w-3/5">
-					<div className="flex flex-col items-center text-center lg:items-start lg:pl-28 lg:text-left">
-						<AgilityPic image={caseStudy.customerLogo} fallbackWidth={320} />
+					<div className="flex flex-col items-center text-center md:pl-16 md:pr-16 lg:items-start lg:pl-20 lg:text-left">
+						<div className="w-80">
+							<AgilityPic
+								image={caseStudy.customerLogo}
+								fallbackWidth={800}
+								className="h-full object-contain"
+							/>
+						</div>
 						<h1 className="mt-8 text-5xl font-medium leading-tight lg:mt-12">{caseStudy.title}</h1>
 						<p className="mt-8 text-lg">{caseStudy.excerpt}</p>
 					</div>
@@ -46,7 +49,11 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 					)}
 				</div>
 				<div className={clsx("mx-8 lg:mx-0 lg:w-2/5", metrics.length > 0 ? "-mt-5 lg:mt-0" : "mt-8 lg:mt-0")}>
-					<AgilityPic image={caseStudy.image} className="h-full w-full object-cover object-center" />
+					<AgilityPic
+						image={caseStudy.image}
+						fallbackWidth={640}
+						className="h-full w-full object-cover object-center"
+					/>
 				</div>
 			</div>
 		</div>

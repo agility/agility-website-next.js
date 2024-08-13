@@ -26,6 +26,8 @@ import { TwoBoxContent } from "./2BoxContent";
 import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing";
 import { CaseStudyListing } from "./CaseStudyListing/CaseStudyListing";
 import { CaseStudyContentPanel } from "./CaseStudyContentPanel";
+import { CaseStudyDetails } from "./CaseStudyDetails/CaseStudyDetails";
+import { CaseStudyTechStack } from "./CaseStudyDetails/CaseStudyTechStack";
 
 
 
@@ -60,7 +62,9 @@ const allModules = [
 	{ name: "2BoxContent", "module": TwoBoxContent },
 	{ name: "G2CrowdReviewListing", module: G2CrowdReviewListing },
 	{ name: "CaseStudyListing", module: CaseStudyListing },
-	{ name: "CaseStudyContentPanel", module: CaseStudyContentPanel }
+	{ name: "CaseStudyContentPanel", module: CaseStudyContentPanel },
+	{ name: "CaseStudyDetails", module: CaseStudyDetails },
+	{ name: "CaseStudyTechStack", module: CaseStudyTechStack },
 ];
 
 /**

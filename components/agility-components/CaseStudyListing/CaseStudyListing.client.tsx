@@ -69,6 +69,12 @@ export const CaseStudyListingClient = ({
 
 	const [size, setSize] = useState<"xs" | "sm" | "md" | "lg" | "2xl">("md")
 
+	useEffect(() => {
+		//if the industry or challenge changes, reset the items
+		setItems(caseStudies)
+		setHasMore(true)
+	}, [caseStudies, currentChallenge, currentIndustry])
+
 	useLayoutEffect(() => {
 		const onResize = () => {
 			const w = document.body.clientWidth
@@ -120,7 +126,8 @@ export const CaseStudyListingClient = ({
 
 			<div className="relative mb-12 mt-8">
 				<div className="max-w-screen-7xl mx-auto">
-					<div className="">
+					{items.length === 0 && <div className="text-center text-lg">No case studies found.</div>}
+					{items.length > 0 && (
 						<InfiniteScroll
 							dataLength={items.length}
 							next={fetchMore}
@@ -133,7 +140,7 @@ export const CaseStudyListingClient = ({
 								return <CaseStudyItem key={item.contentID} item={item} index={index} size={size} />
 							})}
 						</InfiniteScroll>
-					</div>
+					)}
 				</div>
 			</div>
 		</Container>

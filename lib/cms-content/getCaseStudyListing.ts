@@ -30,8 +30,8 @@ export interface ICaseStudyListingItem {
 			contentID: number
 			fields: {
 				title: string
-			}[]
-		}
+			}
+		}[]
 		isPurpleBackground: boolean
 	}
 }

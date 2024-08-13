@@ -1,6 +1,7 @@
 import { ImageField, URLField } from "@agility/nextjs"
 import { ContentItem } from "@agility/content-fetch"
 import exp from "constants"
+import { IResource } from "./IResource"
 
 export interface ICaseStudy {
 	title: string
@@ -12,7 +13,8 @@ export interface ICaseStudy {
 	customerLogo: ImageField
 	customerWhiteLogo?: ImageField
 	image: ImageField
-	cTA?: any
+	cTA?: URLField
+	website?: URLField
 	caseStudyIndustries?: ContentItem<IIndustry>[]
 	caseStudyChallenges?: ContentItem<IChallenge>[]
 	contentPanelCopy?: string
@@ -21,7 +23,13 @@ export interface ICaseStudy {
 		galleryID: number,
 		name: string,
 		description: string | null,
-		media: any[],
+		media: {
+			mediaID: number,
+			fileName: string,
+			url: string,
+			size: number,
+			metaData: any
+		}[],
 		count: number
 	},
 	bottomContent?: string
@@ -36,7 +44,7 @@ export interface ICaseStudy {
 	rotatorTitle?: string
 	rotatorCTAbuttonText?: string
 	rotatorCaseStudies?: ContentItem<ICaseStudy>[]
-	relatedResources?: ContentItem<any>[]
+	relatedResources?: ContentItem<IResource>[]
 
 
 
