@@ -33,18 +33,22 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const faqs = lstFaqs.items as ContentItem<Faq>[]
 
 	return (
-		<Container className="mx-auto max-w-5xl">
-			<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
-			<dl>
-				{faqs.map((faq) => {
-					return (
-						<>
-							<dt className="mt-10 text-lg font-medium text-highlight-light">{faq.fields.question}</dt>
-							<dd className="prose" dangerouslySetInnerHTML={renderHTML(faq.fields.answer)}></dd>
-						</>
-					)
-				})}
-			</dl>
-		</Container>
+		<div className="bg-background/60">
+			<Container className="mx-auto max-w-5xl">
+				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
+				<dl>
+					{faqs.map((faq) => {
+						return (
+							<div key={faq.contentID}>
+								<dt className="mt-10 text-lg font-medium text-highlight-light">
+									{faq.fields.question}
+								</dt>
+								<dd className="prose" dangerouslySetInnerHTML={renderHTML(faq.fields.answer)}></dd>
+							</div>
+						)
+					})}
+				</dl>
+			</Container>
+		</div>
 	)
 }

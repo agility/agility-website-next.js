@@ -19,7 +19,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 	const header = await getHeaderContent({ locale, sitemap })
 	const ogImages = (await parent).openGraph?.images || []
-
+	let metaTitle: string | undefined = undefined
 	//#region *** resolve open graph stuff from dynamic pages/layouts ***
 	if (agilityData.sitemapNode.contentID !== undefined
 		&& agilityData.sitemapNode.contentID > 0) {
@@ -31,9 +31,12 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 				languageCode: locale
 			})
 
+			metaTitle = contentItem.fields["metaTitle"] as string | undefined
+
 			if (contentItem.properties.definitionName === "Post") {
 				/* *** Posts MetaData *** */
 				const image = contentItem.fields["image"] as ImageField | undefined
+
 
 				if (image) {
 					ogImages.push({
@@ -105,7 +108,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	//#endregion
 
 
-	let title = agilityData.sitemapNode?.title
+	let title = metaTitle || agilityData.sitemapNode?.title || ""
 	if (!title.includes("Agility")) title = `${title} | Agility CMS`
 
 

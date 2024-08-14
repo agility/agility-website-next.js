@@ -25,9 +25,14 @@ import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimoni
 import { TwoBoxContent } from "./2BoxContent";
 import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing";
 import { CaseStudyListing } from "./CaseStudyListing/CaseStudyListing";
-import { CaseStudyContentPanel } from "./CaseStudyContentPanel";
+import { CaseStudyContentPanel } from "./CaseStudyDetails/CaseStudyContentPanel";
 import { CaseStudyDetails } from "./CaseStudyDetails/CaseStudyDetails";
 import { CaseStudyTechStack } from "./CaseStudyDetails/CaseStudyTechStack";
+import { PartnerListing } from "./PartnerListing/PartnerListing";
+import { PartnerContentPanel } from "./PartnerDetails/PartnerContentPanel";
+import { PartnerDetails } from "./PartnerDetails/PartnerDetails";
+import { Testimonials } from "./Testimonials/Testimonials";
+import { SubmissionForm } from "./SubmissionForm/SubmissionForm";
 
 
 
@@ -65,6 +70,11 @@ const allModules = [
 	{ name: "CaseStudyContentPanel", module: CaseStudyContentPanel },
 	{ name: "CaseStudyDetails", module: CaseStudyDetails },
 	{ name: "CaseStudyTechStack", module: CaseStudyTechStack },
+	{ name: "PartnerListing", module: PartnerListing },
+	{ name: "PartnerContentPanel", module: PartnerContentPanel },
+	{ name: "PartnerDetails", module: PartnerDetails },
+	{ name: "Testimonials", module: Testimonials },
+	{ name: "SubmissionForm", module: SubmissionForm }
 ];
 
 /**

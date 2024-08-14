@@ -24,18 +24,27 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 
 	return (
 		<div className="px-8 lg:px-0">
-			<div className="flex flex-col lg:flex-row">
-				<div className="lg:w-3/5">
-					<div className="flex flex-col items-center text-center md:pl-16 md:pr-16 lg:items-start lg:pl-20 lg:text-left">
-						<div className="w-80">
-							<AgilityPic
-								image={caseStudy.customerLogo}
-								fallbackWidth={800}
-								className="h-full object-contain"
-							/>
+			<div className="relative flex flex-col lg:flex-row">
+				<div className="flex flex-col lg:w-3/5">
+					<div className="flex flex-1 justify-end">
+						<div
+							className={clsx(
+								"flex flex-col items-center px-8 text-center",
+								"lg:max-w-[calc(80rem*.625)] lg:items-start lg:text-left"
+							)}
+						>
+							<div className="w-80">
+								<AgilityPic
+									image={caseStudy.customerLogo}
+									fallbackWidth={800}
+									className="h-full object-contain"
+								/>
+							</div>
+							<h1 className="mt-8 text-balance text-5xl font-medium leading-tight lg:mt-12">
+								{caseStudy.title}
+							</h1>
+							<p className="mt-8 text-lg">{caseStudy.excerpt}</p>
 						</div>
-						<h1 className="mt-8 text-5xl font-medium leading-tight lg:mt-12">{caseStudy.title}</h1>
-						<p className="mt-8 text-lg">{caseStudy.excerpt}</p>
 					</div>
 					{metrics && metrics.length > 0 && (
 						<div className="mt-16 flex h-36 items-center justify-center gap-8 bg-highlight-light text-white md:gap-14">

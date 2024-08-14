@@ -1,16 +1,8 @@
-import { AgilityPic, ImageField, URLField, UnloadedModuleProps, renderHTML } from "@agility/nextjs"
+import { URLField, UnloadedModuleProps } from "@agility/nextjs"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 
-import { Container } from "components/micro/Container"
-
-import { LinkButton } from "components/micro/LinkButton"
-import Link from "next/link"
-import clsx from "clsx"
-import { getContentList } from "lib/cms/getContentList"
 import { gql } from "gql/__generated__"
-import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
-import { redirect, RedirectType, useParams } from "next/navigation"
 import { CaseStudyListingClient } from "./CaseStudyListing.client"
 import { getCaseStudyListing } from "lib/cms-content/getCaseStudyListing"
 

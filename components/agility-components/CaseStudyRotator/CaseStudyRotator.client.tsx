@@ -28,17 +28,16 @@ interface Props {
 export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) => {
 	const router = useRouter()
 
+	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 0 })
+
+	const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi)
+
 	if (caseStudies.length < 2) return null
 	if (caseStudies.length === 2) {
 		//if we only have 2 case studies, duplicate them so we have at least 4
 		caseStudies = [...caseStudies, ...caseStudies]
 	}
 
-	console.log("caseStudies", caseStudies.length)
-
-	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 0 })
-
-	const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi)
 	return (
 		<section className="case-study-rotator embla mx-auto max-w-screen-xl pt-12">
 			<div className="relative">

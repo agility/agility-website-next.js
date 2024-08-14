@@ -39,10 +39,6 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 
 	if (!testimonial || !casestudy) return null
 
-	// console.log("RightOrLeftCaseStudyTestimonial", fields)
-	// console.log("testimonial", testimonial)
-	// console.log("casestudy", casestudy)
-
 	return (
 		<Container className="mx-auto max-w-7xl">
 			<div className="flex flex-col gap-10 lg:flex-row-reverse lg:items-center">

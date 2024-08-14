@@ -136,7 +136,8 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 								>
 									<IconBrandFacebook className="transition-colors group-hover:text-white" />
 								</a>
-
+							</div>
+							{caseStudy.quote && (
 								<div className="mt-6 rounded-md border border-highlight-light p-3">
 									<div>
 										<IconQuote className="text-highlight-light" size={72} />
@@ -146,7 +147,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 										dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}
 									></div>
 								</div>
-							</div>
+							)}
 						</div>
 					</div>
 					<div className="mt-8 lg:mt-0 lg:w-2/3">
@@ -166,32 +167,35 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 				</div>
 			</Container>
 
-			<Container id={`${contentID}`} data-agility-component={contentID}>
-				<div className="mx-auto max-w-5xl text-center">
-					<h2 className="text-center text-3xl font-medium">{fields.relatedCaseStudiesHeading}</h2>
-				</div>
-				<CaseStudyRotatorClient
-					{...{ caseStudies: minCaseStudies, cTAbuttonText: fields.relatedCaseStudiesCTALabel }}
-				/>
-			</Container>
-
 			{/* Related Case Studies */}
+			{minCaseStudies.length > 0 && (
+				<Container id={`${contentID}`} data-agility-component={contentID}>
+					<div className="mx-auto max-w-5xl text-center">
+						<h2 className="text-center text-3xl font-medium">{fields.relatedCaseStudiesHeading}</h2>
+					</div>
+					<CaseStudyRotatorClient
+						{...{ caseStudies: minCaseStudies, cTAbuttonText: fields.relatedCaseStudiesCTALabel }}
+					/>
+				</Container>
+			)}
 
 			<Container className="mx-auto max-w-7xl">
 				{/* related resources */}
-				<div className="mt-10">
-					<h2 className="text-center text-3xl font-medium">{fields.relatedResourcesHeading}</h2>
-					<div className="mt-6 flex w-full justify-center gap-6">
-						{caseStudy.relatedResources?.map((item) => (
-							<ResourceCard
-								key={item.contentID}
-								languageCode={languageCode}
-								resource={item.fields}
-								ctaLabel={fields.relatedResourcesCTALabel}
-							/>
-						))}
+				{caseStudy.relatedResources && caseStudy.relatedResources.length > 0 && (
+					<div className="mt-10">
+						<h2 className="text-center text-3xl font-medium">{fields.relatedResourcesHeading}</h2>
+						<div className="mt-6 flex w-full justify-center gap-6">
+							{caseStudy.relatedResources?.map((item) => (
+								<ResourceCard
+									key={item.contentID}
+									languageCode={languageCode}
+									resource={item.fields}
+									ctaLabel={fields.relatedResourcesCTALabel}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 
 				{/* Only shows in single column mode...  */}
 				<div className="lg:hidden">
