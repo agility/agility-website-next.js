@@ -33,6 +33,8 @@ import { PartnerContentPanel } from "./PartnerDetails/PartnerContentPanel";
 import { PartnerDetails } from "./PartnerDetails/PartnerDetails";
 import { Testimonials } from "./Testimonials/Testimonials";
 import { SubmissionForm } from "./SubmissionForm/SubmissionForm";
+import { TypeFormModule } from "./TypeFormModule/TypeFormModule";
+import { PricingPackagesModule } from "./Pricing/PricingPackagesModule";
 
 
 
@@ -74,7 +76,9 @@ const allModules = [
 	{ name: "PartnerContentPanel", module: PartnerContentPanel },
 	{ name: "PartnerDetails", module: PartnerDetails },
 	{ name: "Testimonials", module: Testimonials },
-	{ name: "SubmissionForm", module: SubmissionForm }
+	{ name: "SubmissionForm", module: SubmissionForm },
+	{ name: "TypeFormModule", module: TypeFormModule },
+	{ name: "PricingPackagesModule", module: PricingPackagesModule }
 ];
 
 /**

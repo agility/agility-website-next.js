@@ -1515,6 +1515,19 @@
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.8.3.tgz#9db61ab2a96e43d9e035b1cfd82eeede6d52f171"
   integrity sha512-vd2A2TnM5lbnWZnHi9B+L2gPtkSeOtJOAw358JqokIH1+v2J7vUAzFVPwB/wrye12RFOurffXu33plm4uQ+JBQ==
 
+"@typeform/embed-react@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@typeform/embed-react/-/embed-react-4.0.0.tgz#886f5e6fc5c5c5230c7a7862664a3ea5be04f0b2"
+  integrity sha512-QNlyWt9V4cMW18JrXf0u/D8RUpFsujKdZL5HNXNWOzAeT8HJN0yzWk7rk5H36X9IPECeT4mytaA6ak083RlhQQ==
+  dependencies:
+    "@typeform/embed" "5.0.0"
+    fast-deep-equal "^3.1.3"
+
+"@typeform/embed@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@typeform/embed/-/embed-5.0.0.tgz#0f75237e6efb42ccaa197d8d1fdd8311bd54aa70"
+  integrity sha512-r2/4xS04JFT8S6gpn7JbC2HCFsdrmYaEpnoXGtKnyk6mkzN9CQ3jFlYAK3OJ7ChDTt30xLlgUa9UXLOEc6u41w==
+
 "@types/he@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/he/-/he-1.2.3.tgz#c33ca3096f30cbd5d68d78211572de3f9adff75a"
