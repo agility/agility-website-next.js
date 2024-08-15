@@ -78,7 +78,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 				href={link.menuItem.fields.uRL.href}
 				target={link.menuItem.fields.uRL.target}
 				className={classNames(
-					"text-secondary-500 px-2 text-sm font-medium leading-6",
+					"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
 					"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 				)}
 			>
@@ -100,7 +100,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 							href={link.menuItem.fields.uRL.href}
 							target={link.menuItem.fields.uRL.target}
 							className={classNames(
-								"text-secondary-500 px-2 text-sm font-medium leading-6",
+								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
 								"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 							)}
 						>

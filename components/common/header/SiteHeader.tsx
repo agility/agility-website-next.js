@@ -116,7 +116,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							return <MenuItemOutput key={link.menuItem.contentID} link={link} />
 						})}
 
-						<div className="w-1"></div>
+						<div className="w-4"></div>
 						{
 							/* Contact Us */
 							header.fields.contactus && (
@@ -246,7 +246,6 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 										</LinkButton>
 									)
 								}
-
 								{
 									/* Sign In */
 									header.fields.primaryButton && (
