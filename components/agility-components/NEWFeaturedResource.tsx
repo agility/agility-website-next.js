@@ -33,8 +33,6 @@ export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModu
 		contentLinkDepth: 1
 	})
 
-	console.log("res", res)
-
 	const resType = res.fields.resourceType as ContentItem<IResourceType>
 
 	const url = `/resources/${resType.fields.title?.toLowerCase().replace(/ /g, "-")}/${res.fields.uRL}`
@@ -53,7 +51,7 @@ export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModu
 					<p>{res.fields.excerpt}</p>
 					<div className="my-4">
 						<LinkButton type="secondary" href={url}>
-							Download
+							{res.fields.formTitle || "Learn More"}
 						</LinkButton>
 					</div>
 				</div>
