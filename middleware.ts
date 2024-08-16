@@ -82,7 +82,7 @@ export async function middleware(request: NextRequest) {
 	//check for a redirect
 	if ((!ext || ext.length === 0)) {
 
-		//HACK - disable redirects for now to check speed
+		//HACK - disable redirects for now to
 		// const redirection = await checkRedirect({ path: request.nextUrl.pathname })
 
 		// if (redirection) {
@@ -108,6 +108,14 @@ export async function middleware(request: NextRequest) {
 		// 		})
 		// 	}
 		// }
+	} else {
+		//normal request - set the cache control
+		const response = await NextResponse.next(request)
+
+		//cache for 24 hours and revalidate every 20 minutes
+		response.headers.set("Cache-Control", "public,max-age=86,400, stale-while-revalidate=1200")
+
+		return response
 	}
 
 
