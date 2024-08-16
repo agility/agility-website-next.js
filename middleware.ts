@@ -113,7 +113,7 @@ export async function middleware(request: NextRequest) {
 		const response = await NextResponse.next(request)
 
 		//cache for 24 hours and revalidate every 20 minutes
-		response.headers.set("Cache-Control", "public,max-age=86,400, stale-while-revalidate=1200")
+		response.headers.set("Cache-Control", "public,max-age=86400, stale-while-revalidate=1200")
 
 		return response
 	}
