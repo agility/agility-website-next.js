@@ -19,7 +19,7 @@ interface INEWFeaturedResource {
 }
 
 export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<INEWFeaturedResource>({
+	const { fields } = await getContentItem<INEWFeaturedResource>({
 		contentID: module.contentid,
 		languageCode,
 		contentLinkDepth: 0
@@ -40,12 +40,12 @@ export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModu
 	return (
 		<div className="bg-gradient-to-b from-background/40 to-white">
 			<Container className="mx-auto flex max-w-5xl flex-col gap-8 lg:flex-row">
-				<Link className="flex-1" href={url}>
+				<Link className="mx-10 flex-1 lg:mx-0" href={url}>
 					{res.fields.image && (
 						<AgilityPic image={res.fields.image} className="w-full shadow-lg" fallbackWidth={640} />
 					)}
 				</Link>
-				<div className="flex-1">
+				<div className="flex-1 text-center lg:text-left">
 					<div className="font-medium uppercase text-slate-500">{resType.fields.title}</div>
 					<h2 className="my-4 text-4xl font-medium">{res.fields.title}</h2>
 					<p>{res.fields.excerpt}</p>

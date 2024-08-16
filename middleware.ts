@@ -82,31 +82,32 @@ export async function middleware(request: NextRequest) {
 	//check for a redirect
 	if ((!ext || ext.length === 0)) {
 
-		const redirection = await checkRedirect({ path: request.nextUrl.pathname })
+		//HACK - disable redirects for now to check speed
+		// const redirection = await checkRedirect({ path: request.nextUrl.pathname })
 
-		if (redirection) {
-			//redirect to the destination url
-			//cache the redirect for 10 minutes
-			if (redirection.destinationUrl.startsWith("/")) {
-				//handle relative paths
-				const url = request.nextUrl.clone()
-				url.pathname = redirection.destinationUrl
-				return NextResponse.redirect(url, {
-					status: redirection.statusCode,
-					headers: {
-						"Cache-Control": "public,maxage=600, stale-while-revalidate"
-					}
-				})
-			} else {
-				//handle absolute paths
-				return NextResponse.redirect(redirection.destinationUrl, {
-					status: redirection.statusCode,
-					headers: {
-						"Cache-Control": "public,maxage=3600, stale-while-revalidate"
-					}
-				})
-			}
-		}
+		// if (redirection) {
+		// 	//redirect to the destination url
+		// 	//cache the redirect for 10 minutes
+		// 	if (redirection.destinationUrl.startsWith("/")) {
+		// 		//handle relative paths
+		// 		const url = request.nextUrl.clone()
+		// 		url.pathname = redirection.destinationUrl
+		// 		return NextResponse.redirect(url, {
+		// 			status: redirection.statusCode,
+		// 			headers: {
+		// 				"Cache-Control": "public,maxage=600, stale-while-revalidate"
+		// 			}
+		// 		})
+		// 	} else {
+		// 		//handle absolute paths
+		// 		return NextResponse.redirect(redirection.destinationUrl, {
+		// 			status: redirection.statusCode,
+		// 			headers: {
+		// 				"Cache-Control": "public,maxage=3600, stale-while-revalidate"
+		// 			}
+		// 		})
+		// 	}
+		// }
 	}
 
 

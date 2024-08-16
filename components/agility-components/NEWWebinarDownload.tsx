@@ -14,7 +14,7 @@ interface IMiniResource {
 	fields: {
 		title: string
 		uRL: string
-		bookCover: ImageField
+		image: ImageField
 		resourceType: {
 			contentID: number
 			fields: {
@@ -26,26 +26,30 @@ interface IMiniResource {
 	}
 }
 
-interface INEWDownloadableeBooks {
+interface INEWWebinarDownload {
 	content: string
-	listeBooks?: {
+	listWebinar?: {
 		referencename: string
 		sortids: string
 	}
 	cTAButton?: URLField
 }
 
-export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<INEWDownloadableeBooks>({
+export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModuleProps) => {
+	const { fields, contentID } = await getContentItem<INEWWebinarDownload>({
 		contentID: module.contentid,
 		languageCode,
 		contentLinkDepth: 0
 	})
 
-	if (!fields.listeBooks) return null
+	console.log("fields", fields)
 
-	const refName = fields.listeBooks.referencename
-	const sortIDs = fields.listeBooks.sortids
+	if (!fields.listWebinar) return null
+
+	const refName = fields.listWebinar.referencename
+	const sortIDs = fields.listWebinar.sortids
+
+	console.log("fields", fields)
 
 	const filter = `contentID[in]\"${sortIDs}\"`
 
@@ -56,13 +60,14 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 				fields {
 					title
 					uRL
-					bookCover {
+					image {
 						label
 						url
 						fileSize
 						height
 						width
 					}
+					resourceTypeName
 					resourceType {
 						contentID
 						fields {
@@ -80,16 +85,16 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
 	const { data } = await query({ query: gqlQuery, variables: { filter } })
 
-	if (!data.resources) return null
-
 	const resources = data["resources"] as IMiniResource[]
+
+	console.log("resources", resources)
 
 	return (
 		<div className="bg-gradient-to-b from-background/40 to-white">
 			<Container className="mx-auto flex max-w-7xl flex-col">
 				<div className="flex w-full justify-center">
 					<div
-						className="prose prose-xl w-full max-w-screen-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+						className="prose prose-xl w-full max-w-screen-xl prose-h2:mb-4 prose-h2:text-balance prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
 						dangerouslySetInnerHTML={renderHTML(fields.content)}
 					/>
 				</div>
@@ -100,18 +105,14 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 
 						return (
 							<div key={`top-book-${resource.contentID}`} className="flex w-80 flex-col">
-								<Link
-									href={url}
-									className="group bg-cover bg-no-repeat p-7"
-									style={{ backgroundImage: "url(/images/features/downloadable-pattern.svg)" }}
-								>
+								<Link href={url} className="group">
 									<AgilityPic
-										image={resource.fields.bookCover}
+										image={resource.fields.image}
 										fallbackWidth={400}
 										className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
 									/>
 								</Link>
-								<h3 className="min-h-16 text-balance text-center text-xl font-medium">
+								<h3 className="mt-4 min-h-16 text-balance text-center text-xl font-medium">
 									{resource.fields.title}
 								</h3>
 								<p className="line-clamp-2 text-left">{resource.fields.excerpt}</p>
@@ -120,7 +121,7 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 										href={url}
 										className="flex items-center gap-1 font-medium text-highlight-light hover:text-highlight-dark"
 									>
-										Download
+										Watch
 										<IconChevronRight size={20} stroke={2} />
 									</Link>
 								</div>
