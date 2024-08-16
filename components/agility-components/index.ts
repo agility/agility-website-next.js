@@ -35,6 +35,7 @@ import { Testimonials } from "./Testimonials/Testimonials";
 import { SubmissionForm } from "./SubmissionForm/SubmissionForm";
 import { TypeFormModule } from "./TypeFormModule/TypeFormModule";
 import { PricingPackagesModule } from "./Pricing/PricingPackagesModule";
+import { NEWFeaturedResource } from "./NEWFeaturedResource";
 
 
 
@@ -78,8 +79,10 @@ const allModules = [
 	{ name: "Testimonials", module: Testimonials },
 	{ name: "SubmissionForm", module: SubmissionForm },
 	{ name: "TypeFormModule", module: TypeFormModule },
-	{ name: "PricingPackagesModule", module: PricingPackagesModule }
+	{ name: "PricingPackagesModule", module: PricingPackagesModule },
+	{ name: "NEWFeaturedResource", module: NEWFeaturedResource },
 ];
+
 
 /**
  * Get the Agility Component/Module by name.

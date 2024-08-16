@@ -1,12 +1,13 @@
-import {Module, UnloadedModuleProps} from "@agility/nextjs"
+import { Module, UnloadedModuleProps } from "@agility/nextjs"
 import InlineError from "components/common/InlineError"
 import OutputContentItem from "components/common/output-content-item/OutputContentItem"
-import {getContentItem} from "lib/cms/getContentItem"
+import { getContentItem } from "lib/cms/getContentItem"
 
-const NoComponentFound = async ({module, languageCode, isDevelopmentMode, isPreview}: UnloadedModuleProps) => {
+const NoComponentFound = async ({ module, languageCode, isDevelopmentMode, isPreview }: UnloadedModuleProps) => {
 	const contentItem = await getContentItem<any>({
 		contentID: module.contentid,
 		languageCode,
+		contentLinkDepth: 0
 	})
 
 	if (isDevelopmentMode || isPreview) {
