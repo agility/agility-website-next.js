@@ -1,9 +1,30 @@
-import { UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { gql } from "@apollo/client"
+import { IconChevronRight } from "@tabler/icons-react"
+
 import { Container } from "components/micro/Container"
+import { LinkButton } from "components/micro/LinkButton"
 
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
+import Link from "next/link"
+
+interface IMiniResource {
+	contentID: number
+	fields: {
+		title: string
+		uRL: string
+		bookCover: ImageField
+		resourceType: {
+			contentID: number
+			fields: {
+				title: string
+			}
+		}
+		excerpt: string
+		formTitle: string
+	}
+}
 
 interface INEWDownloadableeBooks {
 	content: string
@@ -26,35 +47,90 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 	const refName = fields.listeBooks.referencename
 	const sortIDs = fields.listeBooks.sortids
 
-	//TODO: finish this query
-	const q = `
-		query resources {
-			${refName} (filter: "contentID[in]\\"${sortIDs}\\"") {
+	console.log("fields", fields)
+
+	const filter = `contentID[in]\"${sortIDs}\"`
+
+	const gqlQuery = gql(`
+		query downloadablebooks($filter: String = "") {
+			resources(filter: $filter) {
 				contentID
 				fields {
 					title
 					uRL
-					partnerLogo {
+					bookCover {
+						label
 						url
+						fileSize
 						height
 						width
-						label
 					}
+					resourceType {
+						contentID
+						fields {
+							title
+						}
+					}
+					excerpt
+					formTitle
 				}
 			}
-		}
-	`
+			}
 
-	const gqlQuery = gql(q)
+	`)
 
 	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
-	const { data } = await query({ query: gqlQuery })
+	const { data } = await query({ query: gqlQuery, variables: { filter } })
 
-	console.log(data)
+	const resources = data["resources"] as IMiniResource[]
+
+	console.log("resources", resources)
 
 	return (
 		<div className="bg-gradient-to-b from-background/40 to-white">
-			<Container className="mx-auto flex max-w-5xl flex-col lg:flex-row"></Container>
+			<Container className="mx-auto flex max-w-7xl flex-col">
+				<div className="flex w-full justify-center">
+					<div
+						className="prose prose-xl w-full prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+						dangerouslySetInnerHTML={renderHTML(fields.content)}
+					/>
+				</div>
+
+				<div className="flex w-full flex-col justify-center gap-6 lg:flex-row">
+					{resources.map((resource, index) => {
+						const url = `/resources/${resource.fields.resourceType.fields.title?.toLowerCase().replace(/ /g, "-")}/${resource.fields.uRL}`
+
+						return (
+							<div key={`top-book-${resource.contentID}`} className="flex w-80 flex-col">
+								<Link
+									href={url}
+									className="group bg-cover bg-no-repeat p-6"
+									style={{ backgroundImage: "url(/images/features/downloadable-pattern.svg)" }}
+								>
+									<AgilityPic
+										image={resource.fields.bookCover}
+										fallbackWidth={400}
+										className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
+									/>
+								</Link>
+								<h3 className="h-16 text-balance text-center text-xl font-medium">
+									{resource.fields.title}
+								</h3>
+								<p className="line-clamp-2 text-left">{resource.fields.excerpt}</p>
+								<div className="mt-4">
+									<Link
+										href={url}
+										className="flex items-center gap-1 font-medium text-highlight-light hover:text-highlight-dark"
+									>
+										Download
+										<IconChevronRight size={20} stroke={2} />
+									</Link>
+								</div>
+							</div>
+						)
+					})}
+				</div>
+			</Container>
 		</div>
 	)
 }

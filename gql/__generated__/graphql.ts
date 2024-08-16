@@ -63,7 +63,6 @@ export type ItemType = {
   properties?: Maybe<PagePropertiesType>;
 };
 
-
 export type Link = {
   __typename?: 'Link';
   href: Scalars['String']['output'];

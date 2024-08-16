@@ -1,3 +1,7 @@
+/**
+ * Got this from here: https://www.svgbackgrounds.com/elements/animated-svg-preloaders/#
+ * @returns
+ */
 export const Bouncy = () => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">

@@ -36,6 +36,7 @@ import { SubmissionForm } from "./SubmissionForm/SubmissionForm";
 import { TypeFormModule } from "./TypeFormModule/TypeFormModule";
 import { PricingPackagesModule } from "./Pricing/PricingPackagesModule";
 import { NEWFeaturedResource } from "./NEWFeaturedResource";
+import { NEWDownloadableeBooks } from "./NEWDownloadableeBooks";
 
 
 
@@ -81,6 +82,7 @@ const allModules = [
 	{ name: "TypeFormModule", module: TypeFormModule },
 	{ name: "PricingPackagesModule", module: PricingPackagesModule },
 	{ name: "NEWFeaturedResource", module: NEWFeaturedResource },
+	{ name: "NEWDownloadableeBooks", module: NEWDownloadableeBooks },
 ];
 
 
