@@ -7,6 +7,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { getContentList } from "lib/cms/getContentList"
 import Link from "next/link"
 import { LinkButton } from "components/micro/LinkButton"
+import { IResourceType } from "lib/types/IResourceType"
 
 interface IFeaturedResources {
 	title?: string
@@ -49,8 +50,9 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 					{lstResources
 						.filter((r) => r.fields.image)
 						.map((resource, index) => {
-							const resType =
-								resource.fields.resourceType?.fields.title?.toLowerCase().replace(/ /g, "-") || ""
+							const res = resource.fields.resourceType as ContentItem<IResourceType>
+
+							const resType = res.fields.title?.toLowerCase().replace(/ /g, "-") || ""
 							const resourceUrl = `/resources/${resType}/${resource.fields.uRL}`
 
 							return (

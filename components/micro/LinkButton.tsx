@@ -35,7 +35,7 @@ export const LinkButton = ({
 			"duration-200 ease-in-out transition-all",
 			"hover:scale-105",
 			type === "primary"
-				? "text-white bg-highlight-light"
+				? "text-white bg-highlight-light ring-2 ring-highlight-light ring-inset focus:ring-white/40"
 				: type === "secondary"
 					? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
 					: type === "alternate"
@@ -43,7 +43,7 @@ export const LinkButton = ({
 						: type === "slate"
 							? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
 							: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",
-			"focus:outline-none focus:text-primary-500 focus:bg-gray-50 ",
+			"focus:outline-none  focus:ring-4",
 			className
 		)
 	}, [size, type, className])

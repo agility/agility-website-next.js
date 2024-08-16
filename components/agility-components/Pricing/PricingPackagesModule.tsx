@@ -152,7 +152,8 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 	const groupByCategory = groupByCondition(moreFeatures, (item: any) => item.fields.pricingCategory_ValueField)
 
 	groupByCategory.forEach((val, key) => {
-		const categoryName = data.pricingcategories?.find((item) => String(item?.contentID) === key)?.fields?.category
+		const catItem = data.pricingcategories?.find((item) => String(item?.contentID) === key)
+		const categoryName = catItem?.fields?.category
 
 		listPricingByCategory.push({
 			category: {
@@ -163,84 +164,87 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 		})
 	})
 
-	console.log("listPricingByCategory", listPricingByCategory[0].listPackageFeature[0])
-
-	//@ts-ignore
-	console.log("data.packagefeaturevalues", data.packagefeaturevalues[0]?.fields)
+	const headerIDstr = `${contentID}-header`
+	const topSectionIDStr = `${contentID}-top`
 
 	return (
-		<div>
-			<Container className="relative z-[2] mx-auto max-w-5xl">
-				<div className="flex flex-col items-center justify-center gap-14 lg:flex-row lg:items-start">
-					{data.pricingpackages?.map((packageItem, index) => (
-						<div
-							key={packageItem?.contentID}
-							className={clsx(
-								"flex h-full flex-col items-center gap-6 border-t-4 bg-white p-8 text-center shadow-lg lg:w-[350px]",
-								index === 0
-									? "border-t-slate-300"
-									: index === 1
-										? "border-t-secondary"
-										: "border-t-highlight-light"
-							)}
-						>
-							<div className="flex items-center justify-center gap-2">
-								<h2 className="text-2xl font-bold">{packageItem?.fields?.title}</h2>
-								{packageItem?.fields?.isMostPopular && (
-									<div className="flex items-center gap-1 rounded bg-background p-0.5 px-1 text-xs text-highlight-light">
-										<IconStarFilled size={12} />
-										Most Popular
-									</div>
+		<>
+			<div id={topSectionIDStr}>
+				<Container className="relative z-[2] mx-auto max-w-5xl">
+					<div className="flex flex-col items-center justify-center gap-14 lg:flex-row lg:items-start">
+						{data.pricingpackages?.map((packageItem, index) => (
+							<div
+								key={packageItem?.contentID}
+								className={clsx(
+									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 border-t-4 bg-white p-8 text-center shadow-lg",
+									"lg:w-[350px]",
+									index === 0
+										? "border-t-slate-300"
+										: index === 1
+											? "border-t-secondary"
+											: "border-t-highlight-light"
 								)}
-							</div>
+							>
+								<div className="flex items-center justify-center gap-2">
+									<h2 className="text-2xl font-bold">{packageItem?.fields?.title}</h2>
+									{packageItem?.fields?.isMostPopular && (
+										<div className="flex items-center gap-1 rounded bg-background p-0.5 px-1 text-xs text-highlight-light">
+											<IconStarFilled size={12} />
+											Most Popular
+										</div>
+									)}
+								</div>
 
-							{/* icon */}
-							<img
-								src={packageItem?.fields?.icon?.url}
-								alt={packageItem?.fields?.icon?.label || ""}
-								className="h-14 w-14"
-							/>
+								{/* icon */}
+								<img
+									src={packageItem?.fields?.icon?.url}
+									alt={packageItem?.fields?.icon?.label || ""}
+									className="h-14 w-14"
+								/>
 
-							{/* descriptions */}
-							<div className="min-h-[100px]">
-								<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
+								{/* descriptions */}
+								<div className="min-h-[100px]">
+									<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
 
-								<div
-									className="prose mt-2 prose-p:leading-tight"
-									dangerouslySetInnerHTML={renderHTML(packageItem?.fields?.description)}
-								></div>
+									<div
+										className="prose mt-2 prose-p:leading-tight"
+										dangerouslySetInnerHTML={renderHTML(packageItem?.fields?.description)}
+									></div>
+								</div>
+								<div>
+									<LinkButton
+										type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
+										size={"md"}
+										href={packageItem?.fields?.cTAButton?.href}
+										target={packageItem?.fields?.cTAButton?.target}
+									>
+										{packageItem?.fields?.cTAButton?.text}
+									</LinkButton>
+								</div>
 							</div>
-							<div>
-								<LinkButton
-									type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
-									size={"md"}
-									href={packageItem?.fields?.cTAButton?.href}
-									target={packageItem?.fields?.cTAButton?.target}
-								>
-									{packageItem?.fields?.cTAButton?.text}
-								</LinkButton>
-							</div>
-						</div>
-					))}
+						))}
+					</div>
+				</Container>
+
+				<div className="-mt-44 min-h-72 bg-slate-50 pt-52">
+					<div id={headerIDstr}>
+						{fields.comparePackagesTitle && (
+							<h2 className="text-balance text-center text-5xl">{fields.comparePackagesTitle}</h2>
+						)}
+						<ThreeDashLine />
+					</div>
 				</div>
-			</Container>
-
-			<div className="-mt-40 min-h-96 bg-gradient-to-b from-background to-white pt-52">
-				<div>
-					{fields.comparePackagesTitle && (
-						<h2 className="text-balance text-center text-5xl">{fields.comparePackagesTitle}</h2>
-					)}
-					<ThreeDashLine />
-				</div>
-
-				<PricingPackagesModuleClient
-					{...{
-						listPricingByCategory,
-						pricingPackages: data.pricingpackages,
-						featuresListing: data.packagefeaturevalues
-					}}
-				/>
 			</div>
-		</div>
+
+			<PricingPackagesModuleClient
+				{...{
+					headerIDstr,
+					topSectionIDStr,
+					listPricingByCategory,
+					pricingPackages: data.pricingpackages,
+					featuresListing: data.packagefeaturevalues
+				}}
+			/>
+		</>
 	)
 }
