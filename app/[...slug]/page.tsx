@@ -14,10 +14,10 @@ import { NextRequest } from "next/server"
 import { DateTime } from "luxon"
 import { getSitemapFlat } from "lib/cms/getSitemapFlat"
 import { getAgilitySDK_NonReact } from "lib/cms/getAgilitySDK"
+import Loading from "app/loading"
+import LoadingWidget from "components/common/LoadingWidget"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
-// export const runtime = "nodejs"
-// export const dynamic = "force-static"
 
 /**
  * Generate metadata for this page
@@ -34,42 +34,6 @@ export async function generateMetadata(
 	if (!agilityData.page) return {}
 	return await resolveAgilityMetaData({ agilityData, locale, sitemap, isDevelopmentMode, isPreview, parent })
 }
-
-/**
- * Generate the list of pages that we want to generate a build time
- * @returns
- */
-//TODO: determine if we even need this...
-// export async function generateStaticParams() {
-// 	const agilitySDK = getAgilitySDK_NonReact()
-
-// 	//const channelName: process.env.AGILITY_SITEMAP || "website",
-// 	const languageCode = process.env.AGILITY_LOCALES || "en-ca"
-
-// 	agilitySDK.config.fetchConfig = {
-// 		next: {
-// 			tags: [`agility-sitemap-flat-${languageCode}`],
-// 			revalidate: cacheConfig.cacheDuration
-// 		}
-// 	}
-
-// 	const sitemap = await agilitySDK.getSitemapFlat({
-// 		channelName: process.env.AGILITY_SITEMAP || "website",
-// 		languageCode
-// 	})
-
-// 	const paths = Object.keys(sitemap).map((path, index) => {
-// 		const thePath = index === 0 ? "/" : path
-
-// 		return {
-// 			params: {
-// 				slug: thePath.split("/").filter((x) => x)
-// 			}
-// 		}
-// 	})
-
-// 	return paths
-// }
 
 export default async function Page({ params, searchParams }: PageProps) {
 	const agilityData = await getAgilityPage({ params })
