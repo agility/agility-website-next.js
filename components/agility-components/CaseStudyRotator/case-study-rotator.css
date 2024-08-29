@@ -1,12 +1,10 @@
 .case-study-rotator.embla {
 	margin: auto;
 
-	--slide-height: 350px;
 	--slide-spacing: 10px;
 	--slide-size: 100%;
 
 	@media (min-width: 1024px) {
-		--slide-height: 450px;
 		--slide-spacing: 5px;
 		--slide-size: calc(100% - 300px);
 	}
@@ -24,8 +22,5 @@
 		flex: 0 0 var(--slide-size);
 		min-width: 0;
 		padding-left: var(--slide-spacing);
-	}
-	.embla__slide__number {
-		height: var(--slide-height);
 	}
 }
