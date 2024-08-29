@@ -9,3 +9,4 @@ export { generateMetadata } from "./[...slug]/page"
 export { default } from "./[...slug]/page"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
+export const dynamicParams = true

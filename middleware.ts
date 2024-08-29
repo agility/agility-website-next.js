@@ -110,12 +110,14 @@ export async function middleware(request: NextRequest) {
 		// }
 	} else {
 		//normal request - set the cache control
-		const response = await NextResponse.next(request)
+		//TODO: decide if we need to set cache control for regular routes (i don't want to have to set this)
+		// const response = await NextResponse.next(request)
 
-		//cache for 24 hours and revalidate every 20 minutes
-		response.headers.set("Cache-Control", "public,max-age=86400, stale-while-revalidate=1200")
+		// //cache for 24 hours and revalidate every 20 minutes
+		// response.headers.set("Cache-Control", "public,max-age=86400, stale-while-revalidate=1200")
+		// response.headers.set("X-AgilityTime", "Accept-Encoding")
 
-		return response
+		// return response
 	}
 
 
@@ -132,10 +134,11 @@ export const config = {
 		/*
 		 * Match all request paths except for the ones starting with:
 		 * - api (API routes)
+		 * - assets (public assets)
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
 		 * - favicon.ico (favicon file)
 		 */
-		'/((?!api|_next/static|_next/image|favicon.ico).*)',
+		'/((?!api|assets|_next/static|_next/image|favicon.ico).*)',
 	],
 }

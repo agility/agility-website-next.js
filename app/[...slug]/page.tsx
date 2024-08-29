@@ -18,6 +18,48 @@ import Loading from "app/loading"
 import LoadingWidget from "components/common/LoadingWidget"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
+export const dynamicParams = true
+
+/**
+ * Generate the list of pages that we want to generate a build time
+ * @returns
+ */
+export async function generateStaticParams() {
+	console.log("*** generateStaticParams ***")
+
+	const agilitySDK = getAgilitySDK_NonReact()
+
+	//const channelName: process.env.AGILITY_SITEMAP || "website",
+	const languageCode = process.env.AGILITY_LOCALES || "en-ca"
+
+	agilitySDK.config.fetchConfig = {
+		next: {
+			tags: [`agility-sitemap-flat-${languageCode}`],
+			revalidate: cacheConfig.cacheDuration
+		}
+	}
+
+	//get the nested sitemap and generate the paths
+	const sitemap = await agilitySDK.getSitemapNested({
+		channelName: process.env.AGILITY_SITEMAP || "website",
+		languageCode
+	})
+
+	const paths = sitemap.map((node: any, index: number) => {
+		const path: string = node.path
+		const thePath: string = index === 0 ? "/" : path
+
+		return {
+			params: {
+				slug: thePath.split("/").filter((x: string) => x)
+			}
+		}
+	})
+
+	console.log("paths", paths.length)
+
+	return paths
+}
 
 /**
  * Generate metadata for this page

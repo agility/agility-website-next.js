@@ -38,6 +38,7 @@ import { PricingPackagesModule } from "./Pricing/PricingPackagesModule";
 import { NEWFeaturedResource } from "./NEWFeaturedResource";
 import { NEWDownloadableeBooks } from "./NEWDownloadableeBooks";
 import { NEWWebinarDownload } from "./NEWWebinarDownload";
+import { ScheduleADemo } from "./ScheduleADemo/ScheduleADemo";
 
 
 
@@ -85,6 +86,7 @@ const allModules = [
 	{ name: "NEWFeaturedResource", module: NEWFeaturedResource },
 	{ name: "NEWDownloadableeBooks", module: NEWDownloadableeBooks },
 	{ name: "NEWWebinarDownload", module: NEWWebinarDownload },
+	{ name: "ScheduleADemo", module: ScheduleADemo }
 ];
 
 
