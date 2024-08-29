@@ -1,5 +1,3 @@
-//TODO: make sure the ID of this component is "scheduler-page"
-
 import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -19,6 +17,7 @@ export const ScheduleADemo = async ({ module, languageCode }: UnloadedModuleProp
 
 	return (
 		<div
+			id="scheduler-page"
 			className="bg-background/40"
 			style={{
 				backgroundImage: "url(/images/icon-agility.svg)",
