@@ -21,10 +21,6 @@ export async function GET(request: NextRequest, res: NextResponse) {
 	const slug = request.nextUrl.pathname
 
 	const ContentID = searchParams.get('ContentID')
-	const contentID = parseInt(ContentID || "")
-
-	console.log("Preview Request", { agilityPreviewKey, slug, contentID, url: request.nextUrl.toString() })
-
 
 	//validate our preview key, also validate the requested page to preview exists
 	const validationResp = await validatePreview({
@@ -40,12 +36,13 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
 	let previewUrl = slug;
 
-	//TODO: these kinds of dynamic links should work by default (even outside of preview)
-	if (!isNaN(contentID) && contentID > 0) {
-		const dynamicPath = await getDynamicPageURL({ contentID, preview: true, slug });
+	//if we have a content id, get the dynamic page url for it
+	if (ContentID) {
+		const dynamicPath = await getDynamicPageURL({ contentID: Number(ContentID), preview: true, slug: slug || undefined });
 		if (dynamicPath) {
 			previewUrl = dynamicPath;
 		}
+
 	}
 
 	//enable draft/preview mode
@@ -65,9 +62,5 @@ export async function GET(request: NextRequest, res: NextResponse) {
 		headers: {
 			"Location": url,
 		}
-
 	});
-
-	NextResponse.redirect(url)
-
 }
