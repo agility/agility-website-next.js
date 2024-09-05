@@ -10,6 +10,8 @@ import "/styles/globals.css"
 
 import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
+import Script from "next/script"
+import HubspotTracker from "components/common/HubspotTracker"
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
@@ -61,6 +63,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				{(isPreview || isDevelopmentMode) && (
 					<PreviewBar {...{ isDevelopmentMode, isPreview, startPreviewMode }} />
 				)}
+
+				<HubspotTracker />
 			</body>
 		</html>
 	)

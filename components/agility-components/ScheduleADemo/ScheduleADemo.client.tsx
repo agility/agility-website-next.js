@@ -18,7 +18,7 @@ export const ScheduleADemoClient = ({ schedulerIFrameURL }: Props) => {
 					setIframeUrl(schedulerIFrameURL)
 				}}
 			/>
-			{iframeUrl && <iframe ref={refIframe} className="h-[800px] w-full" src={iframeUrl}></iframe>}
+			{iframeUrl && <div className="meetings-iframe-container h-[800px] w-full" data-src={iframeUrl}></div>}
 		</>
 	)
 }
