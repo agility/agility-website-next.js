@@ -87,8 +87,6 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 
 	const resources = data["resources"] as IMiniResource[]
 
-	console.log("resources", resources)
-
 	return (
 		<div className="bg-gradient-to-b from-background/40 to-white">
 			<Container className="mx-auto flex max-w-7xl flex-col">

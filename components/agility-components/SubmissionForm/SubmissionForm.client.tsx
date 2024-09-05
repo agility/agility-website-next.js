@@ -2,7 +2,7 @@
 "use client"
 import Script from "next/script"
 import { ISubmissionForm } from "./SubmissionForm"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
 
 export const SubmissionFormClient = ({
@@ -15,7 +15,7 @@ export const SubmissionFormClient = ({
 	const divID = `submission-form-${formId}`
 	const formLoadRef = useRef<Boolean>(false)
 
-	const loadForm = () => {
+	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
 		formLoadRef.current = true
 
@@ -28,13 +28,13 @@ export const SubmissionFormClient = ({
 			target: `#${divID}`,
 			redirectUrl: redirectURL
 		})
-	}
+	}, [divID, formId, portalId, redirectURL])
 
 	useEffect(() => {
 		if (window.hbspt) {
 			loadForm()
 		}
-	}, [])
+	}, [loadForm])
 
 	return (
 		<Container className="bg-background">

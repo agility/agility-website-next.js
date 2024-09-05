@@ -20,6 +20,22 @@ import LoadingWidget from "components/common/LoadingWidget"
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const dynamicParams = true
 
+interface NestedSitemapNode {
+	title: string
+	name: string
+	pageID: number
+	menuText: string
+	visible: {
+		menu: boolean
+		sitemap: boolean
+	}
+	path: string
+	redirect: string | null
+	isFolder: boolean
+	contentID?: number
+	children?: NestedSitemapNode[]
+}
+
 /**
  * Generate the list of pages that we want to generate a build time
  * @returns
@@ -40,23 +56,25 @@ export async function generateStaticParams() {
 	}
 
 	//get the nested sitemap and generate the paths
-	const sitemap = await agilitySDK.getSitemapNested({
+	const sitemap: NestedSitemapNode[] = await agilitySDK.getSitemapNested({
 		channelName: process.env.AGILITY_SITEMAP || "website",
 		languageCode
 	})
 
-	const paths = sitemap.map((node: any, index: number) => {
-		const path: string = node.path
-		const thePath: string = index === 0 ? "/" : path
-
-		return {
-			params: {
-				slug: thePath.split("/").filter((x: string) => x)
+	//only pre-render the top level pages
+	const paths = sitemap
+		.filter((node, index) => {
+			if (node.redirect !== null || node.isFolder === true || index === 0) return false
+			return true
+		})
+		.map((node) => {
+			return {
+				slug: node.path.split("/").slice(1)
 			}
-		}
-	})
+		})
 
-	console.log("paths", paths.length)
+	console.log("there are", paths.length, " static paths to generate")
+	console.log("paths", paths)
 
 	return paths
 }

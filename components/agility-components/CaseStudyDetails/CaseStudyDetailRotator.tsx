@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import useEmblaCarousel from "embla-carousel-react"
