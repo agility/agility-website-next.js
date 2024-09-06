@@ -11,7 +11,7 @@ interface IRightORLeftContentModule {
 	cTA1Optional?: URLField
 	cTA2Optional?: URLField
 	textSide: "left" | "right"
-	graphic: ImageField
+	graphic?: ImageField
 	darkMode?: string
 	breadcrumb?: string
 }
@@ -40,20 +40,24 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 				)}
 			>
 				<div className="flex-1">
-					{graphic.url.endsWith(".svg") ? (
-						//don't need to use AgilityPic for SVGs
-						// eslint-disable-next-line @next/next/no-img-element
-						<img src={graphic.url} alt={graphic.label} className="w-full" />
-					) : (
-						<AgilityPic
-							image={graphic}
-							className="w-full"
-							fallbackWidth={640}
-							sources={[
-								//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
-								{ media: "(min-width: 1200px)", width: 800 }
-							]}
-						/>
+					{graphic && (
+						<>
+							{graphic.url.endsWith(".svg") ? (
+								//don't need to use AgilityPic for SVGs
+								// eslint-disable-next-line @next/next/no-img-element
+								<img src={graphic.url} alt={graphic.label} className="w-full" />
+							) : (
+								<AgilityPic
+									image={graphic}
+									className="w-full"
+									fallbackWidth={640}
+									sources={[
+										//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
+										{ media: "(min-width: 1200px)", width: 800 }
+									]}
+								/>
+							)}
+						</>
 					)}
 				</div>
 				<div className="flex-1">

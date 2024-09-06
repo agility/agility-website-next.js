@@ -73,8 +73,7 @@ export async function generateStaticParams() {
 			}
 		})
 
-	console.log("there are", paths.length, " static paths to generate")
-	console.log("paths", paths)
+	console.log("Agility: there are", paths.length, " static paths to generate")
 
 	return paths
 }

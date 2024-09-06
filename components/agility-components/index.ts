@@ -40,6 +40,10 @@ import { NEWDownloadableeBooks } from "./NEWDownloadableeBooks";
 import { NEWWebinarDownload } from "./NEWWebinarDownload";
 import { ScheduleADemo } from "./ScheduleADemo/ScheduleADemo";
 import { Hero } from "./Hero/Hero";
+import { RightLeftContent } from "components/RightLeftContent";
+import { LogoListing } from "./LogoListing/LogoListing.server";
+import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.server";
+import SubscribedThankYou from "./SubscribedThankYou";
 
 
 
@@ -56,6 +60,8 @@ const allModules = [
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },
 	{ name: "LogoListingModule", module: LogoListingModule },
+	{ name: "LogoListing", module: LogoListing },
+	{ name: "PartnerLogoListing", module: PartnerLogoListing },
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
 	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
 	{ name: "CaseStudyRotator", module: CaseStudyRotator },
@@ -89,6 +95,8 @@ const allModules = [
 	{ name: "NEWWebinarDownload", module: NEWWebinarDownload },
 	{ name: "ScheduleADemo", module: ScheduleADemo },
 	{ name: "Hero", module: Hero },
+	{ name: "RightLeftContent", module: RightLeftContent },
+	{ name: "SubscribedThankYou", module: SubscribedThankYou }
 ];
 
 

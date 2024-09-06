@@ -42,14 +42,10 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 		contentLinkDepth: 0
 	})
 
-	console.log("fields", fields)
-
 	if (!fields.listWebinar) return null
 
 	const refName = fields.listWebinar.referencename
 	const sortIDs = fields.listWebinar.sortids
-
-	console.log("fields", fields)
 
 	const filter = `contentID[in]\"${sortIDs}\"`
 

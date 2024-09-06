@@ -3,7 +3,13 @@ import InlineError from "components/common/InlineError"
 import OutputContentItem from "components/common/output-content-item/OutputContentItem"
 import { getContentItem } from "lib/cms/getContentItem"
 
-const NoComponentFound = async ({ module, languageCode, isDevelopmentMode, isPreview }: UnloadedModuleProps) => {
+const NoComponentFound = async ({
+	module,
+	languageCode,
+	isDevelopmentMode,
+	isPreview,
+	sitemapNode
+}: UnloadedModuleProps) => {
 	const contentItem = await getContentItem<any>({
 		contentID: module.contentid,
 		languageCode,
@@ -15,7 +21,12 @@ const NoComponentFound = async ({ module, languageCode, isDevelopmentMode, isPre
 		return <OutputContentItem contentItem={contentItem} />
 	} else {
 		//in production mode, just keep on truckin' after throwing a warning in the log
-		console.warn("Agility: No Component form for: ", contentItem?.properties.definitionName)
+		console.warn(
+			"Agility: No Component found for: ",
+			contentItem?.properties.definitionName,
+			"on page",
+			sitemapNode.path
+		)
 		return null
 	}
 }
