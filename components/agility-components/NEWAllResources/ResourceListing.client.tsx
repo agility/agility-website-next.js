@@ -10,51 +10,52 @@ import Link from "next/link"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useEffect, useLayoutEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { CaseStudyItem } from "./CaseStudyItem"
+import { ResourceListingItem } from "./ResourceListingItem"
+import { IResourceListingItem } from "lib/cms-content/getResourceListing"
 
 interface Props {
-	caseCount: number
-	industryQStr: string | null
-	challengeQStr: string | null
-	industries: ComboboItem[]
-	challenges: ComboboItem[]
-	caseStudies: ICaseStudyListingItem[]
-	getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<ICaseStudyListingItem[]>
+	pageSize: number
+	topicQStr: string | null
+	categoryQStr: string | null
+	topics: ComboboItem[]
+	categories: ComboboItem[]
+	resources: IResourceListingItem[]
+	getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<IResourceListingItem[]>
 }
 
-export const CaseStudyListingClient = ({
-	caseCount,
-	industries,
-	challenges,
-	industryQStr,
-	challengeQStr,
-	caseStudies,
+export const ResourceListingClient = ({
+	pageSize,
+	topics,
+	categories,
+	topicQStr,
+	categoryQStr,
+	resources,
 	getNextItems
 }: Props) => {
 	const router = useRouter()
 	const pathName = usePathname()
 
-	const currentIndustry = industries.find((i) => i.text.toLowerCase().replaceAll(" ", "-") === industryQStr)
-	const currentChallenge = challenges.find((c) => c.text.toLowerCase().replaceAll(" ", "-") === challengeQStr)
+	const currentIndustry = topics.find((i) => i.text.toLowerCase().replaceAll(" ", "-") === topicQStr)
+	const currentChallenge = categories.find((c) => c.text.toLowerCase().replaceAll(" ", "-") === categoryQStr)
 
-	const changeOptions = (challenge: string, industry: string) => {
+	const changeOptions = (category: string, topic: string) => {
 		//set the industry and challenge params
 		const params = new URLSearchParams()
-		if (industry) params.append("industry", encodeURIComponent(industry.toLowerCase().replaceAll(" ", "-")))
-		if (challenge) params.append("challenge", encodeURIComponent(challenge.toLowerCase().replaceAll(" ", "-")))
+		if (category) params.append("category", encodeURIComponent(category.toLowerCase().replaceAll(" ", "-")))
+		if (topic) params.append("topic", encodeURIComponent(topic.toLowerCase().replaceAll(" ", "-")))
 
 		let newUrl = `${pathName}${params.size > 0 ? "?" + params.toString() : ""}`
 
 		router.push(newUrl, { scroll: false })
 	}
 
-	const [hasMore, setHasMore] = useState(caseStudies.length >= caseCount)
-	const [items, setItems] = useState(caseStudies)
+	const [hasMore, setHasMore] = useState(resources.length >= pageSize)
+	const [items, setItems] = useState(resources)
 
 	const fetchMore = async () => {
 		try {
 			//call the server action declared in the server component to get the next page of items...
-			const moreItems = await getNextItems({ skip: items.length, take: caseCount })
+			const moreItems = await getNextItems({ skip: items.length, take: pageSize })
 
 			setItems((prev) => {
 				return [...prev, ...moreItems]
@@ -62,7 +63,7 @@ export const CaseStudyListingClient = ({
 
 			setHasMore(moreItems.length > 0)
 		} catch (error) {
-			console.error("error fetching more case studies", error)
+			console.error("error fetching more resources", error)
 			setHasMore(false)
 		}
 	}
@@ -71,9 +72,9 @@ export const CaseStudyListingClient = ({
 
 	useEffect(() => {
 		//if the industry or challenge changes, reset the items
-		setItems(caseStudies)
+		setItems(resources)
 		setHasMore(true)
-	}, [caseStudies, currentChallenge, currentIndustry])
+	}, [resources, currentChallenge, currentIndustry])
 
 	useLayoutEffect(() => {
 		const onResize = () => {
@@ -99,26 +100,26 @@ export const CaseStudyListingClient = ({
 	}, [])
 
 	return (
-		<Container>
+		<div className="mt-6">
 			<div className="gap-3 md:flex">
 				<FilterComboBox
 					{...{
-						label: "All Industries",
-						items: industries,
+						label: "All topics",
+						items: topics,
 						selectedItem: currentIndustry,
 						onChange: (item) => {
-							changeOptions(challengeQStr || "", item?.value ? item.text : "")
+							changeOptions(categoryQStr || "", item?.value ? item.text : "")
 						}
 					}}
 				/>
 
 				<FilterComboBox
 					{...{
-						label: "All Challenges",
-						items: challenges,
+						label: "All categories",
+						items: categories,
 						selectedItem: currentChallenge,
 						onChange: (item) => {
-							changeOptions(item?.value ? item.text : "", industryQStr || "")
+							changeOptions(item?.value ? item.text : "", topicQStr || "")
 						}
 					}}
 				/>
@@ -126,7 +127,7 @@ export const CaseStudyListingClient = ({
 
 			<div className="relative mb-12 mt-8">
 				<div className="max-w-screen-7xl mx-auto">
-					{items.length === 0 && <div className="text-center text-lg">No case studies found.</div>}
+					{items.length === 0 && <div className="text-center text-lg">No resources found.</div>}
 					{items.length > 0 && (
 						<InfiniteScroll
 							dataLength={items.length}
@@ -137,12 +138,14 @@ export const CaseStudyListingClient = ({
 							className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4"
 						>
 							{items.map((item, index) => {
-								return <CaseStudyItem key={item.contentID} item={item} index={index} size={size} />
+								return (
+									<ResourceListingItem key={item.contentID} item={item} index={index} size={size} />
+								)
 							})}
 						</InfiniteScroll>
 					)}
 				</div>
 			</div>
-		</Container>
+		</div>
 	)
 }

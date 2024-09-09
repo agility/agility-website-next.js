@@ -1,12 +1,12 @@
 import React from "react"
 import Link from "next/link"
 
-import {IPostMin, getPostListing} from "lib/cms-content/getPostListing"
-import {useAgilityContext} from "lib/cms/useAgilityContext"
+import { IPostMin, getPostListing } from "lib/cms-content/getPostListing"
+import { useAgilityContext } from "lib/cms/useAgilityContext"
 import PostListingClient from "./PostsListing.client"
-import {getContentItem} from "lib/cms/getContentItem"
-import {UnloadedModuleProps} from "@agility/nextjs"
-import {DateTime} from "luxon"
+import { getContentItem } from "lib/cms/getContentItem"
+import { UnloadedModuleProps } from "@agility/nextjs"
+import { DateTime } from "luxon"
 
 interface IPostListing {
 	title: string
@@ -19,17 +19,18 @@ export interface GetNextPostsProps {
 	take: number
 }
 
-const PostListing = async ({module, languageCode}: UnloadedModuleProps) => {
-	const {sitemap, locale} = useAgilityContext()
+const PostListing = async ({ module, languageCode }: UnloadedModuleProps) => {
+	const { sitemap, locale } = useAgilityContext()
 
+	const pageSize = 10
 	// get posts for the initial page load
-	const {posts} = await getPostListing({sitemap, locale, take: 10, skip: 0})
+	const { posts } = await getPostListing({ sitemap, locale, take: pageSize, skip: 0 })
 
 	// get next posts for infinite scroll
-	const getNextPosts = async ({skip, take}: GetNextPostsProps) => {
+	const getNextPosts = async ({ skip, take }: GetNextPostsProps) => {
 		"use server"
 
-		const postsRes = await getPostListing({sitemap: sitemap, locale, skip, take})
+		const postsRes = await getPostListing({ sitemap: sitemap, locale, skip, take })
 
 		if (postsRes.posts.length > 0) {
 			return postsRes.posts
@@ -50,8 +51,8 @@ const PostListing = async ({module, languageCode}: UnloadedModuleProps) => {
 						width: 800,
 						height: 800,
 						filesize: 0,
-						target: "",
-					},
+						target: ""
+					}
 				})
 			}
 			return phantomPosts
@@ -61,12 +62,12 @@ const PostListing = async ({module, languageCode}: UnloadedModuleProps) => {
 	// if there are no posts, display message on frontend
 	if (!posts || posts.length <= 0) {
 		return (
-			<div className="mt-44 px-6 flex flex-col items-center justify-center">
-				<h1 className="text-3xl text-center font-bold">No posts available.</h1>
+			<div className="mt-44 flex flex-col items-center justify-center px-6">
+				<h1 className="text-center text-3xl font-bold">No posts available.</h1>
 				<div className="my-10">
 					<Link
 						href={"/"}
-						className="px-4 py-3 my-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-primary-600 hover:bg-primary-500 focus:outline-none focus:border-primary-700 focus:shadow-outline-primary transition duration-300"
+						className="bg-primary-600 hover:bg-primary-500 focus:border-primary-700 focus:shadow-outline-primary my-3 rounded-md border border-transparent px-4 py-3 text-base font-medium leading-6 text-white transition duration-300 focus:outline-none"
 					>
 						Return Home
 					</Link>
@@ -75,7 +76,7 @@ const PostListing = async ({module, languageCode}: UnloadedModuleProps) => {
 		)
 	}
 
-	return <PostListingClient {...{posts, sitemap, locale, getNextPosts}} />
+	return <PostListingClient {...{ posts, sitemap, locale, getNextPosts, pageSize }} />
 }
 
 export default PostListing

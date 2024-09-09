@@ -76,6 +76,7 @@ export const PartnerListing = async ({ module, languageCode, globalData }: Unloa
 	return (
 		<PartnerListingClient
 			{...{
+				pageSize,
 				partnerType: fields.partners.referencename.includes("implementation")
 					? "implementation"
 					: "integration",

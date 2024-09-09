@@ -13,13 +13,14 @@ import InfiniteScroll from "react-infinite-scroll-component"
 import { PartnerListingItem } from "./PartnerListingItem"
 
 interface Props {
+	pageSize: number
 	partnerType: "implementation" | "integration"
 	tagList: ComboboItem[]
 	tagQStr: string
 	firstPage: IPartnerListingItem[]
 	getNextItems: ({ skip }: { skip: number }) => Promise<IPartnerListingItem[]>
 }
-export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage, getNextItems }: Props) => {
+export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage, getNextItems, pageSize }: Props) => {
 	const router = useRouter()
 	const pathName = usePathname()
 	const currentTag = tagList.find((c) => c.text.toLowerCase().replaceAll(" ", "-") === tagQStr)
@@ -35,7 +36,7 @@ export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage,
 		router.push(newUrl, { scroll: false })
 	}
 
-	const [hasMore, setHasMore] = useState(true)
+	const [hasMore, setHasMore] = useState(firstPage.length >= pageSize)
 	const [items, setItems] = useState(firstPage)
 
 	const fetchMore = async () => {

@@ -31,22 +31,6 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		contentLinkDepth: 0
 	})
 
-	// //get the testimonials
-	//DON'T NEED THIS FOR NOW
-	// const testimonials = await getContentList({
-	// 	referenceName: fields.testimonials.referencename,
-	// 	locale: languageCode,
-	// 	filters: [
-	// 		{
-	// 			operator: "in",
-	// 			property: "contentID",
-	// 			value: `"${fields.testimonials.sortids}"`
-	// 		}
-	// 	]
-	// })
-
-	const darkMode = fields.darkMode === "true"
-
 	const caseCount = parseInt(fields.caseCount)
 
 	//get all the case studis from the server so we can filter client side...

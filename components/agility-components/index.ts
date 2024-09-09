@@ -48,6 +48,8 @@ import { SearchResults } from "./SearchResults/SearchResults";
 import { FeatureBlocks } from "./FeatureBlocks";
 import { ContentPanel } from "./ContentPanel";
 import { Callout } from "./Callout";
+import { NEWFeaturedCaseStudies } from "./NEWFeaturedCaseStudies";
+import { NEWAllResources } from "./NEWAllResources/NEWAllResources";
 
 
 
@@ -105,7 +107,9 @@ const allModules = [
 	{ name: "SearchResults", module: SearchResults },
 	{ name: "FeatureBlocks", module: FeatureBlocks },
 	{ name: "ContentPanel", module: ContentPanel },
-	{ name: "Callout", module: Callout }
+	{ name: "Callout", module: Callout },
+	{ name: "NEWFeaturedCaseStudies", module: NEWFeaturedCaseStudies },
+	{ name: "NEWAllResources", module: NEWAllResources },
 ];
 
 
