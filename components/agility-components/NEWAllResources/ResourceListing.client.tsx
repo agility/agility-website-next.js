@@ -20,7 +20,7 @@ interface Props {
 	topics: ComboboItem[]
 	categories: ComboboItem[]
 	resources: IResourceListingItem[]
-	getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<IResourceListingItem[]>
+	//getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<IResourceListingItem[]>
 }
 
 export const ResourceListingClient = ({
@@ -29,8 +29,8 @@ export const ResourceListingClient = ({
 	categories,
 	topicQStr,
 	categoryQStr,
-	resources,
-	getNextItems
+	resources
+	//getNextItems
 }: Props) => {
 	const router = useRouter()
 	const pathName = usePathname()
@@ -55,7 +55,7 @@ export const ResourceListingClient = ({
 	const fetchMore = async () => {
 		try {
 			//call the server action declared in the server component to get the next page of items...
-			const moreItems = await getNextItems({ skip: items.length, take: pageSize })
+			const moreItems: IResourceListingItem[] = [] //HACK await getNextItems({ skip: items.length, take: pageSize })
 
 			setItems((prev) => {
 				return [...prev, ...moreItems]
