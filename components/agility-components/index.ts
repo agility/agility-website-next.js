@@ -46,6 +46,8 @@ import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.serv
 import SubscribedThankYou from "./SubscribedThankYou";
 import { SearchResults } from "./SearchResults/SearchResults";
 import { FeatureBlocks } from "./FeatureBlocks";
+import { ContentPanel } from "./ContentPanel";
+import { Callout } from "./Callout";
 
 
 
@@ -67,6 +69,7 @@ const allModules = [
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
 	{ name: "SingleTestimonialPanel", module: SingleTestimonialPanel },
 	{ name: "CaseStudyRotator", module: CaseStudyRotator },
+	{ name: "FeaturedCaseStudies", module: CaseStudyRotator },
 	{ name: "CenteredCTAPanel", module: CenteredCTAPanel },
 	{ name: "RightORLeftContentModule", module: RightORLeftContentModule },
 	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule },
@@ -100,7 +103,9 @@ const allModules = [
 	{ name: "RightLeftContent", module: RightLeftContent },
 	{ name: "SubscribedThankYou", module: SubscribedThankYou },
 	{ name: "SearchResults", module: SearchResults },
-	{ name: "FeatureBlocks", module: FeatureBlocks }
+	{ name: "FeatureBlocks", module: FeatureBlocks },
+	{ name: "ContentPanel", module: ContentPanel },
+	{ name: "Callout", module: Callout }
 ];
 
 

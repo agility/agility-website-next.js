@@ -18,7 +18,7 @@ interface IFeatureMini {
 			label: string
 			url: string
 		}
-		bottomLink: {
+		bottomLink?: {
 			href: string
 			target: string
 			text: string
@@ -45,8 +45,6 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 		languageCode,
 		contentLinkDepth: 0
 	})
-
-	console.log("FeatureBlocks", fields)
 
 	const refName = fields.featureBlocks.referencename
 	const sortIDs = fields.featureBlocks.sortids
@@ -86,24 +84,39 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 
 	const features = data[refName] as IFeatureMini[]
 
-	console.log("features", features)
-
 	return (
 		<Container className="mx-auto max-w-7xl">
 			<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-				{features.map((feature) => (
-					<Link
-						href={feature.fields.bottomLink.href}
-						key={feature.contentID}
-						className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
-					>
-						{/* these are always SVGs, so no need to formatting */}
-						<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
-						<h2 className="text-lg font-medium">{feature.fields.title}</h2>
-						<h3>{feature.fields.subtitle}</h3>
-						<p className="flex-1">{feature.fields.textBlob}</p>
-					</Link>
-				))}
+				{features.map((feature) => {
+					if (feature.fields.bottomLink) {
+						return (
+							<Link
+								href={feature.fields.bottomLink?.href || "#"}
+								key={feature.contentID}
+								className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
+							>
+								{/* these are always SVGs, so no need to formatting */}
+								<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
+								<h2 className="text-lg font-medium">{feature.fields.title}</h2>
+								<h3>{feature.fields.subtitle}</h3>
+								<p className="flex-1">{feature.fields.textBlob}</p>
+							</Link>
+						)
+					} else {
+						return (
+							<div
+								key={feature.contentID}
+								className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
+							>
+								{/* these are always SVGs, so no need to formatting */}
+								<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
+								<h2 className="text-lg font-medium">{feature.fields.title}</h2>
+								<h3>{feature.fields.subtitle}</h3>
+								<p className="flex-1">{feature.fields.textBlob}</p>
+							</div>
+						)
+					}
+				})}
 			</div>
 		</Container>
 	)
