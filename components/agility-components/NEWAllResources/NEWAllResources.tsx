@@ -28,9 +28,7 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 	})
 
 	//we passed the search params in via the global data
-	const searchParams = globalData?.searchParams
-	let page = parseInt(searchParams?.page || "1")
-	if (isNaN(page)) page = 1
+	const searchParams = { category: "", topic: "" } //hack globalData?.searchParams
 
 	let categoryQStr = decodeURIComponent(searchParams.category || "")
 	let topicQStr = decodeURIComponent(searchParams.topic || "")
@@ -38,7 +36,7 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 	const pageSize = 15
 
 	//determine the skip and take
-	const skip = (page - 1) * pageSize
+	const skip = 0
 	const take = pageSize
 
 	const gqlQuery = gql(`
