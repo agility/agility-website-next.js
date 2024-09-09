@@ -104,22 +104,21 @@ export const ResourceListingClient = ({
 			<div className="gap-3 md:flex">
 				<FilterComboBox
 					{...{
-						label: "All topics",
-						items: topics,
-						selectedItem: currentIndustry,
-						onChange: (item) => {
-							changeOptions(categoryQStr || "", item?.value ? item.text : "")
-						}
-					}}
-				/>
-
-				<FilterComboBox
-					{...{
 						label: "All categories",
 						items: categories,
 						selectedItem: currentChallenge,
 						onChange: (item) => {
 							changeOptions(item?.value ? item.text : "", topicQStr || "")
+						}
+					}}
+				/>
+				<FilterComboBox
+					{...{
+						label: "All topics",
+						items: topics,
+						selectedItem: currentIndustry,
+						onChange: (item) => {
+							changeOptions(categoryQStr || "", item?.value ? item.text : "")
 						}
 					}}
 				/>
