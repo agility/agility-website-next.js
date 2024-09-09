@@ -44,6 +44,8 @@ import { RightLeftContent } from "components/RightLeftContent";
 import { LogoListing } from "./LogoListing/LogoListing.server";
 import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.server";
 import SubscribedThankYou from "./SubscribedThankYou";
+import { SearchResults } from "./SearchResults/SearchResults";
+import { FeatureBlocks } from "./FeatureBlocks";
 
 
 
@@ -96,7 +98,9 @@ const allModules = [
 	{ name: "ScheduleADemo", module: ScheduleADemo },
 	{ name: "Hero", module: Hero },
 	{ name: "RightLeftContent", module: RightLeftContent },
-	{ name: "SubscribedThankYou", module: SubscribedThankYou }
+	{ name: "SubscribedThankYou", module: SubscribedThankYou },
+	{ name: "SearchResults", module: SearchResults },
+	{ name: "FeatureBlocks", module: FeatureBlocks }
 ];
 
 

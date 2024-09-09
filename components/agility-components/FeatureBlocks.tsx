@@ -1,0 +1,110 @@
+/* eslint-disable @next/next/no-img-element */
+import { UnloadedModuleProps } from "@agility/nextjs"
+import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
+import { getContentItem } from "lib/cms/getContentItem"
+import { gql } from "@apollo/client"
+import { Container } from "components/micro/Container"
+import Link from "next/link"
+
+interface IFeatureMini {
+	contentID: number
+	fields: {
+		title: string
+		subtitle: string
+		textBlob: string
+		icon: {
+			height: number
+			width: number
+			label: string
+			url: string
+		}
+		bottomLink: {
+			href: string
+			target: string
+			text: string
+		}
+	}
+}
+
+interface IFeatureBlocks {
+	title?: string
+
+	featureBlocks: {
+		referencename: string
+		sortids: string
+	}
+
+	background: {
+		contentid: number
+	}
+}
+
+export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProps) => {
+	const { fields } = await getContentItem<IFeatureBlocks>({
+		contentID: module.contentid,
+		languageCode,
+		contentLinkDepth: 0
+	})
+
+	console.log("FeatureBlocks", fields)
+
+	const refName = fields.featureBlocks.referencename
+	const sortIDs = fields.featureBlocks.sortids
+
+	const filter = `contentID[in]\"${sortIDs}\"`
+
+	const gqlQuery = gql(`
+		query features($filter: String = "") {
+			${refName} (filter: $filter) {
+				contentID
+				fields {
+					title
+					subtitle
+					textBlob
+					icon {
+						height
+						width
+						label
+						url
+					}
+					bottomLink {
+						href
+						target
+						text
+					}
+				}
+			}
+			}
+
+
+	`)
+
+	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
+	const { data } = await query({ query: gqlQuery, variables: { filter } })
+
+	if (!data[refName]) return null
+
+	const features = data[refName] as IFeatureMini[]
+
+	console.log("features", features)
+
+	return (
+		<Container className="mx-auto max-w-7xl">
+			<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+				{features.map((feature) => (
+					<Link
+						href={feature.fields.bottomLink.href}
+						key={feature.contentID}
+						className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
+					>
+						{/* these are always SVGs, so no need to formatting */}
+						<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
+						<h2 className="text-lg font-medium">{feature.fields.title}</h2>
+						<h3>{feature.fields.subtitle}</h3>
+						<p className="flex-1">{feature.fields.textBlob}</p>
+					</Link>
+				))}
+			</div>
+		</Container>
+	)
+}
