@@ -28,10 +28,10 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 	})
 
 	//we passed the search params in via the global data
-	const searchParams = { category: "", topic: "" } //hack globalData?.searchParams
+	const searchParams: URLSearchParams | undefined = globalData?.searchParams
 
-	let categoryQStr = decodeURIComponent(searchParams.category || "")
-	let topicQStr = decodeURIComponent(searchParams.topic || "")
+	let categoryQStr = decodeURIComponent(searchParams?.get("category") || "")
+	let topicQStr = decodeURIComponent(searchParams?.get("topic") || "")
 
 	const pageSize = 15
 

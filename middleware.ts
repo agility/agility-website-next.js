@@ -22,6 +22,19 @@ export async function middleware(request: NextRequest) {
 	let contentIDStr = request.nextUrl.searchParams.get("ContentID") as string || ""
 	const referer = request.headers.get("referer")
 
+	//all the other possible search params...
+	const paramsNames: string[] = ["subscribed", "industry", "challenge", "category", "topic", "region"]
+	const otherSearchParams: { [id: string]: string; } = {}
+	let hasOtherSearchParams = false
+
+	paramsNames.forEach(paramName => {
+		const val = request.nextUrl.searchParams.get(paramName)
+		if (val) {
+			otherSearchParams[paramName] = val
+			hasOtherSearchParams = true
+		}
+	})
+
 	if (request.nextUrl.searchParams.has("agilitypreviewkey")) {
 		//*** this is a preview request ***
 		const agilityPreviewKey = request.nextUrl.searchParams.get("agilitypreviewkey") || ""
@@ -53,8 +66,10 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.rewrite(dynredirectUrl)
 
 		}
-	} else if (referer) {
+	}
 
+	if (referer) {
+		//*** check for bad/banned referers ***
 		const badReferers = [
 			"trafficpeak.io"
 		]
@@ -74,46 +89,65 @@ export async function middleware(request: NextRequest) {
 
 	}
 
+	if (hasOtherSearchParams) {
+		//*** this is a request with other search params ***
+
+		/****
+			In order to preserve caching, we need to rewrite the url to a new url that includes the search params in the path.
+
+			We will do a rewrite to the same url without the search params, except we will add a special path segement
+			to the end of the path to indicate that this is a search request
+			which the page can parse to get the query param values/
+
+			eg:  /resources?category=foo&topic=bar => /resources/~~~category=%3Dfoo%26topic%3Dbar
+		****/
+
+		//get the path name
+		let pathName = request.nextUrl.pathname
+
+		//generate the special path segment
+		const extraSegment = Object.keys(otherSearchParams).map(key => `${key}%3D${encodeURIComponent(otherSearchParams[key])}`).join("%26")
+
+
+		//add the special path segment to a new URL
+		const adjustedUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}${pathName}/~~~${extraSegment}`
+
+		console.log("PATHNAME Post: ", adjustedUrl)
+
+		//rewrite the path
+		return NextResponse.rewrite(adjustedUrl)
+
+	}
+
 
 	//check for a redirect
 	if ((!ext || ext.length === 0)) {
 
-		//HACK - disable redirects for now to
-		// const redirection = await checkRedirect({ path: request.nextUrl.pathname })
+		const redirection = await checkRedirect({ path: request.nextUrl.pathname })
 
-		// if (redirection) {
-		// 	//redirect to the destination url
-		// 	//cache the redirect for 10 minutes
-		// 	if (redirection.destinationUrl.startsWith("/")) {
-		// 		//handle relative paths
-		// 		const url = request.nextUrl.clone()
-		// 		url.pathname = redirection.destinationUrl
-		// 		return NextResponse.redirect(url, {
-		// 			status: redirection.statusCode,
-		// 			headers: {
-		// 				"Cache-Control": "public,maxage=600, stale-while-revalidate"
-		// 			}
-		// 		})
-		// 	} else {
-		// 		//handle absolute paths
-		// 		return NextResponse.redirect(redirection.destinationUrl, {
-		// 			status: redirection.statusCode,
-		// 			headers: {
-		// 				"Cache-Control": "public,maxage=3600, stale-while-revalidate"
-		// 			}
-		// 		})
-		// 	}
-		// }
-	} else {
-		//normal request - set the cache control
-		//TODO: decide if we need to set cache control for regular routes (i don't want to have to set this)
-		// const response = await NextResponse.next(request)
-
-		// //cache for 24 hours and revalidate every 20 minutes
-		// response.headers.set("Cache-Control", "public,max-age=86400, stale-while-revalidate=1200")
-		// response.headers.set("X-AgilityTime", "Accept-Encoding")
-
-		// return response
+		if (redirection) {
+			//redirect to the destination url
+			//cache the redirect for 10 minutes
+			if (redirection.destinationUrl.startsWith("/")) {
+				//handle relative paths
+				const url = request.nextUrl.clone()
+				url.pathname = redirection.destinationUrl
+				return NextResponse.redirect(url, {
+					status: redirection.statusCode,
+					headers: {
+						"Cache-Control": "public,maxage=600, stale-while-revalidate"
+					}
+				})
+			} else {
+				//handle absolute paths
+				return NextResponse.redirect(redirection.destinationUrl, {
+					status: redirection.statusCode,
+					headers: {
+						"Cache-Control": "public,maxage=3600, stale-while-revalidate"
+					}
+				})
+			}
+		}
 	}
 
 
