@@ -18,12 +18,12 @@ interface ICaseStudyListing {
 
 export const CaseStudyListing = async ({ module, languageCode, globalData }: UnloadedModuleProps) => {
 	//we passed the search params in via the global data
-	const searchParams = globalData?.searchParams
-	let page = parseInt(searchParams?.page || "1")
+	const searchParams: URLSearchParams | undefined = globalData?.searchParams
+	let page = parseInt(searchParams?.get("page") || "1")
 	if (isNaN(page)) page = 1
 
-	let industryQStr = decodeURIComponent(searchParams.industry || "")
-	let challengeQStr = decodeURIComponent(searchParams.challenge || "")
+	let industryQStr = decodeURIComponent(searchParams?.get("industry") || "")
+	let challengeQStr = decodeURIComponent(searchParams?.get("challenge") || "")
 
 	const { fields, contentID } = await getContentItem<ICaseStudyListing>({
 		contentID: module.contentid,

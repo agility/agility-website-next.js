@@ -8,8 +8,8 @@ interface RichText {
 
 const SubscribedThankYou = async ({ module, languageCode, globalData }: UnloadedModuleProps) => {
 	//only show this component if the user has just subscribed
-	const searchParams = globalData?.searchParams || {}
-	if (searchParams.subscribed !== "true") return null
+	const searchParams: URLSearchParams | undefined = globalData?.searchParams
+	if (searchParams?.get("subscribed") !== "true") return null
 
 	const {
 		fields: { textblob },

@@ -18,11 +18,9 @@ interface IPartnerListing {
 
 export const PartnerListing = async ({ module, languageCode, globalData }: UnloadedModuleProps) => {
 	//we passed the search params in via the global data
-	const searchParams = globalData?.searchParams
-	let page = parseInt(searchParams?.page || "1")
-	if (isNaN(page)) page = 1
+	const searchParams: URLSearchParams | undefined = globalData?.searchParams
 
-	let tagQStr = decodeURIComponent(searchParams.region || "")
+	let tagQStr = decodeURIComponent(searchParams?.get("region") || "")
 
 	const { fields, contentID } = await getContentItem<IPartnerListing>({
 		contentID: module.contentid,
