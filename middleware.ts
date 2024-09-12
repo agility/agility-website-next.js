@@ -108,11 +108,8 @@ export async function middleware(request: NextRequest) {
 		//generate the special path segment
 		const extraSegment = Object.keys(otherSearchParams).map(key => `${key}%3D${encodeURIComponent(otherSearchParams[key])}`).join("%26")
 
-
 		//add the special path segment to a new URL
 		const adjustedUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}${pathName}/~~~${extraSegment}`
-
-		console.log("PATHNAME Post: ", adjustedUrl)
 
 		//rewrite the path
 		return NextResponse.rewrite(adjustedUrl)
