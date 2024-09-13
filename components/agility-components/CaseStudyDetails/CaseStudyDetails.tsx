@@ -8,6 +8,7 @@ import { ResourceCard } from "./ResourceCard"
 import { stripHtml } from "lib/utils/strip-html"
 import { CaseStudyRotatorClient, MinCaseStudy } from "../CaseStudyRotator/CaseStudyRotator.client"
 import { getContentItem } from "lib/cms/getContentItem"
+import { SharePage } from "components/common/SharePage"
 
 interface ICaseStudyDetails {
 	relatedCaseStudiesHeading: string
@@ -106,37 +107,13 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 						)}
 
 						<div className="hidden lg:block">
-							<div className="pt-6 font-bold">Share Case Study</div>
-							<div className="flex flex-wrap gap-2 pt-1">
-								<a
-									href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-									target="_blank"
-									rel="noreferrer"
-									className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-									title="Share on LinkedIn"
-								>
-									<IconBrandLinkedin className="transition-colors group-hover:text-white" />
-								</a>
-								<a
-									href={`https://x.com/intent/post/?url=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-									target="_blank"
-									rel="noreferrer"
-									className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-									title="Share on X"
-								>
-									<IconBrandX className="transition-colors group-hover:text-white" />
-								</a>
-
-								<a
-									href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-									target="_blank"
-									rel="noreferrer"
-									className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-									title="Share on Facebook"
-								>
-									<IconBrandFacebook className="transition-colors group-hover:text-white" />
-								</a>
-							</div>
+							<SharePage
+								{...{
+									title: "Share Case Study",
+									url: `https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`,
+									className: "hidden lg:block"
+								}}
+							/>
 							{caseStudy.quote && (
 								<div className="mt-6 rounded-md border border-highlight-light p-3">
 									<div>
@@ -199,46 +176,22 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 
 				{/* Only shows in single column mode...  */}
 				<div className="lg:hidden">
-					<div className="mt-6 rounded-md border border-highlight-light p-3 sm:mx-10">
-						<div>
-							<IconQuote className="text-highlight-light" size={72} />
+					{caseStudy.quote && (
+						<div className="mt-6 rounded-md border border-highlight-light p-3 sm:mx-10">
+							<div>
+								<IconQuote className="text-highlight-light" size={72} />
+							</div>
+							<div className="prose prose-lg" dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}></div>
 						</div>
-						<div className="prose prose-lg" dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}></div>
-					</div>
+					)}
 
-					<div className="text-center">
-						<div className="pt-8 font-bold uppercase text-gray-500">Share Case Study</div>
-						<div className="flex flex-wrap justify-center gap-2 pt-4">
-							<a
-								href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-								target="_blank"
-								rel="noreferrer"
-								className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-								title="Share on LinkedIn"
-							>
-								<IconBrandLinkedin className="transition-colors group-hover:text-white" />
-							</a>
-							<a
-								href={`https://x.com/intent/post/?url=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-								target="_blank"
-								rel="noreferrer"
-								className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-								title="Share on X"
-							>
-								<IconBrandX className="transition-colors group-hover:text-white" />
-							</a>
-
-							<a
-								href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`)}`}
-								target="_blank"
-								rel="noreferrer"
-								className="group rounded-full bg-background p-1.5 text-highlight-light transition-colors hover:bg-highlight-light hover:text-white"
-								title="Share on Facebook"
-							>
-								<IconBrandFacebook className="transition-colors group-hover:text-white" />
-							</a>
-						</div>
-					</div>
+					<SharePage
+						{...{
+							title: "Share Case Study",
+							url: `https://agilitycms.com/resources/case-studies/${caseStudy.uRL}`,
+							className: "flex flex-col items-center gap-2"
+						}}
+					/>
 				</div>
 			</Container>
 		</>

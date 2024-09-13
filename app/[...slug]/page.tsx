@@ -16,6 +16,8 @@ import { getSitemapFlat } from "lib/cms/getSitemapFlat"
 import { getAgilitySDK_NonReact } from "lib/cms/getAgilitySDK"
 import Loading from "app/loading"
 import LoadingWidget from "components/common/LoadingWidget"
+import agilitySDK from "@agility/content-fetch"
+import { SitemapNode } from "lib/types/SitemapNode"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const dynamicParams = true
@@ -43,27 +45,36 @@ interface NestedSitemapNode {
 export async function generateStaticParams() {
 	console.log("*** generateStaticParams ***")
 
-	const agilitySDK = getAgilitySDK_NonReact()
+	const isDevelopmentMode = process.env.NODE_ENV === "development"
+	const isPreview = isDevelopmentMode
 
-	//const channelName: process.env.AGILITY_SITEMAP || "website",
-	const languageCode = process.env.AGILITY_LOCALES || "en-ca"
+	const apiKey = isPreview ? process.env.AGILITY_API_PREVIEW_KEY : process.env.AGILITY_API_FETCH_KEY
 
-	agilitySDK.config.fetchConfig = {
+	const agilityClient = agilitySDK.getApi({
+		guid: process.env.AGILITY_GUID,
+		apiKey,
+		isPreview
+	})
+
+	const languageCode = process.env.AGILITY_LOCALES || "en-us"
+
+	agilityClient.config.fetchConfig = {
 		next: {
 			tags: [`agility-sitemap-flat-${languageCode}`],
 			revalidate: cacheConfig.cacheDuration
 		}
 	}
 
-	//get the nested sitemap and generate the paths
-	const sitemap: NestedSitemapNode[] = await agilitySDK.getSitemapNested({
+	//get the flat sitemap and generate the paths
+	// *** NOTE: YOU CAN CUSTOMIZE THIS TO GENERATE ONLY THE PAGES YOU WANT ***
+	const sitemap: { [path: string]: SitemapNode } = await agilityClient.getSitemapFlat({
 		channelName: process.env.AGILITY_SITEMAP || "website",
 		languageCode
 	})
 
-	//only pre-render the top level pages
-	const paths = sitemap
+	const paths = Object.values(sitemap)
 		.filter((node, index) => {
+			//skip folders, redirects, and the home page
 			if (node.redirect !== null || node.isFolder === true || index === 0) return false
 			return true
 		})
@@ -73,9 +84,42 @@ export async function generateStaticParams() {
 			}
 		})
 
-	console.log("Agility: there are", paths.length, " static paths to generate")
+	console.log("Pre-rendering", paths.length, "static paths.")
 
 	return paths
+
+	// TODO: we need to look at the header menu and generate the paths for that
+
+	// //const channelName: process.env.AGILITY_SITEMAP || "website",
+	// const languageCode = process.env.AGILITY_LOCALES || "en-ca"
+
+	// agilitySDK.config.fetchConfig = {
+	// 	next: {
+	// 		tags: [`agility-sitemap-flat-${languageCode}`],
+	// 		revalidate: cacheConfig.cacheDuration
+	// 	}
+	// }
+
+	// //get the nested sitemap and generate the paths
+	// const sitemap: NestedSitemapNode[] = await agilitySDK.getSitemapNested({
+	// 	channelName: process.env.AGILITY_SITEMAP || "website",
+	// 	languageCode
+	// })
+
+	// //only pre-render the top level pages
+	// const paths = sitemap
+	// 	.filter((node, index) => {
+	// 		if (node.redirect !== null || node.isFolder === true || index === 0) return false
+	// 		return true
+	// 	})
+	// 	.map((node) => {
+	// 		return {
+	// 			slug: node.path.split("/").slice(1)
+	// 		}
+	// 	})
+
+	// console.log("Agility: there are", paths.length, " static paths to generate")
+	//return paths
 }
 
 /**

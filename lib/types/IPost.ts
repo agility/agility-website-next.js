@@ -1,15 +1,37 @@
-import { ImageField, ContentItem } from "@agility/nextjs"
-import { IAuthor } from "./IAuthor"
-import { ICategory } from "./ICategory"
-import { ITag } from "./ITag"
+import { ImageField, ContentItem, URLField } from "@agility/nextjs"
+import { IResource } from "./IResource"
 
 export interface IPost {
 	title: string
-	slug: string
+	metaTitle?: string
+	subTitle?: string
+	excerpt?: string
+	uRL: string
 	date: string
-	content: string
-	image: ImageField
-	category: ContentItem<ICategory>
-	author: ContentItem<IAuthor>
-	tags: [ContentItem<ITag>]
+	textblob: string
+	postImage?: ImageField
+	displayImageinPost?: string
+	categories: ContentItem<IPostCategory>
+	categoriesTitle?: string
+	cTATitle?: string
+	titleRightCTA?: string
+	contentRightCTA?: string
+	buttonRightCTA?: URLField
+
+	titleRelatedResources?: string
+	resourcesList?: ContentItem<IPost>[]
+	author?: ContentItem<IPostAuthor>
+	blogTags?: ContentItem<IPostCategory>[]
+
+
+}
+
+export interface IPostCategory {
+	title: string
+}
+
+export interface IPostAuthor {
+	title: string
+	textBlob?: string
+	image?: ImageField
 }

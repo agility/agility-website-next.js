@@ -35,11 +35,12 @@ export const getAgilityPage = async ({ params }: PageProps) => {
 		params.slug = params.slug.slice(0, -1)
 	}
 
-	const page = await getAgilityPageProps({
+	let page = await getAgilityPageProps({
 		params, preview, locale, apiOptions: {
 			contentLinkDepth: 0
 		}
 	})
+
 
 	if (page) {
 		//merge the global data into the page

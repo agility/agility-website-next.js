@@ -62,6 +62,7 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 											<AgilityPic
 												image={resource.fields.image}
 												className="h-48 w-full object-cover"
+												fallbackWidth={800}
 											/>
 										)}
 									</Link>
