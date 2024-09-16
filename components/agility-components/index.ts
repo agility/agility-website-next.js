@@ -49,7 +49,7 @@ import { ContentPanel } from "./ContentPanel";
 import { Callout } from "./Callout";
 import { NEWFeaturedCaseStudies } from "./NEWFeaturedCaseStudies";
 import { NEWAllResources } from "./NEWAllResources/NEWAllResources";
-
+import { Carousel } from "./Carousel/Carousel";
 
 
 
@@ -107,6 +107,7 @@ const allModules = [
 	{ name: "Callout", module: Callout },
 	{ name: "NEWFeaturedCaseStudies", module: NEWFeaturedCaseStudies },
 	{ name: "NEWAllResources", module: NEWAllResources },
+	{ name: "Carousel", module: Carousel }
 ];
 
 
