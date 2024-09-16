@@ -60,7 +60,7 @@ export const getPartnerListing = async ({ referenceName, skip, take, contentTagI
 		}
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: ["casestudies"] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: ["casestudies"], filter: `skip:${skip}-take:${take}-filter:${filter}` })
 	const { data } = await query({ query: gqlQuery, variables: { skip, take, filter } })
 
 

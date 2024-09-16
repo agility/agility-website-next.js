@@ -92,7 +92,8 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 
 			}
-			console.warn("Could not output tag in Additional Header Markup", item)
+			//TODO: check these:
+			//console.warn("Could not output tag in Additional Header Markup", item)
 		}
 
 		if (typeof additionalHeaderMarkup === "string") {

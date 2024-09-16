@@ -1,12 +1,16 @@
-import { ImageField } from "@agility/nextjs"
+import { ImageField, URLField } from "@agility/nextjs"
 
 export interface IPartner {
 	title: string
+
 	textblob: string
+	companyDescription?: string
+	website?: string
 	metaTitle?: string
-	partnerLogo: ImageField
+	partnerLogo?: ImageField
+	logo?: ImageField
 	uRL: string
-	customTags: any[]
+	customTags?: any[]
 	excerpt: string
 	gallery: any
 	documentationIntegration: {
@@ -28,7 +32,27 @@ export interface IPartner {
 	caseStuides: {
 		referencename: string
 	}
-
-
+	integrationType?: any[]
+	overviewHeading?: string
+	overviewContent?: string
+	overviewItems?: {
+		referencename: string
+	}
+	benefitsHeading?: string
+	screenshots?: {
+		galleryID: 52,
+		media: any[]
+		count: number
+	}
+	setupHeading?: string
+	descriptionStepImplementation?: string
+	stepIcon?: ImageField
+	steps?: {
+		referencename: string
+	}
+	documentationLinks?: {
+		referencename: string
+	}
+	cTA?: URLField
 
 }

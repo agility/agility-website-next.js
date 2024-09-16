@@ -45,7 +45,7 @@
 		"@agility/content-fetch": "2.0.2",
 		"@agility/nextjs": "^14.0.1",
 		"@apollo/client": "^3.10.8",
-		"@apollo/experimental-nextjs-app-support": "^0.11.2",
+		"@apollo/experimental-nextjs-app-support": "^0.11.3",
 		"@dotenvx/dotenvx": "^1.6.4",
 		"@graphql-codegen/cli": "^5.0.2",
 		"@graphql-codegen/client-preset": "^4.3.2",

@@ -92,7 +92,7 @@ export const getCaseStudyListing = async ({ skip, take }: Props) => {
 		}
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: ["casestudies"] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: ["casestudies"], filter: `skip:${skip}-take:${take}` })
 	const { data } = await query({ query: gqlQuery, variables: { skip, take } })
 
 	return data["casestudies"] as ICaseStudyListingItem[]

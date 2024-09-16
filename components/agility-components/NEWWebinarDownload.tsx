@@ -78,7 +78,7 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName], filter })
 	const { data } = await query({ query: gqlQuery, variables: { filter } })
 
 	const resources = data["resources"] as IMiniResource[]

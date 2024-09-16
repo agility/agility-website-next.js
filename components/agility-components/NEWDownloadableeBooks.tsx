@@ -77,7 +77,7 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName], filter })
 	const { data } = await query({ query: gqlQuery, variables: { filter } })
 
 	if (!data.resources) return null

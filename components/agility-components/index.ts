@@ -1,6 +1,5 @@
 import RichTextArea from "./RichTextArea";
-import FeaturedPost from "./FeaturedPost";
-import PostsListing from "./PostsListing/PostsListing.server";
+
 import PostDetails from "./PostDetails";
 import Heading from "./Heading";
 import TextBlockWithImage from "./TextBlockWithImage";
@@ -60,8 +59,6 @@ import { NEWAllResources } from "./NEWAllResources/NEWAllResources";
 const allModules = [
 	{ name: "TextBlockWithImage", module: TextBlockWithImage },
 	{ name: "Heading", module: Heading },
-	{ name: "FeaturedPost", module: FeaturedPost },
-	{ name: "PostsListing", module: PostsListing },
 	{ name: "PostDetails", module: PostDetails },
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },

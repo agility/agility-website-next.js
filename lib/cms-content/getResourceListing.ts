@@ -71,7 +71,7 @@ export const getResourceListing = async ({ skip, take }: Props) => {
 		}
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: ["resources"] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: ["resources"], filter: `skip:${skip}-take:${take}` })
 	const { data } = await query({ query: gqlQuery, variables: { skip, take } })
 
 	return data["resources"] as IResourceListingItem[]

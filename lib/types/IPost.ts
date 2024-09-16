@@ -32,6 +32,6 @@ export interface IPostCategory {
 
 export interface IPostAuthor {
 	title: string
-	textBlob?: string
+	textblob?: string
 	image?: ImageField
 }

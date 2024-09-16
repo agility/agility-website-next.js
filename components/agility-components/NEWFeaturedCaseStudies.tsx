@@ -57,7 +57,7 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 		}
 	`)
 
-	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName] })
+	const { query } = await getAgilityGraphQLClient({ referenceNames: [refName], filter })
 	const { data } = await query({ query: gqlQuery, variables: { filter } })
 
 	if (!data[refName]) return null

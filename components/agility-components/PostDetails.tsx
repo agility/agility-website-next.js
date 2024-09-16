@@ -12,6 +12,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { LinkButton } from "components/micro/LinkButton"
 import { render } from "@headlessui/react/dist/utils/render"
+import { getContentList } from "lib/cms/getContentList"
 
 const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) {
@@ -55,13 +56,23 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 		}
 
 	`)
+		try {
+			const { query } = await getAgilityGraphQLClient({ referenceNames: ["blogposts"], filter })
+			const { data } = await query({ query: gqlQuery, variables: { filter } })
 
-		const { query } = await getAgilityGraphQLClient({ referenceNames: ["blogposts"] })
-		const { data } = await query({ query: gqlQuery, variables: { filter } })
+			if (!data["blogposts"]) return null
 
-		if (!data["blogposts"]) return null
-
-		post.resourcesList = data["blogposts"] as ContentItem<IPost>[]
+			post.resourcesList = data["blogposts"] as ContentItem<IPost>[]
+		} catch (error) {
+			console.error(
+				"Failed to get related posts on post id",
+				dynamicPageItem.contentID,
+				"filter:",
+				filter,
+				"Error:",
+				error
+			)
+		}
 	}
 
 	// category
@@ -112,12 +123,12 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 						></div>
 
 						{post.author && (
-							<div className="mt-3 flex items-center gap-2">
+							<div className="mt-5 flex items-start gap-5">
 								{post.author.fields.image && (
 									<AgilityPic
 										image={post.author.fields.image}
 										alt={post.author.fields.title}
-										className="w-40"
+										className="mt-10 w-40 rounded-full"
 										fallbackWidth={160}
 									/>
 								)}
@@ -126,7 +137,7 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 									<div className="mt-3 text-balance font-medium">{post.author.fields.title}</div>
 									<div
 										className="prose"
-										dangerouslySetInnerHTML={renderHTML(post.author.fields.textBlob)}
+										dangerouslySetInnerHTML={renderHTML(post.author.fields.textblob)}
 									></div>
 								</div>
 							</div>

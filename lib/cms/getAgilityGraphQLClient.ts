@@ -10,9 +10,11 @@ import { cacheConfig } from "./cacheConfig";
 
 interface Props {
 	referenceNames: string[]
+	filter?: string
+
 }
 
-export const getAgilityGraphQLClient = ({ referenceNames }: Props) => {
+export const getAgilityGraphQLClient = ({ referenceNames, filter }: Props) => {
 
 	const { getClient, query, PreloadQuery } = registerApolloClient(() => {
 
@@ -23,8 +25,15 @@ export const getAgilityGraphQLClient = ({ referenceNames }: Props) => {
 
 		const apiKey = isPreview ? process.env.AGILITY_API_PREVIEW_KEY : process.env.AGILITY_API_FETCH_KEY
 
+		let tags = referenceNames.map((referenceName) => `agility-content-${referenceName}-${locale}`)
+		if (filter) {
+			tags.push(`agility-content-${filter}-${locale}`)
+		}
+
 		return new ApolloClient({
-			cache: new InMemoryCache(),
+			cache: new InMemoryCache({
+
+			}),
 			link: new HttpLink({
 				// this needs to be an absolute url, as relative urls cannot be used in SSR
 				uri: uri,
@@ -32,10 +41,11 @@ export const getAgilityGraphQLClient = ({ referenceNames }: Props) => {
 					"apikey": apiKey || "",
 				},
 				//set up the caching...
+
 				fetchOptions: isPreview ? { cache: "no-store" } : {
 					next: {
-						tags: referenceNames.map((referenceName) => `agility-content-${referenceName}-${locale}`),
-						revalidate: cacheConfig.cacheDuration,
+						tags,
+						revalidate: 0 //HACK cacheConfig.cacheDuration,
 					},
 				},
 			}),

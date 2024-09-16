@@ -63,7 +63,7 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 						</div>
 
 						<figcaption className="text-base lg:col-start-1 lg:row-start-3">
-							<div className="flex gap-2 justify-between items-center">
+							<div className="flex items-center justify-between gap-2">
 								<div>
 									<div className="font-semibold text-gray-900">{testimonial.fields.title}</div>
 									<div className="mt-1 text-gray-500">{testimonial.fields.jobTitle}</div>
@@ -87,17 +87,19 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 							</div>
 						</figcaption>
 					</figure>
-					<div className="flex justify-center">
-						<LinkButton
-							href={cTAButton.href}
-							target={cTAButton.target}
-							className="mt-8"
-							size="md"
-							type="alternate"
-						>
-							{cTAButton.text}
-						</LinkButton>
-					</div>
+					{cTAButton && (
+						<div className="flex justify-center">
+							<LinkButton
+								href={cTAButton.href}
+								target={cTAButton.target}
+								className="mt-8"
+								size="md"
+								type="alternate"
+							>
+								{cTAButton.text}
+							</LinkButton>
+						</div>
+					)}
 				</div>
 			</section>
 		</Container>

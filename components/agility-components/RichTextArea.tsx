@@ -19,11 +19,11 @@ const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="max-w-5xl mx-auto my-12 md:mt-18 lg:mt-20">
+			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
 				<div
 					data-agility-field="textblob"
 					data-agility-html
-					className="my-6 prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-full"
+					className="prose prose-sm my-6 !max-w-none sm:prose lg:prose-lg xl:prose-xl"
 					dangerouslySetInnerHTML={renderHTML(textblob)}
 				></div>
 			</div>
