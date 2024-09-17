@@ -5,6 +5,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { gql } from "@apollo/client"
 import { Container } from "components/micro/Container"
 import Link from "next/link"
+import { sortByIDs } from "lib/utils/sortByIDs"
 
 interface IFeatureMini {
 	contentID: number
@@ -82,7 +83,8 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 
 	if (!data[refName]) return null
 
-	const features = data[refName] as IFeatureMini[]
+	const featuresPre = data[refName] as IFeatureMini[]
+	const features = sortByIDs(featuresPre, sortIDs)
 
 	return (
 		<Container className="mx-auto max-w-7xl">
