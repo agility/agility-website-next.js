@@ -4,13 +4,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { IEvent } from "lib/types/IEvent"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { DateTime } from "luxon"
-import {
-	IconCalendarCheck,
-	IconClock,
-	IconPresentation,
-	IconPresentationAnalytics,
-	IconPresentationOff
-} from "@tabler/icons-react"
+import { IconCalendarCheck, IconClock, IconPresentation } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
 import Link from "next/link"
 
@@ -22,7 +16,7 @@ export const EventDetails = async ({ module, languageCode, dynamicPageItem }: Un
 	const dt = DateTime.fromJSDate(date)
 	const dateStr = dt.toFormat("LLL dd, yyyy")
 	const timeStr = dt.toFormat("t")
-	console.log("dynamicPageItem", dynamicPageItem?.fields)
+
 	return (
 		<Container
 			id={`agility-component-${module.contentid}`}
