@@ -18,17 +18,21 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
 	//locale is also passed in the querystring on preview requests
 	const locale = searchParams.get("lang")
-	const slug = request.nextUrl.pathname
+	const slug = searchParams.get("slug")
 
 	const ContentID = searchParams.get('ContentID')
+
+	console.log("URL", { locale, ContentID, agilityPreviewKey })
 
 	//validate our preview key, also validate the requested page to preview exists
 	const validationResp = await validatePreview({
 		agilityPreviewKey,
-		slug
+		slug: "/"
 	});
 
-	if (validationResp.error) {
+	console.log("RESP", validationResp)
+
+	if (validationResp.error !== false) {
 		return new Response(`Could not initiate preview mode.  Please check the URL and try again.  Error: ${validationResp.message}`, {
 			status: 401
 		});
