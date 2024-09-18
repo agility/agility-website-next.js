@@ -57,6 +57,7 @@ import { UnUsedComponent } from "./UnUsedComponent";
 import { EventListing } from "./EventListing/EventListing.server";
 import { CTABlocks } from "./CTABlocks";
 import { EventDetails } from "./EventDetails/EventDetails";
+import { StarterTemplateListing } from "./StarterTemplateListing";
 
 
 
@@ -123,6 +124,7 @@ const allModules = [
 	{ name: "EventListing", module: EventListing },
 	{ name: "EventDetails", module: EventDetails },
 	{ name: "CTABlocks", module: CTABlocks },
+	{ name: "StarterTemplateListing", module: StarterTemplateListing },
 ];
 
 
