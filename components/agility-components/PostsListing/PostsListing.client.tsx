@@ -73,7 +73,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 							<Link
 								href={post.url}
 								key={post.contentID}
-								className="group relative mb-8 h-full flex-col md:mb-0"
+								className="group relative mb-8 flex h-full min-h-0 flex-col transition-shadow hover:shadow-lg md:mb-0"
 							>
 								<div className="relative h-64 w-full overflow-clip">
 									{post.image ? (
@@ -103,8 +103,8 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 										/>
 									)}
 								</div>
-								<div className="flex-1 bg-red-300">
-									<div className="flex min-h-[350px] flex-col gap-3 border border-t-0 border-background p-6">
+								<div className="min-h-0 flex-1">
+									<div className="min-h-[350px]X flex h-full flex-col gap-3 border border-t-0 border-background p-6">
 										<h2 className="text-secondary-500 group-hover:text-primary-500 text-2xl font-medium transition duration-300">
 											{post.title}
 										</h2>
@@ -130,7 +130,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 											<div className="line-clamp-3">{post.excerpt}</div>
 										</div>
 										<div className="">
-											<div className="flex items-center gap-1 font-semibold text-highlight-dark transition-colors hover:text-highlight-light">
+											<div className="flex items-center gap-1 font-semibold text-highlight-dark transition-colors group-hover:text-highlight-light">
 												Read More
 												<IconChevronRight size={20} />
 											</div>

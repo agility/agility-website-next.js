@@ -46,10 +46,6 @@ export async function generateStaticParams() {
 	console.log("*** generateStaticParams ***")
 	//HACK
 	return []
-
-	//http://localhost:3000/home?AgilityChannelID=1&lang=en-ca&agilitypreviewkey=%2b8njrinSYiOFEXvr1SdYXZ8B4P8WNLaRwQojpCY%2beeJP4U2OZlBUWyQADkWl22ipb%2bavkFT%2fkQE95I0cDRB%2f5Q%3d%3d&agilityts=20240918054233
-
-	//http://localhost:3000/api/preview?locale=en-ca&ContentID=&slug=%2Fhome&agilitypreviewkey=%2B8njrinSYiOFEXvr1SdYXZ8B4P8WNLaRwQojpCY%2BeeJP4U2OZlBUWyQADkWl22ipb%2BavkFT%2FkQE95I0cDRB%2F5Q%3D%3D
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
 
