@@ -1,9 +1,16 @@
 import { DateTime } from "luxon"
-import getAgilitySDK from "../cms/getAgilitySDK"
-import { ContentList } from "@agility/content-fetch"
+
+import { ContentList, ContentItem } from "@agility/content-fetch"
 import { ImageField } from "@agility/nextjs"
 import { getContentList } from "lib/cms/getContentList"
 import { getSitemapFlat } from "lib/cms/getSitemapFlat"
+import { IPost } from "lib/types/IPost"
+import { stripHtml } from "lib/utils/strip-html"
+
+interface ITagLink {
+	tag: string
+	url: string
+}
 
 export interface IPostMin {
 
@@ -11,8 +18,9 @@ export interface IPostMin {
 	title: string
 	date: string
 	url: string
-	category: string
-	image: ImageField
+	tags: ITagLink[]
+	image?: ImageField
+	excerpt: string
 }
 
 interface LoadPostsProp {
@@ -20,6 +28,7 @@ interface LoadPostsProp {
 	locale: string
 	skip: number
 	take: number
+	tagID?: number
 }
 
 /**
@@ -27,36 +36,45 @@ interface LoadPostsProp {
  * @param param0
  * @returns
  */
-export const getPostListing = async ({ sitemap, locale, skip, take }: LoadPostsProp) => {
+export const getPostListing = async ({ sitemap, locale, skip, take, tagID }: LoadPostsProp) => {
 
 
 	try {
-		// get sitemap...
-		let sitemapNodes = await getSitemapFlat({
-			channelName: sitemap,
-			languageCode: locale,
-		})
+
+		const filterString = !tagID ? undefined : `fields.blogTagsIDs[like]"${tagID}" or fields.blogTagsIDs[like]",${tagID}" or fields.blogTagsIDs[like]"${tagID}," or fields.blogTagsIDs[like]",${tagID},"`
 
 		// get posts...
 		let rawPosts: ContentList = await getContentList({
 			referenceName: "blogposts",
 			languageCode: locale,
 			contentLinkDepth: 1,
+			filterString,
 			take,
 			skip
 		})
 
 
+		const lstRawPosts = rawPosts.items as ContentItem<IPost>[]
 
-		const posts: IPostMin[] = rawPosts.items.map((post: any) => {
+
+		const posts: IPostMin[] = lstRawPosts.map((post) => {
 			//category
 			const category = post.fields.categories?.fields.title || "Uncategorized"
 
 			// date
 			const date = DateTime.fromJSDate(new Date(post.fields.date)).toFormat("LLL. dd, yyyy")
 
+			let excerpt = post.fields.excerpt || ""
+			if (excerpt) {
+				excerpt = stripHtml(excerpt, 200);
+			}
+
 			// url
 			const url = `/resources/posts/${post.fields.uRL}`
+			let tags: ITagLink[] = post.fields.blogTags?.map((tag) => ({
+				tag: tag.fields.title,
+				url: `/resources/posts?tag=${tag.fields.title}`
+			})) || []
 
 			// post image src
 			//let imageSrc = post.fields.image.url
@@ -64,14 +82,17 @@ export const getPostListing = async ({ sitemap, locale, skip, take }: LoadPostsP
 			// post image alt
 			//let imageAlt = post.fields.image?.label || null
 
-			return {
+			const p: IPostMin = {
 				contentID: post.contentID,
 				title: post.fields.title,
 				date,
 				url,
-				category,
-				image: post.fields.postImage
+				tags,
+				image: post.fields.postImage,
+				excerpt
+
 			}
+			return p
 		})
 
 		return {
