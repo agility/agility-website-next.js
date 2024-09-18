@@ -53,6 +53,9 @@ import { Carousel } from "./Carousel/Carousel";
 import { BestofBothWorlds2Paragraphs } from "components/BestofBothWorlds2Paragraphs/BestofBothWorlds2Paragraphs";
 import { NewPostsFeatured } from "./NewPostsFeatured";
 import PostListing from "./PostsListing/PostsListing.server";
+import { UnUsedComponent } from "./UnUsedComponent";
+import { EventListing } from "./EventListing/EventListing.server";
+import { CTABlocks } from "./CTABlocks";
 
 
 
@@ -114,6 +117,10 @@ const allModules = [
 	{ name: "BestofBothWorlds2Paragraphs", module: BestofBothWorlds2Paragraphs },
 	{ name: "NewPostsFeatured", module: NewPostsFeatured },
 	{ name: "NewPostListing", module: PostListing },
+	{ name: "MostViewedArticles", module: UnUsedComponent },
+	{ name: "NewStayInTouch", module: UnUsedComponent },
+	{ name: "EventListing", module: EventListing },
+	{ name: "CTABlocks", module: CTABlocks },
 ];
 
 

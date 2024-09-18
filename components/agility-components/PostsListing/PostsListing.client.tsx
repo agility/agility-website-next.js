@@ -32,10 +32,10 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 		try {
 			if (isLoading) return
 			setIsLoading(true)
-			console.log("fetchPosts pre...")
+
 			//call the server action declared in the server component to get the next page of posts...
 			const morePosts = await getNextPosts({ skip: items.length, take: pageSize })
-			console.log("fetchPosts post...", morePosts.length)
+
 			setItems((prev) => {
 				return [...prev, ...morePosts]
 			})
