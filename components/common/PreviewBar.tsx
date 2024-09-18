@@ -85,9 +85,9 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 	return !isSelecting ? (
 		<ul
 			className={classNames(
-				`transition-opacity duration-1000 z-10`,
+				`z-10 transition-opacity duration-1000`,
 				visible ? "opacity-100" : "opacity-0",
-				"fixed top-1/2 transform -translate-y-1/2 p-2 flex flex-col gap-y-[10px] ml-4 bg-white shadow-xl rounded-lg border border-gray-300 items-center"
+				"fixed top-1/2 ml-4 flex -translate-y-1/2 transform flex-col items-center gap-y-[10px] rounded-lg border border-gray-300 bg-white p-2 shadow-xl"
 			)}
 		>
 			<li>
@@ -101,7 +101,7 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 					}}
 					title="Copy Link"
 				>
-					<IconLink className="text-gray-400 w-5 h-5" />
+					<IconLink className="h-5 w-5 text-gray-400" />
 				</button>
 			</li>
 			<li>
@@ -111,17 +111,17 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 					}}
 					title="Preview Options"
 				>
-					<IconAdjustments className="text-gray-400 w-5 h-5" />
+					<IconAdjustments className="h-5 w-5 text-gray-400" />
 				</button>
 			</li>
 		</ul>
 	) : (
-		<div className="fixed z-10 top-1/2 transform -translate-y-1/2 p-6  flex flex-col ml-4 bg-white shadow-xl  rounded-md w-[368px] border-gray-300">
+		<div className="fixed top-1/2 z-10 ml-4 flex w-[368px] -translate-y-1/2 transform flex-col rounded-md border-gray-300 bg-white p-6 shadow-xl">
 			{/* Modal Header */}
-			<div className="flex w-full justify-between items-center pb-6 mb-6 border-b border-b-gray-200">
-				<div className="flex gap-x-3 items-end ">
+			<div className="mb-6 flex w-full items-center justify-between border-b border-b-gray-200 pb-6">
+				<div className="flex items-end gap-x-3">
 					<AgilityLogoLarge />
-					<div className="text-xs h-full  text-gray-500 font-medium">
+					<div className="h-full text-xs font-medium text-gray-500">
 						{isDevelopmentMode ? "Development mode" : isPreview ? "Preview mode" : "Live"}
 					</div>
 				</div>
@@ -131,7 +131,7 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 							setIsSelecting(false)
 						}}
 					>
-						<IconMinus className="text-gray-400 w-5 h-5" />
+						<IconMinus className="h-5 w-5 text-gray-400" />
 					</button>
 				</div>
 			</div>
@@ -144,13 +144,14 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 						: "Live"}
 			</div>
 
-			<div className="flex w-full justify-evenly items-center pt-6 mt-6 border-t border-b-gray-200">
+			<div className="mt-6 flex w-full items-center justify-evenly border-t border-b-gray-200 pt-6">
 				{!isDevelopmentMode && (
 					<button
 						onClick={() => {
 							setIsSelecting(false)
+							location.href = "?AgilityPreview=0"
 						}}
-						className="w-full mr-2 border border-gray-300 bg-white rounded-md text-gray-500"
+						className="mr-2 w-full rounded-md border border-gray-300 bg-white text-gray-500"
 					>
 						Exit Preview
 					</button>
@@ -161,7 +162,7 @@ const PreviewBar = ({ isPreview, isDevelopmentMode, startPreviewMode }: Props) =
 						setIsSelecting(false)
 						setVisible(false)
 					}}
-					className="w-full mr-2 border border-gray-300 bg-white rounded-md text-gray-500"
+					className="mr-2 w-full rounded-md border border-gray-300 bg-white text-gray-500"
 				>
 					Hide
 				</button>

@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, res: NextResponse) {
 	});
 
 	if (validationResp.error) {
-		return new Response(`${validationResp.message}`, {
+		return new Response(`Could not initiate preview mode.  Please check the URL and try again.  Error: ${validationResp.message}`, {
 			status: 401
 		});
 	}
