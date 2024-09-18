@@ -52,6 +52,7 @@ import { NEWAllResources } from "./NEWAllResources/NEWAllResources";
 import { Carousel } from "./Carousel/Carousel";
 import { BestofBothWorlds2Paragraphs } from "components/BestofBothWorlds2Paragraphs/BestofBothWorlds2Paragraphs";
 import { NewPostsFeatured } from "./NewPostsFeatured";
+import PostListing from "./PostsListing/PostsListing.server";
 
 
 
@@ -111,7 +112,8 @@ const allModules = [
 	{ name: "NEWAllResources", module: NEWAllResources },
 	{ name: "Carousel", module: Carousel },
 	{ name: "BestofBothWorlds2Paragraphs", module: BestofBothWorlds2Paragraphs },
-	{ name: "NewPostsFeatured", module: NewPostsFeatured }
+	{ name: "NewPostsFeatured", module: NewPostsFeatured },
+	{ name: "NewPostListing", module: PostListing },
 ];
 
 

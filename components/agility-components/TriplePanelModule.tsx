@@ -72,7 +72,7 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 									)}
 								</div>
 							)}
-							<h3 className="text-balance text-xl font-semibold">{item.fields.title}</h3>
+							<h3 className="mt-5 text-balance text-xl font-semibold">{item.fields.title}</h3>
 							{item.fields.description && (
 								<div
 									className="mt-4"

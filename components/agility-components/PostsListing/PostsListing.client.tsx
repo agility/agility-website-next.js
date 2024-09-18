@@ -7,6 +7,8 @@ import { IPostMin } from "lib/cms-content/getPostListing"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { AgilityPic } from "@agility/nextjs"
 import { GetNextPostsProps } from "./PostsListing.server"
+import { LinkButton } from "components/micro/LinkButton"
+import { InfiniteLoadMore } from "components/common/InfiniteLoadMore"
 
 interface Props {
 	pageSize: number
@@ -19,12 +21,18 @@ interface Props {
 const PostListingClient = ({ posts, locale, sitemap, getNextPosts, pageSize }: Props) => {
 	const [hasMore, setHasMore] = useState(posts.length >= pageSize)
 	const [items, setItems] = useState(posts)
+	const [isLoading, setIsLoading] = useState(false)
+
+	console.log("hasMore?", hasMore)
 
 	const fetchPosts = async () => {
 		try {
+			if (isLoading) return
+			setIsLoading(true)
+			console.log("fetchPosts pre...")
 			//call the server action declared in the server component to get the next page of posts...
 			const morePosts = await getNextPosts({ skip: items.length, take: pageSize })
-
+			console.log("fetchPosts post...", morePosts.length)
 			setItems((prev) => {
 				return [...prev, ...morePosts]
 			})
@@ -32,35 +40,21 @@ const PostListingClient = ({ posts, locale, sitemap, getNextPosts, pageSize }: P
 		} catch (error) {
 			console.error("error fetching more posts", error)
 			setHasMore(false)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
 	return (
-		<div className="relative mb-12 px-8">
+		<div className="relative">
 			<div className="mx-auto max-w-screen-xl">
 				<div className="">
-					<InfiniteScroll
-						dataLength={items.length}
-						next={fetchPosts}
-						hasMore={hasMore} // Replace with a condition based on your data source
-						loader={<p>Loading...</p>}
-						endMessage={<p>No more posts!</p>}
-						className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3"
-					>
+					<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
 						{items.map((post) => (
 							<Link href={post.url} key={post.contentID}>
 								<div className="group mb-8 flex-col md:mb-0">
 									<div className="relative h-64 w-full overflow-clip">
-										{post.image.url.includes("https://placehold.co/") ? (
-											//*** special case for placeholder images ***
-											// eslint-disable-next-line @next/next/no-img-element
-											<img
-												src={post.image.url}
-												alt={post.image.label}
-												className="w-full rounded-t-lg object-cover object-center"
-											/>
-										) : (
-											//*** normal case ***
+										{post.image ? (
 											<AgilityPic
 												image={post.image}
 												className="w-full rounded-t-lg object-cover object-center"
@@ -77,6 +71,13 @@ const PostListingClient = ({ posts, locale, sitemap, getNextPosts, pageSize }: P
 													//screen less than 640, full width of screen
 													{ media: "(max-width: 639px)", width: 640 }
 												]}
+											/>
+										) : (
+											// eslint-disable-next-line @next/next/no-img-element
+											<img
+												src="/images/blog-icon-default.png"
+												alt=""
+												className="w-full rounded-t-lg object-cover object-center"
 											/>
 										)}
 									</div>
@@ -95,7 +96,16 @@ const PostListingClient = ({ posts, locale, sitemap, getNextPosts, pageSize }: P
 								</div>
 							</Link>
 						))}
-					</InfiniteScroll>
+					</div>
+					<div className="flex w-full justify-center">
+						<InfiniteLoadMore
+							{...{
+								hasMore,
+								isLoading,
+								onLoadMore: fetchPosts
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

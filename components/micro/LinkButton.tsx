@@ -10,6 +10,7 @@ interface Props {
 	size?: "sm" | "md" | "lg"
 	buttonType?: "button" | "submit" | "reset"
 	className?: string
+	disabled?: boolean
 	onClick?: () => void
 }
 
@@ -21,7 +22,8 @@ export const LinkButton = ({
 	className,
 	onClick,
 	buttonType = "button",
-	size = "sm"
+	size = "sm",
+	disabled
 }: Props) => {
 	let actualHref = href
 	if (actualHref && actualHref.startsWith("http://agilitycms.com/")) {
@@ -50,7 +52,7 @@ export const LinkButton = ({
 
 	if (!href && (onClick || buttonType)) {
 		return (
-			<button className={btnClass} onClick={onClick} type={buttonType}>
+			<button className={btnClass} onClick={onClick} type={buttonType} disabled={disabled}>
 				{children}
 			</button>
 		)

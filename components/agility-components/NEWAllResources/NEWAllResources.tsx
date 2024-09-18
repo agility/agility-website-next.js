@@ -84,23 +84,23 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 		return foundTopic && foundCategory
 	})
 
-	// //get the next items
-	// const getNextItems = async ({ skip, take }: { skip: number; take: number }) => {
-	// 	"use server"
-	// 	const resources = await getResourceListing({ skip, take })
-	// 	console.log("getNextItems", skip, take)
-	// 	const filteredResources = resources?.filter((cs) => {
-	// 		const foundTopic =
-	// 			!currentTopic ||
-	// 			cs?.fields?.resourceTopics?.find((c) => c?.contentID === currentTopic?.contentID) !== undefined
-	// 		const foundCategory =
-	// 			!currentCategory || (cs?.fields?.resourceType?.contentID === currentCategory?.contentID) !== undefined
+	//get the next items
+	const getNextItems = async ({ skip, take }: { skip: number; take: number }) => {
+		"use server"
+		const resources = await getResourceListing({ skip, take })
+		console.log("getNextItems", skip, take)
+		const filteredResources = resources?.filter((cs) => {
+			const foundTopic =
+				!currentTopic ||
+				cs?.fields?.resourceTopics?.find((c) => c?.contentID === currentTopic?.contentID) !== undefined
+			const foundCategory =
+				!currentCategory || (cs?.fields?.resourceType?.contentID === currentCategory?.contentID) !== undefined
 
-	// 		return foundTopic && foundCategory
-	// 	})
+			return foundTopic && foundCategory
+		})
 
-	// 	return filteredResources
-	// }
+		return filteredResources
+	}
 
 	return (
 		<>
@@ -113,7 +113,7 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 				<ResourceListingClient
 					{...{
 						pageSize,
-						//HACK getNextItems,
+						getNextItems,
 						categoryQStr,
 						topicQStr,
 						resources: filteredResources || [],

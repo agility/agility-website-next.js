@@ -32,8 +32,6 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 		contentLinkDepth: 0
 	})
 
-	console.log("NewPostsFeatured -> fields", fields)
-
 	const refName = fields.posts.referencename
 	const sortIDs = fields.posts.sortids
 

@@ -5,12 +5,13 @@ import LoadingWidget from "components/common/LoadingWidget"
 import { Container } from "components/micro/Container"
 import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
 import { IPartnerListingItem } from "lib/cms-content/getPartnerListing"
-import { first } from "lodash"
+import { first, set } from "lodash"
 import Link from "next/link"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { PartnerListingItem } from "./PartnerListingItem"
+import { InfiniteLoadMore } from "components/common/InfiniteLoadMore"
 
 interface Props {
 	pageSize: number
@@ -38,9 +39,11 @@ export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage,
 
 	const [hasMore, setHasMore] = useState(firstPage.length >= pageSize)
 	const [items, setItems] = useState(firstPage)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const fetchMore = async () => {
 		try {
+			setIsLoading(true)
 			//call the server action declared in the server component to get the next page of items...
 			const moreItems = await getNextItems({ skip: items.length })
 
@@ -52,6 +55,8 @@ export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage,
 		} catch (error) {
 			console.error("error fetching more case studies", error)
 			setHasMore(false)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -80,18 +85,22 @@ export const PartnerListingClient = ({ partnerType, tagList, tagQStr, firstPage,
 				<div className="max-w-screen-7xl mx-auto">
 					{items.length === 0 && <div className="text-center text-lg">No partners found.</div>}
 					{items.length > 0 && (
-						<InfiniteScroll
-							dataLength={items.length}
-							next={fetchMore}
-							hasMore={hasMore} // Replace with a condition based on your data source
-							loader={<LoadingWidget message="Loading..." />}
-							endMessage={<div></div>}
-							className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4"
-						>
-							{items.map((item, index) => (
-								<PartnerListingItem key={item.contentID} item={item} partnerType={partnerType} />
-							))}
-						</InfiniteScroll>
+						<>
+							<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">
+								{items.map((item, index) => (
+									<PartnerListingItem key={item.contentID} item={item} partnerType={partnerType} />
+								))}
+							</div>
+							<div className="flex w-full justify-center">
+								<InfiniteLoadMore
+									{...{
+										hasMore,
+										isLoading,
+										onLoadMore: fetchMore
+									}}
+								/>
+							</div>
+						</>
 					)}
 				</div>
 			</div>

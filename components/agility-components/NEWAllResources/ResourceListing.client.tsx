@@ -1,17 +1,11 @@
 "use client"
 
-import { AgilityPic } from "@agility/nextjs"
-import clsx from "clsx"
-import LoadingWidget from "components/common/LoadingWidget"
-import { Container } from "components/micro/Container"
 import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
-import { ICaseStudyListingItem } from "lib/cms-content/getCaseStudyListing"
-import Link from "next/link"
-import { useRouter, useSearchParams, usePathname } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useLayoutEffect, useState } from "react"
-import InfiniteScroll from "react-infinite-scroll-component"
 import { ResourceListingItem } from "./ResourceListingItem"
 import { IResourceListingItem } from "lib/cms-content/getResourceListing"
+import { InfiniteLoadMore } from "components/common/InfiniteLoadMore"
 
 interface Props {
 	pageSize: number
@@ -20,7 +14,7 @@ interface Props {
 	topics: ComboboItem[]
 	categories: ComboboItem[]
 	resources: IResourceListingItem[]
-	//getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<IResourceListingItem[]>
+	getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<IResourceListingItem[]>
 }
 
 export const ResourceListingClient = ({
@@ -29,8 +23,8 @@ export const ResourceListingClient = ({
 	categories,
 	topicQStr,
 	categoryQStr,
-	resources
-	//getNextItems
+	resources,
+	getNextItems
 }: Props) => {
 	const router = useRouter()
 	const pathName = usePathname()
@@ -51,11 +45,13 @@ export const ResourceListingClient = ({
 
 	const [hasMore, setHasMore] = useState(resources.length >= pageSize)
 	const [items, setItems] = useState(resources)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const fetchMore = async () => {
 		try {
+			setIsLoading(true)
 			//call the server action declared in the server component to get the next page of items...
-			const moreItems: IResourceListingItem[] = [] //HACK await getNextItems({ skip: items.length, take: pageSize })
+			const moreItems: IResourceListingItem[] = await getNextItems({ skip: items.length, take: pageSize })
 
 			setItems((prev) => {
 				return [...prev, ...moreItems]
@@ -65,6 +61,8 @@ export const ResourceListingClient = ({
 		} catch (error) {
 			console.error("error fetching more resources", error)
 			setHasMore(false)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -128,20 +126,29 @@ export const ResourceListingClient = ({
 				<div className="max-w-screen-7xl mx-auto">
 					{items.length === 0 && <div className="text-center text-lg">No resources found.</div>}
 					{items.length > 0 && (
-						<InfiniteScroll
-							dataLength={items.length}
-							next={fetchMore}
-							hasMore={hasMore} // Replace with a condition based on your data source
-							loader={<LoadingWidget message="Loading..." />}
-							endMessage={<div></div>}
-							className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4"
-						>
-							{items.map((item, index) => {
-								return (
-									<ResourceListingItem key={item.contentID} item={item} index={index} size={size} />
-								)
-							})}
-						</InfiniteScroll>
+						<>
+							<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">
+								{items.map((item, index) => {
+									return (
+										<ResourceListingItem
+											key={item.contentID}
+											item={item}
+											index={index}
+											size={size}
+										/>
+									)
+								})}
+							</div>
+							<div className="flex w-full justify-center">
+								<InfiniteLoadMore
+									{...{
+										hasMore,
+										isLoading,
+										onLoadMore: fetchMore
+									}}
+								/>
+							</div>
+						</>
 					)}
 				</div>
 			</div>

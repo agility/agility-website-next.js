@@ -5,7 +5,7 @@
 export const MotionBlur = () => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-			<circle fill="#5800D4" stroke="#5800D4" stroke-width="15" r="15" cx="35" cy="100">
+			<circle fill="#5800D4" stroke="#5800D4" strokeWidth="15" r="15" cx="35" cy="100">
 				<animate
 					attributeName="cx"
 					calcMode="spline"
@@ -16,7 +16,7 @@ export const MotionBlur = () => {
 					begin="0"
 				></animate>
 			</circle>
-			<circle fill="#5800D4" stroke="#5800D4" stroke-width="15" opacity=".8" r="15" cx="35" cy="100">
+			<circle fill="#5800D4" stroke="#5800D4" strokeWidth="15" opacity=".8" r="15" cx="35" cy="100">
 				<animate
 					attributeName="cx"
 					calcMode="spline"
@@ -27,7 +27,7 @@ export const MotionBlur = () => {
 					begin="0.05"
 				></animate>
 			</circle>
-			<circle fill="#5800D4" stroke="#5800D4" stroke-width="15" opacity=".6" r="15" cx="35" cy="100">
+			<circle fill="#5800D4" stroke="#5800D4" strokeWidth="15" opacity=".6" r="15" cx="35" cy="100">
 				<animate
 					attributeName="cx"
 					calcMode="spline"
@@ -38,7 +38,7 @@ export const MotionBlur = () => {
 					begin=".1"
 				></animate>
 			</circle>
-			<circle fill="#5800D4" stroke="#5800D4" stroke-width="15" opacity=".4" r="15" cx="35" cy="100">
+			<circle fill="#5800D4" stroke="#5800D4" strokeWidth="15" opacity=".4" r="15" cx="35" cy="100">
 				<animate
 					attributeName="cx"
 					calcMode="spline"
@@ -49,7 +49,7 @@ export const MotionBlur = () => {
 					begin=".15"
 				></animate>
 			</circle>
-			<circle fill="#5800D4" stroke="#5800D4" stroke-width="15" opacity=".2" r="15" cx="35" cy="100">
+			<circle fill="#5800D4" stroke="#5800D4" strokeWidth="15" opacity=".2" r="15" cx="35" cy="100">
 				<animate
 					attributeName="cx"
 					calcMode="spline"

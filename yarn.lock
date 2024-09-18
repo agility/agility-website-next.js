@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@agility/content-fetch@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/@agility/content-fetch/-/content-fetch-2.0.2.tgz"
-  integrity sha512-QS/ky9nvRqwabliaZVVcTVEPOgRAQqbxbBQuGOuLZN6R30JuM8nnCnDPfO5ePKura5621afLCXBlfFssr9sWDA==
+"@agility/content-fetch@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@agility/content-fetch/-/content-fetch-2.0.7.tgz#7775a29ea3e766e91fb02f40eeebb1f1c99a7e2a"
+  integrity sha512-vXNq7iv1jYSF+MicyUM47iBZa8omzkdFhMW4oz57bsO/f+apNNKqg+BxQEDrkKfxX12/5fBgg6JMMIVH3UIMqQ==
 
 "@agility/nextjs@^14.0.1":
   version "14.0.1"
@@ -4786,13 +4786,6 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.npmjs.org/react-fast-compare/-/react-fast-compare-3.2.2.tgz"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-infinite-scroll-component@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.npmjs.org/react-infinite-scroll-component/-/react-infinite-scroll-component-6.1.0.tgz"
-  integrity sha512-SQu5nCqy8DxQWpnUVLx7V7b7LcA37aM7tvoWjTLZp1dk6EJibM5/4EJKzOnl07/BsM1Y40sKLuqjCwwH/xV0TQ==
-  dependencies:
-    throttle-debounce "^2.1.0"
-
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -5438,11 +5431,6 @@ third-party-capital@1.0.20:
   version "1.0.20"
   resolved "https://registry.npmjs.org/third-party-capital/-/third-party-capital-1.0.20.tgz"
   integrity sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==
-
-throttle-debounce@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.npmjs.org/throttle-debounce/-/throttle-debounce-2.3.0.tgz"
-  integrity sha512-H7oLPV0P7+jgvrk+6mwwwBDmxTaxnu9HMXmloNLXwnNO0ZxZ31Orah2n8lU1eMPvsaowP2CX+USCgyovXfdOFQ==
 
 through@^2.3.6, through@^2.3.8:
   version "2.3.8"

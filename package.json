@@ -35,14 +35,13 @@
 		"next": "^14.2.5",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-infinite-scroll-component": "^6.1.0",
 		"react-lottie": "^1.2.4",
 		"react-player": "^2.16.0",
 		"string-strip-html": "^12.0.0",
 		"typescript": "^5.5.3"
 	},
 	"devDependencies": {
-		"@agility/content-fetch": "2.0.2",
+		"@agility/content-fetch": "^2.0.7",
 		"@agility/nextjs": "^14.0.1",
 		"@apollo/client": "^3.10.8",
 		"@apollo/experimental-nextjs-app-support": "^0.11.3",

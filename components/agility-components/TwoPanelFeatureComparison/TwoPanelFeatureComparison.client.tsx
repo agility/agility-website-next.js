@@ -101,7 +101,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 			<div id={idStr1} className="bg-background">
 				<Container className="mx-auto max-w-5xl">
 					{/* output group 1 */}
-					{group1Panels.map((panel, index) => {
+					{group1Panels?.map((panel, index) => {
 						let img2 = "/images/features-marketing-1-trig.svg"
 
 						if (index === 1) {
@@ -120,7 +120,9 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 							>
 								<div className="relative flex-1">
 									<div className="relative left-0 top-0 z-[2] flex justify-center md:flex-none">
-										<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+										{panel.fields.graphic && (
+											<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+										)}
 									</div>
 									<img src={img2} alt="" className="absolute left-0 top-0 -mb-[100%] max-w-full" />
 								</div>
@@ -131,7 +133,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 										dangerouslySetInnerHTML={renderHTML(panel.fields.description)}
 									></div>
 									<div className="mt-4 flex flex-col gap-2">
-										{panel.fields.checkedItems.map((item, index) => (
+										{panel.fields.checkedItems?.map((item, index) => (
 											<div
 												key={item.contentID}
 												className="flex items-center gap-2 bg-white px-3 py-2"
@@ -165,7 +167,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 				<div id={idStr2} className="bg-black">
 					<Container className="mx-auto max-w-5xl">
 						{/* output group 2 */}
-						{group2Panels.map((panel, index) => {
+						{group2Panels?.map((panel, index) => {
 							let img2 = "/images/features-marketing-1-trig.svg"
 
 							if (index === 1) {
@@ -184,7 +186,9 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 								>
 									<div className="relative flex-1">
 										<div className="relative left-0 top-0 z-[2] flex justify-center md:flex-none">
-											<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+											{panel.fields.graphic && (
+												<AgilityPic image={panel.fields.graphic} className="max-w-full" />
+											)}
 										</div>
 										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
 									</div>
@@ -195,7 +199,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 											dangerouslySetInnerHTML={renderHTML(panel.fields.description)}
 										></div>
 										<div className="mt-4 flex flex-col gap-2">
-											{panel.fields.checkedItems.map((item, index) => (
+											{panel.fields.checkedItems?.map((item, index) => (
 												<div
 													key={item.contentID}
 													className="flex items-center gap-2 bg-slate-700 px-3 py-2 text-white"

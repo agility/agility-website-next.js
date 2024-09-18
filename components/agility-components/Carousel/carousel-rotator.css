@@ -6,9 +6,9 @@
 	--slide-size: 100%;
 
 	@media (min-width: 1024px) {
-		--slide-height: 300px;
+		--slide-height: 450px;
 		--slide-spacing: 5px;
-		--slide-size: calc(100% - 300px);
+		--slide-size: calc(100% - 400px);
 	}
 
 	.embla__viewport {
@@ -26,6 +26,6 @@
 		padding-left: var(--slide-spacing);
 	}
 	.embla__slide__number {
-		min-height: var(--slide-height);
+		height: var(--slide-height);
 	}
 }

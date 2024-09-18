@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import React from "react"
@@ -40,29 +41,29 @@ export const CarouselClient = ({ items }: Props) => {
 						{items.map((item, index) => {
 							return (
 								<div className={clsx("embla__slide group")} key={item.contentID}>
-									<div className="embla__slide__number relative mx-4 overflow-clip">
-										<div className="flex h-full flex-col gap-4 border border-background">
-											<div className="flex w-full items-center justify-between gap-2">
-												{item.fields.uRL ? (
-													<Link href={item.fields.uRL}>
-														<AgilityPic
-															image={item.fields.image}
-															className="w-full object-contain"
-															fallbackWidth={1200}
-														/>
-													</Link>
-												) : (
-													<div>
-														<AgilityPic
-															image={item.fields.image}
-															className="w-full object-contain"
-															fallbackWidth={1200}
-														/>
-													</div>
-												)}
-											</div>
+									{item.fields.link ? (
+										<Link
+											href={item.fields.link.href}
+											target={item.fields.link.target}
+											className="embla__slide__number flex items-center"
+										>
+											<img
+												loading="lazy"
+												src={`${item.fields.image.url}?format=auto&w=800`}
+												className="h-full w-[800px] object-contain"
+												alt={item.fields.image.label}
+											/>
+										</Link>
+									) : (
+										<div className="embla__slide__number relative mx-4 flex items-center">
+											<img
+												loading="lazy"
+												src={`${item.fields.image.url}?format=auto&w=800`}
+												className="h-full w-[800px] object-contain"
+												alt={item.fields.image.label}
+											/>
 										</div>
-									</div>
+									)}
 								</div>
 							)
 						})}
