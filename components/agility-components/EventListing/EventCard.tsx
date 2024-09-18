@@ -18,13 +18,13 @@ export const EventCard = ({ event }: Props) => {
 	const isPast = dt < DateTime.now()
 	const url = `/resources/events/${event.fields.uRL}`
 	return (
-		<div className="mt-10 flex gap-5 lg:flex-row">
-			<Link href={url} className="w-1/2">
+		<div className="mt-10 flex flex-col items-center gap-5 lg:flex-row">
+			<Link href={url} className="lg:w-1/2">
 				{event.fields.mainImage && (
 					<AgilityPic image={event.fields.mainImage} className="w-full rounded-lg object-contain" />
 				)}
 			</Link>
-			<div className="flex w-1/2 flex-col gap-3">
+			<div className="flex flex-col gap-3 text-center lg:w-1/2 lg:text-left">
 				<h3 className="text-3xl font-medium">{event.fields.title}</h3>
 				<time dateTime={dt.toISO()} className="flex gap-3">
 					<div className="flex items-center gap-1">

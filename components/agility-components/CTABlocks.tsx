@@ -34,7 +34,7 @@ export const CTABlocks = async ({ module, languageCode }: UnloadedModuleProps) =
 	if (!lstBlocks || lstBlocks.items.length === 0) return null
 
 	const blocks = lstBlocks.items as ContentItem<Block>[]
-	console.log("blocks", fields)
+
 	return (
 		<Container
 			id={`agility-component-${module.contentid}`}

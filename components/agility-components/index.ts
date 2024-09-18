@@ -56,6 +56,7 @@ import PostListing from "./PostsListing/PostsListing.server";
 import { UnUsedComponent } from "./UnUsedComponent";
 import { EventListing } from "./EventListing/EventListing.server";
 import { CTABlocks } from "./CTABlocks";
+import { EventDetails } from "./EventDetails/EventDetails";
 
 
 
@@ -120,6 +121,7 @@ const allModules = [
 	{ name: "MostViewedArticles", module: UnUsedComponent },
 	{ name: "NewStayInTouch", module: UnUsedComponent },
 	{ name: "EventListing", module: EventListing },
+	{ name: "EventDetails", module: EventDetails },
 	{ name: "CTABlocks", module: CTABlocks },
 ];
 
