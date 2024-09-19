@@ -7,7 +7,6 @@ export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, modul
 	if (!dynamicPageItem) return null
 
 	const partner: IPartner = dynamicPageItem.fields
-	console.log("partner", dynamicPageItem)
 
 	const logo = partner.partnerLogo || partner.logo
 

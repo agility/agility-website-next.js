@@ -5,7 +5,7 @@ import { ITypeFormModule } from "./TypeFormModule"
 export const TypeFormClient = ({ form, display, buttonLabel, buttonColor = "#ffcb28" }: ITypeFormModule) => {
 	try {
 		const formObj = JSON.parse(form)
-		console.log("display", display)
+
 		return (
 			<>
 				{display && display === "inline" && (

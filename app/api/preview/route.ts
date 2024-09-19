@@ -22,15 +22,11 @@ export async function GET(request: NextRequest, res: NextResponse) {
 
 	const ContentID = searchParams.get('ContentID')
 
-	console.log("URL", { locale, ContentID, agilityPreviewKey })
-
 	//validate our preview key, also validate the requested page to preview exists
 	const validationResp = await validatePreview({
 		agilityPreviewKey,
 		slug: "/"
 	});
-
-	console.log("RESP", validationResp)
 
 	if (validationResp.error !== false) {
 		return new Response(`Could not initiate preview mode.  Please check the URL and try again.  Error: ${validationResp.message}`, {

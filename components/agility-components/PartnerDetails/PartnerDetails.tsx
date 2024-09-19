@@ -85,6 +85,11 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 	const gallery = partner.gallery || partner.screenshots
 
+	const websiteLink: URLField | null | undefined =
+		typeof partner.website === "string"
+			? { href: partner.website, text: partner.website, target: "_blank" }
+			: partner.website
+
 	return (
 		<Container className="mx-auto max-w-7xl px-8">
 			<div className="flex flex-col lg:flex-row">
@@ -127,17 +132,17 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 					)}
 				</div>
 				<div className="mt-10 bg-background/60 p-8 lg:mt-0 lg:w-1/3 lg:bg-white lg:p-0">
-					{partner.website && (
+					{websiteLink && (
 						<>
 							<div className="font-bold">Website</div>
 							<div className="mt-2 flex flex-wrap gap-1">
 								<a
-									href={partner.website}
+									href={websiteLink.href}
 									className="text-highlight-light hover:text-highlight-dark"
 									target="_blank"
 									rel="noreferrer"
 								>
-									{partner.website}
+									{websiteLink.text}
 								</a>
 							</div>
 						</>
@@ -181,15 +186,17 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 						<>
 							<div className="mt-8 font-bold">Documentation</div>
 							<div className="mt-2 flex flex-wrap gap-1">
-								{documentationItems.map((item: any) => (
-									<Link
-										key={item.contentID}
-										href={item.fields.uRL.href}
-										className="text-highlight-light hover:text-highlight-dark"
-									>
-										{item.fields.uRL.text}
-									</Link>
-								))}
+								{documentationItems
+									.filter((item: any) => item.fields.uRL)
+									.map((item: any) => (
+										<Link
+											key={item.contentID}
+											href={item.fields.uRL.href}
+											className="text-highlight-light hover:text-highlight-dark"
+										>
+											{item.fields.uRL.text}
+										</Link>
+									))}
 							</div>
 						</>
 					)}

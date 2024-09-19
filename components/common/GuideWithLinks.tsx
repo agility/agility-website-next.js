@@ -10,7 +10,7 @@ import Link from "next/link"
 export interface GuideLink {
 	title?: string
 	description?: string
-	uRL: URLField
+	uRL?: URLField
 }
 
 export interface MainInfo {
@@ -67,19 +67,34 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 				</div>
 				<div className="lg:w-1/2 xl:w-3/5">
 					<div className="flex flex-col gap-4 bg-black/20 p-5">
-						{items.map((item) => (
-							<Link
-								href={item.uRL.href}
-								target={item.uRL.target}
-								key={item.uRL.href}
-								className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100"
-							>
-								<div className="flex-1">
-									<h3 className="text-lg">{item.title}</h3>
-									<div>{item.description}</div>
-								</div>
-								<IconChevronRight size={24} className="text-secondary" />
-							</Link>
+						{items.map((item, index) => (
+							<>
+								{item.uRL ? (
+									<Link
+										href={item.uRL.href}
+										target={item.uRL.target}
+										key={index}
+										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100"
+									>
+										<div className="flex-1">
+											<h3 className="text-lg">{item.title}</h3>
+											<div>{item.description}</div>
+										</div>
+										<IconChevronRight size={24} className="text-secondary" />
+									</Link>
+								) : (
+									<div
+										key={index}
+										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100"
+									>
+										<div className="flex-1">
+											<h3 className="text-lg">{item.title}</h3>
+											<div>{item.description}</div>
+										</div>
+										<IconChevronRight size={24} className="text-secondary" />
+									</div>
+								)}
+							</>
 						))}
 					</div>
 				</div>

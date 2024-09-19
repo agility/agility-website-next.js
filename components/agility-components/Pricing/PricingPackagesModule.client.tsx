@@ -106,12 +106,8 @@ export const PricingPackagesModuleClient = ({
 
 		let observer = new IntersectionObserver(
 			(entries) => {
-				console.log("intersecting", entries.length)
 				if (entries.length < 1) return
 				let showing = false
-
-				console.log("intersecting", entries[0].target.id, entries[0].isIntersecting)
-				//console.log("intersecting", entries[1].target.id, entries[1].isIntersecting)
 
 				if (entries[0].isIntersecting) {
 					showing = true
@@ -120,10 +116,8 @@ export const PricingPackagesModuleClient = ({
 				//if the header is showing, then we are not scrolling
 				if (!showing) {
 					setIsScrolling(true)
-					console.log("intersecting: scrolling")
 				} else {
 					setIsScrolling(false)
-					console.log("intersecting: not scrolling")
 				}
 			},
 			{

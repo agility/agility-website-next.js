@@ -5,7 +5,7 @@ export interface IPartner {
 
 	textblob: string
 	companyDescription?: string
-	website?: string
+	website?: string | URLField
 	metaTitle?: string
 	partnerLogo?: ImageField
 	logo?: ImageField

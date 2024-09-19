@@ -88,7 +88,7 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 	const getNextItems = async ({ skip, take }: { skip: number; take: number }) => {
 		"use server"
 		const resources = await getResourceListing({ skip, take })
-		console.log("getNextItems", skip, take)
+
 		const filteredResources = resources?.filter((cs) => {
 			const foundTopic =
 				!currentTopic ||

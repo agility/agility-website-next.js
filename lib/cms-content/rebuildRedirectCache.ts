@@ -10,7 +10,7 @@ import { setCachedObject } from "lib/persistant-cache/setCachedObject"
 export const rebuildRedirectCache = async () => {
 
 	try {
-		console.log("Rebuilding redirect cache...")
+		console.info("Rebuilding redirect cache...")
 		//force a rebuild the redirection cache
 		const redirections = await getRedirections({ forceUpdate: true })
 

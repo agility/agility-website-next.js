@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
 
 		//valid preview key: we need to redirect to the correct url for preview
 		let redirectUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}/api/preview?locale=${locale}&ContentID=${contentIDStr}&slug=${encodeURIComponent(slug)}&agilitypreviewkey=${encodeURIComponent(agilityPreviewKey)}`
-		console.log("MW: PREVIEW MODE REWRITE", redirectUrl)
+
 		return NextResponse.rewrite(redirectUrl)
 
 	} else if (previewQ === "0") {
