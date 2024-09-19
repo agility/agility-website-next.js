@@ -45,7 +45,7 @@ export const getAgilityGraphQLClient = ({ referenceNames, filter }: Props) => {
 				fetchOptions: isPreview ? { cache: "no-store" } : {
 					next: {
 						tags,
-						revalidate: 0 //HACK cacheConfig.cacheDuration,
+						revalidate: cacheConfig.cacheDuration,
 					},
 				},
 			}),

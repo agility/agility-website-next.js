@@ -43,6 +43,10 @@ interface NestedSitemapNode {
  * @returns
  */
 export async function generateStaticParams() {
+	//hack
+	return []
+	return [{ slug: ["resources"] }]
+
 	console.log("*** generateStaticParams ***")
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
@@ -152,6 +156,8 @@ export default async function Page({ params }: PageProps) {
 			data-agility-page={agilityData.page?.pageID}
 			data-agility-dynamic-content={agilityData.sitemapNode.contentID}
 		>
+			<div>{dtStr}</div>
+
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
