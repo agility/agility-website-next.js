@@ -2,7 +2,7 @@ import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } fro
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
-import ReactPlayer from "react-player"
+
 import { HeroVideo } from "./HeroVideo"
 import { HeroAnimation } from "./HeroAnimation"
 

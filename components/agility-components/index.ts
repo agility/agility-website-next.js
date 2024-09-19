@@ -61,6 +61,7 @@ import { StarterTemplateListing } from "./StarterTemplateListing";
 import { StarterTemplateDetails } from "./StarterTemplateDetails";
 import { ResourceDetails } from "./ResourceDetails/ResourceDetails";
 import { NEWeBookThankYou } from "./NEWeBookThankYou";
+import { VideoModule } from "./VideoModule/VideoModule";
 
 
 
@@ -130,7 +131,8 @@ const allModules = [
 	{ name: "StarterTemplateListing", module: StarterTemplateListing },
 	{ name: "StarterTemplateDetails", module: StarterTemplateDetails },
 	{ name: "ResourceDetails", module: ResourceDetails },
-	{ name: "NEWeBookThankYou", module: NEWeBookThankYou }
+	{ name: "NEWeBookThankYou", module: NEWeBookThankYou },
+	{ name: "VideoModule", module: VideoModule },
 ];
 
 
