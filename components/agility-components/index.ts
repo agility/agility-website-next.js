@@ -62,6 +62,7 @@ import { StarterTemplateDetails } from "./StarterTemplateDetails";
 import { ResourceDetails } from "./ResourceDetails/ResourceDetails";
 import { NEWeBookThankYou } from "./NEWeBookThankYou";
 import { VideoModule } from "./VideoModule/VideoModule";
+import { PodcastDetail } from "./Podcast/PodcastDetail";
 
 
 
@@ -125,6 +126,7 @@ const allModules = [
 	{ name: "NewPostListing", module: PostListing },
 	{ name: "MostViewedArticles", module: UnUsedComponent },
 	{ name: "NewStayInTouch", module: UnUsedComponent },
+	{ name: "Space", module: UnUsedComponent },
 	{ name: "EventListing", module: EventListing },
 	{ name: "EventDetails", module: EventDetails },
 	{ name: "CTABlocks", module: CTABlocks },
@@ -133,6 +135,7 @@ const allModules = [
 	{ name: "ResourceDetails", module: ResourceDetails },
 	{ name: "NEWeBookThankYou", module: NEWeBookThankYou },
 	{ name: "VideoModule", module: VideoModule },
+	{ name: "PodcastDetail", module: PodcastDetail },
 ];
 
 
