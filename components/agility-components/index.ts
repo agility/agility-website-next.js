@@ -58,6 +58,7 @@ import { EventListing } from "./EventListing/EventListing.server";
 import { CTABlocks } from "./CTABlocks";
 import { EventDetails } from "./EventDetails/EventDetails";
 import { StarterTemplateListing } from "./StarterTemplateListing";
+import { StarterTemplateDetails } from "./StarterTemplateDetails";
 
 
 
@@ -125,6 +126,7 @@ const allModules = [
 	{ name: "EventDetails", module: EventDetails },
 	{ name: "CTABlocks", module: CTABlocks },
 	{ name: "StarterTemplateListing", module: StarterTemplateListing },
+	{ name: "StarterTemplateDetails", module: StarterTemplateDetails },
 ];
 
 
