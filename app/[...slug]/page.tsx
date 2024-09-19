@@ -44,8 +44,6 @@ interface NestedSitemapNode {
  */
 export async function generateStaticParams() {
 	console.log("*** generateStaticParams ***")
-	//HACK
-	return []
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
 

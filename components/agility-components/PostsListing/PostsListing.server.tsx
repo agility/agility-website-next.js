@@ -25,7 +25,7 @@ const PostListing = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	const { sitemap, locale } = useAgilityContext()
 
 	const selectedTag: string = dynamicPageItem?.fields?.title || ""
-	console.log("selectedTag", selectedTag)
+
 	const pageSize = 15
 	// get posts for the initial page load
 	const { posts } = await getPostListing({

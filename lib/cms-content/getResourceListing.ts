@@ -18,6 +18,7 @@ export interface IResourceListingItem {
 		title: string
 		uRL: string
 		image: ImageField
+		resourceTypeName: string
 		resourceType: {
 			contentID: number
 			fields: {
@@ -54,6 +55,7 @@ export const getResourceListing = async ({ skip, take }: Props) => {
 						height
 						width
 					}
+					resourceTypeName
 					resourceType {
 						contentID
 						fields {

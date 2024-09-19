@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const ResourceListingItem = ({ item, index, size }: Props) => {
-	const cat = item.fields.resourceType.fields.title.toLowerCase().replaceAll(" ", "-")
+	const cat = item.fields.resourceTypeName.toLowerCase().replaceAll(" ", "-")
 	const url = `/resources/${cat}/${item.fields.uRL}`
 
 	return (

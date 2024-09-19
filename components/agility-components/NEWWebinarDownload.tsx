@@ -15,6 +15,7 @@ interface IMiniResource {
 		title: string
 		uRL: string
 		image: ImageField
+		resourceTypeName: string
 		resourceType: {
 			contentID: number
 			fields: {
@@ -95,7 +96,7 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 
 				<div className="mt-8 flex w-full flex-col items-center justify-center gap-6 lg:flex-row lg:items-start">
 					{resources.map((resource, index) => {
-						const url = `/resources/${resource.fields.resourceType.fields.title?.toLowerCase().replace(/ /g, "-")}/${resource.fields.uRL}`
+						const url = `/resources/${resource.fields.resourceTypeName?.toLowerCase().replace(/ /g, "-")}/${resource.fields.uRL}`
 
 						return (
 							<div key={`top-book-${resource.contentID}`} className="flex w-80 flex-col">

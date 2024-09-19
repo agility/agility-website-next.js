@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
 	const referer = request.headers.get("referer")
 
 	//all the other possible search params...
-	const paramsNames: string[] = ["subscribed", "industry", "challenge", "category", "topic", "region"]
+	const paramsNames: string[] = ["subscribed", "industry", "challenge", "category", "topic", "region", "resource"]
 	const otherSearchParams: { [id: string]: string; } = {}
 	let hasOtherSearchParams = false
 
