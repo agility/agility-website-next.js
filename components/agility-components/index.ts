@@ -6,6 +6,7 @@ import TextBlockWithImage from "./TextBlockWithImage";
 import NoComponentFound from "./NoComponentFound";
 import { CenteredContentPanel } from "./CenteredContentPanel";
 import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server";
+
 import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server";
 import SingleTestimonialPanel from "./SingleTestimonialPanel";
 import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
@@ -41,6 +42,8 @@ import { ScheduleADemo } from "./ScheduleADemo/ScheduleADemo";
 import { Hero } from "./Hero/Hero";
 import { RightLeftContent } from "components/RightLeftContent";
 import { LogoListing } from "./LogoListing/LogoListing.server";
+
+
 import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.server";
 import SubscribedThankYou from "./SubscribedThankYou";
 import { SearchResults } from "./SearchResults/SearchResults";
@@ -67,6 +70,7 @@ import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar";
 import { ReviewRotator } from "./ReviewRotator/ReviewRotator";
 import { LatestPosts } from "./LatestPosts";
 import { GatedDownload } from "./GatedDownload/GatedDownload";
+import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server";
 
 
 
@@ -81,6 +85,7 @@ const allModules = [
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },
 	{ name: "LogoListingModule", module: LogoListingModule },
+	{ name: "LogoListingModuleCopy", module: LogoListingModuleCopy },
 	{ name: "LogoListing", module: LogoListing },
 	{ name: "PartnerLogoListing", module: PartnerLogoListing },
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
