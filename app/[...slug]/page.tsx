@@ -18,6 +18,7 @@ import Loading from "app/loading"
 import LoadingWidget from "components/common/LoadingWidget"
 import agilitySDK from "@agility/content-fetch"
 import { SitemapNode } from "lib/types/SitemapNode"
+import { getRichSnippet } from "lib/cms-content/getRichSnippet"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const dynamicParams = true
@@ -149,20 +150,24 @@ export default async function Page({ params }: PageProps) {
 
 	const AgilityPageTemplate = getPageTemplate(agilityData.pageTemplateName || "")
 
-	const dtStr = DateTime.now().toISO()
+	const renderTimeStr = DateTime.now().toISO()
+	const jsonLD = getRichSnippet(agilityData)
 
 	return (
 		<div
 			data-agility-page={agilityData.page?.pageID}
 			data-agility-dynamic-content={agilityData.sitemapNode.contentID}
 		>
-			<div>{dtStr}</div>
-
+			{jsonLD && (
+				//include the rich snipped if we have one
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
+			)}
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
 				<InlineError message={`No template found for page template name: ${agilityData.pageTemplateName}`} />
 			)}
+			<div className="hidden">Rendered on: {renderTimeStr}</div>
 		</div>
 	)
 }
