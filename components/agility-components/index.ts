@@ -65,6 +65,8 @@ import { VideoModule } from "./VideoModule/VideoModule";
 import { PodcastDetail } from "./Podcast/PodcastDetail";
 import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar";
 import { ReviewRotator } from "./ReviewRotator/ReviewRotator";
+import { LatestPosts } from "./LatestPosts";
+import { GatedDownload } from "./GatedDownload/GatedDownload";
 
 
 
@@ -141,6 +143,9 @@ const allModules = [
 	{ name: "PodcastDetail", module: PodcastDetail },
 	{ name: "GartnerPeerInsightsBar", module: GartnerPeerInsightsBar },
 	{ name: "ReviewRotator", module: ReviewRotator },
+	{ name: "LatestPosts", module: LatestPosts },
+	{ name: "GatedDownload", module: GatedDownload },
+
 ];
 
 
