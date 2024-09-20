@@ -63,6 +63,9 @@ import { ResourceDetails } from "./ResourceDetails/ResourceDetails";
 import { NEWeBookThankYou } from "./NEWeBookThankYou";
 import { VideoModule } from "./VideoModule/VideoModule";
 import { PodcastDetail } from "./Podcast/PodcastDetail";
+import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar";
+import { ReviewRotator } from "./ReviewRotator/ReviewRotator";
+
 
 
 
@@ -136,6 +139,8 @@ const allModules = [
 	{ name: "NEWeBookThankYou", module: NEWeBookThankYou },
 	{ name: "VideoModule", module: VideoModule },
 	{ name: "PodcastDetail", module: PodcastDetail },
+	{ name: "GartnerPeerInsightsBar", module: GartnerPeerInsightsBar },
+	{ name: "ReviewRotator", module: ReviewRotator },
 ];
 
 

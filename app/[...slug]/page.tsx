@@ -44,10 +44,6 @@ interface NestedSitemapNode {
  * @returns
  */
 export async function generateStaticParams() {
-	//hack
-	return []
-	return [{ slug: ["resources"] }]
-
 	console.log("*** generateStaticParams ***")
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
@@ -62,11 +58,9 @@ export async function generateStaticParams() {
 
 	const languageCode = process.env.AGILITY_LOCALES || "en-us"
 
+	//don't cache the sitemap here... we want to get the latest
 	agilityClient.config.fetchConfig = {
-		next: {
-			tags: [`agility-sitemap-flat-${languageCode}`],
-			revalidate: cacheConfig.cacheDuration
-		}
+		cache: "no-store"
 	}
 
 	//get the flat sitemap and generate the paths

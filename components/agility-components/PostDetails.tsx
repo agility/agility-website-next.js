@@ -37,12 +37,6 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 					title
 					uRL
 					categoriesTitle
-					blogCategories {
-						contentID
-						fields {
-							title
-						}
-					}
 					postImage {
 						url
 						label
