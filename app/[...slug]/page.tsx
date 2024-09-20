@@ -160,7 +160,7 @@ export default async function Page({ params }: PageProps) {
 		>
 			{jsonLD && (
 				//include the rich snipped if we have one
-				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLD }} />
 			)}
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (

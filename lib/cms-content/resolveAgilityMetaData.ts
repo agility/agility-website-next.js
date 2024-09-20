@@ -5,6 +5,11 @@ import { getHeaderContent } from "./getHeaderContent"
 import getAgilitySDK from "../cms/getAgilitySDK"
 import ReactHtmlParser from "html-react-parser"
 import { getContentItem } from "lib/cms/getContentItem"
+import { IPost } from "lib/types/IPost"
+import { IResource } from "lib/types/IResource"
+import { stripHtml } from "lib/utils/strip-html"
+import { ICaseStudy } from "lib/types/ICaseStudy"
+import { IEvent } from "lib/types/IEvent"
 
 interface Props {
 	agilityData: AgilityPageProps
@@ -20,32 +25,73 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	const header = await getHeaderContent({ locale, sitemap })
 	const ogImages = (await parent).openGraph?.images || []
 	let metaTitle: string | undefined = undefined
+	let metaDescription: string | undefined = undefined
 	//#region *** resolve open graph stuff from dynamic pages/layouts ***
-	if (agilityData.sitemapNode.contentID !== undefined
-		&& agilityData.sitemapNode.contentID > 0) {
+	if (agilityData.dynamicPageItem) {
 
 		//get the content item for this dynamic layout/page
 		try {
-			const contentItem: ContentItem = await getContentItem({
-				contentID: agilityData.sitemapNode.contentID,
-				languageCode: locale
-			})
+			const contentItem = agilityData.dynamicPageItem as ContentItem<any>
+			metaDescription = contentItem.fields["metaDescription"] as string | undefined
 
 			metaTitle = contentItem.fields["metaTitle"] as string | undefined
 
 			if (contentItem.properties.definitionName === "Post") {
 				/* *** Posts MetaData *** */
-				const image = contentItem.fields["image"] as ImageField | undefined
+				const post = contentItem.fields as IPost
 
+				if (!metaDescription) {
+					metaDescription = stripHtml(post.excerpt || post.textblob, 240)
+				}
 
-				if (image) {
+				if (post.postImage) {
 					ogImages.push({
-						url: `${image.url}?format=auto&w=1200`,
-						alt: image.label
+						url: `${post.postImage.url}?format=auto&w=1200`,
+						alt: post.postImage.label
 					})
 				}
-			} else {
-				//TODO: handle other dynamic pages/layouts types here!
+			} else if (contentItem.properties.definitionName === "Resource") {
+				/** RESOURCE META DATA */
+				const resource = contentItem.fields as IResource
+
+				if (!metaDescription) {
+					metaDescription = stripHtml(resource.excerpt || resource.textblob, 240)
+				}
+
+				if (resource.image) {
+					ogImages.push({
+						url: `${resource.image.url}?format=auto&w=1200`,
+						alt: resource.image.label
+					})
+				}
+			} else if (contentItem.properties.definitionName === "CaseStudy") {
+				/** RESOURCE META DATA */
+				const caseStudy = contentItem.fields as ICaseStudy
+
+				if (!metaDescription) {
+					metaDescription = stripHtml(caseStudy.excerpt || caseStudy.textblob, 240)
+				}
+
+				if (caseStudy.image) {
+					ogImages.push({
+						url: `${caseStudy.image.url}?format=auto&w=1200`,
+						alt: caseStudy.image.label
+					})
+				}
+			} else if (contentItem.properties.definitionName === "Event") {
+				/** Event META DATA */
+				const event = contentItem.fields as IEvent
+
+				if (!metaDescription) {
+					metaDescription = stripHtml(event.description || event.textblob, 240)
+				}
+
+				if (event.mainImage) {
+					ogImages.push({
+						url: `${event.mainImage.url}?format=auto&w=1200`,
+						alt: event.mainImage.label
+					})
+				}
 			}
 
 		} catch (error) {
@@ -113,10 +159,11 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	if (!title.includes("Agility")) title = `${title} | Agility CMS`
 
 
+
 	const metaData: Metadata = {
 		metadataBase: new URL('https://agilitycms.com'),
 		title,
-		description: agilityData.page?.seo?.metaDescription,
+		description: metaDescription || agilityData.page?.seo?.metaDescription,
 		keywords: agilityData.page?.seo?.metaKeywords,
 		openGraph: {
 			images: ogImages,

@@ -18,7 +18,7 @@ export interface IEvent {
 	uRL: string
 	eventType: ContentItem<IEventType>
 	organizer: ContentItem<IEventOrganizer>
-
+	presenters?: ContentItem<IEventOrganizer>[]
 	address: string
 	date: string
 	externalLink?: URLField

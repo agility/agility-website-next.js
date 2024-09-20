@@ -10,5 +10,4 @@ export const stripHtml = (str = "", maxLength = 0) => {
 	}
 	return str;
 
-
 }
