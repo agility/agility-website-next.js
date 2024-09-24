@@ -71,6 +71,8 @@ import { ReviewRotator } from "./ReviewRotator/ReviewRotator";
 import { LatestPosts } from "./LatestPosts";
 import { GatedDownload } from "./GatedDownload/GatedDownload";
 import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server";
+import { PodcastContentPanel } from "./Podcast/PodcastContentPanel";
+import { PodcastListing } from "./Podcast/PodcastListing";
 
 
 
@@ -145,11 +147,16 @@ const allModules = [
 	{ name: "ResourceDetails", module: ResourceDetails },
 	{ name: "NEWeBookThankYou", module: NEWeBookThankYou },
 	{ name: "VideoModule", module: VideoModule },
-	{ name: "PodcastDetail", module: PodcastDetail },
+
 	{ name: "GartnerPeerInsightsBar", module: GartnerPeerInsightsBar },
 	{ name: "ReviewRotator", module: ReviewRotator },
 	{ name: "LatestPosts", module: LatestPosts },
 	{ name: "GatedDownload", module: GatedDownload },
+
+	{ name: "PodcastDetail", module: PodcastDetail },
+	{ name: "PodcastContentPanel", module: PodcastContentPanel },
+	{ name: "PodcastSubscribe", module: UnUsedComponent },
+	{ name: "PodcastListing", module: PodcastListing },
 
 ];
 

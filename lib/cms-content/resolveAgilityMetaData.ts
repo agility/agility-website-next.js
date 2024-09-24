@@ -10,6 +10,7 @@ import { IResource } from "lib/types/IResource"
 import { stripHtml } from "lib/utils/strip-html"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import { IEvent } from "lib/types/IEvent"
+import { createSharingImage } from "./createSharingImage"
 
 interface Props {
 	agilityData: AgilityPageProps
@@ -158,7 +159,19 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	let title = metaTitle || agilityData.sitemapNode?.title || ""
 	if (!title.includes("Agility")) title = `${title} | Agility CMS`
 
+	if (ogImages.length === 0) {
 
+		//generate a default OG Image if we don't have one yet...
+		const ogImage = createSharingImage({
+			cloudName: "agility-cms",
+			text: title
+		})
+
+		ogImages.push({
+			url: ogImage
+		})
+
+	}
 
 	const metaData: Metadata = {
 		metadataBase: new URL('https://agilitycms.com'),
