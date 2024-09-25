@@ -89,7 +89,7 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 			<Container className="mx-auto flex max-w-7xl flex-col">
 				<div className="flex w-full justify-center">
 					<div
-						className="prose prose-xl w-full max-w-screen-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+						className="prose prose-xl w-full max-w-7xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
 						dangerouslySetInnerHTML={renderHTML(fields.content)}
 					/>
 				</div>

@@ -62,7 +62,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>
-			<div className="mx-auto max-w-screen-xl">
+			<div className="mx-auto max-w-7xl">
 				<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 					<div className="lg:w-0 lg:flex-1">
 						<Link href="/" className="flex items-center">

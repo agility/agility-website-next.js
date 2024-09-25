@@ -26,15 +26,15 @@ export const LogoListingModule = async ({ module, languageCode }: UnloadedModule
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="max-w-screen-xl mx-auto">
-				<div className="border-t border-t-background "></div>
+			<div className="mx-auto max-w-7xl">
+				<div className="border-t border-t-background"></div>
 				<div className="flex justify-center">
-					<h3 className="bg-white px-8 text-highlight-light font-medium uppercase text-sm text-balance text-center -mt-3">
+					<h3 className="-mt-3 text-balance bg-white px-8 text-center text-sm font-medium uppercase text-highlight-light">
 						{title}
 					</h3>
 				</div>
 				<LogoListingModuleClient logos={shuffle(logos.map((l) => l.fields))} />
-				<div className="border-t border-t-background "></div>
+				<div className="border-t border-t-background"></div>
 			</div>
 		</Container>
 	)

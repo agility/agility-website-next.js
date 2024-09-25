@@ -6,11 +6,11 @@ import {
 	Module,
 	URLField,
 	UnloadedModule,
-	UnloadedModuleProps,
+	UnloadedModuleProps
 } from "@agility/nextjs"
 import Link from "next/link"
 import getAgilitySDK from "lib/cms/getAgilitySDK"
-import {getContentItem} from "lib/cms/getContentItem"
+import { getContentItem } from "lib/cms/getContentItem"
 
 interface ITextBlockWithImage {
 	title: string
@@ -27,10 +27,10 @@ interface ITextBlockWithImage {
  * @param param0
  * @returns
  */
-const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) => {
-	const {fields, contentID} = await getContentItem<ITextBlockWithImage>({
+const TextBlockWithImage = async ({ module, languageCode }: UnloadedModuleProps) => {
+	const { fields, contentID } = await getContentItem<ITextBlockWithImage>({
 		contentID: module.contentid,
-		languageCode,
+		languageCode
 	})
 
 	// function to check whether or not the url is absolute
@@ -46,7 +46,7 @@ const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) =
 					href={url}
 					title={text}
 					target={target}
-					className="inline-block mt-8 md:mt-8 px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-primary-500 hover:bg-primary-700 focus:outline-none focus:border-primary-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+					className="bg-primary-500 hover:bg-primary-700 focus:border-primary-700 focus:shadow-outline-indigo mt-8 inline-block rounded-md border border-transparent px-8 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none active:bg-indigo-700 md:mt-8"
 				>
 					{text}
 				</Link>
@@ -59,7 +59,7 @@ const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) =
 					href={url}
 					title={text}
 					target={target}
-					className="inline-block mt-8 md:mt-8 px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-primary-500 hover:bg-primary-700 focus:outline-none focus:border-primary-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+					className="bg-primary-500 hover:bg-primary-700 focus:border-primary-700 focus:shadow-outline-indigo mt-8 inline-block rounded-md border border-transparent px-8 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out focus:outline-none active:bg-indigo-700 md:mt-8"
 				>
 					{text}
 				</a>
@@ -72,8 +72,8 @@ const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) =
 
 	return (
 		<div className="relative px-8" data-agility-component={contentID}>
-			<div className="flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-20 md:py-24 items-center">
-				<div className="md:w-6/12 flex-shrink-0 relative " data-agility-field="image">
+			<div className="mx-auto flex max-w-7xl flex-col items-center justify-between py-20 md:flex-row md:py-24">
+				<div className="relative flex-shrink-0 md:w-6/12" data-agility-field="image">
 					{fields.primaryButton ? (
 						<Link href={fields.primaryButton.href} className="relative">
 							<AgilityPic
@@ -83,10 +83,10 @@ const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) =
 								fallbackWidth={600}
 								sources={[
 									//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
-									{media: "(min-width: 1280px)", width: 800},
-									{media: "(min-width: 640px)", width: 640},
+									{ media: "(min-width: 1280px)", width: 800 },
+									{ media: "(min-width: 640px)", width: 640 },
 									//screen less than 640, full width of screen
-									{media: "(max-width: 639px)", width: 640},
+									{ media: "(max-width: 639px)", width: 640 }
 								]}
 							/>
 						</Link>
@@ -98,42 +98,48 @@ const TextBlockWithImage = async ({module, languageCode}: UnloadedModuleProps) =
 							fallbackWidth={600}
 							sources={[
 								//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
-								{media: "(min-width: 1280px)", width: 800},
-								{media: "(min-width: 640px)", width: 640},
+								{ media: "(min-width: 1280px)", width: 800 },
+								{ media: "(min-width: 640px)", width: 640 },
 								//screen less than 640, full width of screen
-								{media: "(max-width: 639px)", width: 640},
+								{ media: "(max-width: 639px)", width: 640 }
 							]}
 						/>
 					)}
 				</div>
 				<div
-					className={`md:w-6/12 mt-16 md:mt-0 ${
-						fields.imagePosition != "right" ? `md:ml-12 lg:ml-16 md:order-last` : `md:mr-12 lg:mr-16 md:order-first`
+					className={`mt-16 md:mt-0 md:w-6/12 ${
+						fields.imagePosition != "right"
+							? `md:order-last md:ml-12 lg:ml-16`
+							: `md:order-first md:mr-12 lg:mr-16`
 					}`}
 				>
 					<div className="g:py-8 text-center md:text-left">
 						{fields.tagline && (
 							<div
 								data-agility-field="tagline"
-								className="font-bold text-primary-500 text-sm text-center md:text-left uppercase py-1"
+								className="text-primary-500 py-1 text-center text-sm font-bold uppercase md:text-left"
 							>
 								{fields.tagline}
 							</div>
 						)}
 						<h2
 							data-agility-field="title"
-							className="font-display text-4xl font-black text-secondary-500 md:text-3xl lg:text-5xl tracking-wide text-center mt-4 lg:leading-tight md:text-left"
+							className="font-display text-secondary-500 mt-4 text-center text-4xl font-black tracking-wide md:text-left md:text-3xl lg:text-5xl lg:leading-tight"
 						>
 							{fields.title}
 						</h2>
 						<p
 							data-agility-field="content"
-							className="mt-4 text-center md:text-left text-sm md:text-base lg:text-lg font-medium leading-relaxed text-secondary-200"
+							className="text-secondary-200 mt-4 text-center text-sm font-medium leading-relaxed md:text-left md:text-base lg:text-lg"
 						>
 							{fields.content}
 						</p>
 						{fields.primaryButton &&
-							generateLink(fields.primaryButton.href, fields.primaryButton.target, fields.primaryButton.text)}
+							generateLink(
+								fields.primaryButton.href,
+								fields.primaryButton.target,
+								fields.primaryButton.text
+							)}
 					</div>
 				</div>
 			</div>

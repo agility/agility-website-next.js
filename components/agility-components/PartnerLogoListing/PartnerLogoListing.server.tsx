@@ -30,7 +30,7 @@ export const PartnerLogoListing = async ({ module, languageCode }: UnloadedModul
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-screen-xl">
+			<div className="mx-auto max-w-7xl">
 				<div className="flex justify-center">
 					{heading && (
 						<div className="mb-5">

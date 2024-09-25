@@ -40,7 +40,7 @@ export const TestimonialsClient = ({ items }: Props) => {
 	}
 
 	return (
-		<section className="case-study-rotator embla mx-auto max-w-screen-xl pt-12">
+		<section className="case-study-rotator embla mx-auto max-w-7xl pt-12">
 			<div className="relative">
 				<div className="overflow-hidden" ref={emblaRef}>
 					<div className="embla__container">

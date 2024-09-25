@@ -35,7 +35,7 @@ export default async function SiteFooter() {
 	return (
 		<footer className="">
 			<div className="bg-highlight px-8 py-20 text-white">
-				<div className="mx-auto max-w-screen-xl">
+				<div className="mx-auto max-w-7xl">
 					<div className="border-t border-t-white border-opacity-50"></div>
 					<div className="mt-8 gap-2 lg:flex lg:flex-wrap lg:items-start">
 						<div className="flex-1 gap-2 md:grid md:grid-cols-2 lg:grid-cols-4">
@@ -129,7 +129,7 @@ export default async function SiteFooter() {
 				</div>
 			</div>
 			<div className="bg-highlight-dark p-3 text-white">
-				<div className="mx-auto max-w-screen-xl lg:flex lg:flex-row-reverse lg:items-center lg:justify-between">
+				<div className="mx-auto max-w-7xl lg:flex lg:flex-row-reverse lg:items-center lg:justify-between">
 					<ul className="mt-4 flex justify-center gap-4 lg:mt-0 lg:justify-start">
 						{footer.fields.followLinks.map((social: any) => (
 							<li key={social.contentID} className="-my-2 mx-4 lg:mx-0">
