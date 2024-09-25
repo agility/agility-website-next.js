@@ -9,6 +9,7 @@ import { UnloadedModuleProps } from "@agility/nextjs"
 import { DateTime } from "luxon"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { gql } from "@apollo/client"
+import { Container } from "components/micro/Container"
 
 interface IPostListing {
 	title: string
@@ -76,7 +77,7 @@ const PostListing = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	// if there are no posts, display message on frontend
 	if (!posts || posts.length <= 0) {
 		return (
-			<div className="mt-44 flex flex-col items-center justify-center px-6">
+			<Container className="mx-auto mt-44 flex max-w-7xl flex-col items-center justify-center px-6">
 				<h1 className="text-center text-3xl font-bold">No posts available.</h1>
 				<div className="my-10">
 					<Link
@@ -86,7 +87,7 @@ const PostListing = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 						Return Home
 					</Link>
 				</div>
-			</div>
+			</Container>
 		)
 	}
 
