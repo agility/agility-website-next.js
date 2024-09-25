@@ -48,6 +48,11 @@ export async function generateStaticParams() {
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
 
+	if (isDevelopmentMode) {
+		console.log("Dev Mode: Skipping static generation")
+		return []
+	}
+
 	const apiKey = isPreview ? process.env.AGILITY_API_PREVIEW_KEY : process.env.AGILITY_API_FETCH_KEY
 
 	const agilityClient = agilitySDK.getApi({
@@ -85,39 +90,6 @@ export async function generateStaticParams() {
 	console.log("Pre-rendering", paths.length, "static paths.")
 
 	return paths
-
-	// TODO: we need to look at the header menu and generate the paths for that
-
-	// //const channelName: process.env.AGILITY_SITEMAP || "website",
-	// const languageCode = process.env.AGILITY_LOCALES || "en-ca"
-
-	// agilitySDK.config.fetchConfig = {
-	// 	next: {
-	// 		tags: [`agility-sitemap-flat-${languageCode}`],
-	// 		revalidate: cacheConfig.cacheDuration
-	// 	}
-	// }
-
-	// //get the nested sitemap and generate the paths
-	// const sitemap: NestedSitemapNode[] = await agilitySDK.getSitemapNested({
-	// 	channelName: process.env.AGILITY_SITEMAP || "website",
-	// 	languageCode
-	// })
-
-	// //only pre-render the top level pages
-	// const paths = sitemap
-	// 	.filter((node, index) => {
-	// 		if (node.redirect !== null || node.isFolder === true || index === 0) return false
-	// 		return true
-	// 	})
-	// 	.map((node) => {
-	// 		return {
-	// 			slug: node.path.split("/").slice(1)
-	// 		}
-	// 	})
-
-	// console.log("Agility: there are", paths.length, " static paths to generate")
-	//return paths
 }
 
 /**

@@ -135,7 +135,7 @@ export const PricingPackagesModuleClient = ({
 
 	return (
 		<div className="bg-slate-50 pt-6">
-			<div id={idStr} className="sticky top-[83px] mb-3 gap-4 border-b border-b-slate-300 bg-slate-50 py-3">
+			<div id={idStr} className="sticky top-[83px] z-10 mb-3 gap-4 border-b border-b-slate-300 bg-slate-50 py-3">
 				<div className="mx-auto flex max-w-7xl justify-center px-8">
 					<h3 className="hidden flex-1 items-center text-xl font-bold lg:block">
 						{isScrolling && <div className="">All Features</div>}
@@ -159,7 +159,7 @@ export const PricingPackagesModuleClient = ({
 					))}
 				</div>
 			</div>
-			<Container className={clsx("mx-auto max-w-7xl", isScrolling && "-mt-10")}>
+			<div className={clsx("mx-auto max-w-7xl justify-center px-8", isScrolling && "-mt-10")}>
 				{listPricingByCategory.map((catFeature, index) => (
 					<Disclosure as="div" key={`cats-${catFeature.category.id}`} className="group" defaultOpen>
 						{index > 0 && (
@@ -189,7 +189,7 @@ export const PricingPackagesModuleClient = ({
 											dangerouslySetInnerHTML={renderHTML(feature.fields.title)}
 										></h5>
 									</div>
-									<div className="my-2 flex justify-center gap-4 bg-background/70 p-1 transition-all lg:my-0 lg:bg-background/0 lg:p-3 lg:hover:bg-background/70">
+									<div className="my-2 flex justify-center bg-background/70 p-1 transition-all lg:my-0 lg:bg-background/0 lg:p-0 lg:hover:bg-background/70">
 										<div className="hidden flex-1 lg:block">
 											<h5
 												className="font-bold"
@@ -235,7 +235,7 @@ export const PricingPackagesModuleClient = ({
 						</DisclosurePanel>
 					</Disclosure>
 				))}
-			</Container>
+			</div>
 		</div>
 	)
 }
