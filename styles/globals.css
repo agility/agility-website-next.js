@@ -35,3 +35,21 @@ h2 {
 .prose blockquote {
   color: #243e63;
 } */
+
+/* Backwards compat */
+.marketing-banner {
+	.link-line {
+		@apply ml-3;
+		@apply text-secondary;
+		@apply font-semibold;
+		@apply transition-colors;
+
+		&:hover {
+			@apply text-white;
+		}
+		&::after {
+			@apply font-bold;
+			content: " >";
+		}
+	}
+}

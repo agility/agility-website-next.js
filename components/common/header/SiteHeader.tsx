@@ -18,6 +18,7 @@ import {
 import { MenuItemOutput } from "./MenuItemOutput"
 import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronDown, IconX } from "@tabler/icons-react"
+import { renderHTML } from "@agility/nextjs"
 
 interface Props {
 	headerContent: HeaderContent
@@ -58,11 +59,21 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	return (
 		<header
 			className={classNames(
-				"sticky top-0 z-50 mx-auto w-full bg-white px-8 transition-shadow",
+				"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow",
 				isScrolled ? "shadow-b" : "shadow-none"
 			)}
 		>
-			<div className="mx-auto max-w-7xl">
+			{/* MARKETING MESSAGE */}
+			{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
+				<div className="marketing-banner hidden bg-highlight text-white lg:block">
+					<div
+						className="mx-auto max-w-7xl p-3 px-8 text-sm"
+						dangerouslySetInnerHTML={renderHTML(header.fields.marketingBanner)}
+					></div>
+				</div>
+			)}
+			<div className="mx-auto max-w-7xl px-8">
+				{/* DESKTOP NAV */}
 				<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 					<div className="lg:w-0 lg:flex-1">
 						<Link href="/" className="flex items-center">
@@ -83,6 +94,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 									href={header.fields.contactus.href}
 									target={header.fields.contactus.target}
 									type="primary"
+									className="hidden sm:block"
 								>
 									{header.fields.contactus.text}
 								</LinkButton>
