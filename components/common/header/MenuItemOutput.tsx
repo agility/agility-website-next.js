@@ -79,7 +79,8 @@ export const MenuItemOutput = ({ link }: Props) => {
 				target={link.menuItem.fields.uRL.target}
 				className={classNames(
 					"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
-					"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
+					"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
+					//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 				)}
 			>
 				<div>{link.menuItem.fields.title}</div>
@@ -100,8 +101,9 @@ export const MenuItemOutput = ({ link }: Props) => {
 							href={link.menuItem.fields.uRL.href}
 							target={link.menuItem.fields.uRL.target}
 							className={classNames(
-								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
-								"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
+								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
+								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
+								//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 							)}
 						>
 							<div>{link.menuItem.fields.title}</div>
@@ -109,13 +111,13 @@ export const MenuItemOutput = ({ link }: Props) => {
 						<PopoverButton
 							ref={refPopoverButton}
 							className={classNames(
-								"text-secondary-500 -ml-2 rounded-full text-sm font-medium leading-6 outline-none ring-0",
-								"ring-inset ring-highlight transition-all focus:outline-none focus:ring-2 group-hover:text-highlight",
-								"data-[open]:ring-0"
+								"text-secondary-500 ring-0X outline-highlightX -ml-2 rounded-full text-sm font-medium leading-6",
+								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
+								// "ring-inset ring-highlight transition-all focus:outline-none focus:ring-2 group-hover:text-highlight",
+								// "data-[open]:ring-0"
 							)}
 						>
 							<IconChevronDown
-								strokeWidth={2}
 								className={classNames("h-4 w-4 transition-all", open ? "rotate-180" : "rotate-0")}
 							/>
 						</PopoverButton>
