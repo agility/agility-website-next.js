@@ -13,11 +13,16 @@ interface INewIntegrationListingModule {
 	filterLabel?: string
 }
 
-const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedModuleProps) => {
+const NewIntegrationListingModule = async ({ module, languageCode, globalData }: UnloadedModuleProps) => {
 	const { fields, contentID } = await getContentItem<INewIntegrationListingModule>({
 		contentID: module.contentid,
 		languageCode
 	})
+
+	//we passed the search params in via the global data
+	const searchParams: URLSearchParams | undefined = globalData?.searchParams
+
+	let integrationQStr = decodeURIComponent(searchParams?.get("integration") || "")
 
 	const { cTATitle, filterLabel = "All integrations" } = fields
 
@@ -52,6 +57,8 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 
 	const allTypes: ComboboItem[] = []
 
+	let currentIntegration: ComboboItem | null = null
+
 	data.integrations?.forEach((integration) => {
 		if (!integration || !integration.fields) return null
 
@@ -60,16 +67,22 @@ const NewIntegrationListingModule = async ({ module, languageCode }: UnloadedMod
 		const integrationType = integrationTypes && integrationTypes?.length > 0 ? integrationTypes[0] : null
 
 		if (integrationType) {
-			allTypes.push({
+			const comboItem = {
 				text: integrationType.fields?.title || "",
 				value: integrationType.contentID
-			})
+			}
+
+			if (integrationQStr && integrationQStr === comboItem.text.replaceAll(" ", "-").toLowerCase()) {
+				currentIntegration = comboItem
+			}
+
+			allTypes.push(comboItem)
 		}
 	})
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<NewIntegrationListingModuleClient {...{ data, allTypes, cTATitle, filterLabel }} />
+			<NewIntegrationListingModuleClient {...{ data, allTypes, cTATitle, filterLabel, currentIntegration }} />
 		</Container>
 	)
 }

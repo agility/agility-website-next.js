@@ -7,16 +7,22 @@ import { LinkButton } from "components/micro/LinkButton"
 import { IntegrationsQuery } from "gql/__generated__/graphql"
 import Link from "next/link"
 import { useMemo, useState } from "react"
-
 interface Props {
 	data: IntegrationsQuery
 	allTypes: ComboboItem[]
 	cTATitle: string
 	filterLabel: string
+	currentIntegration: ComboboItem | null
 }
 
-export const NewIntegrationListingModuleClient = ({ data, allTypes, cTATitle, filterLabel }: Props) => {
-	const [selectedType, setSelectedType] = useState<ComboboItem | null>(null)
+export const NewIntegrationListingModuleClient = ({
+	data,
+	allTypes,
+	cTATitle,
+	filterLabel,
+	currentIntegration
+}: Props) => {
+	const [selectedType, setSelectedType] = useState<ComboboItem | null>(currentIntegration)
 
 	const filtered = useMemo(() => {
 		return data.integrations?.filter((integration) => {
@@ -31,7 +37,6 @@ export const NewIntegrationListingModuleClient = ({ data, allTypes, cTATitle, fi
 			return integrationType?.contentID === selectedType.value
 		})
 	}, [selectedType, data])
-
 	return (
 		<div className="mx-auto max-w-7xl">
 			<div className="flex">
@@ -41,7 +46,14 @@ export const NewIntegrationListingModuleClient = ({ data, allTypes, cTATitle, fi
 						items: allTypes,
 						selectedItem: selectedType,
 						onChange: (item) => {
-							setSelectedType(item)
+							const val = item?.value ? item.text.replaceAll(" ", "-").toLowerCase() : ""
+							if (val) {
+								window.history.pushState(null, "", `?integration=${val}`)
+								setSelectedType(item)
+							} else {
+								window.history.pushState(null, "", location.pathname)
+								setSelectedType(null)
+							}
 						}
 					}}
 				/>
