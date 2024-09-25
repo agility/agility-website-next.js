@@ -29,7 +29,10 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 				{section && <h5 className="mb-5 text-lg font-medium uppercase text-gray-500">{section}</h5>}
 				{title && <h1 className="text-balance text-5xl font-medium leading-10 sm:leading-tight">{title}</h1>}
 				{description && (
-					<div className="mt-2 text-2xl font-medium" dangerouslySetInnerHTML={renderHTML(description)} />
+					<div
+						className="mt-2 text-balance text-2xl font-medium"
+						dangerouslySetInnerHTML={renderHTML(description)}
+					/>
 				)}
 				{(cTA1 || cTA2) && (
 					<div className="flex items-center justify-center gap-2">
