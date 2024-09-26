@@ -17,10 +17,14 @@ interface IRightORLeftContentModule {
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<IRightORLeftContentModule>({
+	const componentItem = await getContentItem<IRightORLeftContentModule>({
 		contentID: module.contentid,
 		languageCode
 	})
+
+	if (!componentItem) return null
+
+	const { fields, contentID } = componentItem
 
 	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb } = fields
 

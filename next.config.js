@@ -17,6 +17,20 @@ const nextConfig = {
 			},
 		],
 	},
+	redirects() {
+		return [
+			{
+				source: '/resources/category/:path',
+				destination: '/resources?category=:path',
+				permanent: true,
+			},
+			{
+				source: '/resources/topic/:path',
+				destination: '/resources?topic=:path',
+				permanent: true,
+			},
+		]
+	}
 }
 
 module.exports = nextConfig

@@ -19,6 +19,7 @@ export interface IResourceListingItem {
 		uRL: string
 		image: ImageField
 		resourceTypeName: string
+		resourceTypeID: string | null
 		resourceType: {
 			contentID: number
 			fields: {
@@ -39,7 +40,7 @@ export const getResourceListing = async ({ skip, take }: Props) => {
 
 	const gqlQuery = gql(`
 		query resources ($skip:Int = 0, $take: Int = 1)  {
-			resources (skip: $skip, take: $take) {
+			resources (skip: $skip, take: $take, sort: "fields.date", direction: "desc") {
 				properties {
 					itemOrder
 				}
@@ -56,6 +57,7 @@ export const getResourceListing = async ({ skip, take }: Props) => {
 						width
 					}
 					resourceTypeName
+					resourceTypeID
 					resourceType {
 						contentID
 						fields {

@@ -74,18 +74,30 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							<div className="absolute left-0 top-0 h-0 w-0.5 bg-highlight-light transition-all duration-300 lg:group-hover:h-full lg:peer-checked:h-full"></div>
 							<div className="prose mt-2" dangerouslySetInnerHTML={renderHTML(panel.description)}></div>
 						</label>
-						<div className="md:w-1/2 lg:hidden">
+						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
 							{panels[activePanel].graphic.url.endsWith(".svg") ? (
-								<img src={panels[activePanel].graphic.url} alt="" className="w-full" />
+								<img
+									src={panels[activePanel].graphic.url}
+									alt=""
+									className="max-h-[400px] max-w-[400px]"
+								/>
 							) : (
-								<AgilityPic image={panel.graphic} className="w-full" fallbackWidth={600} />
+								<AgilityPic
+									image={panel.graphic}
+									className="max-h-[400px] max-w-[400px]"
+									fallbackWidth={400}
+								/>
 							)}
 						</div>
 					</div>
 				))}
 			</div>
-			<div className="hidden w-1/2 overflow-clip lg:block">
-				<Transition show={open} as={"div"} className={"relative"}>
+			<div className="hidden w-1/2 items-center justify-center overflow-clip lg:flex">
+				<Transition
+					show={open}
+					as={"div"}
+					className={"relative flex h-[450px] w-[450px] items-center justify-center"}
+				>
 					<TransitionChild>
 						<div
 							className={clsx(
@@ -104,22 +116,25 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							className={clsx(
 								"transition-all duration-300 ease-in data-[closed]:duration-0",
 								"h-auto data-[closed]:h-0 data-[closed]:opacity-0",
-								"mt-0 h-full data-[closed]:mt-10"
+								"mt-0 h-full data-[closed]:mt-10",
+								"flex items-center justify-center"
 							)}
 						>
-							{panels[activePanel].graphic.url.endsWith(".svg") ? (
-								<img
-									src={panels[activePanel].graphic.url}
-									alt=""
-									className="relative w-full bg-white"
-								/>
-							) : (
-								<AgilityPic
-									image={panels[activePanel].graphic}
-									className="relative z-10 h-[500px] w-full bg-white object-contain"
-									fallbackWidth={600}
-								/>
-							)}
+							<div className="relative h-96 w-96">
+								{panels[activePanel].graphic.url.endsWith(".svg") ? (
+									<img
+										src={panels[activePanel].graphic.url}
+										alt=""
+										className="relative z-10 h-full bg-white object-contain"
+									/>
+								) : (
+									<AgilityPic
+										image={panels[activePanel].graphic}
+										className="relative z-10 mx-auto h-full bg-white object-contain"
+										fallbackWidth={600}
+									/>
+								)}
+							</div>
 						</div>
 					</TransitionChild>
 				</Transition>

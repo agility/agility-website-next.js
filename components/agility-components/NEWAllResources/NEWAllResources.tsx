@@ -72,34 +72,40 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 		: null
 
 	//filter the resources
-	const resources = await getResourceListing({ skip, take })
+	const resources = await getResourceListing({ skip: 0, take: 250 })
 
-	const filteredResources = resources?.filter((res) => {
-		const foundTopic =
-			!currentTopic ||
-			res.fields.resourceTopics?.find((r) => r?.contentID === currentTopic.contentID) !== undefined
+	const filteredResources = resources
+		?.filter((res) => {
+			const foundTopic =
+				!currentTopic ||
+				res.fields.resourceTopics?.find((r) => r?.contentID === currentTopic.contentID) !== undefined
 
-		const foundCategory = !currentCategory || res.fields.resourceType.contentID === currentCategory.contentID
+			const foundCategory = !currentCategory || res.fields.resourceType.contentID === currentCategory.contentID
 
-		return foundTopic && foundCategory
-	})
+			return foundTopic && foundCategory
+		})
+		.slice(skip, pageSize)
 
 	//get the next items
 	const getNextItems = async ({ skip, take }: { skip: number; take: number }) => {
 		"use server"
-		const resources = await getResourceListing({ skip, take })
+		const resources = await getResourceListing({ skip: 0, take: 250 })
 
 		const filteredResources = resources?.filter((cs) => {
 			const foundTopic =
 				!currentTopic ||
 				cs?.fields?.resourceTopics?.find((c) => c?.contentID === currentTopic?.contentID) !== undefined
+
 			const foundCategory =
 				!currentCategory || (cs?.fields?.resourceType?.contentID === currentCategory?.contentID) !== undefined
 
 			return foundTopic && foundCategory
 		})
+		console.log("next filteredResources", filteredResources.length, skip, take)
+		const retLst = filteredResources.slice(skip, skip + take)
 
-		return filteredResources
+		console.log("next retLst", retLst.length)
+		return retLst
 	}
 
 	return (
