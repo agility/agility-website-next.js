@@ -65,6 +65,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				)}
 
 				<HubspotTracker />
+				{/* Load in the agility web-studio-sdk script */}
+				<Script src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" />
 			</body>
 		</html>
 	)
