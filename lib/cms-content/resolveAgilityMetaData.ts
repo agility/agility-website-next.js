@@ -37,12 +37,14 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 			metaTitle = contentItem.fields["metaTitle"] as string | undefined
 
-			if (contentItem.properties.definitionName === "Post") {
+			if (contentItem.properties.definitionName === "BlogPost") {
 				/* *** Posts MetaData *** */
 				const post = contentItem.fields as IPost
 
 				if (!metaDescription) {
+
 					metaDescription = stripHtml(post.excerpt || post.textblob, 240)
+
 				}
 
 				if (post.postImage) {
