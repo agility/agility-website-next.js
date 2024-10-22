@@ -1,9 +1,9 @@
-import getAgilitySDK from "lib/cms/getAgilitySDK"
+import agility, { ApiClientInstance } from '@agility/content-fetch'
 import { cacheConfig } from "lib/cms/cacheConfig"
 import { getStore } from "@netlify/blobs";
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs/promises'
+
 import { DateTime } from "luxon";
 import { getCachedObject } from "lib/persistant-cache/getCachedObject";
 import { setCachedObject } from "lib/persistant-cache/setCachedObject";
@@ -23,7 +23,7 @@ interface Redirections {
 	items: Redirection[]
 }
 
-interface RedirectionsMap {
+export interface RedirectionsMap {
 	lastAccessDate: string
 	isUpToDate: boolean
 	items: { [key: string]: Redirection }
@@ -40,7 +40,14 @@ interface Props {
  */
 export const getRedirections = async ({ forceUpdate = false }: Props): Promise<RedirectionsMap> => {
 
-	const agilitySDK = getAgilitySDK()
+
+	const apiKey = process.env.AGILITY_API_FETCH_KEY
+
+	const agilitySDK = agility.getApi({
+		guid: process.env.AGILITY_GUID,
+		apiKey,
+		isPreview: false
+	});
 
 	//don't cache the redirections with nextjs cache - we are gonna do that manually...
 	agilitySDK.config.fetchConfig = {
@@ -52,11 +59,23 @@ export const getRedirections = async ({ forceUpdate = false }: Props): Promise<R
 	try {
 
 		const key = 'redirections'
-		let redirectionRes = await getCachedObject<RedirectionsMap>(key)
+		let filepath = 'data/redirections.json'
+
+		let redirectionRes: RedirectionsMap | undefined
+		let fileExists = false
+		try {
+			await fs.access(filepath, fs.constants.F_OK)
+			fileExists = true
+		} catch (e) { }
+
+		if (fileExists) {
+			let redirectionStr = await fs.readFile(filepath, 'utf8')
+			redirectionRes = JSON.parse(redirectionStr) as RedirectionsMap
+		}
 
 		if (!forceUpdate && redirectionRes && redirectionRes.isUpToDate) {
 			//if the redirections are up to date, return them...
-			return redirectionRes.item
+			return redirectionRes
 		}
 
 		let lastAccessDate: Date | null | undefined = undefined
@@ -93,8 +112,8 @@ export const getRedirections = async ({ forceUpdate = false }: Props): Promise<R
 				redirectionsMap.items[key] = redirection
 			});
 
-			// Write the server redirections to cache
-			await setCachedObject(key, JSON.stringify(redirectionsMap))
+			// Write the server redirections to the file system
+			await fs.writeFile(filepath, JSON.stringify(redirectionsMap), 'utf8')
 
 			return redirectionsMap
 		}

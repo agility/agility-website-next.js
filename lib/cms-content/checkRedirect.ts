@@ -1,7 +1,10 @@
 import { ScalableBloomFilter } from "bloom-filters"
 import { PageProps } from "lib/cms/getAgilityPage"
-import { getRedirections, Redirection } from "lib/cms/getRedirections"
+import { getRedirections, Redirection, RedirectionsMap } from "lib/cms/getRedirections"
 import { getCachedObject } from "lib/persistant-cache/getCachedObject"
+
+import filteredRedirects from "data/redirections-bloom-filter.json"
+import allRedirects from "data/redirections.json"
 
 /**
  * Check if a path should be redirected.
@@ -15,30 +18,16 @@ export const checkRedirect = async ({ path }: { path: string }): Promise<Redirec
 	//if the path is the root, obviously don't redirect
 	if (path === "/") return null
 
-	const start = performance.now();
-	//get the bloom filter first
-	const filterStr = await getCachedObject<string>('redirections-bloom-filter', true)
-
-	const end = performance.now();
-
-	const timeToGetBloomFilter = end - start
-	if (timeToGetBloomFilter > 100) {
-		console.warn("WARNING: Time to get Redirect Bloom Filter is too long:", timeToGetBloomFilter, "ms")
-	}
-
-	if (!filterStr || !filterStr.item) {
-		return null
-	}
 
 	//parse the bloom filter and check if the path resolves in it
-	const filter = JSON.parse(filterStr.item)
-	const bloomFilter = ScalableBloomFilter.fromJSON(filter)
+
+	const bloomFilter = ScalableBloomFilter.fromJSON(filteredRedirects as any)
 
 	//check if the path is in the bloom filter
 	if (!bloomFilter.has(path.toLowerCase())) return null
 
 	//get the redirections
-	const redirections = await getRedirections({})
+	const redirections = allRedirects as RedirectionsMap
 	if (!redirections) return null
 
 

@@ -1,4 +1,4 @@
-import { rebuildRedirectCache } from "lib/cms-content/rebuildRedirectCache";
+
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -47,7 +47,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		}
 	} else if (data.contentID === undefined && data.pageID === undefined) {
 		//if no content or page id is provided, it's for a URL redirection
-		await rebuildRedirectCache()
+		//trigger the rebuild hook for netlify's rebuild...
+		await fetch("https://api.netlify.com/build_hooks/6717bc8a50aba34150ec905b", {
+			method: 'POST'
+		})
 	}
 
 	return new Response(`OK`, {

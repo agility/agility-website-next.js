@@ -1,7 +1,7 @@
 import { getRedirections } from "lib/cms/getRedirections"
 import { ScalableBloomFilter } from 'bloom-filters'
 import { setCachedObject } from "lib/persistant-cache/setCachedObject"
-
+import fs from 'fs/promises'
 
 /**
  * Rebuild the redirection cache and bloom filter.
@@ -10,7 +10,7 @@ import { setCachedObject } from "lib/persistant-cache/setCachedObject"
 export const rebuildRedirectCache = async () => {
 
 	try {
-		console.info("Rebuilding redirect cache...")
+		console.info("Agility CMS => Rebuilding redirect cache...")
 		//force a rebuild the redirection cache
 		const redirections = await getRedirections({ forceUpdate: true })
 
@@ -35,8 +35,14 @@ export const rebuildRedirectCache = async () => {
 		const filterJson = filter.saveAsJSON()
 		const filterStr = JSON.stringify(filterJson)
 
-		//put the bloom filter in the persistent cache
-		setCachedObject('redirections-bloom-filter', filterStr)
+
+		//save the bloom filter to the data folder...
+		const fileName = 'data/redirections-bloom-filter.json'
+		await fs.writeFile(fileName, filterStr, 'utf8')
+
+
+		// //put the bloom filter in the persistent cache
+		// setCachedObject('redirections-bloom-filter', filterStr)
 
 
 	} catch (error) {
