@@ -5,7 +5,7 @@ import { getAgilityContext } from "lib/cms/useAgilityContext"
 import { Metadata, ResolvingMetadata } from "next"
 
 import { resolveAgilityMetaData } from "lib/cms-content/resolveAgilityMetaData"
-import NotFound from "./not-found"
+import { notFound } from "next/navigation"
 import InlineError from "components/common/InlineError"
 import { cacheConfig } from "lib/cms/cacheConfig"
 import { checkRedirect } from "lib/cms-content/checkRedirect"
@@ -112,7 +112,9 @@ export default async function Page({ params }: PageProps) {
 	const agilityData = await getAgilityPage({ params })
 
 	//if the page is not found...
-	if (!agilityData.page) return NotFound()
+	if (!agilityData.page) {
+		notFound()
+	}
 
 	const AgilityPageTemplate = getPageTemplate(agilityData.pageTemplateName || "")
 
