@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"dev-g": "concurrently \"next dev\" \"yarn generate --watch\"",
-		"prebuild": "tsx --env-file=.env.local node/prebuild.ts",
+		"prebuild": "dotenvx run -f .env.local -f .env -- tsx node/prebuild.ts",
 		"build": "next build",
 		"build-swa": "next build && rm -rf ./.next/cache",
 		"start": "next start",
@@ -46,7 +46,7 @@
 		"@agility/nextjs": "^14.0.1",
 		"@apollo/client": "^3.10.8",
 		"@apollo/experimental-nextjs-app-support": "^0.11.3",
-		"@dotenvx/dotenvx": "^1.6.4",
+		"@dotenvx/dotenvx": "^1.20.0",
 		"@graphql-codegen/cli": "^5.0.2",
 		"@graphql-codegen/client-preset": "^4.3.2",
 		"@graphql-typed-document-node/core": "^3.2.0",
