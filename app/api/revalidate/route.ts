@@ -48,9 +48,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	} else if (data.contentID === undefined && data.pageID === undefined) {
 		//if no content or page id is provided, it's for a URL redirection
 		//trigger the rebuild hook for netlify's rebuild...
-		await fetch("https://api.netlify.com/build_hooks/6717bc8a50aba34150ec905b", {
-			method: 'POST'
-		})
+		const hookUrl = process.env.BUILD_HOOK_URL
+		if (hookUrl) {
+			await fetch(hookUrl, {
+				method: 'POST'
+			})
+		}
 	}
 
 	return new Response(`OK`, {
