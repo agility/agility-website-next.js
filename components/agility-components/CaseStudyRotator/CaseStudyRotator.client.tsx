@@ -71,8 +71,8 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) =>
 										</div>
 										<div
 											className={clsx(
-												"absolute left-0 top-0 h-full overflow-hidden bg-black/40 font-normal text-white",
-												"pointer-events-none w-2/3 md:w-1/2"
+												"absolute left-0 top-0 overflow-hidden bg-black/40 font-normal text-white md:h-full",
+												"pointer-events-none md:w-1/2 lg:w-2/3"
 											)}
 										>
 											<div
@@ -88,11 +88,15 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) =>
 												>
 													{caseStudy.title}
 												</h3>
-												<p className={clsx("line-clamp-5 text-sm md:text-base")}>
+												<p
+													className={clsx(
+														"line-clamp-5 hidden text-sm md:block md:text-base"
+													)}
+												>
 													{caseStudy.excerpt}
 												</p>
 												{cTAbuttonText && (
-													<div className="mt-4">
+													<div className="mt-4 hidden md:block">
 														<LinkButton
 															type="alternate"
 															href={caseStudyUrl}

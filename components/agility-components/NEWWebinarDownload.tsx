@@ -1,6 +1,7 @@
 import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { gql } from "@apollo/client"
 import { IconChevronRight } from "@tabler/icons-react"
+import clsx from "clsx"
 
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
@@ -89,7 +90,9 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 			<Container className="mx-auto flex max-w-7xl flex-col">
 				<div className="flex w-full justify-center">
 					<div
-						className="prose prose-xl w-full max-w-7xl prose-h2:mb-4 prose-h2:text-balance prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+						className={clsx(
+							"prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-balance prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+						)}
 						dangerouslySetInnerHTML={renderHTML(fields.content)}
 					/>
 				</div>

@@ -161,7 +161,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 				{caseStudy.relatedResources && caseStudy.relatedResources.length > 0 && (
 					<div className="mt-10">
 						<h2 className="text-center text-3xl font-medium">{fields.relatedResourcesHeading}</h2>
-						<div className="mt-6 flex w-full justify-center gap-6">
+						<div className="mt-6 flex w-full flex-col justify-center gap-6 lg:flex-row">
 							{caseStudy.relatedResources?.map((item) => (
 								<ResourceCard
 									key={item.contentID}

@@ -29,7 +29,7 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 					<div className="flex flex-1 justify-end">
 						<div
 							className={clsx(
-								"flex flex-col items-center px-8 text-center",
+								"flex w-full flex-col items-center justify-center text-center lg:px-8",
 								"lg:max-w-[calc(80rem*.625)] lg:items-start lg:text-left"
 							)}
 						>
@@ -40,17 +40,19 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 									className="h-full object-contain"
 								/>
 							</div>
-							<h1 className="mt-8 text-balance text-5xl font-medium leading-tight lg:mt-12">
+							<h1 className="mt-8 text-balance text-3xl font-medium leading-tight lg:mt-12 lg:text-5xl">
 								{caseStudy.title}
 							</h1>
 							<p className="mt-8 text-lg">{caseStudy.excerpt}</p>
 						</div>
 					</div>
 					{metrics && metrics.length > 0 && (
-						<div className="mt-16 flex h-36 items-center justify-center gap-8 bg-highlight-light text-white md:gap-14">
+						<div className="mt-8 flex h-36 items-center justify-center gap-8 bg-highlight-light px-4 text-white md:gap-14 lg:mt-16">
 							{metrics.map((metric, index) => (
-								<div key={metric.contentID}>
-									<h3 className="text-2xl font-medium md:text-4xl">{metric.fields.value}</h3>
+								<div key={metric.contentID} className="">
+									<h3 className="text-lg font-medium md:text-4xl lg:text-2xl">
+										{metric.fields.value}
+									</h3>
 									<p className="md:text-lg">{metric.fields.key}</p>
 								</div>
 							))}
