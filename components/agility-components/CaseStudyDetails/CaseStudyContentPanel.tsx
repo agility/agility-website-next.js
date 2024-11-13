@@ -47,13 +47,13 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 						</div>
 					</div>
 					{metrics && metrics.length > 0 && (
-						<div className="mt-8 flex h-36 items-center justify-center gap-8 bg-highlight-light px-4 text-white md:gap-14 lg:mt-16">
+						<div className="mt-8 flex flex-col justify-center gap-8 bg-highlight-light p-4 pb-12 text-white md:gap-14 md:pb-4 lg:mt-16 lg:h-36 lg:flex-row lg:items-center">
 							{metrics.map((metric, index) => (
 								<div key={metric.contentID} className="">
 									<h3 className="text-lg font-medium md:text-4xl lg:text-2xl">
 										{metric.fields.value}
 									</h3>
-									<p className="md:text-lg">{metric.fields.key}</p>
+									<p className="">{metric.fields.key}</p>
 								</div>
 							))}
 						</div>

@@ -181,7 +181,10 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 							<div>
 								<IconQuote className="text-highlight-light" size={72} />
 							</div>
-							<div className="prose prose-lg" dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}></div>
+							<div
+								className="prose- prose prose-lg"
+								dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}
+							></div>
 						</div>
 					)}
 

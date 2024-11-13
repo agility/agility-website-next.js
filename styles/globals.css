@@ -36,6 +36,10 @@ h2 {
   color: #243e63;
 } */
 
+.prose iframe {
+	max-width: 100%;
+}
+
 /* Backwards compat */
 .marketing-banner {
 	.link-line {
