@@ -26,24 +26,44 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
 			<div className="mx-auto max-w-5xl text-center">
-				{section && <h5 className="mb-5 text-lg font-medium uppercase text-gray-500">{section}</h5>}
-				{title && <h1 className="text-balance text-5xl font-medium leading-10 sm:leading-tight">{title}</h1>}
+				{section && (
+					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500">
+						{section}
+					</h5>
+				)}
+				{title && (
+					<h1
+						data-agility-field="title"
+						className="text-balance text-5xl font-medium leading-10 sm:leading-tight"
+					>
+						{title}
+					</h1>
+				)}
 				{description && (
 					<div
 						className="mt-2 text-balance text-2xl font-medium"
 						dangerouslySetInnerHTML={renderHTML(description)}
+						data-agility-field="description"
 					/>
 				)}
 				{(cTA1 || cTA2) && (
 					<div className="flex items-center justify-center gap-2">
 						{cTA1 && cTA1.href && (
-							<LinkButton type="primary" href={cTA1.href} target={cTA1.target} className="mt-8" size="md">
+							<LinkButton
+								data-agility-field="cTA1"
+								type="primary"
+								href={cTA1.href}
+								target={cTA1.target}
+								className="mt-8"
+								size="md"
+							>
 								{cTA1.text}
 							</LinkButton>
 						)}
 
 						{cTA2 && cTA2.href && (
 							<LinkButton
+								data-agility-field="cTA2"
 								type="secondary"
 								href={cTA2.href}
 								target={cTA2.target}
