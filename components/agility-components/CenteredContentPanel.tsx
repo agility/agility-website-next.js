@@ -44,6 +44,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 						className="mt-2 text-balance text-2xl font-medium"
 						dangerouslySetInnerHTML={renderHTML(description)}
 						data-agility-field="description"
+						data-agility-html
 					/>
 				)}
 				{(cTA1 || cTA2) && (
