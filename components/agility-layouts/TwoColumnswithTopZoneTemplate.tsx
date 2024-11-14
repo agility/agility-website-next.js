@@ -5,12 +5,12 @@ import LoadingWidget from "components/common/LoadingWidget"
 
 export const TwoColumnswithTopZoneTemplate = (props: any) => {
 	return (
-		<Suspense fallback={<LoadingWidget />}>
+		<>
 			<ContentZone name="Top" {...props} getModule={getModule} />
 			<div>
 				<ContentZone name="Main" {...props} getModule={getModule} />
 				<ContentZone name="RightColumn" {...props} getModule={getModule} />
 			</div>
-		</Suspense>
+		</>
 	)
 }
