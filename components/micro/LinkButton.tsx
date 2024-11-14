@@ -11,6 +11,7 @@ interface Props {
 	buttonType?: "button" | "submit" | "reset"
 	className?: string
 	disabled?: boolean
+	"data-agility-field"?: string
 	onClick?: () => void
 }
 
@@ -23,7 +24,8 @@ export const LinkButton = ({
 	onClick,
 	buttonType = "button",
 	size = "sm",
-	disabled
+	disabled,
+	"data-agility-field": dataAgilityField
 }: Props) => {
 	let actualHref = href
 	if (actualHref && actualHref.startsWith("http://agilitycms.com/")) {
@@ -52,14 +54,26 @@ export const LinkButton = ({
 
 	if (!href && (onClick || buttonType)) {
 		return (
-			<button className={btnClass} onClick={onClick} type={buttonType} disabled={disabled}>
+			<button
+				className={btnClass}
+				onClick={onClick}
+				type={buttonType}
+				disabled={disabled}
+				data-agility-field={dataAgilityField}
+			>
 				{children}
 			</button>
 		)
 	}
 
 	return (
-		<Link href={href || "/"} target={target} className={btnClass} onClick={onClick}>
+		<Link
+			href={href || "/"}
+			target={target}
+			className={btnClass}
+			onClick={onClick}
+			data-agility-field={dataAgilityField}
+		>
 			{children}
 		</Link>
 	)
