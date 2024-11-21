@@ -13,7 +13,7 @@ export const EventDetails = async ({ module, languageCode, dynamicPageItem }: Un
 	const { fields } = dynamicPageItem as ContentItem<IEvent>
 	const event = fields
 	const date = new Date(event.date)
-	console.log("EVENT DATE", date)
+
 	const dt = DateTime.fromJSDate(date, { zone: "est" })
 	const dateStr = dt.toFormat("LLL dd, yyyy")
 	const timeStr = dt.toFormat("t")
