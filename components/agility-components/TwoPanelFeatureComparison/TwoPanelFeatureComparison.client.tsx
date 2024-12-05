@@ -115,7 +115,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 								key={panel.contentID}
 								className={clsx(
 									"gap-4 pt-20 md:flex",
-									panel.fields.graphicLocation === "right" ? "flex-row-reverse" : ""
+									panel.fields.graphicLocation !== "right" ? "flex-row-reverse" : ""
 								)}
 							>
 								<div className="relative flex-1">
@@ -181,7 +181,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 									key={panel.contentID}
 									className={clsx(
 										"gap-4 pt-20 md:flex",
-										panel.fields.graphicLocation === "right" ? "flex-row-reverse" : ""
+										panel.fields.graphicLocation !== "right" ? "flex-row-reverse" : ""
 									)}
 								>
 									<div className="relative flex-1">

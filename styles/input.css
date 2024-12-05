@@ -61,4 +61,19 @@
 			}
 		}
 	}
+
+	.vertical-content-panel-desc {
+		a {
+			@apply text-highlight-light;
+			@apply font-semibold;
+			@apply transition-colors;
+			@apply block;
+			@apply mt-3;
+			@apply transition-colors;
+
+			&:hover {
+				@apply: text-highlight-dark;
+			}
+		}
+	}
 }

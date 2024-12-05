@@ -44,7 +44,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					></div>
 				)}
 
-				<div className="mt-8 grid grid-cols-1 place-items-center gap-8 sm:grid-cols-2 md:grid-cols-3">
+				<div className="place-items-centerX mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 					{fields.panel1Graphic && fields.panel1Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel1Graphic.url.endsWith(".svg") ? (

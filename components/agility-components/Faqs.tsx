@@ -39,11 +39,14 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 				<dl>
 					{faqs.map((faq) => {
 						return (
-							<div key={faq.contentID}>
+							<div key={faq.contentID} className="border-b border-b-slate-300 pb-8">
 								<dt className="mt-10 text-lg font-medium text-highlight-light">
 									{faq.fields.question}
 								</dt>
-								<dd className="prose" dangerouslySetInnerHTML={renderHTML(faq.fields.answer)}></dd>
+								<dd
+									className="prose mt-4 max-w-full"
+									dangerouslySetInnerHTML={renderHTML(faq.fields.answer)}
+								></dd>
 							</div>
 						)
 					})}

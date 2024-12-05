@@ -1,6 +1,7 @@
 "use client"
 import { Combobox, Label, ComboboxInput, ComboboxButton, ComboboxOptions, ComboboxOption } from "@headlessui/react"
 import { IconCheck, IconChevronDown } from "@tabler/icons-react"
+import clsx from "clsx"
 import { useMemo, useState } from "react"
 
 export interface ComboboItem {
@@ -13,9 +14,10 @@ interface Props {
 	selectedItem?: ComboboItem | null
 	onChange: (item: ComboboItem | null) => void
 	label: string
+	className?: string
 }
 
-export const FilterComboBox = ({ items, onChange, selectedItem, label }: Props) => {
+export const FilterComboBox = ({ items, onChange, selectedItem, label, className }: Props) => {
 	const [query, setQuery] = useState("")
 
 	const filteredItems = useMemo(
@@ -36,7 +38,7 @@ export const FilterComboBox = ({ items, onChange, selectedItem, label }: Props) 
 				setQuery("")
 				onChange(item)
 			}}
-			className="group"
+			className={clsx("group", className)}
 			immediate
 		>
 			<div className="relative mt-2">

@@ -39,12 +39,13 @@ export const NewIntegrationListingModuleClient = ({
 	}, [selectedType, data])
 	return (
 		<div className="mx-auto max-w-7xl">
-			<div className="flex">
+			<div className="flex w-full">
 				<FilterComboBox
 					{...{
 						label: filterLabel,
 						items: allTypes,
 						selectedItem: selectedType,
+						className: "md:w-1/3 w-full min-w-[300px]",
 						onChange: (item) => {
 							const val = item?.value ? item.text.replaceAll(" ", "-").toLowerCase() : ""
 							if (val) {

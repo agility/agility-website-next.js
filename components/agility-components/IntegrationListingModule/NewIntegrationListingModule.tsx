@@ -75,8 +75,9 @@ const NewIntegrationListingModule = async ({ module, languageCode, globalData }:
 			if (integrationQStr && integrationQStr === comboItem.text.replaceAll(" ", "-").toLowerCase()) {
 				currentIntegration = comboItem
 			}
-
-			allTypes.push(comboItem)
+			if (!allTypes.find((item) => item.text === comboItem.text)) {
+				allTypes.push(comboItem)
+			}
 		}
 	})
 

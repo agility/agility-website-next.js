@@ -190,13 +190,13 @@ export const PricingPackagesModuleClient = ({
 										></h5>
 									</div>
 									<div className="my-2 flex justify-center bg-background/70 p-1 transition-all lg:my-0 lg:bg-background/0 lg:p-0 lg:hover:bg-background/70">
-										<div className="hidden flex-1 lg:block">
+										<div className="hidden flex-1 p-3 lg:block">
 											<h5
 												className="font-bold"
 												dangerouslySetInnerHTML={renderHTML(feature.fields.title)}
 											></h5>
 											<div
-												className="prose prose-sm prose-slate"
+												className="prose prose-sm prose-slate mt-3 opacity-80"
 												dangerouslySetInnerHTML={renderHTML(feature.fields.description)}
 											></div>
 										</div>

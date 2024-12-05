@@ -1,4 +1,5 @@
 import { renderHTML, Module, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { IconChevronCompactRight, IconChevronRight } from "@tabler/icons-react"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
@@ -46,10 +47,10 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 									type={darkMode ? "alternate" : "secondary"}
 									href={cTA1.href}
 									target={cTA1.target}
-									className={clsx(darkMode ? "text-black" : "!bg-white")}
+									className={clsx("", darkMode ? "text-black" : "!bg-white")}
 									size="lg"
 								>
-									{cTA1.text}
+									{cTA1.text} <IconChevronRight />
 								</LinkButton>
 							</>
 						)}
