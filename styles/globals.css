@@ -11,21 +11,25 @@
 /* Import tailwind utility styles */
 @tailwind utilities;
 
-.hover-shadow-white {
-	transition: text-shadow 0.1s;
-	&:hover {
-		text-shadow: #fff 1px 0;
+@layer base {
+	h1 {
+		letter-spacing: -0.4px;
+	}
+
+	h2 {
+		letter-spacing: -0.35px;
 	}
 }
 
-h1 {
-	letter-spacing: -0.4px;
-}
+@layer utilities {
+	.hover-shadow-white {
+		transition: text-shadow 0.1s;
+		&:hover {
+			text-shadow: #fff 1px 0;
+		}
+	}
 
-h2 {
-	letter-spacing: -0.35px;
-}
-/*
+	/*
 .prose h1,
 .prose h2,
 .prose h3,
@@ -36,24 +40,25 @@ h2 {
   color: #243e63;
 } */
 
-.prose iframe {
-	max-width: 100%;
-}
+	.prose iframe {
+		max-width: 100%;
+	}
 
-/* Backwards compat */
-.marketing-banner {
-	.link-line {
-		@apply ml-3;
-		@apply text-secondary;
-		@apply font-semibold;
-		@apply transition-colors;
+	/* Backwards compat */
+	.marketing-banner {
+		.link-line {
+			@apply ml-3;
+			@apply text-secondary;
+			@apply font-semibold;
+			@apply transition-colors;
 
-		&:hover {
-			@apply text-white;
-		}
-		&::after {
-			@apply font-bold;
-			content: " >";
+			&:hover {
+				@apply text-white;
+			}
+			&::after {
+				@apply font-bold;
+				content: " >";
+			}
 		}
 	}
 }
