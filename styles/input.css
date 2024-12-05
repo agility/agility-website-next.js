@@ -48,12 +48,12 @@
 	.marketing-banner {
 		.link-line {
 			@apply ml-3;
-			@apply text-secondary;
+			color: #ffc414;
 			@apply font-semibold;
 			@apply transition-colors;
 
 			&:hover {
-				@apply text-white;
+				color: #fff;
 			}
 			&::after {
 				@apply font-bold;

@@ -1,6 +1,7 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
+import type { Config } from 'tailwindcss'
 
-module.exports = {
+const config: Config = {
 
 	content: [
 		"./app/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +15,7 @@ module.exports = {
 
 		extend: {
 			fontWeight: {
-				medium: 600,
+				medium: "600",
 			},
 			fontSize: {
 				"5xl": "2.5rem"
@@ -41,3 +42,6 @@ module.exports = {
 		require("@tailwindcss/typography")
 	],
 };
+
+
+export default config

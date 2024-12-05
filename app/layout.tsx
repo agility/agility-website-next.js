@@ -6,7 +6,7 @@ import SiteHeader from "components/common/header/SiteHeader"
 import { useAgilityContext } from "lib/cms/useAgilityContext"
 import { GoogleTagManager } from "@next/third-parties/google"
 
-import "/styles/globals.css"
+import "/styles/output.css"
 
 import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
