@@ -73,13 +73,13 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 						<Link
 							href={post.url}
 							key={post.contentID}
-							className="group relative flex h-full min-h-0 flex-col transition-shadow hover:shadow-lg"
+							className="group relative flex h-full min-h-0 flex-col border border-background transition-shadow hover:shadow-lg"
 						>
-							<div className="relative h-64 w-full overflow-clip">
+							<div className="relative h-44 w-full overflow-clip">
 								{post.image ? (
 									<AgilityPic
 										image={post.image}
-										className="h-64 w-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+										className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
 										fallbackWidth={800}
 										sources={[
 											//screen at least than 1280, it's 1/3 of the screen
@@ -99,12 +99,12 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 									<img
 										src="/images/blog-icon-default.png"
 										alt=""
-										className="w-full object-cover object-center"
+										className="h-44 w-full object-contain object-center"
 									/>
 								)}
 							</div>
 							<div className="min-h-0 flex-1">
-								<div className="min-h-[350px]X flex h-full flex-col gap-3 border border-t-0 border-background p-6">
+								<div className="min-h-[350px]X flex h-full flex-col gap-3 p-6">
 									<h2 className="text-secondary-500 group-hover:text-primary-500 text-2xl font-medium transition duration-300">
 										{post.title}
 									</h2>
