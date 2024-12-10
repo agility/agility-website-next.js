@@ -2932,6 +2932,10 @@ h2 {
   max-width: none;
 }
 
+.max-w-64 {
+  max-width: 16rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -3534,6 +3538,11 @@ h2 {
 
 .bg-white\/60 {
   background-color: rgb(255 255 255 / 0.6);
+}
+
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-0 {
