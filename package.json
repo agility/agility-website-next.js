@@ -64,6 +64,7 @@
 		"autoprefixer": "^10.4.13",
 		"bloom-filters": "^3.0.2",
 		"concurrently": "^8.2.2",
+		"critters": "^0.0.25",
 		"dotenv": "^16.4.5",
 		"graphql": "^16.9.0",
 		"he": "^1.2.0",

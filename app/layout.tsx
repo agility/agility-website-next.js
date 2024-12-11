@@ -6,6 +6,7 @@ import SiteHeader from "components/common/header/SiteHeader"
 import { useAgilityContext } from "lib/cms/useAgilityContext"
 import { GoogleTagManager } from "@next/third-parties/google"
 
+import "/styles/typekit.css"
 import "/styles/output.css"
 
 import { getHeaderContent } from "lib/cms-content/getHeaderContent"
@@ -40,12 +41,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<head>
 					<link rel="preconnect" href="https://static.agilitycms.com" />
 					<link rel="preconnect" href="https://p.typekit.net" />
+					<link rel="preconnect" href="https://use.typekit.net" />
+
 					<link rel="preconnect" href="https://js.hsforms.net" />
 					<link rel="preconnect" href="https://forms.hsforms.com" />
 					<link rel="preconnect" href="www.googletagmanager.com" />
-
-					<link rel="preload" href="https://use.typekit.net/arl7bjd.css" as="style" />
-					<link rel="stylesheet" href="https://use.typekit.net/arl7bjd.css" />
+					{/* <link rel="preload" href="https://use.typekit.net/arl7bjd.css" as="style" />
+					<link rel="stylesheet" href="https://use.typekit.net/arl7bjd.css" /> */}
+					<style></style>
 				</head>
 			</head>
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
