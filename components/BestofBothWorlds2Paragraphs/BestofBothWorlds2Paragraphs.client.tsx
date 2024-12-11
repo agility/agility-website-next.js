@@ -10,7 +10,11 @@ export const BestofBothWorlds2ParagraphsClient = async (fields: IBestofBothWorld
 		<>
 			<div className="flex w-full flex-col gap-10 lg:flex-row">
 				<div className="lg:w-1/2">
-					<img className="mx-auto max-w-[500px]" src="/images/image-author-2.png" alt="Marketer" />
+					<img
+						className="mx-auto max-w-[500px]"
+						src="https://static.agilitycms.com/layout/static/image-author-2.png?format=auto"
+						alt="Marketer"
+					/>
 
 					<h2 className="mb-4 text-balance text-center text-3xl font-bold text-highlight-light">
 						{marketerHeading}
@@ -23,7 +27,11 @@ export const BestofBothWorlds2ParagraphsClient = async (fields: IBestofBothWorld
 					)}
 				</div>
 				<div className="lg:w-1/2">
-					<img className="mx-auto max-w-[500px]" src="/images/image-dev-2.png" alt="Developer" />
+					<img
+						className="mx-auto max-w-[500px]"
+						src="https://static.agilitycms.com/layout/static/image-dev-2.png?format=auto"
+						alt="Developer"
+					/>
 					<h2 className="mb-4 text-balance text-center text-3xl font-bold text-highlight-light">
 						{developerHeading}
 					</h2>

@@ -43,8 +43,16 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 				<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
 					<div id={divID}></div>
 				</div>
-				<img src="/images/triangle-pattern.svg" className="absolute -right-14 -top-14" alt="" />
-				<img src="/images/triangle-pattern.svg" className="absolute -bottom-14 -left-14" alt="" />
+				<img
+					src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
+					className="absolute -right-14 -top-14"
+					alt=""
+				/>
+				<img
+					src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
+					className="absolute -bottom-14 -left-14"
+					alt=""
+				/>
 			</div>
 		</div>
 	)

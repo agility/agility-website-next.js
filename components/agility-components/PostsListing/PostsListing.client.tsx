@@ -97,7 +97,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 								) : (
 									// eslint-disable-next-line @next/next/no-img-element
 									<img
-										src="/images/blog-icon-default.png"
+										src="https://static.agilitycms.com/layout/static/blog-icon-default.png?format=auto"
 										alt=""
 										className="h-44 w-full object-contain object-center"
 									/>

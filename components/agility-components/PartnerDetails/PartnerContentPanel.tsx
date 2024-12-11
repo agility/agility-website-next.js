@@ -29,7 +29,7 @@ export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, modul
 						)}
 
 						<img
-							src="/images/features/icon-Container.svg"
+							src="https://static.agilitycms.com/layout/static/featuresicon-container.svg"
 							alt=""
 							className="absolute -bottom-10 -right-10 z-[2]"
 						/>

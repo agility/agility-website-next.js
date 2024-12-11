@@ -45,10 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 					<link rel="preconnect" href="https://js.hsforms.net" />
 					<link rel="preconnect" href="https://forms.hsforms.com" />
-					<link rel="preconnect" href="www.googletagmanager.com" />
-					{/* <link rel="preload" href="https://use.typekit.net/arl7bjd.css" as="style" />
-					<link rel="stylesheet" href="https://use.typekit.net/arl7bjd.css" /> */}
-					<style></style>
+					<link rel="preconnect" href="https://www.googletagmanager.com" />
 				</head>
 			</head>
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}

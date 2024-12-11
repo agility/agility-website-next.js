@@ -105,9 +105,13 @@ export default async function SiteFooter() {
 							</div>
 						</div>
 						<div className="relative mt-8 w-full lg:w-1/3">
-							<img src="/assets/layout/bg-top.svg" alt="" className="absolute -left-12 -top-12 z-[1]" />
 							<img
-								src="/assets/layout/bg-top.svg"
+								src="https://static.agilitycms.com/layout/static/bg-top.svg"
+								alt=""
+								className="absolute -left-12 -top-12 z-[1]"
+							/>
+							<img
+								src="https://static.agilitycms.com/layout/static/bg-top.svg"
 								alt=""
 								className="absolute -bottom-12 -right-12 z-[1]"
 							/>

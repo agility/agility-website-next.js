@@ -8,9 +8,9 @@ import fs from 'fs/promises'
  * Inpired by this: https://nextjs.org/docs/app/building-your-application/routing/redirecting#managing-redirects-at-scale-advanced
  */
 export const rebuildRedirectCache = async () => {
-
+	console.log("Agility Website => Rebuilding redirect cache...")
 	try {
-		console.info("Agility CMS => Rebuilding redirect cache...")
+
 		//force a rebuild the redirection cache
 		const redirections = await getRedirections({ forceUpdate: true })
 

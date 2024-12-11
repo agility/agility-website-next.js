@@ -107,7 +107,10 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 								"mt-0 data-[closed]:mt-10"
 							)}
 						>
-							<img src="/assets/layout/layer-content-image.png" alt="" />
+							<img
+								src="https://static.agilitycms.com/layout/static/layer-content-image.png?format=auto"
+								alt=""
+							/>
 						</div>
 					</TransitionChild>
 
