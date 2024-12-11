@@ -49,14 +49,14 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 				)}
 			</div>
 
-			<div className="mx-auto mt-14 max-w-7xl">
+			<div className="mx-auto mt-14 max-w-6xl">
 				<div className={clsx("space-y-12")}>
 					{panels.map((panel, index) => (
 						<div
 							key={panel.title}
 							className={clsx(
-								"flex flex-col-reverse gap-8 md:flex-row md:px-12",
-								textSide === "right"
+								"flex flex-col-reverse gap-6 md:flex-row md:px-12 lg:gap-12",
+								textSide === "left"
 									? "md:odd:flex-row md:even:flex-row-reverse"
 									: "md:odd:flex-row-reverse md:even:flex-row"
 							)}
@@ -74,13 +74,13 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 									<img
 										src={panel.graphic.url}
 										alt={panel.graphic.label}
-										className="max-h-[300px] max-w-[300px]"
+										className="max-h-[300px] w-full max-w-[300px]"
 									/>
 								) : (
 									<AgilityPic
 										image={panel.graphic}
-										className="max-h-[300px] max-w-[300px]"
-										fallbackWidth={400}
+										className="max-h-[300px] w-full max-w-[300px]"
+										fallbackWidth={300}
 									/>
 								)}
 							</div>

@@ -3031,6 +3031,10 @@ h2 {
   gap: 2rem;
 }
 
+.gap-12 {
+  gap: 3rem;
+}
+
 .gap-x-3 {
   -moz-column-gap: 0.75rem;
        column-gap: 0.75rem;
@@ -6091,6 +6095,10 @@ h2 {
     gap: 3.5rem;
   }
 
+  .md\:gap-8 {
+    gap: 2rem;
+  }
+
   .md\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
@@ -6369,6 +6377,10 @@ h2 {
 
   .lg\:gap-20 {
     gap: 5rem;
+  }
+
+  .lg\:gap-12 {
+    gap: 3rem;
   }
 
   .lg\:gap-x-10 {
