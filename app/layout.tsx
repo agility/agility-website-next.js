@@ -13,6 +13,7 @@ import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
+import { DateTime } from "luxon"
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
@@ -35,6 +36,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		redirect(url)
 	}
 
+	const dt = DateTime.now().toISO()
+
 	return (
 		<html lang="en" className="font-sans text-primary">
 			<head>
@@ -51,6 +54,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				<div id="site-wrapper">
+					<div>DATE TIME: {dt}</div>
 					<div id="site">
 						<div className="flex min-h-screen flex-col">
 							<SiteHeader {...{ headerContent }} />
