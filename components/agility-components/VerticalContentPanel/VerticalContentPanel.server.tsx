@@ -81,6 +81,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 										image={panel.graphic}
 										className="max-h-[300px] w-full max-w-[300px]"
 										fallbackWidth={300}
+										sources={[{ media: "(min-resolution: 2x)", width: 600 }]}
 									/>
 								)}
 							</div>
