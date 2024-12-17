@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	return Object.keys(sitemap).map((path, index) => {
 		return {
-			url: index === 0 ? "/" : path,
+			url: index === 0 ? "https://agilitycms.com/" : `https://agilitycms.com${ path}`,
 			lastModified: new Date(),
 			changeFrequency: "daily",
 			priority: 1

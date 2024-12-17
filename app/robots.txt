@@ -1,2 +1,6 @@
-User-Agent: *
-Disallow: /
+sitemap: https://agilitycms.com/sitemap.xml
+
+User-agent: *
+
+Disallow: /search
+Disallow: /Errors/
