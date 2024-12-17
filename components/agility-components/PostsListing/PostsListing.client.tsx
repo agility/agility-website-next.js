@@ -75,7 +75,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 							key={post.contentID}
 							className="group relative flex h-full min-h-0 flex-col border border-background transition-shadow hover:shadow-lg"
 						>
-							<div className="relative h-44 w-full overflow-clip">
+							<div className="relative h-56 w-full overflow-clip">
 								{post.image ? (
 									<AgilityPic
 										image={post.image}

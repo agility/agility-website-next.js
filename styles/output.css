@@ -2588,6 +2588,10 @@ h2 {
   height: 100vh;
 }
 
+.h-56 {
+  height: 14rem;
+}
+
 .max-h-20 {
   max-height: 5rem;
 }

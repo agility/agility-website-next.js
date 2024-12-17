@@ -73,12 +73,12 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 					<Link
 						href={`/resources/posts/${post.fields.uRL}`}
 						key={index}
-						className="group flex h-full min-w-80 max-w-96 flex-col bg-highlight-light text-white"
+						className="group flex min-w-80 max-w-96 flex-col bg-highlight-light text-white"
 					>
-						<div className="overflow-hidden">
+						<div className="h-56 overflow-clip">
 							<AgilityPic
 								image={post.fields.postImage}
-								className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-110"
+								className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
 							/>
 						</div>
 						<div className="flex h-80 flex-col gap-4 p-4">
