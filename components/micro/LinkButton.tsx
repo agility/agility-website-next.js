@@ -32,6 +32,10 @@ export const LinkButton = ({
 		actualHref = actualHref.replace("http://agilitycms.com/", "/")
 	}
 
+	if (actualHref && actualHref.startsWith("https://agilitycms.com/")) {
+		actualHref = actualHref.replace("https://agilitycms.com/", "/")
+	}
+
 	const btnClass = useMemo(() => {
 		return classNames(
 			"inline-flex items-center justify-center font-medium",

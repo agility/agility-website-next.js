@@ -19,6 +19,7 @@ export default async function SiteFooter() {
 	})
 
 	const adjustLink = (url: any) => {
+		if (!url) return ""
 		if (url.startsWith("https://agilitycms.com")) {
 			return url.replace("https://agilitycms.com", "")
 		}
