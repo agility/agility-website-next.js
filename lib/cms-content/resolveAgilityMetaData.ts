@@ -37,7 +37,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 			if (!metaDescription) metaDescription = contentItem.seo?.metaDescription as string | undefined
 
 			metaTitle = contentItem.fields["metaTitle"] as string | undefined
-			console.log("dynamicPageItem", contentItem)
+
 			if (contentItem.properties.definitionName === "BlogPost") {
 				/* *** Posts MetaData *** */
 				const post = contentItem.fields as IPost

@@ -1,6 +1,6 @@
 
 import { SitemapNode } from "lib/types/SitemapNode";
-
+import type { Context, Config } from "@netlify/functions";
 import agilitySDK from "@agility/content-fetch"
 import { algoliasearch } from 'algoliasearch';
 import * as cheerio from 'cheerio';
@@ -8,10 +8,9 @@ import { index } from "cheerio/dist/commonjs/api/traversing";
 import { indexPage } from "lib/crawl/index-page";
 
 
-export default async (req: any, res: any) => {
+export default async () => {
 
-
-
+	console.log("Initiating Site Reindex...")
 
 	let sitemapFlat: {
 		[path: string]: SitemapNode
@@ -38,6 +37,7 @@ export default async (req: any, res: any) => {
 	})
 
 	const keys = Object.keys(sitemapFlat)
+
 	console.log("Reindexing sitemap...", keys.length + " items")
 
 
@@ -52,12 +52,14 @@ export default async (req: any, res: any) => {
 
 	}
 
-
-	res.status(200).json();
-
 }
 
-export const config = {
-	type: "experimental-background",
-	schedule: "@daily",
+export const config: Config = {
+	// Moving to Netlify functions loses routing setup from Next.js API Route and we need to define it
+	// If you are using Next Runtime V5 you can define it via function's config.path.
+	// If you are using Next Runtime V4 you would need to add rewrite in netlify.toml or invoke
+	// the function with `/.netlify/functions/<name-of-background-function>` url.
+
+	//run this daily
+	schedule: "0 8 * * *"
 };
