@@ -14,6 +14,7 @@
 		"build": "npm-run-all \"build:*\"",
 		"build-swa": "next build && rm -rf ./.next/cache",
 		"start": "next start",
+		"crawl": "tsx node/crawl.ts",
 		"lint": "next lint",
 		"generate": "graphql-codegen"
 	},
