@@ -212,13 +212,13 @@ function SearchDialog({
 		>
 			<DialogBackdrop
 				transition
-				className="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in dark:bg-black/40"
+				className="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in "
 			/>
 
 			<div className="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
 				<DialogPanel
 					transition
-					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl dark:bg-zinc-900 dark:ring-zinc-800 "
+					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl  "
 				>
 					<div {...autocomplete.getRootProps({})}>
 						<form
@@ -235,7 +235,7 @@ function SearchDialog({
 							/>
 							<div
 								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5 max-h-96 overflow-y-auto"
+								className="border-t border-zinc-200 bg-white empty:hidden  max-h-96 overflow-y-auto"
 								{...autocomplete.getPanelProps({})}
 							>
 								{autocompleteState.isOpen && (
@@ -296,16 +296,13 @@ export function Search() {
 			<button
 				type="button"
 				title={`Search ${modifierKey}K`}
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none dark:hover:bg-white/5 outline-violet-600"
+				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none  outline-violet-600"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 dark:stroke-white" />
+				<SearchIcon className="h-5 w-5 stroke-zinc-900 " />
 
-				{/* <kbd className="ml-auto text-2xs text-zinc-400 dark:text-zinc-500">
-					<kbd className="font-sans">{modifierKey}</kbd>
-					<kbd className="font-sans">K</kbd>
-				</kbd> */}
+
 			</button>
 			<Suspense fallback={null}>
 				<SearchDialog className="hidden lg:block" {...dialogProps} />
@@ -321,11 +318,11 @@ export function MobileSearch() {
 		<div className="contents lg:hidden">
 			<button
 				type="button"
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none lg:hidden dark:hover:bg-white/5 outline-violet-600"
+				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none lg:hidden  outline-violet-600"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 dark:stroke-white" />
+				<SearchIcon className="h-5 w-5 stroke-zinc-900 " />
 			</button>
 			<Suspense fallback={null}>
 				<SearchDialog className="lg:hidden" {...dialogProps} />

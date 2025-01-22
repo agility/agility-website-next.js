@@ -30,8 +30,8 @@ export function SearchResult({
 	return (
 		<li
 			className={clsx(
-				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 dark:aria-selected:bg-zinc-800/50',
-				resultIndex > 0 && 'border-t border-zinc-100 dark:border-zinc-800',
+				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 ',
+				resultIndex > 0 && 'border-t border-zinc-100 ',
 			)}
 			aria-labelledby={`${id}-hierarchy ${id}-title`}
 			{...autocomplete.getItemProps({
@@ -42,7 +42,7 @@ export function SearchResult({
 			<div
 				id={`${id}-title`}
 				aria-hidden="true"
-				className="text-base font-medium text-zinc-900 group-aria-selected:text-highlight-dark dark:text-white"
+				className="text-base font-medium text-zinc-900 group-aria-selected:text-highlight-dark "
 			>
 				<HighlightQuery text={result.title} query={query} />
 			</div>
