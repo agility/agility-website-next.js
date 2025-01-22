@@ -89,6 +89,7 @@ function useAutocomplete({ close }: { close: () => void }) {
 		}
 	}
 
+
 	let [autocomplete] = useState<Autocomplete>(() =>
 		createAutocomplete<
 			Result,
@@ -108,6 +109,7 @@ function useAutocomplete({ close }: { close: () => void }) {
 			navigator: {
 				navigate,
 			},
+			insights: true,
 			getSources({ query }) {
 				return [
 					{
