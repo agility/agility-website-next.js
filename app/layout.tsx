@@ -13,7 +13,7 @@ import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { DateTime } from "luxon"
-import { Search } from "components/Search"
+import { Search } from "components/search/Search"
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()

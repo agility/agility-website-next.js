@@ -5,14 +5,10 @@ import { liteClient } from 'algoliasearch/lite';
 import { getAlgoliaResults } from "@algolia/autocomplete-preset-algolia";
 
 
-const searchClient = liteClient(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "",
-  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY || ""
-);
+
 
 import {
   forwardRef,
-  Fragment,
   Suspense,
   useCallback,
   useEffect,
@@ -20,16 +16,18 @@ import {
   useRef,
   useState,
 } from 'react'
-import Highlighter from 'react-highlight-words'
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   type AutocompleteApi,
-  type AutocompleteCollection,
   type AutocompleteState,
   createAutocomplete,
 } from '@algolia/autocomplete-core'
 import { Dialog, DialogPanel, DialogBackdrop } from '@headlessui/react'
 import clsx from 'clsx'
+import SearchResults from './SearchResults';
+import { SearchInput } from './SearchInput';
+import { SearchIcon } from './SearchIcon';
 
 
 export type Result = {
@@ -43,10 +41,14 @@ export type Result = {
   __autocomplete_indexName?: string
 }
 
+const searchClient = liteClient(
+  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "",
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY || ""
+);
 
 type EmptyObject = Record<string, never>
 
-type Autocomplete = AutocompleteApi<
+export type Autocomplete = AutocompleteApi<
   Result,
   React.SyntheticEvent,
   React.MouseEvent,
@@ -137,222 +139,15 @@ function useAutocomplete({ close }: { close: () => void }) {
   return { autocomplete, autocompleteState }
 }
 
-function SearchIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-      />
-    </svg>
-  )
-}
-
-function NoResultsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12.01 12a4.237 4.237 0 0 0 1.24-3c0-.62-.132-1.207-.37-1.738M12.01 12A4.237 4.237 0 0 1 9 13.25c-.635 0-1.237-.14-1.777-.388M12.01 12l3.24 3.25m-3.715-9.661a4.25 4.25 0 0 0-5.975 5.908M4.5 15.5l11-11"
-      />
-    </svg>
-  )
-}
-
-function LoadingIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  let id = useId()
-
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
-      <circle cx="10" cy="10" r="5.5" strokeLinejoin="round" />
-      <path
-        stroke={`url(#${id})`}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.5 10a5.5 5.5 0 1 0-5.5 5.5"
-      />
-      <defs>
-        <linearGradient
-          id={id}
-          x1="13"
-          x2="9.5"
-          y1="9"
-          y2="15"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="currentColor" />
-          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
-}
-
-function HighlightQuery({ text, query }: { text: string; query: string }) {
-  return (
-    <Highlighter
-      highlightClassName="bg-transparent text-highlight-light"
-      searchWords={[query]}
-      autoEscape={true}
-      textToHighlight={text}
-    />
-  )
-}
-
-function SearchResult({
-  result,
-  resultIndex,
-  autocomplete,
-  collection,
-  query,
-}: {
-  result: Result
-  resultIndex: number
-  autocomplete: Autocomplete
-  collection: AutocompleteCollection<Result>
-  query: string
-}) {
-  let id = useId()
 
 
-  return (
-    <li
-      className={clsx(
-        'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 dark:aria-selected:bg-zinc-800/50',
-        resultIndex > 0 && 'border-t border-zinc-100 dark:border-zinc-800',
-      )}
-      aria-labelledby={`${id}-hierarchy ${id}-title`}
-      {...autocomplete.getItemProps({
-        item: result,
-        source: collection.source,
-      })}
-    >
-      <div
-        id={`${id}-title`}
-        aria-hidden="true"
-        className="text-base font-medium text-zinc-900 group-aria-selected:text-highlight-dark dark:text-white"
-      >
-        <HighlightQuery text={result.title} query={query} />
-      </div>
-      {result.description && (
-        <div className='text-sm line-clamp-2'>
-          <HighlightQuery text={result.description} query={query} />
-        </div>
-      )}
-      <div>
 
-        <div
-          id={`${id}-hierarchy`}
-          aria-hidden="true"
-          className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500"
-        >
-          {result.__autocomplete_indexName == "doc_site" && (
-            <div className='text-xs'>
-              <span>Docs</span> {result.concept && <span> / {result.concept}</span>}
-            </div>
-          )}
-          {result.__autocomplete_indexName == "agility-website" && (
-            <div className='text-xs'>
-              <span>General</span>
-            </div>
-          )}
-        </div>
 
-      </div>
-    </li>
-  )
-}
 
-function SearchResults({
-  autocomplete,
-  query,
-  collection,
-}: {
-  autocomplete: Autocomplete
-  query: string
-  collection: AutocompleteCollection<Result>
-}) {
-  if (collection.items.length === 0) {
-    return (
-      <div className="p-6 text-center">
-        <NoResultsIcon className="mx-auto h-5 w-5 stroke-zinc-900 dark:stroke-zinc-600" />
-        <p className="mt-2 text-xs text-zinc-700 dark:text-zinc-400">
-          Nothing found for{' '}
-          <strong className="break-words font-semibold text-zinc-900 dark:text-white">
-            &lsquo;{query}&rsquo;
-          </strong>
-          . Please try again.
-        </p>
-      </div>
-    )
-  }
 
-  return (
-    <ul {...autocomplete.getListProps()}>
-      {collection.items.map((result, resultIndex) => (
-        <SearchResult
-          key={result.url}
-          result={result}
-          resultIndex={resultIndex}
-          autocomplete={autocomplete}
-          collection={collection}
-          query={query}
-        />
-      ))}
-    </ul>
-  )
-}
 
-const SearchInput = forwardRef<
-  React.ElementRef<'input'>,
-  {
-    autocomplete: Autocomplete
-    autocompleteState: AutocompleteState<Result> | EmptyObject
-    onClose: () => void
-  }
->(function SearchInput({ autocomplete, autocompleteState, onClose }, inputRef) {
-  let inputProps = autocomplete.getInputProps({ inputElement: null })
 
-  return (
-    <div className="group relative flex h-12 ">
-      <SearchIcon className="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500" />
-      <input
-        ref={inputRef}
-        data-autofocus
-        className={clsx(
-          'flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none sm:text-sm dark:text-white [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-webkit-search-results-button]:hidden [&::-webkit-search-results-decoration]:hidden',
-          autocompleteState.status === 'stalled' ? 'pr-11' : 'pr-4',
-          "outline-0"
-        )}
-        {...inputProps}
-        onKeyDown={(event) => {
-          if (
-            event.key === 'Escape' &&
-            !autocompleteState.isOpen &&
-            autocompleteState.query === ''
-          ) {
-            // In Safari, closing the dialog with the escape key can sometimes cause the scroll position to jump to the
-            // bottom of the page. This is a workaround for that until we can figure out a proper fix in Headless UI.
-            if (document.activeElement instanceof HTMLElement) {
-              document.activeElement.blur()
-            }
 
-            onClose()
-          } else {
-            inputProps.onKeyDown(event)
-          }
-        }}
-      />
-      {autocompleteState.status === 'stalled' && (
-        <div className="absolute inset-y-0 right-3 flex items-center">
-          <LoadingIcon className="h-5 w-5 animate-spin stroke-zinc-200 text-highlight-dark " />
-        </div>
-      )}
-    </div>
-  )
-})
 
 function SearchDialog({
   open,

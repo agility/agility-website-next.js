@@ -19,7 +19,7 @@ import { MenuItemOutput } from "./MenuItemOutput"
 import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronDown, IconX } from "@tabler/icons-react"
 import { renderHTML } from "@agility/nextjs"
-import { MobileSearch, Search } from "components/Search"
+import { MobileSearch, Search } from "components/search/Search"
 
 interface Props {
 	headerContent: HeaderContent
