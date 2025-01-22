@@ -34,9 +34,10 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 		try {
 			const contentItem = agilityData.dynamicPageItem as ContentItem<any>
 			metaDescription = contentItem.fields["metaDescription"] as string | undefined
+			if (!metaDescription) metaDescription = contentItem.seo?.metaDescription as string | undefined
 
 			metaTitle = contentItem.fields["metaTitle"] as string | undefined
-
+			console.log("dynamicPageItem", contentItem)
 			if (contentItem.properties.definitionName === "BlogPost") {
 				/* *** Posts MetaData *** */
 				const post = contentItem.fields as IPost
@@ -94,6 +95,15 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 						url: `${event.mainImage.url}?format=auto&w=1200`,
 						alt: event.mainImage.label
 					})
+				}
+			} else if (contentItem.properties.definitionName === "BlogTag") {
+				/** BlogTags META DATA */
+
+				if (!metaDescription) {
+					const title = contentItem.fields.title as string || ""
+					if (title) {
+						metaDescription = "Blog posts tagged with " + title
+					}
 				}
 			}
 
