@@ -19,6 +19,7 @@ import { MenuItemOutput } from "./MenuItemOutput"
 import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronDown, IconX } from "@tabler/icons-react"
 import { renderHTML } from "@agility/nextjs"
+import { MobileSearch, Search } from "components/Search"
 
 interface Props {
 	headerContent: HeaderContent
@@ -88,6 +89,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							</Link>
 						</div>
 						<div className="-my-2 -mr-2 flex items-center gap-1 lg:hidden">
+							<MobileSearch />
 							{
 								/* Contact Us */
 								header.fields.contactus && (
@@ -130,6 +132,8 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 							})}
 
 							<div className="w-4"></div>
+							<Search />
+							<div className="w-1"></div>
 							{
 								/* Contact Us */
 								header.fields.contactus && (

@@ -13,6 +13,7 @@ import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { DateTime } from "luxon"
+import { Search } from "components/Search"
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
@@ -58,7 +59,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 						<div className="flex min-h-screen flex-col">
 							<SiteHeader {...{ headerContent }} />
 
-							<main className={`flex-grow`}>{children}</main>
+							<main className={`flex-grow`}>
+
+								{children}</main>
 							<SiteFooter />
 						</div>
 					</div>
