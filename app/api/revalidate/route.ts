@@ -3,6 +3,7 @@ import { SitemapNode } from "lib/types/SitemapNode";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import agilitySDK from "@agility/content-fetch"
+import { indexPage } from "lib/crawl/index-page";
 
 interface IRevalidateRequest {
 	state: string,
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					const path = sitemapNode.path
 					revalidatePath(path)
 					console.info("Revalidating path:", path)
+					await indexPage(path)
 				}
 			}
 
@@ -93,6 +95,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					const path = sitemapNode.path
 					revalidatePath(path)
 					console.info("Revalidating path:", path)
+
+					//also re-index the path for search
+					await indexPage(path)
 				}
 			}
 		}
