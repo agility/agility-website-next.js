@@ -60,6 +60,6 @@ export const config: Config = {
 	// If you are using Next Runtime V4 you would need to add rewrite in netlify.toml or invoke
 	// the function with `/.netlify/functions/<name-of-background-function>` url.
 
-	//run this daily
-	schedule: "0 8 * * *"
+	//run this every 2 hours (0 */2 * * *)
+	schedule: "0 */2 * * *"
 };
