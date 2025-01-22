@@ -40,8 +40,12 @@ export const indexSite = async () => {
 		const node = sitemapFlat[path]
 
 		if (node.isFolder || node.redirect) continue;
+		if (!node.visible.sitemap) {
+			console.log("node", node.path)
+			continue;
+		}
 
-		await indexPage(path)
+		//await indexPage(path)
 
 	}
 }
