@@ -6,6 +6,7 @@ import { TwoColumnswithTopZoneTemplate } from "./TwoColumnswithTopZoneTemplate";
 
 const allTemplates = [
 	{ name: "MainTemplate", template: MainTemplate },
+	{ name: "LandingPageTemplate", template: MainTemplate },
 	{ name: "TwoColumnswithTopZoneTemplate", template: TwoColumnswithTopZoneTemplate }
 ];
 

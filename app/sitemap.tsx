@@ -8,9 +8,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		languageCode: process.env.AGILITY_LOCALES || "en-ca"
 	})
 
-	return Object.keys(sitemap).map((path, index) => {
+	return Object.keys(sitemap).filter((path) => {
+		const node = sitemap[path]
+		if (node.isFolder || node.redirect) return false;
+		if (!node.visible.sitemap) {
+			return false;
+		}
+	}).map((path, index) => {
+
+
+
 		return {
-			url: index === 0 ? "https://agilitycms.com/" : `https://agilitycms.com${ path}`,
+			url: index === 0 ? "https://agilitycms.com/" : `https://agilitycms.com${path}`,
 			lastModified: new Date(),
 			changeFrequency: "daily",
 			priority: 1

@@ -10,7 +10,7 @@ const config: Config = {
 
 	theme: {
 		fontFamily: {
-			sans: ["muli", "sans-serif"]
+			sans: ['var(--font-mulish)']
 		},
 
 		extend: {

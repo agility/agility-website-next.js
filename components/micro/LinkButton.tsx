@@ -39,7 +39,7 @@ export const LinkButton = ({
 	const btnClass = useMemo(() => {
 		return classNames(
 			"inline-flex items-center justify-center font-medium",
-			size === "sm" ? "text-sm px-4 py-2" : size === "md" ? "text-base px-6 py-3" : "text-lg px-8 py-5",
+			size === "sm" ? "text-sm px-4 h-9" : size === "md" ? "text-base px-6 h-10" : "text-lg px-8 h-12",
 			"duration-200 ease-in-out transition-all",
 			"hover:scale-105",
 			type === "primary"
