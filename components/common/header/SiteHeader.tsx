@@ -97,7 +97,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
 										type="primary"
-										className="hidden sm:block"
+										className="hidden sm:flex"
 									>
 										{header.fields.contactus.text}
 									</LinkButton>

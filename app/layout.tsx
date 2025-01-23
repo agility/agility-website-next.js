@@ -12,8 +12,14 @@ import { getHeaderContent } from "lib/cms-content/getHeaderContent"
 import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
-import { DateTime } from "luxon"
-import { Search } from "components/search/Search"
+import { Mulish } from 'next/font/google'
+
+// If loading a variable font, you don't need to specify the font weight
+const mulish = Mulish({
+	subsets: ['latin'],
+	display: 'auto',
+	variable: '--font-mulish',
+})
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { locale, sitemap, isDevelopmentMode, isPreview } = useAgilityContext()
@@ -37,19 +43,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	}
 
 	return (
-		<html lang="en" className="font-sans text-primary">
+		<html lang="en" className={`font-sans text-primary ${mulish.variable}`}>
 			<head>
 				<head>
 					<link rel="preconnect" href="https://static.agilitycms.com" />
-					<link rel="preconnect" href="https://p.typekit.net" />
-					<link rel="preconnect" href="https://use.typekit.net" />
+
 
 					<link rel="preconnect" href="https://js.hsforms.net" />
 					<link rel="preconnect" href="https://forms.hsforms.com" />
 					<link rel="preconnect" href="https://www.googletagmanager.com" />
 
-					<link rel="preload" href="https://use.typekit.net/arl7bjd.css" as="style" />
-					<link rel="stylesheet" href="https://use.typekit.net/arl7bjd.css" />
+
 				</head>
 			</head>
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}

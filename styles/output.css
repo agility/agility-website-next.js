@@ -52,7 +52,7 @@ html,
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: muli, sans-serif;
+  font-family: var(--font-mulish);
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -3918,7 +3918,7 @@ h2 {
 }
 
 .font-sans {
-  font-family: muli, sans-serif;
+  font-family: var(--font-mulish);
 }
 
 .text-2xl {
@@ -6081,8 +6081,8 @@ h2 {
     margin-right: 5rem;
   }
 
-  .sm\:block {
-    display: block;
+  .sm\:flex {
+    display: flex;
   }
 
   .sm\:max-w-sm {
