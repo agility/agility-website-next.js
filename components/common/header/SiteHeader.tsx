@@ -61,7 +61,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 		<>
 			{/* MARKETING MESSAGE */}
 			{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
-				<div className="marketing-banner hidden bg-highlight text-white lg:block">
+				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-center">
 					<div
 						className="mx-auto max-w-7xl p-3 px-8 text-sm"
 						dangerouslySetInnerHTML={renderHTML(header.fields.marketingBanner)}
