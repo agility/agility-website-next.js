@@ -102,11 +102,15 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 							<AgilityPic
 								image={post.postImage}
 								alt={post.title}
-								fallbackWidth={480}
+								fallbackWidth={320}
+								priority
 								className="w-full"
 								sources={[
 									//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
-									{ media: "(min-width: 768px)", width: 1200 }
+									{ media: "(min-width: 1200px)", width: 1100 },
+									{ media: "(min-width: 1024px)", width: 1000 },
+									{ media: "(min-width: 768px)", width: 600 },
+									{ media: "(min-width: 640px)", width: 480 },
 								]}
 							/>
 						)}
