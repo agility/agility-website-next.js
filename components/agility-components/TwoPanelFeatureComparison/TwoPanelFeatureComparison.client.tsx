@@ -8,6 +8,7 @@ import { Container } from "components/micro/Container"
 import { ContentItem } from "@agility/content-fetch"
 import { AgilityPic, renderHTML } from "@agility/nextjs"
 import { IconCheckbox } from "@tabler/icons-react"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface Props {
 	group1Title?: string
@@ -130,7 +131,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 									<h3 className="text-4xl">{panel.fields.title}</h3>
 									<div
 										className="prose prose-lg mt-4"
-										dangerouslySetInnerHTML={renderHTML(panel.fields.description)}
+										dangerouslySetInnerHTML={renderHTMLCustom(panel.fields.description)}
 									></div>
 									<div className="mt-4 flex flex-col gap-2">
 										{panel.fields.checkedItems?.map((item, index) => (
@@ -196,7 +197,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 										<h3 className="text-4xl text-white">{panel.fields.title}</h3>
 										<div
 											className="prose prose-lg prose-invert mt-4"
-											dangerouslySetInnerHTML={renderHTML(panel.fields.description)}
+											dangerouslySetInnerHTML={renderHTMLCustom(panel.fields.description)}
 										></div>
 										<div className="mt-4 flex flex-col gap-2">
 											{panel.fields.checkedItems?.map((item, index) => (

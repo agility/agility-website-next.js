@@ -7,6 +7,7 @@ import { gql } from "@apollo/client"
 import { LinkButton } from "components/micro/LinkButton"
 import Link from "next/link"
 import clsx from "clsx"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IIntegration {
 	contentID: number
@@ -70,7 +71,7 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 				>
 					<div className="flex w-full flex-col gap-5 lg:w-1/3">
 						<h2 className="text-balance text-4xl">{fields.title}</h2>
-						<div className="prose" dangerouslySetInnerHTML={renderHTML(fields.description)}></div>
+						<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}></div>
 						{fields.cTA1Optional && (
 							<div>
 								<LinkButton href={fields.cTA1Optional.href} className="mt-4" type="secondary" size="md">

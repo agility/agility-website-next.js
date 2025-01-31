@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { AgilityPic, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { IStarterTemplate } from "lib/types/IStarterTemplate"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 export const StarterTemplateDetails = async ({ module, languageCode, dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) return null
@@ -19,7 +20,7 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 			<div className="gap-5 lg:flex lg:flex-row">
 				<div className="flex-1">
 					<h1 className="text-balance text-5xl font-medium">{starter.name}</h1>
-					<div className="prose mt-5" dangerouslySetInnerHTML={renderHTML(starter.details)}></div>
+					<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(starter.details)}></div>
 					<div className="mt-10">
 						<AgilityPic
 							image={starter.image}

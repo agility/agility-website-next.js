@@ -1,5 +1,5 @@
 import React from "react"
-import { AgilityPic, UnloadedModuleProps, renderHTML } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 
 import { DateTime } from "luxon"
 import { Container } from "components/micro/Container"
@@ -11,10 +11,10 @@ import { gql } from "@apollo/client"
 import { ContentItem } from "@agility/content-fetch"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { LinkButton } from "components/micro/LinkButton"
-import { render } from "@headlessui/react/dist/utils/render"
-import { getContentList } from "lib/cms/getContentList"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { AgilityPic } from "components/common/AgilityPic"
 
-const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProps) => {
+const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) {
 		return <div>Post not found</div>
 	}
@@ -78,7 +78,7 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 	return (
 		<Container className="mx-auto max-w-7xl">
 			<article>
-				<time className="text-slate-400">{dateStr}</time>
+				<time className="text-slate-600">{dateStr}</time>
 				<h1 className="mt-5 text-balance text-4xl font-medium">{post.title}</h1>
 				<h2 className="mt-5 text-balance text-lg font-medium">{post.subTitle}</h2>
 
@@ -102,18 +102,27 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 							<AgilityPic
 								image={post.postImage}
 								alt={post.title}
-								fallbackWidth={480}
+								fallbackWidth={400}
+								priority
 								className="w-full"
 								sources={[
 									//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
-									{ media: "(min-width: 768px)", width: 1200 }
+									{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1600 },
+									{ media: "(min-width: 1200px)", width: 800 },
+									{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 1200 },
+									{ media: "(min-width: 1024px)", width: 600 },
+									{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 1200 },
+									{ media: "(min-width: 768px)", width: 600 },
+									{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 880 },
+									{ media: "(min-width: 640px)", width: 480 },
+									{ media: "(min-width: 320px) and (min-resolution: 2x)", width: 640 },
 								]}
 							/>
 						)}
 
 						<div
 							className="prose mt-5 max-w-full"
-							dangerouslySetInnerHTML={renderHTML(post.textblob)}
+							dangerouslySetInnerHTML={renderHTMLCustom(post.textblob)}
 						></div>
 
 						{post.author && (
@@ -127,11 +136,11 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 									/>
 								)}
 								<div>
-									<h5 className="uppercase text-slate-400">About the Author</h5>
+									<h5 className="uppercase text-slate-600">About the Author</h5>
 									<div className="mt-3 text-balance font-medium">{post.author.fields.title}</div>
 									<div
 										className="prose"
-										dangerouslySetInnerHTML={renderHTML(post.author.fields.textblob)}
+										dangerouslySetInnerHTML={renderHTMLCustom(post.author.fields.textblob)}
 									></div>
 								</div>
 							</div>

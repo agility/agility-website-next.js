@@ -1,8 +1,8 @@
-import { renderHTML, Module, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
-import Link from "next/link"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface ICenteredContentPanel {
 	section?: string
@@ -42,7 +42,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 				{description && (
 					<div
 						className="mt-2 text-balance text-2xl font-medium"
-						dangerouslySetInnerHTML={renderHTML(description)}
+						dangerouslySetInnerHTML={renderHTMLCustom(description)}
 						data-agility-field="description"
 						data-agility-html
 					/>

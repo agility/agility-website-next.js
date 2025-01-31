@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { AgilityPic, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { IPartner } from "lib/types/IPartner"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, module }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) return null
@@ -18,7 +19,7 @@ export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, modul
 						<h1 className="text-5xl">{partner.title}</h1>
 						<div
 							className="prose prose-lg prose-invert"
-							dangerouslySetInnerHTML={renderHTML(partner.contentPanelCopy || partner.companyDescription)}
+							dangerouslySetInnerHTML={renderHTMLCustom(partner.contentPanelCopy || partner.companyDescription)}
 						></div>
 					</div>
 					<div className="relative mt-10 flex justify-center lg:mt-0 lg:w-2/5">

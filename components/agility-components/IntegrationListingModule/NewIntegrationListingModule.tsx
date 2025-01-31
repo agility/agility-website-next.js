@@ -1,11 +1,9 @@
-import { renderHTML, Module, UnloadedModuleProps, AgilityPic } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { gql } from "gql/__generated__"
 import { Container } from "components/micro/Container"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
-import { url } from "inspector"
-import Link from "next/link"
-import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
+import { ComboboItem } from "components/micro/FilterComboBox"
 import { NewIntegrationListingModuleClient } from "./NewIntegrationListingModule.client"
 
 interface INewIntegrationListingModule {

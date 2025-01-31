@@ -1,7 +1,8 @@
-import { AgilityPic, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { IPodCast } from "lib/types/IPodCast"
 import { DateTime } from "luxon"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 export const PodcastDetail = async ({ module, languageCode, dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) return null
@@ -34,9 +35,9 @@ export const PodcastDetail = async ({ module, languageCode, dynamicPageItem }: U
 				/>
 			</div>
 
-			<div className="mt-5" dangerouslySetInnerHTML={renderHTML(podcast.embed)}></div>
+			<div className="mt-5" dangerouslySetInnerHTML={renderHTMLCustom(podcast.embed)}></div>
 
-			<div className="prose mx-auto mt-5" dangerouslySetInnerHTML={renderHTML(podcast.textblob)}></div>
+			<div className="prose mx-auto mt-5" dangerouslySetInnerHTML={renderHTMLCustom(podcast.textblob)}></div>
 		</Container>
 	)
 }

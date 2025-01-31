@@ -1,4 +1,4 @@
-import { AgilityPic, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { IResource } from "lib/types/IResource"
@@ -9,6 +9,7 @@ import { SharePage } from "components/common/SharePage"
 import { getContentItem } from "lib/cms/getContentItem"
 import { DownloadForm } from "./DownloadForm.client"
 import { LinkButton } from "components/micro/LinkButton"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IResourceDetails {
 	backButton: URLField
@@ -55,7 +56,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 					)}
 
 					{res.textblob && (
-						<div className="prose mt-4" dangerouslySetInnerHTML={renderHTML(res.textblob)}></div>
+						<div className="prose mt-4" dangerouslySetInnerHTML={renderHTMLCustom(res.textblob)}></div>
 					)}
 				</div>
 				<div className="lg:w-96">
@@ -149,7 +150,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 							{res.rightCTAContent && (
 								<div
 									className="prose prose-invert text-center"
-									dangerouslySetInnerHTML={renderHTML(res.rightCTAContent)}
+									dangerouslySetInnerHTML={renderHTMLCustom(res.rightCTAContent)}
 								></div>
 							)}
 							<LinkButton

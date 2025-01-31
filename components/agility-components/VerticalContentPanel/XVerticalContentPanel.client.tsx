@@ -4,6 +4,7 @@
 import { AgilityPic, ImageField, renderHTML } from "@agility/nextjs"
 import { Transition, TransitionChild } from "@headlessui/react"
 import clsx from "clsx"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 import { Fragment, useEffect, useState } from "react"
 
@@ -72,7 +73,7 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							</h4>
 
 							<div className="absolute left-0 top-0 h-0 w-0.5 bg-highlight-light transition-all duration-300 lg:group-hover:h-full lg:peer-checked:h-full"></div>
-							<div className="prose mt-2" dangerouslySetInnerHTML={renderHTML(panel.description)}></div>
+							<div className="prose mt-2" dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
 							{panels[activePanel].graphic.url.endsWith(".svg") ? (

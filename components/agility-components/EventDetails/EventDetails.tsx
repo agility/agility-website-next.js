@@ -1,4 +1,4 @@
-import { AgilityPic, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { ContentItem } from "@agility/content-fetch"
 import { IEvent } from "lib/types/IEvent"
@@ -7,6 +7,8 @@ import { DateTime } from "luxon"
 import { IconCalendarCheck, IconClock, IconPresentation } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
 import Link from "next/link"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+
 
 export const EventDetails = async ({ module, languageCode, dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) return null
@@ -72,7 +74,7 @@ export const EventDetails = async ({ module, languageCode, dynamicPageItem }: Un
 				</>
 			)}
 
-			<div className="prose mx-auto mt-8" dangerouslySetInnerHTML={renderHTML(event.textblob)}></div>
+			<div className="prose mx-auto mt-8" dangerouslySetInnerHTML={renderHTMLCustom(event.textblob)}></div>
 			{event.externalLink && (
 				<div className="mt-8 flex justify-center">
 					<LinkButton

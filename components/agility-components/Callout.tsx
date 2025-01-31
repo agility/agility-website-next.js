@@ -1,10 +1,9 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
-import { gql } from "gql/__generated__"
 import { getContentItem } from "lib/cms/getContentItem"
-import { text } from "stream/consumers"
+
 
 interface ICalloutPanel {
 	callout: {

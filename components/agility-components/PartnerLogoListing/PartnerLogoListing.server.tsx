@@ -1,9 +1,8 @@
-import { renderHTML, Module, UnloadedModuleProps, ImageField, URLField, ContentItem } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, ContentItem } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { PartnerLogoListingClient } from "./PartnerLogoListing.client"
-import { sample, sampleSize, shuffle } from "lodash"
-import { getContentList } from "lib/cms/getContentList"
+import { sampleSize, shuffle } from "lodash"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { IPartner } from "lib/types/IPartner"
 

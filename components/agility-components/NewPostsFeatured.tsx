@@ -1,10 +1,11 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
 import { gql } from "@apollo/client"
 import { Container } from "components/micro/Container"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 import { sortByIDs } from "lib/utils/sortByIDs"
 import Link from "next/link"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface INewPostsFeatured {
 	title: string
@@ -86,7 +87,7 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 							{post.fields.excerpt && (
 								<div
 									className="prose prose-invert line-clamp-4 flex-1"
-									dangerouslySetInnerHTML={renderHTML(post.fields.excerpt)}
+									dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
 								></div>
 							)}
 

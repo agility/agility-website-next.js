@@ -1,15 +1,16 @@
-import {AgilityPic, renderHTML} from "@agility/nextjs"
+import { AgilityPic, renderHTML } from "@agility/nextjs"
 import OutputNestedContentItem from "./OutputNestedContentItem"
-import {useEffect, useMemo, useState} from "react"
-import {IconCaretDown} from "@tabler/icons-react"
-import {default as cn} from "classnames"
+import { useEffect, useMemo, useState } from "react"
+import { IconCaretDown } from "@tabler/icons-react"
+import { default as cn } from "classnames"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface Props {
 	fieldName: string
 	fieldValue: any
 }
 
-export default function OutputField({fieldName, fieldValue}: Props) {
+export default function OutputField({ fieldName, fieldValue }: Props) {
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [isJSON, setIsJSON] = useState(false)
 	const [jsonValue, setJsonValue] = useState<string | null>(null)
@@ -38,7 +39,7 @@ export default function OutputField({fieldName, fieldValue}: Props) {
 
 					isit = fieldValueStr.startsWith("{") || fieldValueStr.startsWith("[")
 				}
-			} catch (error) {}
+			} catch (error) { }
 		}
 
 		if (isit) {
@@ -82,7 +83,7 @@ export default function OutputField({fieldName, fieldValue}: Props) {
 
 					<div className="border border-gray-200 rounded bg-white overflow-auto">
 						<div className={cn("p-2 transition-all overflow-auto", isExpanded ? "max-h-full" : "max-h-32")}>
-							<div className="prose prose-sm" dangerouslySetInnerHTML={renderHTML(fieldValueStr)} />
+							<div className="prose prose-sm" dangerouslySetInnerHTML={renderHTMLCustom(fieldValueStr)} />
 						</div>
 					</div>
 				) : fieldValue?.href && fieldValue?.text ? (

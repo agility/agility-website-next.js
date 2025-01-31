@@ -1,4 +1,4 @@
-import { AgilityPic, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -6,6 +6,7 @@ import { getContentList } from "lib/cms/getContentList"
 import { IPost } from "lib/types/IPost"
 import Link from "next/link"
 import { LinkButton } from "components/micro/LinkButton"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface ILatestPosts {
 	title: string
@@ -62,7 +63,7 @@ export const LatestPosts = async ({ module, languageCode }: UnloadedModuleProps)
 							<div className="flex-1">
 								<div
 									className="prose prose-slate line-clamp-3 prose-p:leading-snug"
-									dangerouslySetInnerHTML={renderHTML(post.fields.excerpt)}
+									dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
 								></div>
 							</div>
 							<div className="flex justify-center">

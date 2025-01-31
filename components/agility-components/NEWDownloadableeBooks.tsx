@@ -1,4 +1,4 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { gql } from "@apollo/client"
 import { IconChevronRight } from "@tabler/icons-react"
 
@@ -8,6 +8,7 @@ import { LinkButton } from "components/micro/LinkButton"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 import Link from "next/link"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IMiniResource {
 	contentID: number
@@ -90,7 +91,7 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 				<div className="flex w-full justify-center">
 					<div
 						className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
-						dangerouslySetInnerHTML={renderHTML(fields.content)}
+						dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
 					/>
 				</div>
 

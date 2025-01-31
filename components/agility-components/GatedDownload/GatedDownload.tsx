@@ -1,7 +1,8 @@
-import { renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { GatedDownloadClient } from "./GatedDownload.client"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IGatedDownload {
 	hubspotForm?: string
@@ -21,7 +22,7 @@ export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProp
 		<Container className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
 			<div className="lg:w-1/2">
 				<h2 className="text-balance text-4xl font-medium">{fields.leftColumnTitle}</h2>
-				<div className="prose mt-10" dangerouslySetInnerHTML={renderHTML(fields.leftColumnBody)}></div>
+				<div className="prose mt-10" dangerouslySetInnerHTML={renderHTMLCustom(fields.leftColumnBody)}></div>
 			</div>
 			<div className="lg:w-1/2">
 				<div className="border-t-4 border-t-highlight-light p-6 shadow-lg">

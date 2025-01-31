@@ -1,10 +1,11 @@
-import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { gql } from "@apollo/client"
 import { getResourceListing } from "lib/cms-content/getResourceListing"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 import { ResourceListingClient } from "./ResourceListing.client"
 import { Container } from "components/micro/Container"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface INewAllResources {
 	categorySelectText: string
@@ -112,7 +113,7 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 		<>
 			<Container className="mx-auto max-w-7xl">
 				<div
-					dangerouslySetInnerHTML={renderHTML(fields.content)}
+					dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
 					className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
 				></div>
 

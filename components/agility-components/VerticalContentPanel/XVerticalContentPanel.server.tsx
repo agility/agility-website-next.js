@@ -5,6 +5,7 @@ import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { VerticalContentPanelClient } from "./XVerticalContentPanel.client"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface VerticalPanel {
 	title: string
@@ -41,7 +42,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 				{description && (
 					<div
 						className="vertical-content-panel-desc mt-3 text-xl"
-						dangerouslySetInnerHTML={renderHTML(description)}
+						dangerouslySetInnerHTML={renderHTMLCustom(description)}
 					/>
 				)}
 			</div>

@@ -20,6 +20,7 @@ import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronDown, IconX } from "@tabler/icons-react"
 import { renderHTML } from "@agility/nextjs"
 import { MobileSearch, Search } from "components/search/Search"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface Props {
 	headerContent: HeaderContent
@@ -64,7 +65,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-center">
 					<div
 						className="mx-auto max-w-7xl p-3 px-8 text-sm"
-						dangerouslySetInnerHTML={renderHTML(header.fields.marketingBanner)}
+						dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
 					></div>
 				</div>
 			)}
