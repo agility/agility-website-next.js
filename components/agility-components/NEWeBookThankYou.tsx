@@ -1,11 +1,11 @@
-import { AgilityPic, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
-import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { IResource } from "lib/types/IResource"
 import { ContentItem } from "@agility/content-fetch"
 import Link from "next/link"
 import { LinkButton } from "components/micro/LinkButton"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedModuleProps) => {
 	const resourceSlug = globalData?.searchParams?.get("resource")
@@ -87,7 +87,7 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 				<div className="flex-1">
 					<div
 						className="prose prose-lg"
-						dangerouslySetInnerHTML={renderHTML(selectedResource?.fields.thankYouContent)}
+						dangerouslySetInnerHTML={renderHTMLCustom(selectedResource?.fields.thankYouContent)}
 					></div>
 
 					<div className="mt-5">

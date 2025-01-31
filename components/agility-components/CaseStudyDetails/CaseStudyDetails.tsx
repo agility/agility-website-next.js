@@ -1,14 +1,15 @@
-import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import Link from "next/link"
-import { IconBrandFacebook, IconBrandLinkedin, IconBrandX, IconQuote } from "@tabler/icons-react"
+import { IconQuote } from "@tabler/icons-react"
 import { CaseStudyDetailRotator } from "./CaseStudyDetailRotator"
 import { ResourceCard } from "./ResourceCard"
 import { stripHtml } from "lib/utils/strip-html"
 import { CaseStudyRotatorClient, MinCaseStudy } from "../CaseStudyRotator/CaseStudyRotator.client"
 import { getContentItem } from "lib/cms/getContentItem"
 import { SharePage } from "components/common/SharePage"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface ICaseStudyDetails {
 	relatedCaseStudiesHeading: string
@@ -121,7 +122,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 									</div>
 									<div
 										className="prose prose-lg"
-										dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}
+										dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.quote)}
 									></div>
 								</div>
 							)}
@@ -129,7 +130,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 					</div>
 					<div className="mt-8 lg:mt-0 lg:w-2/3">
 						{/* top content */}
-						<div className="prose" dangerouslySetInnerHTML={renderHTML(caseStudy.topContent)}></div>
+						<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.topContent)}></div>
 					</div>
 				</div>
 
@@ -140,7 +141,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 
 				{/* Bottom Content */}
 				<div className="mt-10 lg:w-2/3">
-					<div className="prose" dangerouslySetInnerHTML={renderHTML(caseStudy.bottomContent)}></div>
+					<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.bottomContent)}></div>
 				</div>
 			</Container>
 
@@ -183,7 +184,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 							</div>
 							<div
 								className="prose- prose prose-lg"
-								dangerouslySetInnerHTML={renderHTML(caseStudy.quote)}
+								dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.quote)}
 							></div>
 						</div>
 					)}

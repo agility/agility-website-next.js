@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { gql } from "gql/__generated__"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 
@@ -8,9 +8,10 @@ import { groupByCondition } from "./groupByCondition"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { Container } from "components/micro/Container"
 import clsx from "clsx"
-import { IconAsterisk, IconStarFilled } from "@tabler/icons-react"
+import { IconStarFilled } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
 import { PricingPackagesModuleClient } from "./PricingPackagesModule.client"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IPricingPackagesModule {
 	loadsByDefault: string
@@ -208,7 +209,7 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 
 									<div
 										className="prose mt-2 prose-p:leading-tight"
-										dangerouslySetInnerHTML={renderHTML(packageItem?.fields?.description)}
+										dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
 									></div>
 								</div>
 								<div>

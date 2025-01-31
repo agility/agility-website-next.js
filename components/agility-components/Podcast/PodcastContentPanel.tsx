@@ -1,7 +1,8 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IPodcastContentPanel {
 	title: string
@@ -34,7 +35,7 @@ export const PodcastContentPanel = async ({ module, languageCode }: UnloadedModu
 				</div>
 				<div>
 					<h1 className="text-balance text-4xl font-medium">{fields.title}</h1>
-					<div className="prose mt-5" dangerouslySetInnerHTML={renderHTML(fields.textblob)} />
+					<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
 				</div>
 			</div>
 		</Container>

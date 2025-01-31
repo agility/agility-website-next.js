@@ -1,5 +1,5 @@
 import React from "react"
-import { AgilityPic, UnloadedModuleProps, renderHTML } from "@agility/nextjs"
+import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
 
 import { DateTime } from "luxon"
 import { Container } from "components/micro/Container"
@@ -11,10 +11,9 @@ import { gql } from "@apollo/client"
 import { ContentItem } from "@agility/content-fetch"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { LinkButton } from "components/micro/LinkButton"
-import { render } from "@headlessui/react/dist/utils/render"
-import { getContentList } from "lib/cms/getContentList"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
-const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProps) => {
+const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) {
 		return <div>Post not found</div>
 	}
@@ -117,7 +116,7 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 
 						<div
 							className="prose mt-5 max-w-full"
-							dangerouslySetInnerHTML={renderHTML(post.textblob)}
+							dangerouslySetInnerHTML={renderHTMLCustom(post.textblob)}
 						></div>
 
 						{post.author && (
@@ -135,7 +134,7 @@ const PostDetails = async ({ dynamicPageItem, languageCode }: UnloadedModuleProp
 									<div className="mt-3 text-balance font-medium">{post.author.fields.title}</div>
 									<div
 										className="prose"
-										dangerouslySetInnerHTML={renderHTML(post.author.fields.textblob)}
+										dangerouslySetInnerHTML={renderHTMLCustom(post.author.fields.textblob)}
 									></div>
 								</div>
 							</div>

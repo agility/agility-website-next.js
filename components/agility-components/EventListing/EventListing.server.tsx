@@ -3,10 +3,11 @@ import React from "react"
 import { useAgilityContext } from "lib/cms/useAgilityContext"
 import { EventListingClient } from "./EventListing.client"
 import { getContentItem } from "lib/cms/getContentItem"
-import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { getEventListing } from "lib/cms-content/getEventListing"
 import { Container } from "components/micro/Container"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IEventListing {
 	title?: string
@@ -65,7 +66,7 @@ export const EventListing = async ({ module, languageCode }: UnloadedModuleProps
 		<Container className="mx-auto max-w-7xl">
 			<h2 className="text-center text-5xl font-medium">{fields.title}</h2>
 			<ThreeDashLine />
-			<div className="prose prose-lg mx-auto mt-5" dangerouslySetInnerHTML={renderHTML(fields.subTitle)}></div>
+			<div className="prose prose-lg mx-auto mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.subTitle)}></div>
 			<EventListingClient {...{ events, locale, getNext, pageSize }} />
 		</Container>
 	)

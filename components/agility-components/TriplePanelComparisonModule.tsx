@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { renderHTML, Module, UnloadedModuleProps, ImageField, AgilityImage, AgilityPic } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, AgilityPic } from "@agility/nextjs"
 import { IconCheck, IconX } from "@tabler/icons-react"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface ITriplePanelComparisonModule {
 	title: string
@@ -40,7 +41,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 				{fields.description && (
 					<div
 						className="prose mt-5 max-w-none text-balance text-center"
-						dangerouslySetInnerHTML={renderHTML(fields.description)}
+						dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
 					></div>
 				)}
 

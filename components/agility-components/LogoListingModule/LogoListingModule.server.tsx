@@ -1,4 +1,4 @@
-import { renderHTML, Module, UnloadedModuleProps, ImageField, URLField, ContentItem } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, URLField, ContentItem } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { LogoListingModuleClient } from "./LogoListingModule.client"

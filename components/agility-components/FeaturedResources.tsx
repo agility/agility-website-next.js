@@ -1,4 +1,4 @@
-import { renderHTML, Module, UnloadedModuleProps, AgilityPic } from "@agility/nextjs"
+import { UnloadedModuleProps, AgilityPic } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { getContentItem } from "lib/cms/getContentItem"

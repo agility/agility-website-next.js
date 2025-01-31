@@ -1,4 +1,4 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
 import { gql } from "@apollo/client"
@@ -6,6 +6,7 @@ import { Container } from "components/micro/Container"
 import Link from "next/link"
 import { IconChevronRight } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IFeaturedCaseStudiesPanel {
 	content?: string
@@ -71,7 +72,7 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 			className="mx-auto max-w-7xl"
 		>
 			<div
-				dangerouslySetInnerHTML={renderHTML(fields.content)}
+				dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
 				className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
 			></div>
 

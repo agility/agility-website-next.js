@@ -1,10 +1,11 @@
-import { renderHTML, Module, UnloadedModuleProps, URLField } from "@agility/nextjs"
-import { IconChevronCompactRight, IconChevronRight } from "@tabler/icons-react"
+import { UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { IconChevronRight } from "@tabler/icons-react"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { getContentItem } from "lib/cms/getContentItem"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface ICenteredCTAPanel {
 	title?: string
@@ -37,7 +38,7 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 				{title && <h2 className="text-balance text-5xl">{title}</h2>}
 				<ThreeDashLine />
 				{description && (
-					<div className="mt-2 text-balance text-xl" dangerouslySetInnerHTML={renderHTML(description)} />
+					<div className="mt-2 text-balance text-xl" dangerouslySetInnerHTML={renderHTMLCustom(description)} />
 				)}
 				{(cTA1 || cTA2) && (
 					<div className="mt-8 flex items-center justify-center gap-2">

@@ -1,10 +1,11 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
-import { IconChevronRight, IconQuote, IconQuotes } from "@tabler/icons-react"
+import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
+import { IconChevronRight, IconQuote } from "@tabler/icons-react"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import { ITestimonial } from "lib/types/ITestimonial"
+
 
 interface IRightOrLeftCaseStudyTestimonial {
 	cTA: string

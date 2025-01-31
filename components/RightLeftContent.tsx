@@ -1,8 +1,9 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
 import { Container } from "./micro/Container"
 import clsx from "clsx"
 import { IconCheckbox } from "@tabler/icons-react"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IRightLeftContent {
 	imagePlacement: "right" | "left"
@@ -76,7 +77,7 @@ export const RightLeftContent = async ({ module, languageCode }: UnloadedModuleP
 					{description && (
 						<div
 							className={clsx("prose mt-5 max-w-none")}
-							dangerouslySetInnerHTML={renderHTML(description)}
+							dangerouslySetInnerHTML={renderHTMLCustom(description)}
 						></div>
 					)}
 
@@ -89,7 +90,7 @@ export const RightLeftContent = async ({ module, languageCode }: UnloadedModuleP
 								<h3 className="text-balance text-lg font-medium">{bullet1Title}</h3>
 								<div
 									className={clsx("prose mt-2 max-w-none")}
-									dangerouslySetInnerHTML={renderHTML(bullet1)}
+									dangerouslySetInnerHTML={renderHTMLCustom(bullet1)}
 								></div>
 							</div>
 						</div>
@@ -104,7 +105,7 @@ export const RightLeftContent = async ({ module, languageCode }: UnloadedModuleP
 								<h3 className="text-balance text-lg font-medium">{bullet2Title}</h3>
 								<div
 									className={clsx("prose mt-2 max-w-none")}
-									dangerouslySetInnerHTML={renderHTML(bullet2)}
+									dangerouslySetInnerHTML={renderHTMLCustom(bullet2)}
 								></div>
 							</div>
 						</div>
@@ -119,7 +120,7 @@ export const RightLeftContent = async ({ module, languageCode }: UnloadedModuleP
 								<h3 className="text-balance text-lg font-medium">{bullet3Title}</h3>
 								<div
 									className={clsx("prose mt-2 max-w-none")}
-									dangerouslySetInnerHTML={renderHTML(bullet3)}
+									dangerouslySetInnerHTML={renderHTMLCustom(bullet3)}
 								></div>
 							</div>
 						</div>
@@ -134,7 +135,7 @@ export const RightLeftContent = async ({ module, languageCode }: UnloadedModuleP
 								<h3 className="text-balance text-lg font-medium">{bullet4Title}</h3>
 								<div
 									className={clsx("prose mt-2 max-w-none")}
-									dangerouslySetInnerHTML={renderHTML(bullet4)}
+									dangerouslySetInnerHTML={renderHTMLCustom(bullet4)}
 								></div>
 							</div>
 						</div>

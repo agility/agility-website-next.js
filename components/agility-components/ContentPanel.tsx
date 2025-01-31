@@ -1,9 +1,8 @@
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
-import { gql } from "gql/__generated__"
 import { getContentItem } from "lib/cms/getContentItem"
-import { text } from "stream/consumers"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IContentPanel {
 	panel: {
@@ -76,7 +75,7 @@ export const ContentPanel = async ({ module, languageCode }: UnloadedModuleProps
 					{textblob && (
 						<div
 							className={clsx("prose mt-5 max-w-none")}
-							dangerouslySetInnerHTML={renderHTML(textblob)}
+							dangerouslySetInnerHTML={renderHTMLCustom(textblob)}
 						></div>
 					)}
 				</div>

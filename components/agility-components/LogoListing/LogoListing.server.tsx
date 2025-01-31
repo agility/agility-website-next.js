@@ -1,8 +1,8 @@
-import { renderHTML, Module, UnloadedModuleProps, ImageField, URLField, ContentItem } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, ContentItem } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { LogoListingClient } from "./LogoListing.client"
-import { sample, sampleSize, shuffle } from "lodash"
+import { sampleSize, shuffle } from "lodash"
 import { getContentList } from "lib/cms/getContentList"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 

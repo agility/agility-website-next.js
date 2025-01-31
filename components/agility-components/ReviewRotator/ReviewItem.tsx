@@ -6,6 +6,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { useState } from "react"
 import clsx from "clsx"
 import { DateTime } from "luxon"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 export const ReviewItem = ({
 	review,
@@ -39,7 +40,7 @@ export const ReviewItem = ({
 			<h4 className="text-left font-medium italic">{review.fields.title}</h4>
 			<div
 				className={clsx("prose", isExpanded ? "" : "line-clamp-4")}
-				dangerouslySetInnerHTML={renderHTML(review.fields.review)}
+				dangerouslySetInnerHTML={renderHTMLCustom(review.fields.review)}
 			></div>
 			<div>
 				<button

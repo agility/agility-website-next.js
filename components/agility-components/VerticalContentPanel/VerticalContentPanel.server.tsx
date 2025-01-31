@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { UnloadedModuleProps, ImageField, ContentItem, renderHTML, AgilityPic } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, ContentItem, AgilityPic } from "@agility/nextjs"
 
 import { Container } from "components/micro/Container"
 
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
-import { VerticalContentPanelClient } from "./XVerticalContentPanel.client"
 import clsx from "clsx"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface VerticalPanel {
 	title: string
@@ -44,7 +44,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 				{description && (
 					<div
 						className="vertical-content-panel-desc mt-3 text-xl"
-						dangerouslySetInnerHTML={renderHTML(description)}
+						dangerouslySetInnerHTML={renderHTMLCustom(description)}
 					/>
 				)}
 			</div>
@@ -66,7 +66,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 
 								<div
 									className="prose mt-4 max-w-full"
-									dangerouslySetInnerHTML={renderHTML(panel.description)}
+									dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}
 								></div>
 							</div>
 							<div className="flex items-center justify-center md:w-1/3">

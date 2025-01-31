@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { AgilityPic, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { IconCheckbox, IconQuote } from "@tabler/icons-react"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
@@ -11,6 +11,7 @@ import { PartnerListingItem } from "../PartnerListing/PartnerListingItem"
 import { getContentList } from "lib/cms/getContentList"
 import { CaseStudyDetailRotator } from "../CaseStudyDetails/CaseStudyDetailRotator"
 import { GuideLink, GuideWithLinks } from "components/common/GuideWithLinks"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IPartnerDetails {
 	cTAContent: string
@@ -97,7 +98,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 					<h2 className="text-3xl font-medium">{heading}</h2>
 					<div
 						className="prose mt-4"
-						dangerouslySetInnerHTML={renderHTML(partner.textblob || partner.overviewContent)}
+						dangerouslySetInnerHTML={renderHTMLCustom(partner.textblob || partner.overviewContent)}
 					></div>
 
 					{overviewItems.length > 0 && (
@@ -112,7 +113,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 											<h3 className="text-lg font-medium">{item.fields.heading}</h3>
 											<div
 												className="prose mt-2"
-												dangerouslySetInnerHTML={renderHTML(item.fields.description)}
+												dangerouslySetInnerHTML={renderHTMLCustom(item.fields.description)}
 											></div>
 										</div>
 									</div>
@@ -205,7 +206,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 						<div className="mt-14 bg-highlight-light px-6 py-8 text-center">
 							<div
 								className="prose prose-invert"
-								dangerouslySetInnerHTML={renderHTML(fields.cTAContent)}
+								dangerouslySetInnerHTML={renderHTMLCustom(fields.cTAContent)}
 							></div>
 							<div className="mt-6">
 								{fields.cTAButton && (

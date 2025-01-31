@@ -1,8 +1,9 @@
-import { ImageField, renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface Faq {
 	question: string
@@ -45,7 +46,7 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 								</dt>
 								<dd
 									className="prose mt-4 max-w-full"
-									dangerouslySetInnerHTML={renderHTML(faq.fields.answer)}
+									dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
 								></dd>
 							</div>
 						)

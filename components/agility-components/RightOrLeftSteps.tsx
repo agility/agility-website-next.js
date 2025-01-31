@@ -1,9 +1,8 @@
-import { renderHTML, Module, UnloadedModuleProps, URLField, ImageField, AgilityPic } from "@agility/nextjs"
+import { UnloadedModuleProps, ImageField, AgilityPic } from "@agility/nextjs"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
-import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
-import { describe } from "node:test"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IRightOrLeftSteps {
 	title?: string
@@ -76,7 +75,7 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 						)}
 						{heading && <h3 className="mt-5 text-2xl font-medium">{heading}</h3>}
 
-						{description && <div dangerouslySetInnerHTML={renderHTML(description)} />}
+						{description && <div dangerouslySetInnerHTML={renderHTMLCustom(description)} />}
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { AgilityPic, ImageField, renderHTML, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ContentItem } from "@agility/content-fetch"
@@ -7,6 +7,7 @@ import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { IconChevronRight } from "@tabler/icons-react"
 import clsx from "clsx"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface PanelContentItem {
 	title: string
@@ -52,7 +53,7 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 				{fields.description && (
 					<div
 						className="mt-4 text-center text-lg"
-						dangerouslySetInnerHTML={renderHTML(fields.description)}
+						dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
 					></div>
 				)}
 
@@ -76,7 +77,7 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 							{item.fields.description && (
 								<div
 									className="mt-4"
-									dangerouslySetInnerHTML={renderHTML(item.fields.description)}
+									dangerouslySetInnerHTML={renderHTMLCustom(item.fields.description)}
 								></div>
 							)}
 						</div>

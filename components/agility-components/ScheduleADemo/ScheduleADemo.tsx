@@ -1,8 +1,8 @@
-import { renderHTML, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
-import Script from "next/script"
 import { ScheduleADemoClient } from "./ScheduleADemo.client"
+import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface IScheduleADemo {
 	schedulerIFrameURL: string
@@ -30,7 +30,7 @@ export const ScheduleADemo = async ({ module, languageCode }: UnloadedModuleProp
 					<div className="lg:w-2/5">
 						<div
 							className="prose lg:prose-lg"
-							dangerouslySetInnerHTML={renderHTML(fields.leftPanelContent)}
+							dangerouslySetInnerHTML={renderHTMLCustom(fields.leftPanelContent)}
 						></div>
 					</div>
 					<div className="lg:w-3/5">
