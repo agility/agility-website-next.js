@@ -4,7 +4,7 @@ const nextConfig = {
 	experimental: {
 		// one year in seconds for the stale-while-revalidate cache-control
 		swrDelta: 31536000,
-		useLightningcss: true,
+		//useLightningcss: true,
 		optimizeCss: true
 	},
 
