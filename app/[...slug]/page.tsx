@@ -44,7 +44,7 @@ export async function generateStaticParams() {
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
 
-	if (isDevelopmentMode || true) { //HACK FOR TESTING
+	if (isDevelopmentMode) {
 		console.log("Dev Mode: Skipping static generation")
 		return []
 	}
