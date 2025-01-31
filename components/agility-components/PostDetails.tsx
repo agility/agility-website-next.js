@@ -1,5 +1,5 @@
 import React from "react"
-import { AgilityPic, UnloadedModuleProps } from "@agility/nextjs"
+import { UnloadedModuleProps } from "@agility/nextjs"
 
 import { DateTime } from "luxon"
 import { Container } from "components/micro/Container"
@@ -12,6 +12,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { LinkButton } from "components/micro/LinkButton"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { AgilityPic } from "components/common/AgilityPic"
 
 const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	if (!dynamicPageItem) {
@@ -77,7 +78,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	return (
 		<Container className="mx-auto max-w-7xl">
 			<article>
-				<time className="text-slate-400">{dateStr}</time>
+				<time className="text-slate-600">{dateStr}</time>
 				<h1 className="mt-5 text-balance text-4xl font-medium">{post.title}</h1>
 				<h2 className="mt-5 text-balance text-lg font-medium">{post.subTitle}</h2>
 
@@ -130,7 +131,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 									/>
 								)}
 								<div>
-									<h5 className="uppercase text-slate-400">About the Author</h5>
+									<h5 className="uppercase text-slate-600">About the Author</h5>
 									<div className="mt-3 text-balance font-medium">{post.author.fields.title}</div>
 									<div
 										className="prose"
