@@ -12,10 +12,10 @@ interface Props {
 	className?: string
 	disabled?: boolean
 	"data-agility-field"?: string
-	onClick?: () => void
+	onClick?: (e: MouseEvent) => void
 }
 
-export const LinkButton = ({
+export const LinkButtonClient = ({
 	href,
 	target,
 	children,
@@ -60,7 +60,12 @@ export const LinkButton = ({
 		return (
 			<button
 				className={btnClass}
-				onClick={onClick}
+				onClick={(e) => {
+					if (onClick) {
+						onClick(e as unknown as MouseEvent)
+					}
+				}
+				}
 				type={buttonType}
 				disabled={disabled}
 				data-agility-field={dataAgilityField}
@@ -75,7 +80,12 @@ export const LinkButton = ({
 			href={href || "/"}
 			target={target}
 			className={btnClass}
-			onClick={onClick}
+			onClick={(e) => {
+				if (onClick) {
+					onClick(e as unknown as MouseEvent)
+				}
+			}
+			}
 			data-agility-field={dataAgilityField}
 		>
 			{children}

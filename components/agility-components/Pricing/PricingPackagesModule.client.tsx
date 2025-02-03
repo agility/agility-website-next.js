@@ -13,13 +13,14 @@ import {
 	IconStarFilled
 } from "@tabler/icons-react"
 import { entries } from "lodash"
-import { LinkButton } from "components/micro/LinkButton"
+
 import clsx from "clsx"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { HubspotForm } from "lib/types/HubspotForm"
 import GetPricePopup from "./GetPricePopup"
+import { LinkButtonClient } from "components/micro/LinkButtonClient"
 
 interface PricingPackage {
 	contentID: number | null
@@ -195,7 +196,7 @@ export const PricingPackagesModuleClient = ({
 									></div>
 								</div>
 								<div>
-									<LinkButton
+									<LinkButtonClient
 										type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
 										size={"md"}
 										href={packageItem?.fields?.cTAButton?.href}
@@ -208,7 +209,7 @@ export const PricingPackagesModuleClient = ({
 										}}
 									>
 										{packageItem?.fields?.cTAButton?.text}
-									</LinkButton>
+									</LinkButtonClient>
 								</div>
 							</div>
 						))}
@@ -236,7 +237,7 @@ export const PricingPackagesModuleClient = ({
 								<h3 className="text-center text-2xl font-bold">{packageItem?.fields?.title}</h3>
 								{isScrolling && (
 									<div className="mt-2 hidden justify-center md:flex">
-										<LinkButton
+										<LinkButtonClient
 											type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
 											size={"sm"}
 											href={packageItem?.fields?.cTAButton?.href}
@@ -249,7 +250,7 @@ export const PricingPackagesModuleClient = ({
 											}}
 										>
 											{packageItem?.fields?.cTAButton?.text}
-										</LinkButton>
+										</LinkButtonClient>
 									</div>
 								)}
 							</div>
