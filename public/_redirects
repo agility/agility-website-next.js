@@ -5,8 +5,6 @@
 /community/agileliving/* 	/resources/agileliving/:splat
 
 #blog redirects
-https://agilitycms.com/blog/blog/* https://agilitycms.com/blog/:splat 301!
-https://agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
 https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
 https://blog.agilitycms.com/*	https://agilitycms.com/blog/:splat 301!
 
