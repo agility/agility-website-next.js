@@ -169,7 +169,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 
 	let title = metaTitle || agilityData.sitemapNode?.title || ""
-	if (!title.includes("Agility")) title = `${title} | Agility CMS`
+
 
 	if (ogImages.length === 0) {
 
@@ -184,6 +184,8 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 		})
 
 	}
+
+	if (!title.includes("Agility")) title = `${title} | Agility CMS`
 
 	const metaData: Metadata = {
 		metadataBase: new URL('https://agilitycms.com'),
