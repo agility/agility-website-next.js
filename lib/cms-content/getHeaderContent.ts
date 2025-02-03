@@ -51,7 +51,8 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 			referenceName: "globalheader",
 			languageCode: locale,
 			take: 1,
-			contentLinkDepth: 0
+			contentLinkDepth: 0,
+			expandAllContentLinks: true
 		})
 
 		// if we have a header, set as content item

@@ -29,7 +29,7 @@ interface Props {
 const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
-
+	console.log("header", header)
 	const [isScrolled, setIsScrolled] = useState(false)
 
 	/**
@@ -62,11 +62,14 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 		<>
 			{/* MARKETING MESSAGE */}
 			{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
-				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-center">
+				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-between gap-4 p-4 items-center text-sm px-8">
 					<div
-						className="mx-auto max-w-7xl p-3 px-8 text-sm"
+						className="mx-auto flex-1"
 						dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
 					></div>
+					<div>
+						TODO LINKS
+					</div>
 				</div>
 			)}
 			<header
@@ -75,7 +78,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 					isScrolled ? "shadow-b" : "shadow-none"
 				)}
 			>
-				<div className="mx-auto max-w-7xl px-8">
+				<div className="mx-auto w-full px-8">
 					{/* DESKTOP NAV */}
 					<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 						<div className="lg:w-0 lg:flex-1">
