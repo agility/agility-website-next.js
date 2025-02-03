@@ -5,6 +5,9 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { IconX } from '@tabler/icons-react'
 import { HubspotForm } from 'lib/types/HubspotForm'
 import clsx from 'clsx'
+import LoadingWidget from "components/common/LoadingWidget"
+import { Bouncy } from "components/micro/loaders/Bouncy"
+import { load } from 'cheerio'
 
 interface Props {
 	hubSpotForm: HubspotForm
@@ -17,25 +20,37 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 
 	const divID = `gatedownload-form-${hubSpotForm.formId}`
 	const formLoadRef = useRef<Boolean>(false)
+	const [formLoaded, setFormLoaded] = useState(false)
 
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
 		formLoadRef.current = true
-		console.log('hubSpotForm', hubSpotForm)
+
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
 		window.hbspt.forms.create({
 			portalId: hubSpotForm.portalId,
 			formId: hubSpotForm.formId,
-			target: `#${divID}`
+			target: `#${divID}`,
+			onBeforeFormInit: function (ctx: any) {
+				console.log('before form init', ctx)
+			},
+			onFormReady: function ($form: any) {
+				console.log('form ready', $form)
+			},
+
 		})
 	}, [divID, hubSpotForm])
 
 	useEffect(() => {
-		console.log("pre load hs")
+
 		if (priceDialogOpen && window.hbspt) {
+			setFormLoaded(false)
 			loadForm()
+			setTimeout(() => {
+				setFormLoaded(true)
+			}, 350)
 		}
 	}, [loadForm, priceDialogOpen])
 
@@ -74,8 +89,16 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 								<IconX aria-hidden="true" className="size-6" />
 							</button>
 						</div>
-						<div>
-							<div id={divID}></div>
+						<div className='min-h-[400px]'>
+							{!formLoaded &&
+								(
+									<div className='min-h-[400px] flex justify-center items-center'>
+										<div className="h-10 w-10"><Bouncy /></div>
+									</div>
+								)}
+
+							<div id={divID} className={formLoaded ? "block" : "invisible "}></div>
+
 						</div>
 
 					</DialogPanel>

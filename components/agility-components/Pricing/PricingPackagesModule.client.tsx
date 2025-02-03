@@ -21,6 +21,7 @@ import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { HubspotForm } from "lib/types/HubspotForm"
 import GetPricePopup from "./GetPricePopup"
 import { LinkButtonClient } from "components/micro/LinkButtonClient"
+import Script from "next/script"
 
 interface PricingPackage {
 	contentID: number | null
@@ -165,8 +166,8 @@ export const PricingPackagesModuleClient = ({
 									index === 0
 										? "border-t-slate-300"
 										: index === 1
-											? "border-t-secondary"
-											: "border-t-highlight-light"
+											? "border-t-highlight-light"
+											: "border-t-secondary"
 								)}
 							>
 								<div className="flex items-center justify-center gap-2">
@@ -197,7 +198,7 @@ export const PricingPackagesModuleClient = ({
 								</div>
 								<div>
 									<LinkButtonClient
-										type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
+										type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
 										size={"md"}
 										href={packageItem?.fields?.cTAButton?.href}
 										target={packageItem?.fields?.cTAButton?.target}
@@ -336,7 +337,16 @@ export const PricingPackagesModuleClient = ({
 				</div>
 			</div>
 			{hubSpotForm &&
-				<GetPricePopup {...{ hubSpotForm, priceDialogOpen, setPriceDialogOpen }} />
+				<>
+					<GetPricePopup {...{ hubSpotForm, priceDialogOpen, setPriceDialogOpen }} />
+					<Script
+						{...{
+							type: "text/javascript",
+							strategy: "lazyOnload",
+							src: "//js.hsforms.net/forms/embed/v2.js",
+						}}
+					/>
+				</>
 			}
 		</>
 	)
