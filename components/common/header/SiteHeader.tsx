@@ -29,7 +29,7 @@ interface Props {
 const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
-	console.log("preHeaderLinks", preHeaderLinks)
+
 	const [isScrolled, setIsScrolled] = useState(false)
 
 	/**
