@@ -10,10 +10,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	return Object.keys(sitemap).filter((path) => {
 		const node = sitemap[path]
-		if (node.isFolder || node.redirect) return false;
+		if (node.isFolder || node.redirect) {
+			return false;
+		}
+
 		if (!node.visible.sitemap) {
 			return false;
 		}
+		return true
 	}).map((path, index) => {
 
 

@@ -2488,6 +2488,11 @@ h2 {
   aspect-ratio: 16 / 9;
 }
 
+.size-6 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .h-0 {
   height: 0px;
 }
@@ -2666,6 +2671,10 @@ h2 {
 
 .min-h-\[520px\] {
   min-height: 520px;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .min-h-screen {
@@ -3427,6 +3436,10 @@ h2 {
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.bg-gray-500\/75 {
+  background-color: rgb(107 114 128 / 0.75);
 }
 
 .bg-gray-800 {
@@ -5874,8 +5887,17 @@ h2 {
   --tw-ring-color: rgb(69 1 168 / var(--tw-ring-opacity));
 }
 
+.focus\:ring-indigo-500:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity));
+}
+
 .focus\:ring-white\/40:focus {
   --tw-ring-color: rgb(255 255 255 / 0.4);
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
 }
 
 .active\:bg-indigo-700:active {
@@ -5945,6 +5967,11 @@ h2 {
 
 .data-\[closed\]\:translate-y-1[data-closed] {
   --tw-translate-y: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.data-\[closed\]\:translate-y-4[data-closed] {
+  --tw-translate-y: 1rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -6076,8 +6103,16 @@ h2 {
     margin-right: 5rem;
   }
 
+  .sm\:block {
+    display: block;
+  }
+
   .sm\:flex {
     display: flex;
+  }
+
+  .sm\:w-\[640px\] {
+    width: 640px;
   }
 
   .sm\:max-w-sm {
@@ -6092,8 +6127,16 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .sm\:items-center {
+    align-items: center;
+  }
+
   .sm\:gap-8 {
     gap: 2rem;
+  }
+
+  .sm\:p-0 {
+    padding: 0px;
   }
 
   .sm\:px-6 {
@@ -6145,6 +6188,12 @@ h2 {
 
   .sm\:prose iframe {
     max-width: 100%;
+  }
+
+  .data-\[closed\]\:sm\:scale-95[data-closed] {
+    --tw-scale-x: .95;
+    --tw-scale-y: .95;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 }
 
@@ -6231,6 +6280,10 @@ h2 {
 
   .md\:w-\[400px\] {
     width: 400px;
+  }
+
+  .md\:w-\[800px\] {
+    width: 800px;
   }
 
   .md\:flex-none {
