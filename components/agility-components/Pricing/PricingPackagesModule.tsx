@@ -12,6 +12,7 @@ import { IconStarFilled } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
 import { PricingPackagesModuleClient } from "./PricingPackagesModule.client"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { HubspotForm } from "lib/types/HubspotForm"
 
 interface IPricingPackagesModule {
 	loadsByDefault: string
@@ -21,6 +22,7 @@ interface IPricingPackagesModule {
 	secondaryFeaturesTitle: string
 	showmoretext: string
 	showlesstext: string
+	getPricingForm?: string
 }
 
 interface PackageFeature {
@@ -50,6 +52,17 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 		contentID: module.contentid,
 		languageCode
 	})
+
+	let hubSpotForm: HubspotForm | null = null
+
+	if (fields.getPricingForm) {
+		try {
+			hubSpotForm = JSON.parse(fields.getPricingForm)
+		} catch (e) {
+			console.warn("Error parsing hubspot form on pricing packages modele", fields.getPricingForm, e)
+		}
+	}
+
 
 	const gqlQuery = gql(`
 		query getPricingItems {
@@ -170,77 +183,14 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 
 	return (
 		<>
-			<div id={topSectionIDStr}>
-				<Container className="relative z-[2] mx-auto max-w-5xl">
-					<div className="flex flex-col items-center justify-center gap-14 lg:flex-row lg:items-start">
-						{data.pricingpackages?.map((packageItem, index) => (
-							<div
-								key={packageItem?.contentID}
-								className={clsx(
-									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 border-t-4 bg-white p-8 text-center shadow-lg",
-									"lg:w-[350px]",
-									index === 0
-										? "border-t-slate-300"
-										: index === 1
-											? "border-t-secondary"
-											: "border-t-highlight-light"
-								)}
-							>
-								<div className="flex items-center justify-center gap-2">
-									<h2 className="text-2xl font-bold">{packageItem?.fields?.title}</h2>
-									{packageItem?.fields?.isMostPopular && (
-										<div className="flex items-center gap-1 rounded bg-background p-0.5 px-1 text-xs text-highlight-light">
-											<IconStarFilled size={12} />
-											Most Popular
-										</div>
-									)}
-								</div>
 
-								{/* icon */}
-								<img
-									src={packageItem?.fields?.icon?.url}
-									alt={packageItem?.fields?.icon?.label || ""}
-									className="h-14 w-14"
-								/>
-
-								{/* descriptions */}
-								<div className="min-h-[100px]">
-									<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
-
-									<div
-										className="prose mt-2 prose-p:leading-tight"
-										dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
-									></div>
-								</div>
-								<div>
-									<LinkButton
-										type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
-										size={"md"}
-										href={packageItem?.fields?.cTAButton?.href}
-										target={packageItem?.fields?.cTAButton?.target}
-									>
-										{packageItem?.fields?.cTAButton?.text}
-									</LinkButton>
-								</div>
-							</div>
-						))}
-					</div>
-				</Container>
-
-				<div className="-mt-44 min-h-72 bg-slate-50 pt-52">
-					<div id={headerIDstr}>
-						{fields.comparePackagesTitle && (
-							<h2 className="text-balance text-center text-5xl">{fields.comparePackagesTitle}</h2>
-						)}
-						<ThreeDashLine />
-					</div>
-				</div>
-			</div>
 
 			<PricingPackagesModuleClient
 				{...{
 					headerIDstr,
 					topSectionIDStr,
+					comparePackagesTitle: fields.comparePackagesTitle,
+					hubSpotForm,
 					listPricingByCategory,
 					pricingPackages: data.pricingpackages,
 					featuresListing: data.packagefeaturevalues
