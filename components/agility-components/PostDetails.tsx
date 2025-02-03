@@ -154,7 +154,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 									{post.blogTags.map((item) => (
 										<Link
 											key={item.contentID}
-											href={`/resources/posts/tag/${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
+											href={`/blog/tag/${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
 											className="rounded bg-background px-2 py-1 hover:text-highlight-light"
 										>
 											{item.fields.title}
@@ -167,7 +167,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 						<SharePage
 							{...{
 								title: "Share Post",
-								url: `https://agilitycms.com/resources/posts/${post.uRL}`,
+								url: `https://agilitycms.com/blog/${post.uRL}`,
 								className: "flex flex-col lg:items-start items-center w gap-2"
 							}}
 						/>
@@ -179,7 +179,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 							{post.resourcesList?.map((resource, index) => (
 								<Link
 									key={`related-resource-${resource.contentID}`}
-									href={`/resources/posts/${resource.fields.uRL}`}
+									href={`/blog/${resource.fields.uRL}`}
 									className="group mt-8 block transition-shadow hover:shadow-lg"
 								>
 									{resource.fields.postImage && (
@@ -234,7 +234,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 					<SharePage
 						{...{
 							title: "Share Post",
-							url: `https://agilitycms.com/resources/posts/${post.uRL}`,
+							url: `https://agilitycms.com/blog/${post.uRL}`,
 							className: "flex flex-col items-center gap-2"
 						}}
 					/>

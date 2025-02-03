@@ -53,7 +53,7 @@ const PostListing = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	const { data } = await query({ query: gqlQuery })
 	const tags = data.newblogcategories?.map((tag: any) => ({
 		text: tag.fields.title,
-		value: `/resources/posts/tag/${tag.fields.title.toLowerCase().replaceAll(" ", "-")}`
+		value: `/blog/tag/${tag.fields.title.toLowerCase().replaceAll(" ", "-")}`
 	}))
 
 	// get next posts for infinite scroll

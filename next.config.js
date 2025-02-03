@@ -22,6 +22,11 @@ const nextConfig = {
 	redirects() {
 		return [
 			{
+				source: '/resources/posts/:path',
+				destination: '/blog/:path',
+				permanent: true,
+			},
+			{
 				source: '/resources/category/:path',
 				destination: '/resources?category=:path',
 				permanent: true,
