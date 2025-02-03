@@ -109,7 +109,7 @@ const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props)
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
-										type="primary"
+										type="alternate"
 										className="hidden sm:flex"
 									>
 										{header.fields.contactus.text}
@@ -153,7 +153,7 @@ const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props)
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
-										type="primary"
+										type="alternate"
 									>
 										{header.fields.contactus.text}
 									</LinkButton>
@@ -166,7 +166,7 @@ const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props)
 									<LinkButton
 										href={header.fields.primaryButton.href}
 										target={header.fields.primaryButton.target}
-										type="secondary"
+										type="alternate-inverted"
 									>
 										{header.fields.primaryButton.text}
 									</LinkButton>
