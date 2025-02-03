@@ -5,6 +5,8 @@ import { Header } from "lib/types/Header"
 import { TopLevelNav } from "lib/types/TopLevelNav"
 import { SubLevelNav } from "lib/types/SubLevelNav"
 import { MegaMenuItem } from "lib/types/MegaMenuItem"
+import { ILink } from "lib/types/ILink"
+import { sortByIDs } from "lib/utils/sortByIDs"
 
 
 
@@ -23,6 +25,7 @@ export interface MenuLink {
 export interface HeaderContent {
 	header: ContentItem<Header>
 	links: MenuLink[]
+	preHeaderLinks: ContentItem<ILink>[]
 
 }
 
@@ -51,8 +54,7 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 			referenceName: "globalheader",
 			languageCode: locale,
 			take: 1,
-			contentLinkDepth: 0,
-			expandAllContentLinks: true
+			contentLinkDepth: 0
 		})
 
 		// if we have a header, set as content item
@@ -61,6 +63,24 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 		}
 
 		if (!header) throw Error("No header found.")
+
+		let preHeaderLinks: ContentItem<ILink>[] = []
+
+		if (header.fields.preHeaderLinks && header.fields.preHeaderLinks.referencename) {
+			//expand out the pre header links
+			let lstPreHeaderLinks = await getContentList({
+				referenceName: header.fields.preHeaderLinks.referencename,
+				languageCode: locale,
+				take: 10,
+				contentLinkDepth: 0
+			})
+
+			if (lstPreHeaderLinks && lstPreHeaderLinks.items && lstPreHeaderLinks.items.length > 0) {
+				preHeaderLinks = sortByIDs(lstPreHeaderLinks.items, header.fields.preHeaderLinks.sortids)
+			}
+		}
+
+
 
 		//expand out the menu structure with MULTIPLE CALLS so that we can purge the cache for any level :)
 		if (header?.fields.menuStructure.referencename) {
@@ -120,7 +140,8 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 		}
 		return {
 			header,
-			links
+			links,
+			preHeaderLinks
 		}
 
 	} catch (error) {

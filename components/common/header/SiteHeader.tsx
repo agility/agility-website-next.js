@@ -26,10 +26,10 @@ interface Props {
 	headerContent: HeaderContent
 }
 
-const SiteHeader = ({ headerContent: { header, links } }: Props) => {
+const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
-	console.log("header", header)
+	console.log("preHeaderLinks", preHeaderLinks)
 	const [isScrolled, setIsScrolled] = useState(false)
 
 	/**
@@ -67,9 +67,18 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 						className="mx-auto flex-1"
 						dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
 					></div>
-					<div>
-						TODO LINKS
-					</div>
+					{preHeaderLinks && preHeaderLinks.length > 0 && (
+						<div className="flex gap-4">
+							{preHeaderLinks.map((link, index) => (
+								<div key={link.contentID}>
+									<Link
+										href={link.fields.uRL.href}
+										target={link.fields.uRL.target}
+										className="hover:text-secondary transition-colors">{link.fields.uRL.text}</Link>
+								</div>
+							))}
+						</div>
+					)}
 				</div>
 			)}
 			<header
