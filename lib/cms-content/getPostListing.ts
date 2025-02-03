@@ -70,10 +70,10 @@ export const getPostListing = async ({ sitemap, locale, skip, take, tagID }: Loa
 			}
 
 			// url
-			const url = `/resources/posts/${post.fields.uRL}`
+			const url = `/blog/${post.fields.uRL}`
 			let tags: ITagLink[] = post.fields.blogTags?.map((tag) => ({
 				tag: tag.fields.title,
-				url: `/resources/posts?tag=${tag.fields.title}`
+				url: `/blog?tag=${tag.fields.title}`
 			})) || []
 
 			// post image src

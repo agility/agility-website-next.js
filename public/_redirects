@@ -5,10 +5,8 @@
 /community/agileliving/* 	/resources/agileliving/:splat
 
 #blog redirects
-https://agilitycms.com/resources/posts/resources/posts/* https://agilitycms.com/resources/posts/:splat 301!
-https://agilitycms.com/blog/:category/* https://agilitycms.com/resources/posts/:splat 301!
-https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/resources/posts/:splat 301!
-https://blog.agilitycms.com/*	https://agilitycms.com/resources/posts/:splat 301!
+https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
+https://blog.agilitycms.com/*	https://agilitycms.com/blog/:splat 301!
 
 #doc site proxy
 /docs   https://agilitycms-documentation-site.vercel.app/docs 200

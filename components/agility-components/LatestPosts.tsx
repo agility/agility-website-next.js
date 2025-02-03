@@ -47,7 +47,7 @@ export const LatestPosts = async ({ module, languageCode }: UnloadedModuleProps)
 					<Link
 						key={post.contentID}
 						className="group flex flex-col transition-shadow hover:shadow-lg"
-						href={`/resources/posts/${post.fields.uRL}`}
+						href={`/blog/${post.fields.uRL}`}
 					>
 						{post.fields.postImage && (
 							<div className="h-48 w-full overflow-clip">

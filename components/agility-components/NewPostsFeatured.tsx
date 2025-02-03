@@ -72,7 +72,7 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 			<div className="flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start lg:flex-nowrap">
 				{posts.map((post, index) => (
 					<Link
-						href={`/resources/posts/${post.fields.uRL}`}
+						href={`/blog/${post.fields.uRL}`}
 						key={index}
 						className="group flex min-w-80 max-w-96 flex-col bg-highlight-light text-white"
 					>

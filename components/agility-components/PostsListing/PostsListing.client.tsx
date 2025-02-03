@@ -61,7 +61,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 							if (item?.value) {
 								router.push(item.value, { scroll: false })
 							} else {
-								router.push("/resources/posts", { scroll: false })
+								router.push("/blog", { scroll: false })
 							}
 						}
 					}}
@@ -118,7 +118,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 												key={tag.url}
 												onClick={(e) => {
 													e.preventDefault()
-													const tagUrl = `/resources/posts/tag/${tag.tag.toLowerCase().replaceAll(" ", "-")}`
+													const tagUrl = `/blog/tag/${tag.tag.toLowerCase().replaceAll(" ", "-")}`
 													router.push(tagUrl)
 												}}
 											>
