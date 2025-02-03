@@ -258,7 +258,7 @@ export const PricingPackagesModuleClient = ({
 						))}
 					</div>
 				</div>
-				<div className={clsx("mx-auto max-w-7xl justify-center px-8", isScrolling && "-mt-10")}>
+				<div className={clsx("mx-auto max-w-7xl justify-center px-8 pb-8", isScrolling && "-mt-10")}>
 					{listPricingByCategory.map((catFeature, index) => (
 						<Disclosure as="div" key={`cats-${catFeature.category.id}`} className="group" defaultOpen>
 							{index > 0 && (
