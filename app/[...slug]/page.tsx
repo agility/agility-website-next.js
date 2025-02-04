@@ -23,8 +23,7 @@ export const dynamicParams = true
  * @returns
  */
 export async function generateStaticParams() {
-	//HACK
-	return []
+
 	console.log("*** generateStaticParams ***")
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
 	const isPreview = isDevelopmentMode
