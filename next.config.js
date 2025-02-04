@@ -4,9 +4,8 @@ const nextConfig = {
 	experimental: {
 
 		inlineCss: true,
-
+		optimizeCss: true
 		//useLightningcss: true,
-		//optimizeCss: true
 	},
 
 	// one year in seconds for the stale-while-revalidate cache-control
