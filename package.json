@@ -55,7 +55,7 @@
 	},
 	"devDependencies": {
 		"@agility/content-fetch": "^2.0.7",
-		"@agility/nextjs": "^15.0.4",
+		"@agility/nextjs": "^15.0.6",
 		"@apollo/client": "^3.10.8",
 		"@apollo/experimental-nextjs-app-support": "^0.11.3",
 		"@graphql-codegen/cli": "^5.0.2",

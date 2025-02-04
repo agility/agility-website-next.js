@@ -4,7 +4,7 @@ import { getAgilityPage } from "lib/cms/getAgilityPage"
 import { Metadata, ResolvingMetadata } from "next"
 
 import { resolveAgilityMetaData } from "lib/cms-content/resolveAgilityMetaData"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import InlineError from "components/common/InlineError"
 import { DateTime } from "luxon"
 
@@ -110,6 +110,21 @@ export default async function Page({
 	const agilityData = await getAgilityPage({
 		params: actualParams
 	})
+
+
+
+	if (agilityData?.sitemapNode?.redirect?.url) {
+		//handle redirects from the sitemap
+		let redirectUrl = agilityData.sitemapNode.redirect.url || ""
+		if (redirectUrl) {
+			//remove the ~/ from the redirect URL
+			if (redirectUrl.startsWith("~/")) {
+				redirectUrl = redirectUrl.substring(1)
+			}
+
+			redirect(redirectUrl)
+		}
+	}
 
 	//if the page is not found...
 	if (!agilityData.page) {
