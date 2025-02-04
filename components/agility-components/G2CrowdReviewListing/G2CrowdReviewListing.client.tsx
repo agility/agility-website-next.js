@@ -32,6 +32,7 @@ export const G2CrowdReviewListingClient = ({
 			<div ref={cRef} className="mt-10"></div>
 			<Script
 				src="https://www.gartner.com/reviews/public/Widget/js/widget.js"
+				strategy="afterInteractive"
 				onLoad={() => {
 					setTimeout(() => {
 						loadGarterWidget()

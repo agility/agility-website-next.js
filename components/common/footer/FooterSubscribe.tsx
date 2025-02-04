@@ -32,7 +32,9 @@ export const FooterSubscribe = ({
 			<Script
 				{...{
 					type: "text/javascript",
-					strategy: "lazyOnload",
+					strategy: "afterInteractive",
+					defer: true,
+					async: true,
 					src: "//js.hsforms.net/forms/embed/v2.js",
 					onReady: () => {
 						hbspt.forms.create({
