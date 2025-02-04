@@ -1,6 +1,5 @@
 import { getRedirections } from "lib/cms/getRedirections"
 import { ScalableBloomFilter } from 'bloom-filters'
-import { setCachedObject } from "lib/persistant-cache/setCachedObject"
 import fs from 'fs/promises'
 
 /**

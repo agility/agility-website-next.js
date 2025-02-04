@@ -1,14 +1,6 @@
-import agility, { ApiClientInstance } from '@agility/content-fetch'
-import { cacheConfig } from "lib/cms/cacheConfig"
-import { getStore } from "@netlify/blobs";
-
+import agility from '@agility/content-fetch'
 import fs from 'fs/promises'
-
 import { DateTime } from "luxon";
-import { getCachedObject } from "lib/persistant-cache/getCachedObject";
-import { setCachedObject } from "lib/persistant-cache/setCachedObject";
-
-
 
 export interface Redirection {
 	id: number
@@ -39,7 +31,6 @@ interface Props {
  * @returns
  */
 export const getRedirections = async ({ forceUpdate = false }: Props): Promise<RedirectionsMap> => {
-
 
 	const apiKey = process.env.AGILITY_API_FETCH_KEY
 

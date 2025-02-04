@@ -26,7 +26,7 @@ interface Props {
 	headerContent: HeaderContent
 }
 
-const SiteHeader = ({ headerContent: { header, links } }: Props) => {
+const SiteHeader = ({ headerContent: { header, links, preHeaderLinks } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
 
@@ -62,11 +62,23 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 		<>
 			{/* MARKETING MESSAGE */}
 			{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
-				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-center">
+				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-between gap-4 p-4 items-center text-sm px-8">
 					<div
-						className="mx-auto max-w-7xl p-3 px-8 text-sm"
+						className="mx-auto flex-1"
 						dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
 					></div>
+					{preHeaderLinks && preHeaderLinks.length > 0 && (
+						<div className="flex gap-4">
+							{preHeaderLinks.map((link, index) => (
+								<div key={link.contentID}>
+									<Link
+										href={link.fields.uRL.href}
+										target={link.fields.uRL.target}
+										className="hover:text-secondary transition-colors">{link.fields.uRL.text}</Link>
+								</div>
+							))}
+						</div>
+					)}
 				</div>
 			)}
 			<header
@@ -75,7 +87,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 					isScrolled ? "shadow-b" : "shadow-none"
 				)}
 			>
-				<div className="mx-auto max-w-7xl px-8">
+				<div className="mx-auto w-full px-8">
 					{/* DESKTOP NAV */}
 					<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 						<div className="lg:w-0 lg:flex-1">
@@ -97,7 +109,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
-										type="primary"
+										type="alternate"
 										className="hidden sm:flex"
 									>
 										{header.fields.contactus.text}
@@ -141,7 +153,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
-										type="primary"
+										type="alternate"
 									>
 										{header.fields.contactus.text}
 									</LinkButton>
@@ -154,7 +166,7 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 									<LinkButton
 										href={header.fields.primaryButton.href}
 										target={header.fields.primaryButton.target}
-										type="secondary"
+										type="alternate-inverted"
 									>
 										{header.fields.primaryButton.text}
 									</LinkButton>

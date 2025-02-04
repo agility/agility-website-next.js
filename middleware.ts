@@ -118,7 +118,7 @@ export async function middleware(request: NextRequest) {
 
 
 	//check for a redirect
-	if ((!ext || ext.length === 0)) {
+	if ((!ext || ext.length === 0 || ext === "aspx")) {
 
 		const redirection = await checkRedirect({ path: request.nextUrl.pathname })
 
