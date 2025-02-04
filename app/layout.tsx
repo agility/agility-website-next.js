@@ -4,7 +4,7 @@ import SiteFooter from "components/common/footer/SiteFooter"
 import SiteHeader from "components/common/header/SiteHeader"
 
 import { getAgilityContext } from "lib/cms/getAgilityContext"
-import { GoogleTagManager } from "@next/third-parties/google"
+
 
 import "../globals.css"
 
@@ -13,6 +13,7 @@ import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { Mulish } from 'next/font/google'
+import { GoogleTagManager } from "components/common/GoogleTagManager"
 
 // If loading a variable font, you don't need to specify the font weight
 const mulish = Mulish({
