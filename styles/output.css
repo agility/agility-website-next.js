@@ -2669,6 +2669,10 @@ h2 {
   min-height: 350px;
 }
 
+.min-h-\[400px\] {
+  min-height: 400px;
+}
+
 .min-h-\[520px\] {
   min-height: 520px;
 }
@@ -2679,10 +2683,6 @@ h2 {
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.min-h-\[400px\] {
-  min-height: 400px;
 }
 
 .w-0 {
