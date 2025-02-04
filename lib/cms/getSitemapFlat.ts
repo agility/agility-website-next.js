@@ -11,7 +11,7 @@ import { SitemapFlatRequestParams } from "@agility/content-fetch/dist/methods/ge
 export const getSitemapFlat = async (params: SitemapFlatRequestParams) => {
 
 
-	const agilitySDK = getAgilitySDK()
+	const agilitySDK = await getAgilitySDK()
 
 	agilitySDK.config.fetchConfig = {
 		next: {

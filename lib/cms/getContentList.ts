@@ -10,7 +10,7 @@ import { ContentListRequestParams } from "@agility/content-fetch/dist/methods/ge
 export const getContentList = async (params: ContentListRequestParams) => {
 
 
-	const agilitySDK = getAgilitySDK()
+	const agilitySDK = await getAgilitySDK()
 
 	agilitySDK.config.fetchConfig = {
 		next: {

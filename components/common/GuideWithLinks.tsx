@@ -38,7 +38,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 
 	return (
 		<div className="relative overflow-clip bg-highlight-dark px-10 py-36 text-white">
-			<img src={bgImg} alt="" className="absolute -right-1/4 -top-1/2" />
+			<img src={bgImg} alt="" className="absolute -right-1/4 -top-1/2" loading="lazy" />
 			<div className="absolute -bottom-20 -left-20 opacity-10">
 				<div className="relative h-72 w-72">
 					<IconSettings size={90} className="absolute right-2 top-0" />
@@ -47,7 +47,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 			</div>
 			<div className="relative mx-auto flex max-w-5xl flex-col gap-5 lg:flex-row lg:items-center">
 				<div className="flex flex-col gap-5 lg:w-1/2 xl:w-2/5">
-					<img src={imgURL} alt="icon" className="w-12" />
+					<img src={imgURL} alt="icon" className="w-12" loading="lazy" />
 
 					<h2 className="text-balance text-4xl">{mainInfo.heading}</h2>
 					<div className="">{mainInfo.description}</div>

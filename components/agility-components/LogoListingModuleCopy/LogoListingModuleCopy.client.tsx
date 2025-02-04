@@ -34,12 +34,12 @@ export const LogoListingModuleCopyClient = ({ logos }: Props) => {
 										className="my-3 block"
 									>
 										{/* eslint-disable-next-line @next/next/no-img-element */}
-										<img src={src} alt={logo.logo.label || logo.title} className="w-32" />
+										<img src={src} alt={logo.logo.label || logo.title} className="w-32" loading="lazy" />
 									</Link>
 								) : (
 									<div className="my-3">
 										{/* eslint-disable-next-line @next/next/no-img-element */}
-										<img src={src} alt={logo.title} className="h-16 w-auto" />
+										<img src={src} alt={logo.title} className="h-16 w-auto" loading="lazy" />
 									</div>
 								)}
 							</div>

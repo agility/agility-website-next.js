@@ -11,6 +11,7 @@ import { stripHtml } from "lib/utils/strip-html"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import { IEvent } from "lib/types/IEvent"
 import { createSharingImage } from "./createSharingImage"
+import { JSX } from "react"
 
 interface Props {
 	agilityData: AgilityPageProps

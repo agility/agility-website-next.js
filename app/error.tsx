@@ -1,15 +1,19 @@
-"use client"
+'use client' // Error boundaries must be Client Components
 
-// 'use client' marks this page as a Client Component
-// https://beta.nextjs.org/docs/rendering/server-and-client-components
+import { useEffect } from 'react'
 
-import {useEffect} from "react"
-
-export default function Error({error, reset}: {error: Error; reset: () => void}) {
+export default function Error({
+	error,
+	reset,
+}: {
+	error: Error & { digest?: string }
+	reset: () => void
+}) {
 	useEffect(() => {
 		// Log the error to an error reporting service
-		console.error(error)
+		console.error("An error occurred:", error)
 	}, [error])
+
 
 	let message = `An unexpected error has occurred.`
 	let title = `Error`

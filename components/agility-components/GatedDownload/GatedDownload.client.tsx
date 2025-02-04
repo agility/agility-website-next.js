@@ -49,7 +49,7 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 
 	return (
 		<>
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
+			<Script src={`https://js.hsforms.net/forms/v2.js`} defer async onLoad={() => loadForm()} />
 			<div id={divID}></div>
 		</>
 	)

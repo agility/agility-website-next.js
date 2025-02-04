@@ -2,15 +2,18 @@
 const nextConfig = {
 	//output: "standalone", //this is only for next.js on Azure Static Web Apps...
 	experimental: {
-		// one year in seconds for the stale-while-revalidate cache-control
-		swrDelta: 31536000,
+
+		inlineCss: true,
+
 		//useLightningcss: true,
-		optimizeCss: true
+		//optimizeCss: true
 	},
 
+	// one year in seconds for the stale-while-revalidate cache-control
+	expireTime: 31536000,
 
 	reactStrictMode: true,
-	swcMinify: true,
+
 	images: {
 		remotePatterns: [
 			{

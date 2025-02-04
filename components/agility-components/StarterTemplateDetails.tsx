@@ -37,7 +37,7 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 					{framework && (
 						<div className="x-2 relative mx-auto w-64 rounded border border-background/60 bg-white p-4 shadow">
 							{frameWorkSvgUrl ? (
-								<img src={frameWorkSvgUrl} alt={framework.fields.logo.label} className="w-full" />
+								<img src={frameWorkSvgUrl} alt={framework.fields.logo.label} className="w-full" loading="lazy" />
 							) : (
 								<AgilityPic image={framework.fields.logo} fallbackWidth={400} className="w-full" />
 							)}

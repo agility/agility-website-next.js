@@ -49,7 +49,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 							{graphic.url.endsWith(".svg") ? (
 								//don't need to use AgilityPic for SVGs
 								// eslint-disable-next-line @next/next/no-img-element
-								<img src={graphic.url} alt={graphic.label} className="w-full" />
+								<img src={graphic.url} alt={graphic.label} className="w-full" loading="lazy" />
 							) : (
 								<AgilityPic
 									image={graphic}

@@ -1,17 +1,15 @@
 import { getDynamicPageURL } from "@agility/nextjs/node";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { draftMode } from "next/headers"
-import { url } from "inspector";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
 
 	const searchParams = req.nextUrl.searchParams
 	const contentIDStr = searchParams.get("ContentID") as string
 
 	const contentID = parseInt(contentIDStr)
 
-	const preview = draftMode().isEnabled
+	const preview = (await draftMode()).isEnabled
 
 	if (!isNaN(contentID) && contentID > 0) {
 		//*** this is a dynamic page request ***

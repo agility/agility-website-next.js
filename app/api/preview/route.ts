@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server";
  * @param res
  * @returns
  */
-export async function GET(request: NextRequest, res: NextResponse) {
+export async function GET(request: NextRequest) {
 
 	const searchParams = request.nextUrl.searchParams
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest, res: NextResponse) {
 	}
 
 	//enable draft/preview mode
-	draftMode().enable()
+	(await draftMode()).enable()
 
 	// Redirect to the slug
 	//Add an extra querystring to the location header - since Netlify will keep the QS for the incoming request by default

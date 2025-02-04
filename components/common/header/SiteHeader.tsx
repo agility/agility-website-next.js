@@ -182,10 +182,10 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 						)}
 					>
 						<div className="flex items-center justify-between">
-							<a href="#" className="-m-1.5 p-1.5">
+							<Link href="#" className="-m-1.5 p-1.5">
 								<span className="sr-only">Agility CMS</span>
 								<img alt="" src={header.fields.mobileLogo.url} className="h-8 w-auto" />
-							</a>
+							</Link>
 							<button
 								type="button"
 								onClick={() => setOpen(false)}

@@ -2,7 +2,7 @@ import React from "react"
 import Link from "next/link"
 
 import { IPostMin, getPostListing } from "lib/cms-content/getPostListing"
-import { useAgilityContext } from "lib/cms/useAgilityContext"
+import { getAgilityContext } from "lib/cms/getAgilityContext"
 import PostListingClient from "./PostsListing.client"
 import { getContentItem } from "lib/cms/getContentItem"
 import { UnloadedModuleProps } from "@agility/nextjs"
@@ -23,7 +23,7 @@ export interface GetNextPostsProps {
 }
 
 const PostListing = async ({ dynamicPageItem }: UnloadedModuleProps) => {
-	const { sitemap, locale } = useAgilityContext()
+	const { sitemap, locale } = await getAgilityContext()
 
 	const selectedTag: string = dynamicPageItem?.fields?.title || ""
 

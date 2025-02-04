@@ -2,15 +2,15 @@ import { getDynamicPageURL } from '@agility/nextjs/node';
 import { draftMode } from 'next/headers'
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, res: NextResponse) {
+export async function GET(request: NextRequest) {
 
 	const searchParams = request.nextUrl.searchParams
 
-	const slug = searchParams.get('slug')
-	const ContentID = searchParams.get('ContentID')
+	const slug = searchParams.get('slug');
+	const ContentID = searchParams.get('ContentID');
 
 	//disable draft/preview mode
-	draftMode().disable()
+	(await draftMode()).disable();
 
 	let url = `${slug}`
 

@@ -38,7 +38,7 @@ export const SubmissionFormClient = ({
 
 	return (
 		<Container className="bg-background">
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
+			<Script src={`https://js.hsforms.net/forms/v2.js`} defer async onLoad={() => loadForm()} />
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-10 md:flex-row">
 					<div className="width-1/2 flex-1">

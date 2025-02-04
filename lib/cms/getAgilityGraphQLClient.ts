@@ -5,7 +5,7 @@ import {
 	ApolloClient,
 	InMemoryCache,
 } from "@apollo/experimental-nextjs-app-support";
-import { getAgilityContext } from "./useAgilityContext";
+import { getAgilityContext } from "./getAgilityContext";
 import { cacheConfig } from "./cacheConfig";
 
 interface Props {
@@ -14,12 +14,11 @@ interface Props {
 
 }
 
-export const getAgilityGraphQLClient = ({ referenceNames, filter }: Props) => {
+export const getAgilityGraphQLClient = async ({ referenceNames, filter }: Props) => {
+
+	const { isPreview, locale } = await getAgilityContext()
 
 	const { getClient, query, PreloadQuery } = registerApolloClient(() => {
-
-
-		const { isPreview, locale } = getAgilityContext()
 
 		const uri = `https://api.aglty.io/v1/${process.env.AGILITY_GUID}/${isPreview ? "preview" : "fetch"}/${process.env.AGILITY_LOCALES}/graphql`
 
