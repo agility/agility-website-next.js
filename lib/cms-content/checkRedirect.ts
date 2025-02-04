@@ -1,7 +1,5 @@
 import { ScalableBloomFilter } from "bloom-filters"
-import { PageProps } from "lib/cms/getAgilityPage"
-import { getRedirections, Redirection, RedirectionsMap } from "lib/cms/getRedirections"
-import { getCachedObject } from "lib/persistant-cache/getCachedObject"
+import { Redirection, RedirectionsMap } from "lib/cms/getRedirections"
 
 import filteredRedirects from "data/redirections-bloom-filter.json"
 import allRedirects from "data/redirections.json"
@@ -20,7 +18,6 @@ export const checkRedirect = async ({ path }: { path: string }): Promise<Redirec
 
 
 	//parse the bloom filter and check if the path resolves in it
-
 	const bloomFilter = ScalableBloomFilter.fromJSON(filteredRedirects as any)
 
 	//check if the path is in the bloom filter
