@@ -17,6 +17,7 @@ export const G2CrowdReviewListingClient = ({
 	const loadGarterWidget = () => {
 		const container = document.getElementById(`#${idStr}`)
 
+		// @ts-ignore
 		window.GartnerPI_Widget({
 			size: gartnerWidgetSize,
 			theme: gartnerWidgetTheme,

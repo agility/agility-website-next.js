@@ -21,6 +21,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
+		//@ts-ignore
 		window.hbspt.forms.create({
 			portalId,
 			formId,
@@ -30,6 +31,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 	}, [divID, formId, portalId, redirectURL])
 
 	useEffect(() => {
+		//@ts-ignore
 		if (window.hbspt) {
 			loadForm()
 		}

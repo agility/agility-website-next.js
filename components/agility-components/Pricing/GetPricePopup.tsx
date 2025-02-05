@@ -29,6 +29,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
+		//@ts-ignore
 		window.hbspt.forms.create({
 			portalId: hubSpotForm.portalId,
 			formId: hubSpotForm.formId,
@@ -44,7 +45,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 	}, [divID, hubSpotForm])
 
 	useEffect(() => {
-
+		//@ts-ignore
 		if (priceDialogOpen && window.hbspt) {
 			setFormLoaded(false)
 			loadForm()

@@ -33,6 +33,7 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
+		//@ts-ignore
 		window.hbspt.forms.create({
 			portalId: hsForm.portalId,
 			formId: hsForm.formId,
@@ -42,6 +43,7 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 	}, [divID, redirectURL, hsForm])
 
 	useEffect(() => {
+		//@ts-ignore
 		if (window.hbspt) {
 			loadForm()
 		}
