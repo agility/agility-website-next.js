@@ -21,11 +21,55 @@ const nextConfig = {
 			},
 		],
 	},
+	rewrites: async () => {
+		return [
+			{
+				source: '/docs',
+				destination: 'https://agilitycms-documentation-site.vercel.app/docs',
+
+			},
+			{
+				source: '/docs/:slug*',
+				destination: 'https://agilitycms-documentation-site.vercel.app/docs/:slug*',
+			}
+		]
+	},
 	redirects() {
 		return [
+
 			{
 				source: '/resources/posts/:path',
 				destination: '/blog/:path',
+				permanent: true,
+			},
+			// {
+			// 	source: 'https://blog.agilitycms.com/blog/:category/:path',
+			// 	destination: '/blog/:path',
+			// 	permanent: true,
+			// },
+			// {
+			// 	source: "https://blog.agilitycms.com/:path",
+			// 	destination: '/blog/:path',
+			// 	permanent: true,
+			// },
+			{
+				source: "/community",
+				destination: '/resources/events',
+				permanent: true,
+			},
+			{
+				source: "/community/events/:path",
+				destination: '/resources/events/:path',
+				permanent: true,
+			},
+			{
+				source: "/community/agileliving",
+				destination: '/resources/agileliving',
+				permanent: true,
+			},
+			{
+				source: "/community/agileliving/:path",
+				destination: '/resources/agileliving/:path',
 				permanent: true,
 			},
 			{
