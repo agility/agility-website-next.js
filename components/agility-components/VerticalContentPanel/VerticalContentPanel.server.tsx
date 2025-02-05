@@ -52,48 +52,53 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 
 			<div className="mx-auto mt-14 max-w-6xl">
 				<div className={clsx("space-y-12")}>
-					{panels.map((panel, index) => (
-						<div
-							key={panel.title}
-							className={clsx(
-								"flex flex-col-reverse gap-6 md:flex-row md:px-12 lg:gap-12",
-								textSide === "left"
-									? "md:odd:flex-row md:even:flex-row-reverse"
-									: "md:odd:flex-row-reverse md:even:flex-row"
-							)}
-						>
-							<div className={clsx("group relative block text-left", "m-auto md:w-2/3")}>
-								<h4 className={clsx("text-2xl font-medium")}>{panel.title}</h4>
-
-								<div
-									className="prose mt-4 max-w-full"
-									dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}
-								></div>
-							</div>
-							<div className="flex items-center justify-center md:w-1/3">
-								{!panel || !panel.graphic ? (
-									<MissingImage />
-								) : (
-									<>
-										{panel.graphic.url.endsWith(".svg") ? (
-											<img
-												src={panel.graphic.url}
-												alt={panel.graphic.label}
-												className="max-h-[300px] w-full max-w-[300px]"
-											/>
-										) : (
-											<AgilityPic
-												image={panel.graphic}
-												className="max-h-[300px] w-full max-w-[300px]"
-												fallbackWidth={300}
-												sources={[{ media: "(min-resolution: 2x)", width: 600 }]}
-											/>
-										)}
-									</>
+					{panels.map((panel, index) => {
+						if (!panel.graphic) {
+							console.log(`panel ${panel.title || index} is missing a graphic`)
+						}
+						return (
+							<div
+								key={panel.title}
+								className={clsx(
+									"flex flex-col-reverse gap-6 md:flex-row md:px-12 lg:gap-12",
+									textSide === "left"
+										? "md:odd:flex-row md:even:flex-row-reverse"
+										: "md:odd:flex-row-reverse md:even:flex-row"
 								)}
+							>
+								<div className={clsx("group relative block text-left", "m-auto md:w-2/3")}>
+									<h4 className={clsx("text-2xl font-medium")}>{panel.title}</h4>
+
+									<div
+										className="prose mt-4 max-w-full"
+										dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}
+									></div>
+								</div>
+								<div className="flex items-center justify-center md:w-1/3">
+									{!panel || !panel.graphic ? (
+										<MissingImage />
+									) : (
+										<>
+											{panel.graphic.url.endsWith(".svg") ? (
+												<img
+													src={panel.graphic.url}
+													alt={panel.graphic.label}
+													className="max-h-[300px] w-full max-w-[300px]"
+												/>
+											) : (
+												<AgilityPic
+													image={panel.graphic}
+													className="max-h-[300px] w-full max-w-[300px]"
+													fallbackWidth={300}
+													sources={[{ media: "(min-resolution: 2x)", width: 600 }]}
+												/>
+											)}
+										</>
+									)}
+								</div>
 							</div>
-						</div>
-					))}
+						)
+					})}
 				</div>
 			</div>
 		</Container>
