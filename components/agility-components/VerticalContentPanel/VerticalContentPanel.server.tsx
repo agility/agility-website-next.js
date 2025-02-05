@@ -7,6 +7,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import clsx from "clsx"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { MissingImage } from "../VisualFeedback/MissingImage"
 
 interface VerticalPanel {
 	title: string
@@ -70,19 +71,25 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 								></div>
 							</div>
 							<div className="flex items-center justify-center md:w-1/3">
-								{panel.graphic.url.endsWith(".svg") ? (
-									<img
-										src={panel.graphic.url}
-										alt={panel.graphic.label}
-										className="max-h-[300px] w-full max-w-[300px]"
-									/>
+								{!panel || !panel.graphic ? (
+									<MissingImage />
 								) : (
-									<AgilityPic
-										image={panel.graphic}
-										className="max-h-[300px] w-full max-w-[300px]"
-										fallbackWidth={300}
-										sources={[{ media: "(min-resolution: 2x)", width: 600 }]}
-									/>
+									<>
+										{panel.graphic.url.endsWith(".svg") ? (
+											<img
+												src={panel.graphic.url}
+												alt={panel.graphic.label}
+												className="max-h-[300px] w-full max-w-[300px]"
+											/>
+										) : (
+											<AgilityPic
+												image={panel.graphic}
+												className="max-h-[300px] w-full max-w-[300px]"
+												fallbackWidth={300}
+												sources={[{ media: "(min-resolution: 2x)", width: 600 }]}
+											/>
+										)}
+									</>
 								)}
 							</div>
 						</div>
