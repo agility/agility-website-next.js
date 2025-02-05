@@ -10,6 +10,7 @@ const HubspotTracker = () => {
 	useEffect(() => {
 		//track the page view in Hubspot
 		if (typeof window !== "undefined") {
+			//@ts-ignore
 			var _hsq = (window._hsq = window._hsq || [])
 
 			_hsq.push(["setPath", pathname])
@@ -24,6 +25,7 @@ const HubspotTracker = () => {
 				id="hs-script-loader"
 				async
 				defer
+				strategy="afterInteractive"
 				src="//js.hs-scripts.com/23239214.js"
 			></Script>
 		</>

@@ -49,7 +49,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel1Graphic && fields.panel1Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel1Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel1Graphic.url} alt={fields.panel1Graphic.label} className="w-16" />
+								<img src={fields.panel1Graphic.url} alt={fields.panel1Graphic.label} className="w-16" loading="lazy" />
 							) : (
 								<AgilityPic image={fields.panel1Graphic} className="w-16" />
 							)}
@@ -75,7 +75,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel2Graphic && fields.panel2Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel2Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel2Graphic.url} alt={fields.panel2Graphic.label} className="w-16" />
+								<img src={fields.panel2Graphic.url} alt={fields.panel2Graphic.label} className="w-16" loading="lazy" />
 							) : (
 								<AgilityPic image={fields.panel2Graphic} className="w-16" />
 							)}
@@ -101,7 +101,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel3Graphic && fields.panel3Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel3Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel3Graphic.url} alt={fields.panel3Graphic.label} className="w-16" />
+								<img src={fields.panel3Graphic.url} alt={fields.panel3Graphic.label} className="w-16" loading="lazy" />
 							) : (
 								<AgilityPic image={fields.panel3Graphic} className="w-16" />
 							)}

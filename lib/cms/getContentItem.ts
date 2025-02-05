@@ -10,7 +10,7 @@ import { ContentItem } from "@agility/content-fetch"
  */
 export const getContentItem = async <T>(params: ContentItemRequestParams) => {
 
-	const agilitySDK = getAgilitySDK()
+	const agilitySDK = await getAgilitySDK()
 
 	agilitySDK.config.fetchConfig = {
 		next: {

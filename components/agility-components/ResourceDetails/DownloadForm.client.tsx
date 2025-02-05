@@ -21,6 +21,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
+		//@ts-ignore
 		window.hbspt.forms.create({
 			portalId,
 			formId,
@@ -30,6 +31,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 	}, [divID, formId, portalId, redirectURL])
 
 	useEffect(() => {
+		//@ts-ignore
 		if (window.hbspt) {
 			loadForm()
 		}
@@ -37,7 +39,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 
 	return (
 		<div>
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
+			<Script src={`https://js.hsforms.net/forms/v2.js`} defer async onLoad={() => loadForm()} strategy="afterInteractive" />
 
 			<div className="relative">
 				<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">

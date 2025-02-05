@@ -1,0 +1,79 @@
+/*
+|| Global styles & custom css can be written here.
+*/
+
+/* Import tailwind base styles */
+@tailwind base;
+
+/* Import tailwind component styles */
+@tailwind components;
+
+/* Import tailwind utility styles */
+@tailwind utilities;
+
+@layer base {
+	h1 {
+		letter-spacing: -0.4px;
+	}
+
+	h2 {
+		letter-spacing: -0.35px;
+	}
+}
+
+@layer utilities {
+	.hover-shadow-white {
+		transition: text-shadow 0.1s;
+		&:hover {
+			text-shadow: #fff 1px 0;
+		}
+	}
+
+	/*
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6,
+.prose blockquote {
+  color: #243e63;
+} */
+
+	.prose iframe {
+		max-width: 100%;
+	}
+
+	/* Backwards compat */
+	.marketing-banner {
+		.link-line {
+			@apply ml-3;
+			color: #ffc414;
+			@apply font-semibold;
+			@apply transition-colors;
+
+			&:hover {
+				color: #fff;
+			}
+			&::after {
+				@apply font-bold;
+				content: " >";
+			}
+		}
+	}
+
+	.vertical-content-panel-desc {
+		a {
+			@apply text-highlight-light;
+			@apply font-semibold;
+			@apply transition-colors;
+			@apply block;
+			@apply mt-3;
+			@apply transition-colors;
+
+			&:hover {
+				@apply: text-highlight-dark;
+			}
+		}
+	}
+}

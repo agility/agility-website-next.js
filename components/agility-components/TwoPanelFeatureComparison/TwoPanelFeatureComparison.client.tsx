@@ -125,7 +125,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 											<AgilityPic image={panel.fields.graphic} className="max-w-full" />
 										)}
 									</div>
-									<img src={img2} alt="" className="absolute left-0 top-0 -mb-[100%] max-w-full" />
+									<img src={img2} alt="" className="absolute left-0 top-0 -mb-[100%] max-w-full" loading="lazy" />
 								</div>
 								<div className="flex-1">
 									<h3 className="text-4xl">{panel.fields.title}</h3>
@@ -191,7 +191,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 												<AgilityPic image={panel.fields.graphic} className="max-w-full" />
 											)}
 										</div>
-										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
+										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" loading="lazy" />
 									</div>
 									<div className="flex-1">
 										<h3 className="text-4xl text-white">{panel.fields.title}</h3>

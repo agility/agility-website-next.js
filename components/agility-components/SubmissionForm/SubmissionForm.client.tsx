@@ -22,6 +22,7 @@ export const SubmissionFormClient = ({
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
+		//@ts-ignore
 		window.hbspt.forms.create({
 			portalId,
 			formId,
@@ -31,6 +32,7 @@ export const SubmissionFormClient = ({
 	}, [divID, formId, portalId, redirectURL])
 
 	useEffect(() => {
+		//@ts-ignore
 		if (window.hbspt) {
 			loadForm()
 		}
@@ -38,7 +40,7 @@ export const SubmissionFormClient = ({
 
 	return (
 		<Container className="bg-background">
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
+			<Script src={`https://js.hsforms.net/forms/v2.js`} defer async onLoad={() => loadForm()} strategy="afterInteractive" />
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-10 md:flex-row">
 					<div className="width-1/2 flex-1">

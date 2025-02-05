@@ -1,7 +1,6 @@
 import "server-only";
 import { getAgilityPageProps } from "@agility/nextjs/node";
-import { getAgilityContext } from "./useAgilityContext";
-import { forEach } from "lodash";
+import { getAgilityContext } from "./getAgilityContext";
 
 export interface PageProps {
 	params: { slug: string[] }
@@ -16,7 +15,7 @@ export interface PageProps {
  */
 export const getAgilityPage = async ({ params }: PageProps) => {
 
-	const { isPreview: preview, locale } = getAgilityContext()
+	const { isPreview: preview, locale } = await getAgilityContext()
 
 	if (!params.slug) params.slug = [""]
 

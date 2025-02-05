@@ -11,7 +11,7 @@ import { SitemapNestedRequestParams } from "@agility/content-fetch/dist/methods/
 export const getSitemapNested = async (params: SitemapNestedRequestParams) => {
 
 
-	const agilitySDK = getAgilitySDK()
+	const agilitySDK = await getAgilitySDK()
 
 	agilitySDK.config.fetchConfig = {
 		next: {

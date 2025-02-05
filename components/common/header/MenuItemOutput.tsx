@@ -6,19 +6,19 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react"
 
 import { IconChevronDown } from "@tabler/icons-react"
 import { getContentList } from "lib/cms/getContentList"
-import { useAgilityContext } from "lib/cms/useAgilityContext"
+import { getAgilityContext } from "lib/cms/getAgilityContext"
 import { AgilityPic } from "@agility/nextjs"
 
 interface Props {
 	link: MenuLink
 }
 export const MenuItemOutput = ({ link }: Props) => {
-	const refPopoverButton = useRef<any>()
-	const refCheckCloseTimeout = useRef<any>()
-	const refShowSubmenuDelay = useRef<any>()
+	const refPopoverButton = useRef<any>(null)
+	const refCheckCloseTimeout = useRef<any>(null)
+	const refShowSubmenuDelay = useRef<any>(null)
 	const refIsMouseOnPopover = useRef(false)
 	const refIsMouseOnPopoverPanel = useRef(false)
-	const refCloseMethod = useRef<any>()
+	const refCloseMethod = useRef<any>(null)
 
 	const megaContent = link.megaMenuList
 	const megaTitle = link.menuItem.fields.megaTitle

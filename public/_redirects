@@ -1,20 +1,20 @@
 #moved community to new section
-/community					/resources/events/
-/community/events/*  		/resources/events/:splat
-/community/agileliving 		/resources/agileliving
-/community/agileliving/* 	/resources/agileliving/:splat
+#/community					/resources/events/
+#/community/events/*  		/resources/events/:splat
+#/community/agileliving 		/resources/agileliving
+#/community/agileliving/* 	/resources/agileliving/:splat
 
 #blog redirects
-https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
-https://blog.agilitycms.com/*	https://agilitycms.com/blog/:splat 301!
+#https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
+#https://blog.agilitycms.com/*	https://agilitycms.com/blog/:splat 301!
 
 #doc site proxy
 /docs   https://agilitycms-documentation-site.vercel.app/docs 200
 /docs/* https://agilitycms-documentation-site.vercel.app/docs/:splat 200
 
 #legacy help.agilitycms.com redirects
-#todo: update origin `stage-help.agilitycms.com` to `help.agilitycms.com` on launch day
-#todo: update destination `help.agilitycms.com` to `support.agilitycms.com` on launch day
+
+#//TODO: do this check in middleware
 https://help.agilitycms.com    https://agilitycms.com/docs 301!
 https://help.agilitycms.com/hc    https://agilitycms.com/docs 301!
 https://help.agilitycms.com/hc/en-us  https://agilitycms.com/docs 301!

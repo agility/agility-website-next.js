@@ -342,7 +342,9 @@ export const PricingPackagesModuleClient = ({
 					<Script
 						{...{
 							type: "text/javascript",
-							strategy: "lazyOnload",
+							async: true,
+							defer: true,
+							strategy: "afterInteractive",
 							src: "//js.hsforms.net/forms/embed/v2.js",
 						}}
 					/>

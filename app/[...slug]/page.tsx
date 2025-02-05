@@ -1,44 +1,28 @@
 import { getPageTemplate } from "components/agility-layouts"
-import { PageProps, getAgilityPage } from "lib/cms/getAgilityPage"
-import { getAgilityContext } from "lib/cms/useAgilityContext"
+import { getAgilityPage } from "lib/cms/getAgilityPage"
 
 import { Metadata, ResolvingMetadata } from "next"
 
 import { resolveAgilityMetaData } from "lib/cms-content/resolveAgilityMetaData"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import InlineError from "components/common/InlineError"
-import { cacheConfig } from "lib/cms/cacheConfig"
 import { DateTime } from "luxon"
 
 import agilitySDK from "@agility/content-fetch"
 import { SitemapNode } from "lib/types/SitemapNode"
 import { getRichSnippet } from "lib/cms-content/getRichSnippet"
+import { getAgilityContext } from "lib/cms/getAgilityContext"
+import Link from 'next/link'
 
-export const revalidate = cacheConfig.pathRevalidateDuration
+export const revalidate = 60 //cacheConfig.pathRevalidateDuration
 export const dynamicParams = true
 
-interface NestedSitemapNode {
-	title: string
-	name: string
-	pageID: number
-	menuText: string
-	visible: {
-		menu: boolean
-		sitemap: boolean
-	}
-	path: string
-	redirect: string | null
-	isFolder: boolean
-	contentID?: number
-	children?: NestedSitemapNode[]
-}
 
 /**
  * Generate the list of pages that we want to generate a build time
  * @returns
  */
 export async function generateStaticParams() {
-
 
 	console.log("*** generateStaticParams ***")
 	const isDevelopmentMode = process.env.NODE_ENV === "development"
@@ -88,24 +72,58 @@ export async function generateStaticParams() {
 	return paths
 }
 
+type MetaDataProps = {
+	params: Promise<{ slug: string[] }>
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
 /**
  * Generate metadata for this page
  */
 export async function generateMetadata(
-	{ params, searchParams }: PageProps,
+	{ params, searchParams }: MetaDataProps,
 	parent: ResolvingMetadata
 ): Promise<Metadata> {
-	// read route params
-	const { locale, sitemap, isDevelopmentMode, isPreview } = getAgilityContext()
 
-	const agilityData = await getAgilityPage({ params })
+	const actualParams = await params;
+	// read route params
+	const { locale, sitemap, isDevelopmentMode, isPreview } = await getAgilityContext()
+
+	const agilityData = await getAgilityPage({ params: actualParams })
 
 	if (!agilityData.page) return {}
 	return await resolveAgilityMetaData({ agilityData, locale, sitemap, isDevelopmentMode, isPreview, parent })
 }
 
-export default async function Page({ params }: PageProps) {
-	const agilityData = await getAgilityPage({ params })
+export default async function Page({
+	params,
+	searchParams,
+}: {
+	params: Promise<{ slug: string[] }>
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+
+
+	const actualParams = await params
+
+	const agilityData = await getAgilityPage({
+		params: actualParams
+	})
+
+
+
+	if (agilityData?.sitemapNode?.redirect?.url) {
+		//handle redirects from the sitemap
+		let redirectUrl = agilityData.sitemapNode.redirect.url || ""
+		if (redirectUrl) {
+			//remove the ~/ from the redirect URL
+			if (redirectUrl.startsWith("~/")) {
+				redirectUrl = redirectUrl.substring(1)
+			}
+
+			redirect(redirectUrl)
+		}
+	}
 
 	//if the page is not found...
 	if (!agilityData.page) {
@@ -118,20 +136,20 @@ export default async function Page({ params }: PageProps) {
 	const jsonLD = getRichSnippet(agilityData)
 
 	return (
-		<div
+		(<div
 			data-agility-page={agilityData.page?.pageID}
 			data-agility-dynamic-content={agilityData.sitemapNode.contentID}
 		>
 			{jsonLD && (
 				//include the rich snipped if we have one
-				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLD }} />
+				(<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLD }} />)
 			)}
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
-				<InlineError message={`No template found for page template name: ${agilityData.pageTemplateName}`} />
+				(<InlineError message={`No template found for page template name: ${agilityData.pageTemplateName}`} />)
 			)}
-			<div className="hidden">Rendered on: {renderTimeStr}</div>
-		</div>
-	)
+			<div className="hidden">Rendered on: {renderTimeStr} <Link href="/">Go Home</Link></div>
+		</div>)
+	);
 }

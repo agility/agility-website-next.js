@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useAgilityContext } from "lib/cms/useAgilityContext"
+import { getAgilityContext } from "lib/cms/getAgilityContext"
 import { EventListingClient } from "./EventListing.client"
 import { getContentItem } from "lib/cms/getContentItem"
 import { UnloadedModuleProps } from "@agility/nextjs"
@@ -26,7 +26,7 @@ export interface GetNextProps {
 }
 
 export const EventListing = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { sitemap, locale } = useAgilityContext()
+	const { sitemap, locale } = await getAgilityContext()
 
 	const pageSize = 15
 

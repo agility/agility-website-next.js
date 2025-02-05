@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image"
 import React from "react"
-import { IconBrandX, IconBrandInstagram, IconBrandSlack, IconBrandYoutube } from "@tabler/icons-react"
 import { getContentList } from "lib/cms/getContentList"
-import { useAgilityContext } from "lib/cms/useAgilityContext"
+
 import Link from "next/link"
-import { LinkButton } from "components/micro/LinkButton"
 import { FooterSubscribe } from "./FooterSubscribe"
+import { getAgilityContext } from "lib/cms/getAgilityContext"
 
 export default async function SiteFooter() {
-	const { isPreview, locale } = useAgilityContext()
+	const { isPreview, locale } = await getAgilityContext()
 
 	const footerRes = await getContentList({
 		referenceName: "globalfooter",
