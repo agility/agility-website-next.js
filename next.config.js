@@ -3,7 +3,7 @@ const nextConfig = {
 	//output: "standalone", //this is only for next.js on Azure Static Web Apps...
 	experimental: {
 
-		inlineCss: true,
+		//inlineCss: true,
 		optimizeCss: true
 		//useLightningcss: true,
 	},
