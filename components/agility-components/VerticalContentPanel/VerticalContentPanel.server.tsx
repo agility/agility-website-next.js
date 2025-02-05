@@ -25,7 +25,7 @@ interface IVerticalContentPanel {
 	}
 }
 
-export const VerticalContentPanelServer = async ({ module, languageCode }: UnloadedModuleProps) => {
+export const VerticalContentPanelServer = async ({ module, languageCode, isPreview }: UnloadedModuleProps) => {
 	const { fields, contentID } = await getContentItem<IVerticalContentPanel>({
 		contentID: module.contentid,
 		languageCode
@@ -76,7 +76,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 								</div>
 								<div className="flex items-center justify-center md:w-1/3">
 									{!panel || !panel.graphic ? (
-										<MissingImage />
+										<MissingImage isPreview={isPreview} />
 									) : (
 										<>
 											{panel.graphic.url.endsWith(".svg") ? (
