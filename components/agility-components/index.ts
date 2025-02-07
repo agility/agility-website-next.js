@@ -1,81 +1,78 @@
-import RichTextArea from "./RichTextArea";
+import RichTextArea from "./RichTextArea"
 
-import PostDetails from "./PostDetails";
-import Heading from "./Heading";
-import TextBlockWithImage from "./TextBlockWithImage";
-import NoComponentFound from "./NoComponentFound";
-import { CenteredContentPanel } from "./CenteredContentPanel";
-import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server";
+import PostDetails from "./PostDetails"
+import Heading from "./Heading"
+import TextBlockWithImage from "./TextBlockWithImage"
+import NoComponentFound from "./NoComponentFound"
+import { CenteredContentPanel } from "./CenteredContentPanel"
+import { LogoListingModule } from "./LogoListingModule/LogoListingModule.server"
 
-import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server";
-import SingleTestimonialPanel from "./SingleTestimonialPanel";
-import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator";
-import CenteredCTAPanel from "./CenteredCTAPanel";
-import RightORLeftContentModule from "./RightORLeftContentModule";
-import TriplePanelComparisonModule from "./TriplePanelComparisonModule";
-import RightOrLeftSteps from "./RightOrLeftSteps";
-import FeaturedResources from "./FeaturedResources";
-import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule";
-import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server";
-import { Faqs } from "./Faqs";
-import { TriplePanelModule } from "./TriplePanelModule";
-import { GuideLinks } from "./GuideLinks";
-import { NewIntegrationModule } from "./NewIntegrationModule";
-import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimonial";
-import { TwoBoxContent } from "./2BoxContent";
-import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing";
-import { CaseStudyListing } from "./CaseStudyListing/CaseStudyListing";
-import { CaseStudyContentPanel } from "./CaseStudyDetails/CaseStudyContentPanel";
-import { CaseStudyDetails } from "./CaseStudyDetails/CaseStudyDetails";
-import { CaseStudyTechStack } from "./CaseStudyDetails/CaseStudyTechStack";
-import { PartnerListing } from "./PartnerListing/PartnerListing";
-import { PartnerContentPanel } from "./PartnerDetails/PartnerContentPanel";
-import { PartnerDetails } from "./PartnerDetails/PartnerDetails";
-import { Testimonials } from "./Testimonials/Testimonials";
-import { SubmissionForm } from "./SubmissionForm/SubmissionForm";
-import { TypeFormModule } from "./TypeFormModule/TypeFormModule";
-import { PricingPackagesModule } from "./Pricing/PricingPackagesModule";
-import { NEWFeaturedResource } from "./NEWFeaturedResource";
-import { NEWDownloadableeBooks } from "./NEWDownloadableeBooks";
-import { NEWWebinarDownload } from "./NEWWebinarDownload";
-import { ScheduleADemo } from "./ScheduleADemo/ScheduleADemo";
-import { Hero } from "./Hero/Hero";
-import { RightLeftContent } from "components/RightLeftContent";
-import { LogoListing } from "./LogoListing/LogoListing.server";
+import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalContentPanel.server"
+import SingleTestimonialPanel from "./SingleTestimonialPanel"
+import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator"
+import CenteredCTAPanel from "./CenteredCTAPanel"
+import RightORLeftContentModule from "./RightORLeftContentModule"
+import TriplePanelComparisonModule from "./TriplePanelComparisonModule"
+import RightOrLeftSteps from "./RightOrLeftSteps"
+import FeaturedResources from "./FeaturedResources"
+import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule"
+import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server"
+import { Faqs } from "./Faqs"
+import { TriplePanelModule } from "./TriplePanelModule"
+import { GuideLinks } from "./GuideLinks"
+import { NewIntegrationModule } from "./NewIntegrationModule"
+import { RightOrLeftCaseStudyTestimonial } from "./RightOrLeftCaseStudyTestimonial"
+import { TwoBoxContent } from "./2BoxContent"
+import { G2CrowdReviewListing } from "./G2CrowdReviewListing/G2CrowdReviewListing"
+import { CaseStudyListing } from "./CaseStudyListing/CaseStudyListing"
+import { CaseStudyContentPanel } from "./CaseStudyDetails/CaseStudyContentPanel"
+import { CaseStudyDetails } from "./CaseStudyDetails/CaseStudyDetails"
+import { CaseStudyTechStack } from "./CaseStudyDetails/CaseStudyTechStack"
+import { PartnerListing } from "./PartnerListing/PartnerListing"
+import { PartnerContentPanel } from "./PartnerDetails/PartnerContentPanel"
+import { PartnerDetails } from "./PartnerDetails/PartnerDetails"
+import { Testimonials } from "./Testimonials/Testimonials"
+import { SubmissionForm } from "./SubmissionForm/SubmissionForm"
+import { TypeFormModule } from "./TypeFormModule/TypeFormModule"
+import { PricingPackagesModule } from "./Pricing/PricingPackagesModule"
+import { NEWFeaturedResource } from "./NEWFeaturedResource"
+import { NEWDownloadableeBooks } from "./NEWDownloadableeBooks"
+import { NEWWebinarDownload } from "./NEWWebinarDownload"
+import { ScheduleADemo } from "./ScheduleADemo/ScheduleADemo"
+import { Hero } from "./Hero/Hero"
+import { RightLeftContent } from "components/RightLeftContent"
+import { LogoListing } from "./LogoListing/LogoListing.server"
 
-
-import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.server";
-import SubscribedThankYou from "./SubscribedThankYou";
-import { SearchResults } from "./SearchResults/SearchResults";
-import { FeatureBlocks } from "./FeatureBlocks";
-import { ContentPanel } from "./ContentPanel";
-import { Callout } from "./Callout";
-import { NEWFeaturedCaseStudies } from "./NEWFeaturedCaseStudies";
-import { NEWAllResources } from "./NEWAllResources/NEWAllResources";
-import { Carousel } from "./Carousel/Carousel";
-import { BestofBothWorlds2Paragraphs } from "components/BestofBothWorlds2Paragraphs/BestofBothWorlds2Paragraphs";
-import { NewPostsFeatured } from "./NewPostsFeatured";
-import PostListing from "./PostsListing/PostsListing.server";
-import { UnUsedComponent } from "./UnUsedComponent";
-import { EventListing } from "./EventListing/EventListing.server";
-import { CTABlocks } from "./CTABlocks";
-import { EventDetails } from "./EventDetails/EventDetails";
-import { StarterTemplateListing } from "./StarterTemplateListing";
-import { StarterTemplateDetails } from "./StarterTemplateDetails";
-import { ResourceDetails } from "./ResourceDetails/ResourceDetails";
-import { NEWeBookThankYou } from "./NEWeBookThankYou";
-import { VideoModule } from "./VideoModule/VideoModule";
-import { PodcastDetail } from "./Podcast/PodcastDetail";
-import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar";
-import { ReviewRotator } from "./ReviewRotator/ReviewRotator";
-import { LatestPosts } from "./LatestPosts";
-import { GatedDownload } from "./GatedDownload/GatedDownload";
-import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server";
-import { PodcastContentPanel } from "./Podcast/PodcastContentPanel";
-import { PodcastListing } from "./Podcast/PodcastListing";
-
-
-
+import { PartnerLogoListing } from "./PartnerLogoListing/PartnerLogoListing.server"
+import SubscribedThankYou from "./SubscribedThankYou"
+import { SearchResults } from "./SearchResults/SearchResults"
+import { FeatureBlocks } from "./FeatureBlocks"
+import { ContentPanel } from "./ContentPanel"
+import { Callout } from "./Callout"
+import { NEWFeaturedCaseStudies } from "./NEWFeaturedCaseStudies"
+import { NEWAllResources } from "./NEWAllResources/NEWAllResources"
+import { Carousel } from "./Carousel/Carousel"
+import { BestofBothWorlds2Paragraphs } from "components/BestofBothWorlds2Paragraphs/BestofBothWorlds2Paragraphs"
+import { NewPostsFeatured } from "./NewPostsFeatured"
+import PostListing from "./PostsListing/PostsListing.server"
+import { UnUsedComponent } from "./UnUsedComponent"
+import { EventListing } from "./EventListing/EventListing.server"
+import { CTABlocks } from "./CTABlocks"
+import { EventDetails } from "./EventDetails/EventDetails"
+import { StarterTemplateListing } from "./StarterTemplateListing"
+import { StarterTemplateDetails } from "./StarterTemplateDetails"
+import { ResourceDetails } from "./ResourceDetails/ResourceDetails"
+import { NEWeBookThankYou } from "./NEWeBookThankYou"
+import { VideoModule } from "./VideoModule/VideoModule"
+import { PodcastDetail } from "./Podcast/PodcastDetail"
+import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar"
+import { ReviewRotator } from "./ReviewRotator/ReviewRotator"
+import { LatestPosts } from "./LatestPosts"
+import { GatedDownload } from "./GatedDownload/GatedDownload"
+import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server"
+import { PodcastContentPanel } from "./Podcast/PodcastContentPanel"
+import { PodcastListing } from "./Podcast/PodcastListing"
+import { SplashImage } from "./SplashImage/SplashImage"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -106,7 +103,7 @@ const allModules = [
 	{ name: "GuideLinks", module: GuideLinks },
 	{ name: "NewIntegrationModule", module: NewIntegrationModule },
 	{ name: "RightOrLeftCaseStudyTestimonial", module: RightOrLeftCaseStudyTestimonial },
-	{ name: "2BoxContent", "module": TwoBoxContent },
+	{ name: "2BoxContent", module: TwoBoxContent },
 	{ name: "G2CrowdReviewListing", module: G2CrowdReviewListing },
 	{ name: "CaseStudyListing", module: CaseStudyListing },
 	{ name: "CaseStudyContentPanel", module: CaseStudyContentPanel },
@@ -147,7 +144,7 @@ const allModules = [
 	{ name: "ResourceDetails", module: ResourceDetails },
 	{ name: "NEWeBookThankYou", module: NEWeBookThankYou },
 	{ name: "VideoModule", module: VideoModule },
-
+	{ name: "SplashImage", module: SplashImage },
 	{ name: "GartnerPeerInsightsBar", module: GartnerPeerInsightsBar },
 	{ name: "ReviewRotator", module: ReviewRotator },
 	{ name: "LatestPosts", module: LatestPosts },
@@ -156,10 +153,8 @@ const allModules = [
 	{ name: "PodcastDetail", module: PodcastDetail },
 	{ name: "PodcastContentPanel", module: PodcastContentPanel },
 	{ name: "PodcastSubscribe", module: UnUsedComponent },
-	{ name: "PodcastListing", module: PodcastListing },
-
-];
-
+	{ name: "PodcastListing", module: PodcastListing }
+]
 
 /**
  * Get the Agility Component/Module by name.
@@ -168,11 +163,8 @@ const allModules = [
  * @returns
  */
 export const getModule = (moduleName: string): any | null => {
-
-	if (!moduleName) return null;
-	const obj = allModules.find(
-		(m) => m.name.toLowerCase() === moduleName.toLowerCase()
-	);
-	if (!obj) return NoComponentFound;
+	if (!moduleName) return null
+	const obj = allModules.find((m) => m.name.toLowerCase() === moduleName.toLowerCase())
+	if (!obj) return NoComponentFound
 	return obj.module
-};
+}
