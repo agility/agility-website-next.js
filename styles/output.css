@@ -2413,6 +2413,10 @@ h2 {
   margin-top: 2rem;
 }
 
+.ml-9 {
+  margin-left: 2.25rem;
+}
+
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -6059,6 +6063,11 @@ h2 {
 
 .group[data-open] .group-data-\[open\]\:rotate-180 {
   --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group[data-open] .group-data-\[open\]\:rotate-90 {
+  --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 

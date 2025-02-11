@@ -4,6 +4,9 @@ import { getContentList } from "lib/cms/getContentList"
 import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
+import { IconChevronDown, IconChevronRight } from "@tabler/icons-react"
+import clsx from "clsx"
 
 interface Faq {
 	question: string
@@ -37,18 +40,35 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 		<div className="bg-background/60">
 			<Container className="mx-auto max-w-5xl">
 				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
-				<dl>
+				<dl className="mt-8">
 					{faqs.map((faq) => {
 						return (
-							<div key={faq.contentID} className="border-b border-b-slate-300 pb-8">
-								<dt className="mt-10 text-lg font-medium text-highlight-light">
-									{faq.fields.question}
-								</dt>
-								<dd
-									className="prose mt-4 max-w-full"
-									dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
-								></dd>
-							</div>
+							<>
+								<Disclosure as="div" key={faq.contentID} className="group">
+									<DisclosureButton className={clsx("w-full text-left flex gap-2 items-center hover:text-highlight-light transition-colors")}>
+										<div className="">
+											<IconChevronRight
+												stroke={2.5}
+												className="h-5 w-5 transition-transform duration-300 ease-in-out group-data-[open]:rotate-90"
+											/>
+										</div>
+										<dt className="text-lg font-medium ">
+											{faq.fields.question}
+										</dt>
+									</DisclosureButton>
+									<div className="overflow-hidden pt-4">
+										<DisclosurePanel
+											transition
+											className="origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+										>
+											<dd
+												className="prose max-w-full pb-6 ml-9"
+												dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
+											></dd>
+										</DisclosurePanel>
+									</div>
+								</Disclosure>
+							</>
 						)
 					})}
 				</dl>

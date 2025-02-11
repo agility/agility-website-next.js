@@ -239,7 +239,7 @@ export const PricingPackagesModuleClient = ({
 								{isScrolling && (
 									<div className="mt-2 hidden justify-center md:flex">
 										<LinkButtonClient
-											type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
+											type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
 											size={"sm"}
 											href={packageItem?.fields?.cTAButton?.href}
 											target={packageItem?.fields?.cTAButton?.target}
@@ -258,7 +258,7 @@ export const PricingPackagesModuleClient = ({
 						))}
 					</div>
 				</div>
-				<div className={clsx("mx-auto max-w-7xl justify-center px-8", isScrolling && "-mt-10")}>
+				<div className={clsx("mx-auto max-w-7xl justify-center px-8 pb-8", isScrolling && "-mt-10")}>
 					{listPricingByCategory.map((catFeature, index) => (
 						<Disclosure as="div" key={`cats-${catFeature.category.id}`} className="group" defaultOpen>
 							{index > 0 && (
