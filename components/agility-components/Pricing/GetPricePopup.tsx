@@ -22,6 +22,29 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 	const formLoadRef = useRef<Boolean>(false)
 	const [formLoaded, setFormLoaded] = useState(false)
 
+	useEffect(() => {
+		console.log("ADDING LISTENER")
+		const msgEvent = (event: any) => {
+			console.log("message event", event)
+			if (
+				event.data.type === 'hsFormCallback' &&
+				event.data.eventName === 'onFormSubmitted'
+			) {
+
+				console.log('Form Submitted! Event data: ${event.data}');
+			}
+		}
+
+		//add the listener
+		window.addEventListener('message', msgEvent);
+
+		return () => {
+			//remove the listener
+			console.log("REMOVNIG LISTENER")
+			window.removeEventListener('message', msgEvent)
+		}
+	}, [])
+
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
 		formLoadRef.current = true
@@ -39,6 +62,19 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 			onFormReady: function ($form: any) {
 				console.log('form ready', $form)
 			},
+			onFormSubmit: function ($form: any) {
+				console.log('form submit', $form)
+
+				// //fire a GA event
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({
+					'event': 'get_price',
+					'plan': 'starter'
+				});
+			},
+			onFormSubmitted: function ($form: any) {
+				console.log('form submitted', $form)
+			}
 
 		})
 	}, [divID, hubSpotForm])
