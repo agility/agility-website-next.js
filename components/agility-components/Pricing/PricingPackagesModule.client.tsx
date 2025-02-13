@@ -188,15 +188,20 @@ export const PricingPackagesModuleClient = ({
 								/>
 
 								{/* descriptions */}
-								<div className="min-h-[100px]">
+								<div className="min-h-[100px] ">
 									<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
 
 									<div
-										className="prose mt-2 prose-p:leading-tight"
+										className="prose mt-2 prose-p:leading-tight "
 										dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
 									></div>
 								</div>
+
+								{packageItem.fields.cost && (
+									<div className="-my-2 font-semibold">{packageItem.fields.cost}</div>
+								)}
 								<div>
+
 									<LinkButtonClient
 										type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
 										size={"md"}

@@ -2341,6 +2341,10 @@ h2 {
   margin-left: 1rem;
 }
 
+.ml-9 {
+  margin-left: 2.25rem;
+}
+
 .ml-\[20\%\] {
   margin-left: 20%;
 }
@@ -2413,8 +2417,8 @@ h2 {
   margin-top: 2rem;
 }
 
-.ml-9 {
-  margin-left: 2.25rem;
+.-mt-2 {
+  margin-top: -0.5rem;
 }
 
 .line-clamp-2 {
@@ -3316,11 +3320,6 @@ h2 {
   border-color: rgb(228 228 231 / var(--tw-border-opacity));
 }
 
-.border-red-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(239 68 68 / var(--tw-border-opacity));
-}
-
 .border-b-gray-200 {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(229 231 235 / var(--tw-border-opacity));
@@ -3557,6 +3556,11 @@ h2 {
 .bg-zinc-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
+}
+
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-0 {
