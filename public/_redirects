@@ -4,6 +4,9 @@
 /community/agileliving 		/resources/agileliving
 /community/agileliving/* 	/resources/agileliving/:splat
 
+#old analytics site.
+https://analytics.agilitycms.com/:* https://agilitycms.com/:splat 301!
+
 #blog redirects
 https://blog.agilitycms.com/blog/:category/* https://agilitycms.com/blog/:splat 301!
 https://blog.agilitycms.com/*	https://agilitycms.com/blog/:splat 301!

@@ -22,11 +22,6 @@ const nextConfig = {
 	redirects() {
 		return [
 			{
-				source: "https://analytics.agilitycms.com/:path",
-				destination: "https://agilitycms.com/:path",
-				permanent: true
-			},
-			{
 				source: '/resources/posts/:path',
 				destination: '/blog/:path',
 				permanent: true,

@@ -2341,6 +2341,10 @@ h2 {
   margin-left: 1rem;
 }
 
+.ml-9 {
+  margin-left: 2.25rem;
+}
+
 .ml-\[20\%\] {
   margin-left: 20%;
 }
@@ -2411,10 +2415,6 @@ h2 {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.ml-9 {
-  margin-left: 2.25rem;
 }
 
 .line-clamp-2 {
@@ -3314,11 +3314,6 @@ h2 {
 .border-zinc-200 {
   --tw-border-opacity: 1;
   border-color: rgb(228 228 231 / var(--tw-border-opacity));
-}
-
-.border-red-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(239 68 68 / var(--tw-border-opacity));
 }
 
 .border-b-gray-200 {
