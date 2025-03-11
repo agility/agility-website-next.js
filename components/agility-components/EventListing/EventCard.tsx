@@ -11,6 +11,7 @@ interface Props {
 
 export const EventCard = ({ event }: Props) => {
 	const date = new Date(event.fields.date)
+	date.setHours(date.getHours() - 5)
 	const dt = DateTime.fromJSDate(date)
 	const dateStr = dt.toFormat("LLL dd, yyyy")
 	const timeStr = dt.toFormat("t")
