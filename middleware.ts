@@ -16,7 +16,14 @@ export async function middleware(request: NextRequest) {
 		&& !host.endsWith("publishwithagility.com") //vercel
 		&& !host.endsWith("agilitycms.com")) //prod
 	{
-		return NextResponse.redirect(`https://www.agilitycms.com${pathAndQuery}`, {
+		return NextResponse.redirect(`https://agilitycms.com${pathAndQuery}`, {
+			status: 301
+		})
+	}
+
+	//don't allow subdomains of agilitycms.com - redriect to the top level domain
+	if (host.endsWith("agilitycms.com") && host !== "agilitycms.com") {
+		return NextResponse.redirect(`https://agilitycms.com${pathAndQuery}`, {
 			status: 301
 		})
 	}
