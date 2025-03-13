@@ -39,6 +39,7 @@ export async function middleware(request: NextRequest) {
 	 *    based on a content id
 	 * 4: Check if this is a redirect
 	 * 5: Check if this is a forbidden request (403)
+	 * 6: Check if this is a request for the homepage from CANADA region
 	 *******************************/
 	const previewQ = request.nextUrl.searchParams.get("AgilityPreview")
 	let contentIDStr = request.nextUrl.searchParams.get("ContentID") as string || ""
@@ -167,6 +168,16 @@ export async function middleware(request: NextRequest) {
 				})
 			}
 		}
+	}
+
+	//check for a request for the homepage from CANADA
+	if (request.nextUrl.pathname === "/" || request.geo?.country === "CA") {
+
+
+		//rewrite to the Canadian homepage
+		return NextResponse.rewrite(`${request.nextUrl.protocol}//${request.nextUrl.host}/home/home-canada`, {
+			status: 301
+		})
 	}
 
 
