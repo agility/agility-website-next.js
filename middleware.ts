@@ -10,8 +10,12 @@ export async function middleware(request: NextRequest) {
 	//ONLY allow requests to the correct domain (localhost, netlify.app, agilitycms.com)
 	const host = request.nextUrl.host
 	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
-	if (host !== "localhost:3000" && !host.endsWith("netlify.app") && !host.endsWith
-		("agilitycms.com")) {
+
+	if (host !== "localhost:3000" //local
+		&& !host.endsWith("netlify.app") //netlify
+		&& !host.endsWith("publishwithagility.com") //vercel
+		&& !host.endsWith("agilitycms.com")) //prod
+	{
 		return NextResponse.redirect(`https://www.agilitycms.com${pathAndQuery}`, {
 			status: 301
 		})
