@@ -6,6 +6,21 @@ import { checkRedirect } from 'lib/cms-content/checkRedirect'
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
 
+	//host level redirect
+	//ONLY allow requests to the correct domain (localhost, netlify.app, agilitycms.com)
+	const host = request.nextUrl.host
+	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
+
+	if (host !== "localhost:3000" //local
+		&& !host.endsWith("netlify.app") //netlify
+		&& !host.endsWith("publishwithagility.com") //vercel
+		&& !host.endsWith("agilitycms.com")) //prod
+	{
+		return NextResponse.redirect(`https://www.agilitycms.com${pathAndQuery}`, {
+			status: 301
+		})
+	}
+
 
 	const ext = request.nextUrl.pathname.includes(".") ? request.nextUrl.pathname.split('.').pop() : null
 
