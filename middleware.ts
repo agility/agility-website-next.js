@@ -171,17 +171,13 @@ export async function middleware(request: NextRequest) {
 	}
 
 	//check for a request for the homepage from CANADA
-	if (request.nextUrl.pathname === "/") {
+	if (request.nextUrl.pathname === "/" || request.geo?.country === "CA") {
 
-		//check for the region
-		var geo = request.geo
-
-		console.log("GEO Country: ", geo?.country || "Unknown")
 
 		//rewrite to the Canadian homepage
-		// return NextResponse.rewrite(`${request.nextUrl.protocol}//${request.nextUrl.host}/home/home-canada`, {
-		// 	status: 301
-		// })
+		return NextResponse.rewrite(`${request.nextUrl.protocol}//${request.nextUrl.host}/home/home-canada`, {
+			status: 301
+		})
 	}
 
 
