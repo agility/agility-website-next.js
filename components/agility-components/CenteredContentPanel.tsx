@@ -1,4 +1,4 @@
-import { UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -13,6 +13,7 @@ interface ICenteredContentPanel {
 	description?: string
 	cTA1?: URLField
 	cTA2?: URLField
+	featuredImage?: ImageField
 }
 
 export const CenteredContentPanel = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -21,10 +22,32 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 		languageCode
 	})
 
-	const { cTA1, cTA2, darkMode, description, title, section } = fields
+	const { cTA1, cTA2, darkMode, description, title, section, featuredImage } = fields
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
+			{featuredImage && (
+				<div className="mb-14 flex w-full justify-center">
+					<AgilityPic
+						image={featuredImage}
+						data-agility-field="splashImage"
+						fallbackWidth={400}
+						priority
+						className="w-full"
+						sources={[
+							{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1600 },
+							{ media: "(min-width: 1200px)", width: 800 },
+							{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 1200 },
+							{ media: "(min-width: 1024px)", width: 600 },
+							{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 1200 },
+							{ media: "(min-width: 768px)", width: 600 },
+							{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 880 },
+							{ media: "(min-width: 640px)", width: 480 },
+							{ media: "(min-width: 320px) and (min-resolution: 2x)", width: 640 }
+						]}
+					/>
+				</div>
+			)}
 			<div className="mx-auto max-w-5xl text-center">
 				{section && (
 					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500">
