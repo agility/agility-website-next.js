@@ -171,7 +171,7 @@ export async function middleware(request: NextRequest) {
 	}
 
 	//check for a request for the homepage from CANADA
-	if (request.nextUrl.pathname === "/" || request.geo?.country === "CA") {
+	if (request.nextUrl.pathname === "/" && request.geo?.country === "CA") {
 
 		const url = new URL('/home/home-canada', request.url)
 		console.log("CANADA", url)
