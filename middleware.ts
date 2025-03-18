@@ -174,7 +174,7 @@ export async function middleware(request: NextRequest) {
 	if (request.nextUrl.pathname === "/" && request.geo?.country === "CA") {
 
 		const url = new URL('/home/home-canada', request.url)
-		console.log("CANADA", url)
+
 		//rewrite to the Canadian homepage
 		return NextResponse.rewrite(url, {
 			status: 301
