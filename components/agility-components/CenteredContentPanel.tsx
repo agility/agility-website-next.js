@@ -33,7 +33,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 						data-agility-field="splashImage"
 						fallbackWidth={400}
 						priority
-						className="w-full"
+						className="w-full max-w-2xl"
 						sources={[
 							{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1600 },
 							{ media: "(min-width: 1200px)", width: 800 },

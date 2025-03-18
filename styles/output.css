@@ -2309,6 +2309,10 @@ h2 {
   margin-bottom: 3rem;
 }
 
+.mb-14 {
+  margin-bottom: 3.5rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -2415,10 +2419,6 @@ h2 {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mb-14 {
-  margin-bottom: 3.5rem;
 }
 
 .line-clamp-2 {
@@ -3709,10 +3709,6 @@ h2 {
 
 .p-8 {
   padding: 2rem;
-}
-
-.p-12 {
-  padding: 3rem;
 }
 
 .px-1 {
