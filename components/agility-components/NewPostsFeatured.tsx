@@ -80,6 +80,11 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 							<AgilityPic
 								image={post.fields.postImage}
 								className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
+								fallbackWidth={640}
+								sources={[
+									// For screens with a minimum width of 1200px, the image width is set to 400px
+									{ media: "(min-width: 1200px)", width: 400 }
+								]}
 							/>
 						</div>
 						<div className="flex h-80 flex-col gap-4 p-4">
