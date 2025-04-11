@@ -82,7 +82,7 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 								className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
 								fallbackWidth={640}
 								sources={[
-									//screen at least than 640, it's 1/4 of the screen, so the same size as the prev breakpoint
+									// For screens with a minimum width of 1200px, the image width is set to 400px
 									{ media: "(min-width: 1200px)", width: 400 }
 								]}
 							/>
