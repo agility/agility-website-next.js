@@ -6,7 +6,7 @@ interface Props {
 	href?: string
 	target?: string
 	children: React.ReactNode
-	type: "primary" | "secondary" | "secondary-inverted" | "alternate" | "slate"
+	type: "primary" | "secondary" | "secondary-inverted" | "alternate" | "slate" | "black"
 	size?: "sm" | "md" | "lg"
 	buttonType?: "button" | "submit" | "reset"
 	className?: string
@@ -42,15 +42,17 @@ export const LinkButtonClient = ({
 			size === "sm" ? "text-sm px-4 h-9" : size === "md" ? "text-base px-6 h-10" : "text-lg px-8 h-12",
 			"duration-200 ease-in-out transition-all",
 			"hover:scale-105",
-			type === "primary"
-				? "text-white bg-highlight-light ring-2 ring-highlight-light ring-inset focus:ring-white/40"
-				: type === "secondary"
-					? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
-					: type === "alternate"
-						? "bg-secondary ring-2 ring-secondary ring-inset"
-						: type === "slate"
-							? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
-							: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",
+			type === "black"
+				? "text-white bg-black ring-2 ring-black ring-inset hover:bg-gray-900"
+				: type === "primary"
+					? "text-white bg-highlight-light ring-2 ring-highlight-light ring-inset focus:ring-white/40"
+					: type === "secondary"
+						? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
+						: type === "alternate"
+							? "bg-secondary ring-2 ring-secondary ring-inset"
+							: type === "slate"
+								? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
+								: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",
 			"focus:outline-none  focus:ring-4",
 			className
 		)
@@ -64,8 +66,7 @@ export const LinkButtonClient = ({
 					if (onClick) {
 						onClick(e as unknown as MouseEvent)
 					}
-				}
-				}
+				}}
 				type={buttonType}
 				disabled={disabled}
 				data-agility-field={dataAgilityField}
@@ -84,8 +85,7 @@ export const LinkButtonClient = ({
 				if (onClick) {
 					onClick(e as unknown as MouseEvent)
 				}
-			}
-			}
+			}}
 			data-agility-field={dataAgilityField}
 		>
 			{children}
