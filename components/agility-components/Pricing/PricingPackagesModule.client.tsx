@@ -108,15 +108,12 @@ export const PricingPackagesModuleClient = ({
 
 	const [isScrolling, setIsScrolling] = useState(false)
 	const [priceDialogOpen, setPriceDialogOpen] = useState(false)
-
 	const idStr = "pricing-page"
-
 	/**
 	 * This effect will watch the header element and determine if it is showing or not
 	 * Uses an IntersectionObserver to determine if the header is showing
 	 */
 	useLayoutEffect(() => {
-
 		//get the header element
 		const elem1 = document.getElementById(topSectionIDStr)
 
@@ -153,9 +150,8 @@ export const PricingPackagesModuleClient = ({
 
 	return (
 		<>
-
 			<div id={topSectionIDStr}>
-				<Container className="relative z-[2] mx-auto max-w-5xl">
+				<Container className="relative z-[2] mx-auto max-w-7xl">
 					<div className="flex flex-col items-center justify-center gap-14 lg:flex-row lg:items-start">
 						{packages?.map((packageItem, index) => (
 							<div
@@ -164,10 +160,12 @@ export const PricingPackagesModuleClient = ({
 									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 border-t-4 bg-white p-8 text-center shadow-lg",
 									"lg:w-[350px]",
 									index === 0
-										? "border-t-slate-300"
+										? "border-black"
 										: index === 1
-											? "border-t-highlight-light"
-											: "border-t-secondary"
+											? "border-t-slate-300"
+											: index === 2
+												? "border-t-highlight-light"
+												: "border-t-secondary"
 								)}
 							>
 								<div className="flex items-center justify-center gap-2">
@@ -188,7 +186,7 @@ export const PricingPackagesModuleClient = ({
 								/>
 
 								{/* descriptions */}
-								<div className="min-h-[100px]">
+								<div className="min-h-[162px]">
 									<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
 
 									<div
@@ -198,12 +196,20 @@ export const PricingPackagesModuleClient = ({
 								</div>
 								<div>
 									<LinkButtonClient
-										type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
+										type={
+											index === 0
+												? "black"
+												: index === 1
+													? "slate"
+													: index == 2
+														? "primary"
+														: "alternate"
+										}
 										size={"md"}
 										href={packageItem?.fields?.cTAButton?.href}
 										target={packageItem?.fields?.cTAButton?.target}
 										onClick={(e) => {
-											if (hubSpotForm) {
+											if (hubSpotForm && index !== 0) {
 												setPriceDialogOpen(true)
 												e.preventDefault()
 											}
@@ -228,7 +234,10 @@ export const PricingPackagesModuleClient = ({
 			</div>
 
 			<div className="bg-slate-50 pt-6">
-				<div id={idStr} className="sticky top-[83px] z-10 mb-3 gap-4 border-b border-b-slate-300 bg-slate-50 py-3">
+				<div
+					id={idStr}
+					className="sticky top-[83px] z-10 mb-3 gap-4 border-b border-b-slate-300 bg-slate-50 py-3"
+				>
 					<div className="mx-auto flex max-w-7xl justify-center px-8">
 						<h3 className="hidden flex-1 items-center text-xl font-bold lg:block">
 							{isScrolling && <div className="">All Features</div>}
@@ -296,7 +305,9 @@ export const PricingPackagesModuleClient = ({
 												></h5>
 												<div
 													className="prose prose-sm prose-slate mt-3 opacity-80"
-													dangerouslySetInnerHTML={renderHTMLCustom(feature.fields.description)}
+													dangerouslySetInnerHTML={renderHTMLCustom(
+														feature.fields.description
+													)}
 												></div>
 											</div>
 
@@ -336,18 +347,18 @@ export const PricingPackagesModuleClient = ({
 					))}
 				</div>
 			</div>
-			{hubSpotForm &&
+			{hubSpotForm && (
 				<>
 					<GetPricePopup {...{ hubSpotForm, priceDialogOpen, setPriceDialogOpen }} />
 					<Script
 						{...{
 							type: "text/javascript",
 							strategy: "lazyOnload",
-							src: "//js.hsforms.net/forms/embed/v2.js",
+							src: "//js.hsforms.net/forms/embed/v2.js"
 						}}
 					/>
 				</>
-			}
+			)}
 		</>
 	)
 }
