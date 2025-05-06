@@ -242,29 +242,34 @@ export const PricingPackagesModuleClient = ({
 						<h3 className="hidden flex-1 items-center text-xl font-bold lg:block">
 							{isScrolling && <div className="">All Features</div>}
 						</h3>
-						{packages.map((packageItem, index) => (
-							<div key={`listing-${packageItem?.contentID}`} className="w-52">
-								<h3 className="text-center text-2xl font-bold">{packageItem?.fields?.title}</h3>
-								{isScrolling && (
-									<div className="mt-2 hidden justify-center md:flex">
-										<LinkButtonClient
-											type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
-											size={"sm"}
-											href={packageItem?.fields?.cTAButton?.href}
-											target={packageItem?.fields?.cTAButton?.target}
-											onClick={(e) => {
-												if (hubSpotForm) {
-													setPriceDialogOpen(true)
-													e.preventDefault()
-												}
-											}}
-										>
-											{packageItem?.fields?.cTAButton?.text}
-										</LinkButtonClient>
-									</div>
-								)}
-							</div>
-						))}
+						{packages.map((packageItem, index) => {
+							if (index === 0) {
+								return null
+							}
+							return (
+								<div key={`listing-${packageItem?.contentID}`} className="w-52">
+									<h3 className="text-center text-2xl font-bold">{packageItem?.fields?.title}</h3>
+									{isScrolling && (
+										<div className="mt-2 hidden justify-center md:flex">
+											<LinkButtonClient
+												type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
+												size={"sm"}
+												href={packageItem?.fields?.cTAButton?.href}
+												target={packageItem?.fields?.cTAButton?.target}
+												onClick={(e) => {
+													if (hubSpotForm) {
+														setPriceDialogOpen(true)
+														e.preventDefault()
+													}
+												}}
+											>
+												{packageItem?.fields?.cTAButton?.text}
+											</LinkButtonClient>
+										</div>
+									)}
+								</div>
+							)
+						})}
 					</div>
 				</div>
 				<div className={clsx("mx-auto max-w-7xl justify-center px-8 pb-8", isScrolling && "-mt-10")}>
@@ -312,6 +317,9 @@ export const PricingPackagesModuleClient = ({
 											</div>
 
 											{packages.map((packageItem, index) => {
+												if (index === 0) {
+													return null
+												}
 												//try to find the feature in the package
 												const packageFeature = features.find(
 													(f) =>
