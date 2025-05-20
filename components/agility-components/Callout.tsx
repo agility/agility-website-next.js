@@ -1,4 +1,5 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
+import classNames from "classnames"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
@@ -9,6 +10,7 @@ interface ICalloutPanel {
 	callout: {
 		contentid: number
 	}
+	theme: string
 }
 
 interface ICalloutItem {
@@ -31,17 +33,33 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 		contentLinkDepth: 0
 	})
 
+	const bgColor = () => {
+		switch(fields.theme){
+			case "secondary": return "bg-secondary";
+			case "primary": return "bg-primary";
+			case "highlight": return "bg-highlight";
+		}
+	}
+
+	const calloutTextColor = () => {
+		switch(fields.theme){
+			case "secondary": return "";
+			case "primary": return "text-white";
+			case "highlight": return "text-white";
+		}
+	}
+
 	const { title, caption, link } = pnl.fields
 
 	return (
-		<div className="bg-secondary">
+		<div className={classNames(bgColor())}>
 			<Container id={`agility-component-${module.contentid}`} data-agility-component={module.contentid}>
 				<div className={clsx("mx-auto my-6 max-w-5xl gap-4 text-center")}>
-					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
-					{caption && <div className={clsx("mt-5 max-w-none text-balance text-lg")}>{caption}</div>}
+					<h2 className={classNames("text-balance text-5xl font-medium leading-snug", calloutTextColor())}>{title}</h2>
+					{caption && <div className={clsx("mt-5 max-w-none text-balance text-lg", calloutTextColor())}>{caption}</div>}
 					<div className="mt-8">
 						<LinkButton
-							type="secondary"
+							type="primary"
 							href={link.href}
 							target={link.target}
 							size="md"
