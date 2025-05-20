@@ -84,7 +84,7 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 					))}
 				</div>
 
-				{fields.cTAButton && (
+				{fields.cTAButton && fields.cTAButton?.href !== "" && (
 					<div className="mt-14 text-center">
 						<LinkButton
 							href={fields.cTAButton.href}

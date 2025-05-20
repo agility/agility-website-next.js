@@ -39,7 +39,6 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 			<div
 				className={clsx(
 					"md:mt-18 mx-auto my-12 flex max-w-5xl flex-col items-center gap-4 lg:mt-20",
-
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row"
 				)}
 			>

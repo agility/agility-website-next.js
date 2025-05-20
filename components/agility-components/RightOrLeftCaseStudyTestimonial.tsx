@@ -1,5 +1,6 @@
 import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
 import { IconChevronRight, IconQuote } from "@tabler/icons-react"
+import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -9,7 +10,7 @@ import { ITestimonial } from "lib/types/ITestimonial"
 
 interface IRightOrLeftCaseStudyTestimonial {
 	cTA: string
-	textSize: "left" | "right"
+	textSide: "left" | "right"
 	image: ImageField
 	testimonial: {
 		contentid: number
@@ -20,7 +21,7 @@ interface IRightOrLeftCaseStudyTestimonial {
 }
 
 export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<IRightOrLeftCaseStudyTestimonial>({
+	const { fields } = await getContentItem<IRightOrLeftCaseStudyTestimonial>({
 		contentID: module.contentid,
 		languageCode,
 		contentLinkDepth: 0
@@ -42,7 +43,8 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 
 	return (
 		<Container className="mx-auto max-w-7xl">
-			<div className="flex flex-col gap-10 lg:flex-row-reverse lg:items-center">
+			<div className={clsx("flex flex-col gap-10 lg:items-center", 
+				fields.textSide == "right" ? "lg:flex-row" : "lg:flex-row-reverse")}>
 				<div className="flex-1 space-y-5">
 					<div>
 						<AgilityPic image={casestudy.fields.customerLogo} className="w-32" fallbackWidth={160} />
