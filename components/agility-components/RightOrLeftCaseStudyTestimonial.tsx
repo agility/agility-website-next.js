@@ -1,6 +1,6 @@
 import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
 import { IconChevronRight, IconQuote } from "@tabler/icons-react"
-import classNames from "classnames"
+import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -43,7 +43,7 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 
 	return (
 		<Container className="mx-auto max-w-7xl">
-			<div className={classNames("flex flex-col gap-10 lg:items-center", 
+			<div className={clsx("flex flex-col gap-10 lg:items-center", 
 				fields.textSide == "right" ? "lg:flex-row" : "lg:flex-row-reverse")}>
 				<div className="flex-1 space-y-5">
 					<div>
