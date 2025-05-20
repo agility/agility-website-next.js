@@ -1,5 +1,4 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
-import classNames from "classnames"
 import clsx from "clsx"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
@@ -52,10 +51,10 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 	const { title, caption, link } = pnl.fields
 
 	return (
-		<div className={classNames(bgColor())}>
+		<div className={clsx(bgColor())}>
 			<Container id={`agility-component-${module.contentid}`} data-agility-component={module.contentid}>
 				<div className={clsx("mx-auto my-6 max-w-5xl gap-4 text-center")}>
-					<h2 className={classNames("text-balance text-5xl font-medium leading-snug", calloutTextColor())}>{title}</h2>
+					<h2 className={clsx("text-balance text-5xl font-medium leading-snug", calloutTextColor())}>{title}</h2>
 					{caption && <div className={clsx("mt-5 max-w-none text-balance text-lg", calloutTextColor())}>{caption}</div>}
 					<div className="mt-8">
 						<LinkButton
