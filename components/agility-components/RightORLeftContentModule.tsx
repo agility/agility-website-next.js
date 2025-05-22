@@ -14,6 +14,7 @@ interface IRightORLeftContentModule {
 	graphic?: ImageField
 	darkMode?: string
 	breadcrumb?: string
+	lessVerticalWhitespace?: boolean
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -26,9 +27,11 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 
 	const { fields, contentID } = componentItem
 
-	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb } = fields
+	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb, lessVerticalWhitespace } = fields
 
 	const darkMode = fields.darkMode === "true"
+
+	console.log("amihere!", lessVerticalWhitespace)
 
 	return (
 		<Container
@@ -38,8 +41,9 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 		>
 			<div
 				className={clsx(
-					"md:mt-18 mx-auto my-12 flex max-w-5xl flex-col items-center gap-4 lg:mt-20",
-					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row"
+					"mx-auto flex max-w-5xl flex-col items-center gap-4",
+					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row",
+					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
 				)}
 			>
 				<div className="flex-1">
@@ -74,11 +78,11 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
-							<LinkButton type="primary" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
+							<LinkButton type="secondary-bg" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
 								{cTA1Optional.text}
 							</LinkButton>
 						)}
-						{cTA2Optional && (
+						{cTA2Optional && cTA2Optional.href !== "" && (
 							<LinkButton
 								type="secondary"
 								href={cTA2Optional.href}
