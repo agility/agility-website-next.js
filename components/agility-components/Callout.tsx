@@ -58,7 +58,7 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 					{caption && <div className={clsx("mt-5 max-w-none text-balance text-lg", calloutTextColor())}>{caption}</div>}
 					<div className="mt-8">
 						<LinkButton
-							type="primary"
+							type={fields.theme === "secondary" ? "primary" : "secondary-bg"}
 							href={link.href}
 							target={link.target}
 							size="md"
