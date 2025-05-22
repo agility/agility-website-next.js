@@ -170,16 +170,15 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
-	//check for a request for the homepage from CANADA
-	if (request.nextUrl.pathname === "/" && request.geo?.country === "CA") {
-
-		const url = new URL('/home/home-canada', request.url)
-
-		//rewrite to the Canadian homepage
-		return NextResponse.rewrite(url, {
-			status: 301
-		})
-	}
+	//MOD JOELV - MAY 15/2025 - Remove the canadian specific homepage.
+	// //check for a request for the homepage from CANADA
+	// if (request.nextUrl.pathname === "/" && request.geo?.country === "CA") {
+	// 	const url = new URL('/home/home-canada', request.url)
+	// 	//rewrite to the Canadian homepage
+	// 	return NextResponse.rewrite(url, {
+	// 		status: 301
+	// 	})
+	// }
 
 
 }
