@@ -31,8 +31,6 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 
 	const darkMode = fields.darkMode === "true"
 
-	console.log("amihere!", lessVerticalWhitespace)
-
 	return (
 		<Container
 			id={`${contentID}`}

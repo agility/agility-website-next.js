@@ -32,23 +32,27 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 		contentLinkDepth: 0
 	})
 
+	if(!pnl) return null;
+
 	const bgColor = () => {
-		switch(fields.theme){
+		switch(fields?.theme){
 			case "secondary": return "bg-secondary";
-			case "primary": return "bg-primary";
 			case "highlight": return "bg-highlight";
+			case "primary": 
+			default: return "bg-primary";
 		}
 	}
 
 	const calloutTextColor = () => {
-		switch(fields.theme){
+		switch(fields?.theme){
 			case "secondary": return "";
 			case "primary": return "text-white";
 			case "highlight": return "text-white";
+			default: return "text-white"
 		}
 	}
 
-	const { title, caption, link } = pnl.fields
+	const { title, caption, link } = pnl?.fields
 
 	return (
 		<div className={clsx(bgColor())}>
