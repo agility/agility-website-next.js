@@ -1,7 +1,5 @@
 "use client"
 import React, { useEffect, useState } from "react"
-import Lottie from "react-lottie"
-
 import agilityBanner from "public/js/lottie/Agility_banner_home/Agility_banner_home.json"
 
 interface Props {
@@ -23,6 +21,15 @@ export const HeroAnimation = ({ animation }: Props) => {
 
 	const [theWidth, setTheWidth] = useState(600)
 	const [theHeight, setTheHeight] = useState(400)
+
+	const [LottieComp, setLottieComp] = useState<any>(null)
+
+	useEffect(() => {
+		import("react-lottie").then((mod) => {
+			setLottieComp(() => mod.default)
+		})
+	}, [])
+
 
 	useEffect(() => {
 		if (typeof window === "undefined") return
@@ -48,7 +55,7 @@ export const HeroAnimation = ({ animation }: Props) => {
 
 	return (
 		<div>
-			<Lottie options={defaultOptions} height={theHeight} width={theWidth} />
+			{LottieComp && <LottieComp options={defaultOptions} height={theHeight} width={theWidth} />}
 		</div>
 	)
 }
