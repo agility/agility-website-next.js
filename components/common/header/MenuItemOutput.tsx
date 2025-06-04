@@ -2,11 +2,8 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react"
 import classNames from "classnames"
 import { MenuLink } from "lib/cms-content/getHeaderContent"
 import Link from "next/link"
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react"
-
+import { useRef } from "react"
 import { IconChevronDown } from "@tabler/icons-react"
-import { getContentList } from "lib/cms/getContentList"
-import { useAgilityContext } from "lib/cms/useAgilityContext"
 import { AgilityPic } from "@agility/nextjs"
 
 interface Props {
@@ -113,8 +110,6 @@ export const MenuItemOutput = ({ link }: Props) => {
 							className={classNames(
 								"text-secondary-500 ring-0X outline-highlightX -ml-2 rounded-full text-sm font-medium leading-6",
 								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
-								// "ring-inset ring-highlight transition-all focus:outline-none focus:ring-2 group-hover:text-highlight",
-								// "data-[open]:ring-0"
 							)}
 						>
 							<IconChevronDown
@@ -133,7 +128,6 @@ export const MenuItemOutput = ({ link }: Props) => {
 							"data-[leave]:duration-150 data-[leave]:ease-in"
 						)}
 						onMouseEnter={() => mouseEnterPopover(close)}
-						onMouseLeave={() => mouseLeavePopover()}
 					>
 						<div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
 							<div className="flex flex-1 gap-1">
@@ -173,13 +167,22 @@ export const MenuItemOutput = ({ link }: Props) => {
 															)}
 															onClick={() => close()}
 														>
-															{item.fields.imageorIcon && (
-																<AgilityPic
-																	image={item.fields.imageorIcon}
-																	fallbackWidth={300}
-																	className="mt-2"
-																/>
-															)}
+															{item.fields.imageorIcon &&
+																(item.fields.imageorIcon.url
+																	.toLowerCase()
+																	.endsWith(".svg") ? (
+																	<img
+																		src={item.fields.imageorIcon.url}
+																		alt={item.fields.imageorIcon.label}
+																		className="mt-2"
+																	/>
+																) : (
+																	<AgilityPic
+																		image={item.fields.imageorIcon}
+																		fallbackWidth={300}
+																		className="mt-2"
+																	/>
+																))}
 
 															{item.fields.title && (
 																<div className="mt-2 leading-5">
@@ -205,14 +208,22 @@ export const MenuItemOutput = ({ link }: Props) => {
 														)}
 														onClick={() => close()}
 													>
-														{item.fields.imageorIcon && (
-															// eslint-disable-next-line @next/next/no-img-element
-															<img
-																src={item.fields.imageorIcon.url}
-																alt={item.fields.imageorIcon.label}
-																loading="lazy"
-															/>
-														)}
+														{item.fields.imageorIcon &&
+															(item.fields.imageorIcon.url
+																.toLowerCase()
+																.endsWith(".svg") ? (
+																<img
+																	src={item.fields.imageorIcon.url}
+																	alt={item.fields.imageorIcon.label}
+																	className="mt-2"
+																/>
+															) : (
+																<AgilityPic
+																	image={item.fields.imageorIcon}
+																	fallbackWidth={300}
+																	className="mt-2"
+																/>
+															))}
 
 														{item.fields.title}
 													</Link>
