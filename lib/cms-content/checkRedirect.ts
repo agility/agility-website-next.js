@@ -6,6 +6,8 @@ import { getCachedObject } from "lib/persistant-cache/getCachedObject"
 import filteredRedirects from "data/redirections-bloom-filter.json"
 import allRedirects from "data/redirections.json"
 
+const bloomFilter = ScalableBloomFilter.fromJSON(filteredRedirects as any)
+
 /**
  * Check if a path should be redirected.
  * Uses a bloom filter to quickly check if the path is in the list of redirections before actually getting the full list of redirects.
@@ -21,7 +23,7 @@ export const checkRedirect = async ({ path }: { path: string }): Promise<Redirec
 
 	//parse the bloom filter and check if the path resolves in it
 
-	const bloomFilter = ScalableBloomFilter.fromJSON(filteredRedirects as any)
+
 
 	//check if the path is in the bloom filter
 	if (!bloomFilter.has(path.toLowerCase())) return null
