@@ -137,7 +137,7 @@ export default async function SiteFooter() {
 				<div className="mx-auto max-w-7xl lg:flex lg:flex-row-reverse lg:items-center lg:justify-between">
 					<ul className="mt-4 flex justify-center gap-4 lg:mt-0 lg:justify-start">
 						{footer.fields.followLinks.map((social: any) => (
-							<li key={social.contentID} className="-my-2 mx-4 lg:mx-0">
+							<li key={social.contentID} className="-my-2 mx-0">
 								<a
 									href={social.fields.followURL.href}
 									title={`Follow Agility CMS on ${social.fields.title}`}
