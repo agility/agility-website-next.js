@@ -4,6 +4,7 @@
 import { LinkButton } from "components/micro/LinkButton"
 import { HubspotForm } from "lib/types/HubspotForm"
 import Script from "next/script"
+import posthog from 'posthog-js'
 
 interface Props {
 	subscribeButtonLabel: string
@@ -39,8 +40,18 @@ export const FooterSubscribe = ({
 							region: "na1",
 							portalId,
 							formId,
-							target: `#${divID}`
-							//HACK: don't do a redirect here... redirectUrl: subscribeRedirect ? subscribeRedirect : undefined
+							target: `#${divID}`,
+							onFormSubmitted: function ($form, data) {
+								// Your custom JavaScript code to execute after successful submission
+								console.log("Newsletter signup submitted.")
+								const emailAddress = data?.submissionValues?.email
+								if (emailAddress) {
+									posthog.identify(emailAddress);
+								}
+
+								posthog.capture('newsletter-signup');
+
+							}
 						})
 					}
 				}}

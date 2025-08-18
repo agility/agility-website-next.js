@@ -365,6 +365,7 @@ export const PricingPackagesModuleClient = ({
 							src: "//js.hsforms.net/forms/embed/v2.js"
 						}}
 					/>
+
 				</>
 			)}
 		</>

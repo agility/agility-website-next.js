@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import Script from "next/script"
+import { posthog } from "posthog-js"
 import { useCallback, useEffect, useRef } from "react"
+
+import { useRouter } from 'next/navigation'
 
 interface IGatedDownloadClient {
 	hubspotForm?: string
@@ -14,6 +17,9 @@ interface IHubspotForm {
 	formId: string
 }
 export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownloadClient) => {
+
+	const router = useRouter()
+
 	let hsForm: IHubspotForm = {
 		name: "Gated Download",
 		portalId: 23239214,
@@ -37,7 +43,22 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 			portalId: hsForm.portalId,
 			formId: hsForm.formId,
 			target: `#${divID}`,
-			redirectUrl: redirectURL
+			//redirectUrl: redirectURL,
+			onFormSubmitted: function (_: any, data: any) {
+				// Your custom JavaScript code to execute after successful submission
+				console.log("Form submitted successfully:", hsForm.name)
+				const emailAddress = data?.submissionValues?.email
+				if (emailAddress) {
+					posthog.identify(emailAddress);
+				}
+
+				posthog.capture('website-form-submission', {
+					name: hsForm.name
+				});
+
+				router.push(redirectURL)
+
+			}
 		})
 	}, [divID, redirectURL, hsForm])
 

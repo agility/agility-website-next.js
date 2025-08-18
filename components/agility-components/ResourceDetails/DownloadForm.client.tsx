@@ -2,7 +2,8 @@
 "use client"
 import Script from "next/script"
 import { useCallback, useEffect, useRef } from "react"
-import { Container } from "components/micro/Container"
+import posthog from "posthog-js"
+import { useRouter } from 'next/navigation'
 
 interface IDownloadForm {
 	redirectURL?: string
@@ -10,9 +11,11 @@ interface IDownloadForm {
 }
 
 export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
-	const { portalId, formId } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
+	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
 	const divID = `submission-form-${formId}`
 	const formLoadRef = useRef<Boolean>(false)
+
+	const router = useRouter()
 
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
@@ -25,7 +28,24 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 			portalId,
 			formId,
 			target: `#${divID}`,
-			redirectUrl: redirectURL
+			//redirectUrl: redirectURL,
+			onFormSubmitted: function (_: any, data: any) {
+				// Your custom JavaScript code to execute after successful submission
+				console.log("Form submitted successfully:", name)
+				const emailAddress = data?.submissionValues?.email
+				if (emailAddress) {
+					posthog.identify(emailAddress);
+				}
+
+				posthog.capture('website-form-submission', {
+					name: name
+				});
+
+				if (redirectURL) {
+					router.push(redirectURL)
+				}
+
+			}
 		})
 	}, [divID, formId, portalId, redirectURL])
 
