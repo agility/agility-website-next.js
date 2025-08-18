@@ -5,6 +5,7 @@ import { ISubmissionForm } from "./SubmissionForm"
 import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
 import { posthog } from "posthog-js"
+import { useRouter } from 'next/navigation'
 
 export const SubmissionFormClient = ({
 	leftColumnBody,
@@ -16,6 +17,7 @@ export const SubmissionFormClient = ({
 	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
 	const divID = `submission-form-${formId}`
 	const formLoadRef = useRef<Boolean>(false)
+	const router = useRouter()
 
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
@@ -28,7 +30,7 @@ export const SubmissionFormClient = ({
 			portalId,
 			formId,
 			target: `#${divID}`,
-			redirectUrl: redirectURL,
+			//redirectUrl: redirectURL,
 			onFormSubmitted: function (_: any, data: any) {
 				// Your custom JavaScript code to execute after successful submission
 				console.log("Form submitted successfully:", name)
@@ -40,6 +42,10 @@ export const SubmissionFormClient = ({
 				posthog.capture('website-form-submission', {
 					name: name
 				});
+
+				if (redirectURL) {
+					router.push(redirectURL)
+				}
 
 			}
 		})
