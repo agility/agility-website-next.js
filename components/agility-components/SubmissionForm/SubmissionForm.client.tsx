@@ -12,7 +12,7 @@ export const SubmissionFormClient = ({
 	hubspotForm,
 	redirectURL
 }: ISubmissionForm) => {
-	console.log("hubspotForm", hubspotForm)
+
 	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
 	const divID = `submission-form-${formId}`
 	const formLoadRef = useRef<Boolean>(false)
