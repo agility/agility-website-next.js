@@ -13,6 +13,7 @@ import { redirect } from "next/navigation"
 import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { Mulish } from 'next/font/google'
+import { PostHogProvider } from "./providers"
 
 // If loading a variable font, you don't need to specify the font weight
 const mulish = Mulish({
@@ -58,25 +59,27 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			</head>
 			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 			<body data-agility-guid={process.env.AGILITY_GUID}>
-				<div id="site-wrapper">
-					<div id="site">
-						<div className="flex min-h-screen flex-col">
-							<SiteHeader {...{ headerContent }} />
+				<PostHogProvider>
+					<div id="site-wrapper">
+						<div id="site">
+							<div className="flex min-h-screen flex-col">
+								<SiteHeader {...{ headerContent }} />
 
-							<main className={`flex-grow`}>
+								<main className={`flex-grow`}>
 
-								{children}</main>
-							<SiteFooter />
+									{children}</main>
+								<SiteFooter />
+							</div>
 						</div>
 					</div>
-				</div>
-				{(isPreview || isDevelopmentMode) && (
-					<PreviewBar {...{ isDevelopmentMode, isPreview, startPreviewMode }} />
-				)}
+					{(isPreview || isDevelopmentMode) && (
+						<PreviewBar {...{ isDevelopmentMode, isPreview, startPreviewMode }} />
+					)}
 
-				<HubspotTracker />
-				{/* Load in the agility web-studio-sdk script */}
-				<Script src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" />
+					<HubspotTracker />
+					{/* Load in the agility web-studio-sdk script */}
+					<Script src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" />
+				</PostHogProvider>
 			</body>
 		</html>
 	)

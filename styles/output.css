@@ -2189,6 +2189,11 @@ h2 {
   margin-bottom: -1.5rem;
 }
 
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
@@ -2419,10 +2424,6 @@ h2 {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.-mt-2 {
-  margin-top: -0.5rem;
 }
 
 .line-clamp-2 {

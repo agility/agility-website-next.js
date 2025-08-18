@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import Script from "next/script"
+import { posthog } from "posthog-js"
 import { useCallback, useEffect, useRef } from "react"
 
 interface IGatedDownloadClient {
@@ -37,7 +38,20 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 			portalId: hsForm.portalId,
 			formId: hsForm.formId,
 			target: `#${divID}`,
-			redirectUrl: redirectURL
+			redirectUrl: redirectURL,
+			onFormSubmitted: function (_: any, data: any) {
+				// Your custom JavaScript code to execute after successful submission
+				console.log("Form submitted successfully:", name)
+				const emailAddress = data?.submissionValues?.email
+				if (emailAddress) {
+					posthog.identify(emailAddress);
+				}
+
+				posthog.capture('website-form-submission', {
+					name: hsForm.name
+				});
+
+			}
 		})
 	}, [divID, redirectURL, hsForm])
 

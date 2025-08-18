@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import LoadingWidget from "components/common/LoadingWidget"
 import { Bouncy } from "components/micro/loaders/Bouncy"
 import { load } from 'cheerio'
+import { posthog } from 'posthog-js'
 
 interface Props {
 	hubSpotForm: HubspotForm
@@ -33,12 +34,19 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 			portalId: hubSpotForm.portalId,
 			formId: hubSpotForm.formId,
 			target: `#${divID}`,
-			onBeforeFormInit: function (ctx: any) {
-				console.log('before form init', ctx)
-			},
-			onFormReady: function ($form: any) {
-				console.log('form ready', $form)
-			},
+			onFormSubmitted: function (_: any, data: any) {
+				// Your custom JavaScript code to execute after successful submission
+				console.log("Form submitted successfully:", name)
+				const emailAddress = data?.submissionValues?.email
+				if (emailAddress) {
+					posthog.identify(emailAddress);
+				}
+
+				posthog.capture('website-form-submission', {
+					name: hubSpotForm.name
+				});
+
+			}
 
 		})
 	}, [divID, hubSpotForm])
