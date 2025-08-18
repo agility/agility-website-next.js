@@ -362,12 +362,9 @@ export const PricingPackagesModuleClient = ({
 						{...{
 							type: "text/javascript",
 							strategy: "lazyOnload",
-							src: "https://js.hsforms.net/forms/embed/developer/23239214.js"
+							src: "//js.hsforms.net/forms/embed/v2.js"
 						}}
 					/>
-
-					{/* <script src="https://js.hsforms.net/forms/embed/developer/23239214.js" defer></script>
-					<div class="hs-form-html" data-region="na1" data-form-id="2d986550-f2c4-4afd-a620-61639d7ab507" data-portal-id="23239214"></div> */}
 
 				</>
 			)}
