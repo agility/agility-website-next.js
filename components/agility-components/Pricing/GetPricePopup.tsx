@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { IconX } from '@tabler/icons-react'
 import { HubspotForm } from 'lib/types/HubspotForm'
@@ -18,15 +18,14 @@ interface Props {
 
 export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hubSpotForm }: Props) {
 
-
-	const divID = `gatedownload-form-${hubSpotForm.formId}`
+	const formID = useId()
+	const divID = `gatedownload-form-${hubSpotForm.formId}-${formID.replace(/:/g, "")}`
 	const formLoadRef = useRef<Boolean>(false)
 	const [formLoaded, setFormLoaded] = useState(false)
 
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
 		formLoadRef.current = true
-
 		/**
 		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
 		 */
@@ -34,9 +33,10 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 			portalId: hubSpotForm.portalId,
 			formId: hubSpotForm.formId,
 			target: `#${divID}`,
+
 			onFormSubmitted: function (_: any, data: any) {
 				// Your custom JavaScript code to execute after successful submission
-				console.log("Form submitted successfully:", name)
+				console.log("Form submitted successfully:", hubSpotForm.name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
 					posthog.identify(emailAddress);
@@ -69,6 +69,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 		}
 	}, [priceDialogOpen])
 
+
 	return (
 		<Dialog open={priceDialogOpen} onClose={(value) => {
 			setPriceDialogOpen(value)
@@ -97,7 +98,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 								<IconX aria-hidden="true" className="size-6" />
 							</button>
 						</div>
-						<div className='min-h-[400px]'>
+						<div className='min-h-[400px] p-4'>
 							{!formLoaded &&
 								(
 									<div className='min-h-[400px] flex justify-center items-center'>
