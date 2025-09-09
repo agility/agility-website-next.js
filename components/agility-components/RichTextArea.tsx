@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { UnloadedModuleProps } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -5,11 +6,12 @@ import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
 interface RichText {
 	textblob: string
+	lessVerticalWhitespace: boolean
 }
 
 const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const {
-		fields: { textblob },
+		fields: { textblob, lessVerticalWhitespace },
 		contentID
 	} = await getContentItem<RichText>({
 		contentID: module.contentid,
@@ -20,7 +22,12 @@ const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
+			<div
+				className={clsx(
+					"mx-auto max-w-5xl",
+					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
+				)}
+			>
 				<div
 					data-agility-field="textblob"
 					data-agility-html
