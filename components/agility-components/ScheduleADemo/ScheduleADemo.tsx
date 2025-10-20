@@ -27,14 +27,14 @@ export const ScheduleADemo = async ({ module, languageCode }: UnloadedModuleProp
 		>
 			<Container className="mx-auto my-12 flex max-w-7xl">
 				<div className="my-8 flex w-full flex-col gap-5 lg:flex-row">
+					<div className="lg:w-3/5">
+						<ScheduleADemoClient schedulerIFrameURL={fields.schedulerIFrameURL} />
+					</div>
 					<div className="lg:w-2/5">
 						<div
 							className="prose lg:prose-lg"
 							dangerouslySetInnerHTML={renderHTMLCustom(fields.leftPanelContent)}
 						></div>
-					</div>
-					<div className="lg:w-3/5">
-						<ScheduleADemoClient schedulerIFrameURL={fields.schedulerIFrameURL} />
 					</div>
 				</div>
 			</Container>
