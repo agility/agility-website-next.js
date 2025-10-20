@@ -5,7 +5,7 @@ import { ISubmissionForm } from "./SubmissionForm"
 import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
 import { posthog } from "posthog-js"
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 
 export const SubmissionFormClient = ({
 	leftColumnBody,
@@ -13,7 +13,6 @@ export const SubmissionFormClient = ({
 	hubspotForm,
 	redirectURL
 }: ISubmissionForm) => {
-
 	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
 	const divID = `submission-form-${formId}`
 	const formLoadRef = useRef<Boolean>(false)
@@ -36,17 +35,16 @@ export const SubmissionFormClient = ({
 				console.log("Form submitted successfully:", name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
-					posthog.identify(emailAddress);
+					posthog.identify(emailAddress)
 				}
 
-				posthog.capture('website-form-submission', {
+				posthog.capture("website-form-submission", {
 					name: name
-				});
+				})
 
 				if (redirectURL) {
 					router.push(redirectURL)
 				}
-
 			}
 		})
 	}, [divID, formId, portalId, redirectURL])
@@ -62,10 +60,6 @@ export const SubmissionFormClient = ({
 			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
 			<div className="mx-auto max-w-5xl">
 				<div className="flex flex-col gap-10 md:flex-row">
-					<div className="width-1/2 flex-1">
-						<h2 className="text-balance text-5xl font-medium">{leftColumnTitle}</h2>
-						<div className="prose mt-10" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
-					</div>
 					<div className="width-1/2 relative flex-1">
 						<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
 							<div id={divID}></div>
@@ -80,6 +74,10 @@ export const SubmissionFormClient = ({
 							className="absolute -bottom-14 -left-14"
 							alt=""
 						/>
+					</div>
+					<div className="width-1/2 flex-1">
+						<h2 className="text-balance text-5xl font-medium">{leftColumnTitle}</h2>
+						<div className="prose" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
 					</div>
 				</div>
 			</div>
