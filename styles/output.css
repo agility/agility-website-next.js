@@ -6574,10 +6574,6 @@ h2 {
     width: 300px;
   }
 
-  .lg\:w-\[350px\] {
-    width: 350px;
-  }
-
   .lg\:w-auto {
     width: auto;
   }
@@ -6640,10 +6636,6 @@ h2 {
 
   .lg\:items-center {
     align-items: center;
-  }
-
-  .lg\:items-stretch {
-    align-items: stretch;
   }
 
   .lg\:justify-start {
