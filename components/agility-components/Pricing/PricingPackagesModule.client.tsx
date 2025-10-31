@@ -208,7 +208,7 @@ export const PricingPackagesModuleClient = ({
 												? "black"
 												: index === 1
 													? "slate"
-													: index == 2
+													: index === 2
 														? "primary"
 														: "alternate"
 										}
@@ -259,7 +259,7 @@ export const PricingPackagesModuleClient = ({
 									{isScrolling && (
 										<div className="mt-2 hidden justify-center md:flex">
 											<LinkButtonClient
-												type={index === 1 ? "slate" : index == 2 ? "primary" : "alternate"}
+												type={index === 1 ? "slate" : index === 2 ? "primary" : "alternate"}
 												size={"sm"}
 												href={packageItem?.fields?.cTAButton?.href}
 												target={packageItem?.fields?.cTAButton?.target}
