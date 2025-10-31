@@ -152,13 +152,13 @@ export const PricingPackagesModuleClient = ({
 		<>
 			<div id={topSectionIDStr}>
 				<Container className="relative z-[2] mx-auto max-w-7xl">
-					<div className="flex flex-col items-center justify-center gap-14 lg:flex-row lg:items-start">
+					<div className="grid grid-cols-1 gap-14 lg:grid-cols-4 lg:items-start">
 						{packages?.map((packageItem, index) => (
 							<div
 								key={packageItem?.contentID}
 								className={clsx(
-									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 border-t-4 bg-white p-8 text-center shadow-lg",
-									"lg:w-[350px]",
+									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 justify-self-center border-t-4 bg-white p-8 text-center shadow-lg",
+									"lg:max-w-none",
 									index === 0
 										? "border-black"
 										: index === 1
@@ -186,13 +186,20 @@ export const PricingPackagesModuleClient = ({
 								/>
 
 								{/* descriptions */}
-								<div className="min-h-[162px]">
-									<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
+								<div className="flex flex-1 flex-col">
+									<div className="min-h-[162px]">
+										<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
 
-									<div
-										className="prose mt-2 prose-p:leading-tight"
-										dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
-									></div>
+										<div
+											className="prose mt-2 prose-p:leading-tight"
+											dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
+										></div>
+									</div>
+									{index === 1 || index === 2 ? (
+										<div className="mt-auto text-base font-medium">{packageItem?.fields?.cost}</div>
+									) : (
+										<div className="mt-auto"></div>
+									)}
 								</div>
 								<div>
 									<LinkButtonClient
@@ -252,7 +259,7 @@ export const PricingPackagesModuleClient = ({
 									{isScrolling && (
 										<div className="mt-2 hidden justify-center md:flex">
 											<LinkButtonClient
-												type={index === 0 ? "slate" : index === 1 ? "primary" : "alternate"}
+												type={index === 1 ? "slate" : index == 2 ? "primary" : "alternate"}
 												size={"sm"}
 												href={packageItem?.fields?.cTAButton?.href}
 												target={packageItem?.fields?.cTAButton?.target}
@@ -365,7 +372,6 @@ export const PricingPackagesModuleClient = ({
 							src: "//js.hsforms.net/forms/embed/v2.js"
 						}}
 					/>
-
 				</>
 			)}
 		</>
