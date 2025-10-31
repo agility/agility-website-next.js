@@ -2426,6 +2426,10 @@ h2 {
   margin-top: 2rem;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -3157,6 +3161,10 @@ h2 {
 
 .divide-gray-500\/10 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(107 114 128 / 0.1);
+}
+
+.justify-self-center {
+  justify-self: center;
 }
 
 .overflow-auto {
@@ -6582,6 +6590,10 @@ h2 {
     max-width: calc(80rem * .625);
   }
 
+  .lg\:max-w-none {
+    max-width: none;
+  }
+
   .lg\:flex-1 {
     flex: 1 1 0%;
   }
@@ -6628,6 +6640,10 @@ h2 {
 
   .lg\:items-center {
     align-items: center;
+  }
+
+  .lg\:items-stretch {
+    align-items: stretch;
   }
 
   .lg\:justify-start {
