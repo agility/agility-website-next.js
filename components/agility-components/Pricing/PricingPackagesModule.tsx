@@ -55,13 +55,14 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 
 	let hubSpotForm: HubspotForm | null = null
 
-	if (fields.getPricingForm) {
-		try {
-			hubSpotForm = JSON.parse(fields.getPricingForm)
-		} catch (e) {
-			console.warn("Error parsing hubspot form on pricing packages modele", fields.getPricingForm, e)
-		}
-	}
+	//MOD Joel V. removed the hubspot popup form - we don';'t need it for now
+	// if (fields.getPricingForm) {
+	// 	try {
+	// 		hubSpotForm = JSON.parse(fields.getPricingForm)
+	// 	} catch (e) {
+	// 		console.warn("Error parsing hubspot form on pricing packages modele", fields.getPricingForm, e)
+	// 	}
+	// }
 
 
 	const gqlQuery = gql(`
