@@ -151,27 +151,26 @@ export const PricingPackagesModuleClient = ({
 	return (
 		<>
 			<div id={topSectionIDStr}>
-				<Container className="relative z-[2] mx-auto max-w-7xl">
-					<div className="grid grid-cols-1 gap-14 lg:grid-cols-4 lg:items-start">
+				<Container className="relative z-[2] mx-auto max-w-4xl  ">
+					<div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start ">
 						{packages?.map((packageItem, index) => (
 							<div
 								key={packageItem?.contentID}
 								className={clsx(
-									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 justify-self-center border-t-4 bg-white p-8 text-center shadow-lg",
+									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 justify-self-center border-t-4 bg-white p-8 shadow-xl",
 									"lg:max-w-none",
 									index === 0
-										? "border-black"
+										? "border-slate-300"
 										: index === 1
-											? "border-t-slate-300"
-											: index === 2
-												? "border-t-highlight-light"
-												: "border-t-secondary"
+											? "border-t-secondary"
+											: "border-t-highlight-light"
+
 								)}
 							>
-								<div className="flex items-center justify-center gap-2">
-									<h2 className="text-2xl font-bold">{packageItem?.fields?.title}</h2>
+								<div className="flex items-center  gap-2 w-full">
+									<h2 className="text-2xl font-semibold text-left ">{packageItem?.fields?.title}</h2>
 									{packageItem?.fields?.isMostPopular && (
-										<div className="flex items-center gap-1 rounded bg-background p-0.5 px-1 text-xs text-highlight-light">
+										<div className="flex items-center gap-1 font-semibold italic rounded bg-background p-1 px-2 text-xs text-highlight-light">
 											<IconStarFilled size={12} />
 											Most Popular
 										</div>
@@ -179,48 +178,49 @@ export const PricingPackagesModuleClient = ({
 								</div>
 
 								{/* icon */}
-								<img
+								{/*
+								MOD JOELV - removed the icon to go back to the design from 2021
+								 <img
 									src={packageItem?.fields?.icon?.url}
 									alt={packageItem?.fields?.icon?.label || ""}
 									className="h-14 w-14"
-								/>
+								/> */}
 
 								{/* descriptions */}
 								<div className="flex flex-1 flex-col">
-									<div className="min-h-[162px]">
-										<div className="font-bold">{packageItem?.fields?.pricingPlan}</div>
+									<div className="min-h-[162pxX]">
+										<h3 className="text-4xl font-bold">{packageItem?.fields?.cost}</h3>
+										<div className="text-sm mt-2">{packageItem?.fields?.pricingPlan}</div>
 
 										<div
-											className="prose mt-2 prose-p:leading-tight"
+											className="prose mt-5 prose-p:leading-tight text-sm text-slate-500"
 											dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
 										></div>
 									</div>
-									{index === 1 || index === 2 ? (
-										<div className="mt-auto text-base font-medium">{packageItem?.fields?.cost}</div>
-									) : (
-										<div className="mt-auto"></div>
-									)}
+
 								</div>
-								<div>
+								<div className="w-full">
 									<LinkButtonClient
 										type={
 											index === 0
-												? "black"
+												? "slate"
 												: index === 1
-													? "slate"
-													: index === 2
-														? "primary"
-														: "alternate"
+													? "alternate"
+													: "primary"
+
 										}
 										size={"md"}
 										href={packageItem?.fields?.cTAButton?.href}
 										target={packageItem?.fields?.cTAButton?.target}
-										onClick={(e) => {
-											if (hubSpotForm && index !== 0) {
-												setPriceDialogOpen(true)
-												e.preventDefault()
-											}
-										}}
+										//MOD: Joel V. removed the popup form trigger - we don't need it for now
+										// onClick={(e) => {
+										// 	if (hubSpotForm && index !== 0) {
+										// 		setPriceDialogOpen(true)
+										// 		e.preventDefault()
+										// 	}
+										// }}
+										className="w-full"
+
 									>
 										{packageItem?.fields?.cTAButton?.text}
 									</LinkButtonClient>
@@ -250,25 +250,24 @@ export const PricingPackagesModuleClient = ({
 							{isScrolling && <div className="">All Features</div>}
 						</h3>
 						{packages.map((packageItem, index) => {
-							if (index === 0) {
-								return null
-							}
+
 							return (
 								<div key={`listing-${packageItem?.contentID}`} className="w-52">
 									<h3 className="text-center text-2xl font-bold">{packageItem?.fields?.title}</h3>
 									{isScrolling && (
 										<div className="mt-2 hidden justify-center md:flex">
 											<LinkButtonClient
-												type={index === 1 ? "slate" : index === 2 ? "primary" : "alternate"}
+												type={index === 0 ? "slate" : index === 1 ? "alternate" : "primary"}
 												size={"sm"}
 												href={packageItem?.fields?.cTAButton?.href}
 												target={packageItem?.fields?.cTAButton?.target}
-												onClick={(e) => {
-													if (hubSpotForm) {
-														setPriceDialogOpen(true)
-														e.preventDefault()
-													}
-												}}
+											//MOD Joel V. removed the popup form trigger - we don't need it for now
+											// onClick={(e) => {
+											// 	if (hubSpotForm) {
+											// 		setPriceDialogOpen(true)
+											// 		e.preventDefault()
+											// 	}
+											// }}
 											>
 												{packageItem?.fields?.cTAButton?.text}
 											</LinkButtonClient>
@@ -324,9 +323,7 @@ export const PricingPackagesModuleClient = ({
 											</div>
 
 											{packages.map((packageItem, index) => {
-												if (index === 0) {
-													return null
-												}
+
 												//try to find the feature in the package
 												const packageFeature = features.find(
 													(f) =>
