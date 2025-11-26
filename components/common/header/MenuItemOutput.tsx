@@ -90,7 +90,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 			{({ open, close }) => (
 				<>
 					<div
-						className="group flex gap-1"
+						className="group flex"
 						onMouseEnter={() => showSubmenu(close)}
 						onMouseLeave={() => cancelShowSubmenu()}
 					>
@@ -108,13 +108,10 @@ export const MenuItemOutput = ({ link }: Props) => {
 						<PopoverButton
 							ref={refPopoverButton}
 							className={classNames(
-								"text-secondary-500 ring-0X outline-highlightX -ml-2 rounded-full text-sm font-medium leading-6",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
+								"absolute inset-0 z-20 top-4 left-4 w-[1px] h-[1px] overflow-hidden outline-none",
 							)}
 						>
-							<IconChevronDown
-								className={classNames("h-4 w-4 transition-all", open ? "rotate-180" : "rotate-0")}
-							/>
+							&nbsp;
 						</PopoverButton>
 					</div>
 					<PopoverPanel

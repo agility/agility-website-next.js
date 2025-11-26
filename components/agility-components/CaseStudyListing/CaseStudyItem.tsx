@@ -15,7 +15,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 	const isPurpleBackground = item.fields.isPurpleBackground
 	const isLong =
 		size === "md" ? index % 5 == 2 : size === "lg" ? index % 5 === 3 : size === "2xl" ? index % 5 === 4 : false
-
+	console.log("item", item)
 	if (isLong) {
 		return (
 			<Link
@@ -54,7 +54,9 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 					>
 						<div className={clsx("flex h-full flex-1 flex-col gap-8 p-8")}>
 							<div className="max-h-20 max-w-full">
-								<AgilityPic image={item.fields.customerWhiteLogo} className="object-contain" />
+								{item.fields.customerWhiteLogo && (
+									<AgilityPic image={item.fields.customerWhiteLogo} className="object-contain" />
+								)}
 							</div>
 							<h2 className="text-2xl font-medium">{item.fields.title}</h2>
 							<div className="flex-1">
@@ -87,11 +89,13 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 			{isPurpleBackground ? (
 				<div className="p-8">
 					<div className="h-20 w-3/5">
-						<AgilityPic
-							image={item.fields.customerWhiteLogo}
-							fallbackWidth={240}
-							className="h-full w-full object-contain"
-						/>
+						{item.fields.customerWhiteLogo && (
+							<AgilityPic
+								image={item.fields.customerWhiteLogo}
+								fallbackWidth={240}
+								className="h-full w-full object-contain"
+							/>
+						)}
 					</div>
 				</div>
 			) : (
@@ -114,11 +118,13 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 						]}
 					/>
 					<div className="absolute bottom-4 left-4 h-20 w-3/5">
-						<AgilityPic
-							image={item.fields.customerWhiteLogo}
-							fallbackWidth={240}
-							className="h-full w-full object-contain"
-						/>
+						{item.fields.customerWhiteLogo && (
+							<AgilityPic
+								image={item.fields.customerWhiteLogo}
+								fallbackWidth={240}
+								className="h-full w-full object-contain"
+							/>
+						)}
 					</div>
 				</div>
 			)}
