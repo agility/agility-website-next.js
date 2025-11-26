@@ -15,7 +15,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 	const isPurpleBackground = item.fields.isPurpleBackground
 	const isLong =
 		size === "md" ? index % 5 == 2 : size === "lg" ? index % 5 === 3 : size === "2xl" ? index % 5 === 4 : false
-	console.log("item", item)
+
 	if (isLong) {
 		return (
 			<Link
