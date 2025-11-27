@@ -30,14 +30,13 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 	const [activePanel, setActivePanel] = useState(0)
 	const [open, setOpen] = useState(true)
 	const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+	const isHovering = useRef(false)
 
 	// Handle resize to ensure images load properly when switching between screen sizes
 	useEffect(() => {
 		const handleResize = () => {
-			setOpen(false)
-			setTimeout(() => {
-				setOpen(true)
-			}, 50)
+			// Force re-render without flickering
+			setOpen(true)
 		}
 
 		window.addEventListener("resize", handleResize)
@@ -58,12 +57,9 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 			if (panelRef) {
 				const observer = new IntersectionObserver((entries) => {
 					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							setOpen(false)
-							setTimeout(() => {
-								setActivePanel(index)
-								setOpen(true)
-							}, 300)
+						// Only activate on scroll if not hovering
+						if (entry.isIntersecting && activePanel !== index && !isHovering.current) {
+							setActivePanel(index)
 						}
 					})
 				}, observerOptions)
@@ -76,7 +72,7 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 		return () => {
 			observers.forEach((observer) => observer.disconnect())
 		}
-	}, [panels.length])
+	}, [panels.length, activePanel])
 
 	return (
 		<div className={clsx("items-center gap-2 lg:flex", textSide === "right" ? "lg:flex-row-reverse" : "")}>
@@ -95,7 +91,13 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 								"lg:has-[:checked]:bg-background",
 								"m-auto md:w-1/2 lg:w-auto"
 							)}
-							onMouseOver={() => activatePanel(index)}
+							onMouseEnter={() => {
+								isHovering.current = true
+								activatePanel(index)
+							}}
+							onMouseLeave={() => {
+								isHovering.current = false
+							}}
 						>
 							<div className="invisible">
 								<input
@@ -106,12 +108,7 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 									value={index}
 									checked={activePanel === index}
 									onChange={() => {
-										setOpen(false)
-
-										setTimeout(() => {
-											setActivePanel(index)
-											setOpen(true)
-										}, 300)
+										setActivePanel(index)
 									}}
 								/>
 							</div>
@@ -123,7 +120,10 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 								{panel.title}
 							</h4>
 
-							<div className="absolute left-0 top-0 h-0 w-0.5 bg-highlight-light transition-all duration-300 lg:group-hover:h-full lg:peer-checked:h-full"></div>
+							<div className={clsx(
+								"absolute left-0 top-0 w-0.5 bg-highlight-light transition-all duration-300",
+								activePanel === index ? "h-full" : "h-0 lg:group-hover:h-full"
+							)}></div>
 							<div className="vertical-content-panel-desc prose mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
@@ -149,58 +149,42 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 				))}
 			</div>
 			<div className="hidden w-1/2 items-center justify-center overflow-clip lg:flex">
-				<Transition
-					show={open}
-					as={"div"}
-					className={"relative flex h-[450px] w-[450px] items-center justify-center"}
-				>
-					<TransitionChild>
-						<div
-							className={clsx(
-								"absolute left-0 top-0",
-								"transition-all duration-300 ease-in data-[closed]:duration-0",
-								"h-auto data-[closed]:h-0 data-[closed]:opacity-0",
-								"mt-0 data-[closed]:mt-10"
-							)}
-						>
-							<img
-								src="https://static.agilitycms.com/layout/static/layer-content-image.png?format=auto"
-								alt=""
-							/>
-						</div>
-					</TransitionChild>
+				<div className="relative flex h-[450px] w-[450px] items-center justify-center">
+					<div className="absolute left-0 top-0">
+						<img
+							src="https://static.agilitycms.com/layout/static/layer-content-image.png?format=auto"
+							alt=""
+						/>
+					</div>
 
-					<TransitionChild>
-						<div
-							className={clsx(
-								"transition-all duration-300 ease-in data-[closed]:duration-0",
-								"h-auto data-[closed]:h-0 data-[closed]:opacity-0",
-								"mt-0 h-full data-[closed]:mt-10",
-								"flex items-center justify-center"
-							)}
-						>
-							<div className="relative h-96 w-96">
-								{panels[activePanel]?.graphic &&
-									<>
-										{panels[activePanel].graphic.url.endsWith(".svg") ? (
-											<img
-												src={panels[activePanel].graphic.url}
-												alt=""
-												className="relative z-10 h-full bg-white object-contain"
-											/>
-										) : (
-											<AgilityPic
-												image={panels[activePanel].graphic}
-												className="relative z-10 mx-auto h-full bg-white object-contain"
-												fallbackWidth={600}
-											/>
-										)}
-									</>
-								}
-							</div>
-						</div>
-					</TransitionChild>
-				</Transition>
+					<div className="relative h-96 w-96 flex items-center justify-center">
+						{panels.map((panel, index) => (
+							panel?.graphic && (
+								<div
+									key={index}
+									className={clsx(
+										"absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-in-out",
+										activePanel === index ? "opacity-100 z-10" : "opacity-0 z-[5]"
+									)}
+								>
+									{panel.graphic.url.endsWith(".svg") ? (
+										<img
+											src={panel.graphic.url}
+											alt=""
+											className="h-full bg-white object-contain"
+										/>
+									) : (
+										<AgilityPic
+											image={panel.graphic}
+											className="mx-auto h-full bg-white object-contain"
+											fallbackWidth={600}
+										/>
+									)}
+								</div>
+							)
+						))}
+					</div>
+				</div>
 			</div>
 		</div>
 	)
