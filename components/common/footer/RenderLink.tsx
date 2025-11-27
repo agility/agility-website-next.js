@@ -35,12 +35,12 @@ export function RenderLink({ link, adjustLink }: RenderLinkProps) {
 				<Link
 					href={adjustLink(link.fields.uRL.href)}
 					target={link.fields.uRL.target}
-					className="block pb-3 text-indigo-100 hover:text-white"
+					className="block pb-3 text-purple-300 hover:text-white"
 				>
 					{link.fields.title || link.fields.uRL.text}
 				</Link>
 			) : (
-				<span className="block pb-3 text-indigo-100">{link.fields.title}</span>
+				<span className="block pb-3 text-purple-300">{link.fields.title}</span>
 			)}
 		</>
 	)

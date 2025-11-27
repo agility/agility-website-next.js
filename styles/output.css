@@ -4201,6 +4201,21 @@ h2 {
   color: rgb(24 24 27 / var(--tw-text-opacity));
 }
 
+.text-purple-100 {
+  --tw-text-opacity: 1;
+  color: rgb(243 232 255 / var(--tw-text-opacity));
+}
+
+.text-purple-200 {
+  --tw-text-opacity: 1;
+  color: rgb(233 213 255 / var(--tw-text-opacity));
+}
+
+.text-purple-300 {
+  --tw-text-opacity: 1;
+  color: rgb(216 180 254 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }

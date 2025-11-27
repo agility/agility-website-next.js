@@ -108,7 +108,7 @@ export default async function SiteFooter() {
 			<div className="bg-highlight-dark p-3 text-white">
 				<div className="mx-auto max-w-7xl lg:flex lg:flex-row-reverse lg:items-center lg:justify-between text-sm">
 
-					<div className="text-center lg:text-left">
+					<div className="text-purple-300 text-center lg:text-left">
 						{footer.fields.copyright} {year}
 					</div>
 
@@ -117,14 +117,14 @@ export default async function SiteFooter() {
 						{footer.fields.bottomLinks.map((link: any, index: number) => (
 							<div key={link.contentID}>
 								<Link
-									className="hover-shadow-white p-1 px-2"
+									className="text-purple-300 hover:text-white p-1 px-2"
 									href={link.fields.uRL.href}
 									target={link.fields.uRL.target}
 								>
 									{link.fields.title}
 								</Link>
 								{index < footer.fields.bottomLinks.length - 1 && (
-									<span className="text-white">|</span>
+									<span className="text-purple-300">|</span>
 								)}
 							</div>
 						))}
