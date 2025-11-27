@@ -114,7 +114,7 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							</div>
 							<h4
 								className={clsx(
-									"text-lg font-medium transition-colors lg:group-hover:text-highlight-light lg:peer-checked:text-highlight-light"
+									"text-base font-bold transition-colors lg:group-hover:text-highlight-light lg:peer-checked:text-highlight-light"
 								)}
 							>
 								{panel.title}
