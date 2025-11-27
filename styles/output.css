@@ -2249,10 +2249,6 @@ h2 {
   margin-left: -3rem;
 }
 
-.-ml-36 {
-  margin-left: -9rem;
-}
-
 .-mr-12 {
   margin-right: -3rem;
 }
@@ -4503,6 +4499,10 @@ h2 {
       color: rgb(69 1 168 / var(--tw-text-opacity));
     }
   }
+}
+
+.\[--anchor-gap\:12px\] {
+  --anchor-gap: 12px;
 }
 
 @media (min-width: 640px) {

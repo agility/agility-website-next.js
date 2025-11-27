@@ -33,14 +33,15 @@ export const MenuItemOutput = ({ link }: Props) => {
 		refIsMouseOnPopover.current = true
 		cancelShowSubmenu()
 		refShowSubmenuDelay.current = setTimeout(() => {
+			console.log("showSubmenu")
 			refPopoverButton.current?.click()
-		}, 150)
+		}, 50)
 	}
 
 	const cancelShowSubmenu = () => {
+		console.log("cancelShowSubmenu")
 		clearTimeout(refShowSubmenuDelay.current)
 		refIsMouseOnPopover.current = false
-		checkClosePopover()
 	}
 
 	const mouseEnterPopover = (closeMethod: () => void) => {
@@ -89,42 +90,46 @@ export const MenuItemOutput = ({ link }: Props) => {
 		<Popover className="relative">
 			{({ open, close }) => (
 				<>
-					<div
-						className="group flex"
+					<PopoverButton
+						ref={refPopoverButton}
+						as="div"
+						className="group flex cursor-pointer"
 						onMouseEnter={() => showSubmenu(close)}
-						onMouseLeave={() => cancelShowSubmenu()}
+						onMouseLeave={() => {
+							cancelShowSubmenu()
+							checkClosePopover()
+						}}
 					>
 						<Link
 							href={link.menuItem.fields.uRL.href}
 							target={link.menuItem.fields.uRL.target}
 							className={classNames(
 								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
-								//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
+								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+								open && "text-highlight"
 							)}
+							onClick={(e) => {
+								// Allow the link to work normally
+								e.stopPropagation()
+								cancelShowSubmenu()
+								checkClosePopover()
+							}}
 						>
 							<div>{link.menuItem.fields.title}</div>
 						</Link>
-						<PopoverButton
-							ref={refPopoverButton}
-							className={classNames(
-								"absolute inset-0 z-20 top-4 left-4 w-[1px] h-[1px] overflow-hidden outline-none",
-							)}
-						>
-							&nbsp;
-						</PopoverButton>
-					</div>
+					</PopoverButton>
 					<PopoverPanel
 						transition
-						anchor="bottom start"
+						anchor="bottom"
 						className={classNames(
-							"absolute z-[51] -ml-36 mt-3 bg-white shadow-lg ring-1 ring-gray-900/5",
+							"z-[51] bg-white shadow-lg ring-1 ring-gray-900/5 [--anchor-gap:12px]",
 							hasMegaContent ? "w-screen max-w-lg" : "",
 							"transition data-[closed]:translate-y-1 data-[closed]:opacity-0",
 							"data-[enter]:duration-200 data-[enter]:ease-out",
 							"data-[leave]:duration-150 data-[leave]:ease-in"
 						)}
 						onMouseEnter={() => mouseEnterPopover(close)}
+						onMouseLeave={() => mouseLeavePopover()}
 					>
 						<div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
 							<div className="flex flex-1 gap-1">
