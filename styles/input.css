@@ -48,7 +48,7 @@
 	.marketing-banner {
 		.link-line {
 			@apply ml-3;
-			color: #ffc414;
+			color: #ffc414 !important;
 			@apply font-semibold;
 			@apply transition-colors;
 
