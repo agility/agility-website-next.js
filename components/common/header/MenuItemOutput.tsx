@@ -120,9 +120,9 @@ export const MenuItemOutput = ({ link }: Props) => {
 					</PopoverButton>
 					<PopoverPanel
 						transition
-						anchor="bottom"
+						anchor="bottom start"
 						className={classNames(
-							"z-[51] bg-white shadow-lg ring-1 ring-gray-900/5 [--anchor-gap:12px]",
+							"z-[51] bg-white shadow-lg ring-1 ring-gray-900/5 [--anchor-gap:12px] [--anchor-offset:-20px]",
 							hasMegaContent ? "w-screen max-w-lg" : "",
 							"transition data-[closed]:translate-y-1 data-[closed]:opacity-0",
 							"data-[enter]:duration-200 data-[enter]:ease-out",

@@ -4505,6 +4505,10 @@ h2 {
   --anchor-gap: 12px;
 }
 
+.\[--anchor-offset\:-20px\] {
+  --anchor-offset: -20px;
+}
+
 @media (min-width: 640px) {
   .sm\:prose {
     color: var(--tw-prose-body);
