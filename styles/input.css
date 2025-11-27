@@ -63,16 +63,18 @@
 	}
 
 	.vertical-content-panel-desc {
+		@apply leading-[1.2];
+
 		a {
 			@apply text-highlight-light;
-			@apply font-semibold;
 			@apply transition-colors;
 			@apply block;
 			@apply mt-3;
 			@apply transition-colors;
+			@apply no-underline;
 
 			&:hover {
-				@apply: text-highlight-dark;
+				@apply text-highlight;
 			}
 		}
 	}

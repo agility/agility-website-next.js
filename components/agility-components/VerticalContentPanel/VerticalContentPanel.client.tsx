@@ -6,7 +6,7 @@ import { Transition, TransitionChild } from "@headlessui/react"
 import clsx from "clsx"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 
 interface VerticalPanel {
 	title: string
@@ -29,6 +29,54 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 
 	const [activePanel, setActivePanel] = useState(0)
 	const [open, setOpen] = useState(true)
+	const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+
+	// Handle resize to ensure images load properly when switching between screen sizes
+	useEffect(() => {
+		const handleResize = () => {
+			setOpen(false)
+			setTimeout(() => {
+				setOpen(true)
+			}, 50)
+		}
+
+		window.addEventListener("resize", handleResize)
+		return () => window.removeEventListener("resize", handleResize)
+	}, [])
+
+	// Set up Intersection Observer for scroll-based activation
+	useEffect(() => {
+		const observers: IntersectionObserver[] = []
+
+		const observerOptions = {
+			root: null,
+			rootMargin: "-50% 0px -50% 0px",
+			threshold: 0
+		}
+
+		panelRefs.current.forEach((panelRef, index) => {
+			if (panelRef) {
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							setOpen(false)
+							setTimeout(() => {
+								setActivePanel(index)
+								setOpen(true)
+							}, 300)
+						}
+					})
+				}, observerOptions)
+
+				observer.observe(panelRef)
+				observers.push(observer)
+			}
+		})
+
+		return () => {
+			observers.forEach((observer) => observer.disconnect())
+		}
+	}, [panels.length])
 
 	return (
 		<div className={clsx("items-center gap-2 lg:flex", textSide === "right" ? "lg:flex-row-reverse" : "")}>
@@ -36,6 +84,9 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 				{panels.map((panel, index) => (
 					<div
 						key={panel.title}
+						ref={(el) => {
+							panelRefs.current[index] = el
+						}}
 						className="flex flex-col-reverse gap-2 md:flex-row md:odd:flex-row md:even:flex-row-reverse lg:block"
 					>
 						<label
@@ -73,7 +124,7 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							</h4>
 
 							<div className="absolute left-0 top-0 h-0 w-0.5 bg-highlight-light transition-all duration-300 lg:group-hover:h-full lg:peer-checked:h-full"></div>
-							<div className="prose mt-2" dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
+							<div className="vertical-content-panel-desc prose mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
 							{panels[activePanel].graphic.url.endsWith(".svg") ? (

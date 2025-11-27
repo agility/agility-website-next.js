@@ -4480,12 +4480,10 @@ h2 {
 }
 
 .vertical-content-panel-desc {
+  line-height: 1.2;
   a {
     --tw-text-opacity: 1;
     color: rgb(88 0 212 / var(--tw-text-opacity));
-  }
-  a {
-    font-weight: 600;
   }
   a {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
@@ -4504,8 +4502,12 @@ h2 {
     transition-duration: 150ms;
   }
   a {
+    text-decoration-line: none;
+  }
+  a {
     &:hover {
-      @apply: text-highlight-dark;
+      --tw-text-opacity: 1;
+      color: rgb(69 1 168 / var(--tw-text-opacity));
     }
   }
 }
@@ -6317,10 +6319,6 @@ h2 {
 
   .md\:w-1\/3 {
     width: 33.333333%;
-  }
-
-  .md\:w-2\/3 {
-    width: 66.666667%;
   }
 
   .md\:w-32 {
