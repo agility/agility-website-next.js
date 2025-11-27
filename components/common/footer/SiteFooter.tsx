@@ -46,7 +46,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column1Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column1Links.map((link: any) => (
+									{footer.fields.column1Links?.map((link: any) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -58,7 +58,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column2Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column2Links.map((link: any) => (
+									{footer.fields.column2Links?.map((link: any) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -70,7 +70,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column3Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column3Links.map((link: any) => (
+									{footer.fields.column3Links?.map((link: any) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -82,7 +82,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column4Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column4Links.map((link: any) => (
+									{footer.fields.column4Links?.map((link: any) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -94,7 +94,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column5Title}</h4>
 								)}
 								<ul className="flex flex-col text-sm">
-									{footer.fields.column5Links.map((link: any) => (
+									{footer.fields.column5Links?.map((link: any) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
