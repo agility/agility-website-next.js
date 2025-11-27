@@ -11,7 +11,7 @@ import { Fragment, useEffect, useRef, useState } from "react"
 interface VerticalPanel {
 	title: string
 	description: string
-	graphic: ImageField
+	graphic?: ImageField
 }
 
 interface Props {
@@ -127,19 +127,23 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							<div className="vertical-content-panel-desc prose mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
-							{panels[activePanel].graphic.url.endsWith(".svg") ? (
-								<img
-									src={panels[activePanel].graphic.url}
-									alt=""
-									className="max-h-[400px] max-w-[400px]"
-								/>
-							) : (
-								<AgilityPic
-									image={panel.graphic}
-									className="max-h-[400px] max-w-[400px]"
-									fallbackWidth={400}
-								/>
-							)}
+							{panels[activePanel]?.graphic &&
+								<>
+									{panels[activePanel].graphic.url.endsWith(".svg") ? (
+										<img
+											src={panels[activePanel].graphic.url}
+											alt=""
+											className="max-h-[400px] max-w-[400px]"
+										/>
+									) : (
+										<AgilityPic
+											image={panels[activePanel].graphic}
+											className="max-h-[400px] max-w-[400px]"
+											fallbackWidth={400}
+										/>
+									)}
+								</>
+							}
 						</div>
 					</div>
 				))}
@@ -176,19 +180,23 @@ export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Prop
 							)}
 						>
 							<div className="relative h-96 w-96">
-								{panels[activePanel].graphic.url.endsWith(".svg") ? (
-									<img
-										src={panels[activePanel].graphic.url}
-										alt=""
-										className="relative z-10 h-full bg-white object-contain"
-									/>
-								) : (
-									<AgilityPic
-										image={panels[activePanel].graphic}
-										className="relative z-10 mx-auto h-full bg-white object-contain"
-										fallbackWidth={600}
-									/>
-								)}
+								{panels[activePanel]?.graphic &&
+									<>
+										{panels[activePanel].graphic.url.endsWith(".svg") ? (
+											<img
+												src={panels[activePanel].graphic.url}
+												alt=""
+												className="relative z-10 h-full bg-white object-contain"
+											/>
+										) : (
+											<AgilityPic
+												image={panels[activePanel].graphic}
+												className="relative z-10 mx-auto h-full bg-white object-contain"
+												fallbackWidth={600}
+											/>
+										)}
+									</>
+								}
 							</div>
 						</div>
 					</TransitionChild>
