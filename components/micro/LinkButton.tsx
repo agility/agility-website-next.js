@@ -6,7 +6,7 @@ interface Props {
 	href?: string
 	target?: string
 	children: React.ReactNode
-	type: "primary" | "secondary" | "secondary-bg" | "secondary-inverted" | "alternate" | "slate"
+	type: "primary" | "primary-outline" | "secondary" | "secondary-bg" | "secondary-inverted" | "alternate" | "slate"
 	size?: "sm" | "md" | "lg"
 	buttonType?: "button" | "submit" | "reset"
 	className?: string

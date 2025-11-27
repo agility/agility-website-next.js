@@ -3629,6 +3629,10 @@ h2 {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
+.bg-none {
+  background-image: none;
+}
+
 .from-background {
   --tw-gradient-from: #e9f0f5 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(233 240 245 / 0) var(--tw-gradient-to-position);
@@ -4227,6 +4231,11 @@ h2 {
 .text-indigo-100 {
   --tw-text-opacity: 1;
   color: rgb(224 231 255 / var(--tw-text-opacity));
+}
+
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
 .underline {

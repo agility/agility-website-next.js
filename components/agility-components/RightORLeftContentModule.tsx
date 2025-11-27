@@ -66,7 +66,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
-					{breadcrumb && <div className="mb-2">{breadcrumb}</div>}
+					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
 					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
 					{description && (
 						<div
@@ -76,13 +76,13 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
-							<LinkButton type="secondary-bg" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
+							<LinkButton type={darkMode ? "primary" : "primary"} href={cTA1Optional.href} target={cTA1Optional.target} size="md">
 								{cTA1Optional.text}
 							</LinkButton>
 						)}
 						{cTA2Optional && cTA2Optional.href !== "" && (
 							<LinkButton
-								type="secondary"
+								type={darkMode ? "primary" : "primary"}
 								href={cTA2Optional.href}
 								target={cTA2Optional.target}
 								size="md"
