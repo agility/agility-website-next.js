@@ -45,10 +45,10 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 						{cTA1 && cTA1.href && (
 							<>
 								<LinkButton
-									type={darkMode ? "alternate" : "secondary"}
+									type={darkMode ? "alternate" : "alternate"}
 									href={cTA1.href}
 									target={cTA1.target}
-									className={clsx("", darkMode ? "text-black" : "!bg-white")}
+									//className={clsx("", darkMode ? "text-black" : "!bg-white")}
 									size="lg"
 								>
 									{cTA1.text} <IconChevronRight />
