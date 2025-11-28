@@ -41,7 +41,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 				className={clsx(
 					"mx-auto flex max-w-5xl flex-col items-center gap-4",
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row",
-					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
+					lessVerticalWhitespace ? "md:pb-6 lg:pb-3" : "md:pb-18 py-12 lg:pb-20"
 				)}
 			>
 				<div className="flex-1">

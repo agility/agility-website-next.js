@@ -28,7 +28,7 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 		<Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
-			className={clsx("relative overflow-clip !pb-0 text-white", darkMode ? "bg-black" : "bg-highlight")}
+			className={clsx("relative overflow-clip pb-14 text-white", darkMode ? "bg-black" : "bg-highlight mt-14")}
 		>
 			<div
 				className={clsx("absolute -top-7 h-12 w-12 rotate-45", darkMode ? "bg-secondary" : "bg-white")}

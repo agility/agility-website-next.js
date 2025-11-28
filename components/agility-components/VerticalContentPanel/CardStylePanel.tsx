@@ -16,9 +16,10 @@ interface Props {
 	contentID: number
 	textSide: "right" | "left"
 	panels: VerticalPanel[]
+	darkMode: boolean
 }
 
-export const CardStylePanel = ({ contentID, panels, textSide }: Props) => {
+export const CardStylePanel = ({ contentID, panels, textSide, darkMode }: Props) => {
 	const idStr = `module-${contentID}`
 	const numCards = panels.length
 
@@ -39,7 +40,8 @@ export const CardStylePanel = ({ contentID, panels, textSide }: Props) => {
 						<div
 							className={clsx(
 								styles['vertical-card__content'],
-								"w-full max-w-7xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-white",
+								"w-full max-w-7xl mx-auto rounded-2xl overflow-hidden shadow-2xl",
+								darkMode ? "bg-gray-900" : "bg-white",
 								"flex flex-col md:flex-row items-center gap-8 px-4 py-8 md:p-12",
 								textSide === "right" ? "md:flex-row" : "md:flex-row-reverse"
 							)}
@@ -67,11 +69,17 @@ export const CardStylePanel = ({ contentID, panels, textSide }: Props) => {
 
 							{/* Text Content */}
 							<div className="flex-1 w-full">
-								<h2 className="text-xl sm:text-2xl md:text-3xl font-medium mb-4 text-center md:text-left">
+								<h2 className={clsx(
+									"text-xl sm:text-2xl md:text-3xl font-medium mb-4 text-center md:text-left",
+									darkMode ? "text-white" : "text-gray-900"
+								)}>
 									{panel.title}
 								</h2>
 								<div
-									className="vertical-content-panel-desc prose-sm md:prose "
+									className={clsx(
+										"vertical-content-panel-desc prose-sm md:prose",
+										darkMode && "prose-invert"
+									)}
 									dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}
 								/>
 							</div>

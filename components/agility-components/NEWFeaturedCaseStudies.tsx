@@ -69,47 +69,49 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 		<Container
 			id={`agility-component-${module.contentid}`}
 			data-agility-component={module.contentid}
-			className="mx-auto max-w-7xl"
-		>
-			<div
-				dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-				className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
-			></div>
 
-			<div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-				{caseStudies.map((caseStudy, index) => {
-					return (
-						<Link
-							href={`/resources/case-studies/${caseStudy.fields.uRL}`}
-							key={`fcs-${caseStudy.contentID}`}
-							className="group flex flex-col gap-3 border border-background transition-all hover:shadow-lg"
-						>
-							<div className="h-52 w-full overflow-hidden">
-								{caseStudy.fields.image && (
-									<AgilityPic
-										image={caseStudy.fields.image}
-										className="w-full object-cover transition-transform duration-200 group-hover:scale-110"
-									/>
-								)}
-							</div>
-							<h3 className="px-3 text-xl font-medium">{caseStudy.fields.title}</h3>
-							<p className="flex-1 px-3">{caseStudy.fields.excerpt}</p>
-							<div>
-								<div className="flex items-center gap-1 p-3 font-medium text-highlight-light">
-									Read More <IconChevronRight />
+		>
+			<div className="mx-auto max-w-7xl">
+				<div
+					dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+					className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
+				></div>
+
+				<div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+					{caseStudies.map((caseStudy, index) => {
+						return (
+							<Link
+								href={`/resources/case-studies/${caseStudy.fields.uRL}`}
+								key={`fcs-${caseStudy.contentID}`}
+								className="group flex flex-col gap-3 border border-background transition-all hover:shadow-lg"
+							>
+								<div className="h-52 w-full overflow-hidden">
+									{caseStudy.fields.image && (
+										<AgilityPic
+											image={caseStudy.fields.image}
+											className="w-full object-cover transition-transform duration-200 group-hover:scale-110"
+										/>
+									)}
 								</div>
-							</div>
-						</Link>
-					)
-				})}
-			</div>
-			{fields.cTAButton && (
-				<div className="mt-10 text-center">
-					<LinkButton href={fields.cTAButton?.href} type="secondary" size="md">
-						{fields.cTAButton?.text}
-					</LinkButton>
+								<h3 className="px-3 text-xl font-medium">{caseStudy.fields.title}</h3>
+								<p className="flex-1 px-3">{caseStudy.fields.excerpt}</p>
+								<div>
+									<div className="flex items-center gap-1 p-3 font-medium text-highlight-light">
+										Read More <IconChevronRight />
+									</div>
+								</div>
+							</Link>
+						)
+					})}
 				</div>
-			)}
+				{fields.cTAButton && (
+					<div className="mt-10 text-center">
+						<LinkButton href={fields.cTAButton?.href} type="secondary" size="md">
+							{fields.cTAButton?.text}
+						</LinkButton>
+					</div>
+				)}
+			</div>
 		</Container>
 	)
 }

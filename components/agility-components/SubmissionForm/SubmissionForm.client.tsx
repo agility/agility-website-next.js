@@ -56,28 +56,30 @@ export const SubmissionFormClient = ({
 	}, [loadForm])
 
 	return (
-		<Container className="bg-background">
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
-			<div className="mx-auto max-w-5xl">
-				<div className="flex flex-col gap-10 md:flex-row">
-					<div className="width-1/2 relative flex-1">
-						<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
-							<div id={divID}></div>
+		<Container >
+			<div className="bg-background relative pt-14">
+				<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
+				<div className="mx-auto max-w-5xl">
+					<div className="flex flex-col gap-10 md:flex-row">
+						<div className="width-1/2 relative flex-1">
+							<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
+								<div id={divID}></div>
+							</div>
+							<img
+								src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
+								className="absolute -right-14 -top-14"
+								alt=""
+							/>
+							<img
+								src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
+								className="absolute -bottom-14 -left-14"
+								alt=""
+							/>
 						</div>
-						<img
-							src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
-							className="absolute -right-14 -top-14"
-							alt=""
-						/>
-						<img
-							src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"
-							className="absolute -bottom-14 -left-14"
-							alt=""
-						/>
-					</div>
-					<div className="width-1/2 flex-1">
-						<h2 className="text-balance text-5xl font-medium">{leftColumnTitle}</h2>
-						<div className="prose" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
+						<div className="width-1/2 flex-1">
+							<h2 className="text-balance text-5xl font-medium">{leftColumnTitle}</h2>
+							<div className="prose" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
+						</div>
 					</div>
 				</div>
 			</div>

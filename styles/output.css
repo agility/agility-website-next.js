@@ -2409,6 +2409,14 @@ h2 {
   margin-top: 2rem;
 }
 
+.\!mb-0 {
+  margin-bottom: 0px !important;
+}
+
+.ml-8 {
+  margin-left: 2rem;
+}
+
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
@@ -3602,6 +3610,16 @@ h2 {
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
 }
 
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-0 {
   --tw-bg-opacity: 0;
 }
@@ -3655,6 +3673,12 @@ h2 {
 .from-white {
   --tw-gradient-from: #fff var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-red-400\/60 {
+  --tw-gradient-from: rgb(248 113 113 / 0.6) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(248 113 113 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
@@ -3874,6 +3898,21 @@ h2 {
   padding-right: 0.25rem;
 }
 
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.\!px-0 {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
 .\!pb-0 {
   padding-bottom: 0px !important;
 }
@@ -4000,6 +4039,26 @@ h2 {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pb-14 {
+  padding-bottom: 3.5rem;
+}
+
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.pb-7 {
+  padding-bottom: 1.75rem;
+}
+
+.pb-20 {
+  padding-bottom: 5rem;
+}
+
+.pr-8 {
+  padding-right: 2rem;
 }
 
 .text-left {
@@ -6962,6 +7021,14 @@ h2 {
     padding-bottom: 1rem;
   }
 
+  .md\:pt-6 {
+    padding-top: 1.5rem;
+  }
+
+  .md\:pb-6 {
+    padding-bottom: 1.5rem;
+  }
+
   .md\:text-left {
     text-align: left;
   }
@@ -7283,6 +7350,18 @@ h2 {
     padding-top: 3rem;
   }
 
+  .lg\:pt-3 {
+    padding-top: 0.75rem;
+  }
+
+  .lg\:pb-20 {
+    padding-bottom: 5rem;
+  }
+
+  .lg\:pb-3 {
+    padding-bottom: 0.75rem;
+  }
+
   .lg\:text-left {
     text-align: left;
   }
@@ -7370,6 +7449,11 @@ h2 {
 
   .xl\:gap-32 {
     gap: 8rem;
+  }
+
+  .xl\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   .xl\:text-2xl {

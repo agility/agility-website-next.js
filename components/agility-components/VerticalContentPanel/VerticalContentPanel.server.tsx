@@ -55,12 +55,14 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 					<CardStylePanel
 						contentID={contentID}
 						textSide={textSide}
+						darkMode={fields.darkMode === "true"}
 						panels={panels.map((p) => p.fields)}
 					/>
 				) : (
 					<VerticleStylePanel
 						contentID={contentID}
 						textSide={textSide}
+
 						panels={panels.map((p) => p.fields)}
 					/>
 				)}

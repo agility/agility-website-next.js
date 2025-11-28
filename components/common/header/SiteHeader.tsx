@@ -61,7 +61,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 		<>
 
 			{/* PRE HEADER */}
-			<div className="bg-highlight text-white py-3 hidden lg:block md:px-8 2xl:px-0">
+			<div className="bg-highlight text-white py-3 hidden lg:block px-8 2xl:px-0">
 				<div className="mx-auto max-w-7xl flex justify-between items-center">
 					{/* MARKETING MESSAGE */}
 					{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
@@ -90,7 +90,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 
 			<header
 				className={classNames(
-					"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow md:px-8 2xl:px-0",
+					"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow px-8 2xl:px-0",
 					isScrolled ? "shadow-b" : "shadow-none"
 				)}
 			>

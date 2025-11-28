@@ -23,13 +23,13 @@ export const CaseStudyContentPanel = async ({ languageCode, dynamicPageItem, mod
 	}
 
 	return (
-		<div className="px-8 lg:px-0">
+		<div className="">
 			<div className="relative flex flex-col lg:flex-row">
 				<div className="flex flex-col lg:w-3/5">
 					<div className="flex flex-1 justify-end">
 						<div
 							className={clsx(
-								"flex w-full flex-col items-center justify-center text-center lg:px-8",
+								"flex w-full flex-col items-center justify-center text-center pr-8 ml-8",
 								"lg:max-w-[calc(80rem*.625)] lg:items-start lg:text-left"
 							)}
 						>

@@ -36,7 +36,7 @@ export default async function SiteFooter() {
 
 	return (
 		<footer className="">
-			<div className="bg-highlight px-8 py-20 text-white">
+			<div className="bg-highlight px-8 pt-4 pb-14 text-white">
 				<div className="mx-auto max-w-7xl">
 					<div className="border-t border-t-white border-opacity-50"></div>
 					<div className="mt-8 gap-2 lg:flex lg:flex-wrap lg:items-start">
