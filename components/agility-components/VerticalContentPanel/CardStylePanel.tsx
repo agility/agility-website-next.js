@@ -49,21 +49,32 @@ export const CardStylePanel = ({ contentID, panels, textSide, darkMode }: Props)
 							{/* Image/Graphic - Shows first on mobile */}
 							<div className="flex-1 flex items-center justify-center w-full md:w-auto">
 								{panel.graphic && (
-									<>
-										{panel.graphic.url.endsWith(".svg") ? (
+									<div className="relative flex items-center justify-center max-w-full">
+										{/* Background image */}
+										<div className="absolute left-0 top-0">
 											<img
-												src={panel.graphic.url}
-												alt={panel.title}
-												className="max-h-[250px] md:max-h-[400px] max-w-[80%] md:max-w-full object-contain"
+												src="https://static.agilitycms.com/layout/static/layer-content-image.png?format=auto"
+												alt=""
+												className="max-h-[250px] md:max-h-[400px] max-w-[250px] md:max-w-[400px]"
 											/>
-										) : (
-											<AgilityPic
-												image={panel.graphic}
-												className="max-h-[250px] md:max-h-[400px] max-w-[80%] md:max-w-full object-contain"
-												fallbackWidth={600}
-											/>
-										)}
-									</>
+										</div>
+										{/* Main graphic overlay */}
+										<div className="relative flex items-center justify-center max-h-[200px] max-w-[200px] md:max-h-[350px] md:max-w-[350px]">
+											{panel.graphic.url.endsWith(".svg") ? (
+												<img
+													src={panel.graphic.url}
+													alt={panel.title}
+													className="max-h-full max-w-full object-contain"
+												/>
+											) : (
+												<AgilityPic
+													image={panel.graphic}
+													className="max-h-full max-w-full object-contain"
+													fallbackWidth={600}
+												/>
+											)}
+										</div>
+									</div>
 								)}
 							</div>
 

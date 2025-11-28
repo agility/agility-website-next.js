@@ -128,17 +128,17 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 							<div className="vertical-content-panel-desc prose mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
-							{panels[activePanel]?.graphic &&
+							{panel?.graphic &&
 								<>
-									{panels[activePanel].graphic.url.endsWith(".svg") ? (
+									{panel.graphic.url.endsWith(".svg") ? (
 										<img
-											src={panels[activePanel].graphic.url}
+											src={panel.graphic.url}
 											alt=""
 											className="max-h-[400px] max-w-[400px]"
 										/>
 									) : (
 										<AgilityPic
-											image={panels[activePanel].graphic}
+											image={panel.graphic}
 											className="max-h-[400px] max-w-[400px]"
 											fallbackWidth={400}
 										/>
