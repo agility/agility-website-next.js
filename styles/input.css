@@ -2,14 +2,39 @@
 || Global styles & custom css can be written here.
 */
 
-/* Import tailwind base styles */
-@tailwind base;
+/* Import Tailwind v4 */
+@import "tailwindcss";
 
-/* Import tailwind component styles */
-@tailwind components;
+/* Import Tailwind Typography plugin */
+@plugin "@tailwindcss/typography";
 
-/* Import tailwind utility styles */
-@tailwind utilities;
+@source "./app/**/*.{js,ts,jsx,tsx}";
+@source "./components/**/*.{js,ts,jsx,tsx}";
+
+/* Theme customizations */
+@theme {
+	/* Font family */
+	--font-sans: var(--font-mulish);
+
+	/* Font weights */
+	--font-weight-medium: 600;
+
+	/* Font sizes */
+	--font-size-5xl: 2.5rem;
+
+	/* Box shadows */
+	--shadow-b: 0 5px 8px -1px rgba(0, 0, 0, 0.1);
+
+	/* Custom colors */
+	--color-transparent: transparent;
+	--color-primaryHighlight: #f4f4f4;
+	--color-primary: #2a3846;
+	--color-secondary: #ffc414;
+	--color-highlight: #4501A8;
+	--color-highlight-dark: #370286;
+	--color-highlight-light: #5800d4;
+	--color-background: #e9f0f5;
+}
 
 @layer base {
 	h1 {
@@ -63,18 +88,28 @@
 	}
 
 	.vertical-content-panel-desc {
-		@apply leading-[1.25] !important;
+		@apply !leading-[1.25];
 
 		a {
-			@apply text-highlight-light;
 			@apply transition-colors;
 			@apply block;
 			@apply mt-3;
-			@apply transition-colors;
 			@apply no-underline;
 
 			&:hover {
 				@apply text-highlight;
+			}
+		}
+
+		&:not(.prose-invert) a {
+			@apply text-highlight-light;
+		}
+
+		&.prose-invert {
+			color: var(--tw-prose-invert-body);
+
+			a {
+				@apply text-secondary;
 			}
 		}
 	}

@@ -133,9 +133,9 @@ export const MenuItemOutput = ({ link }: Props) => {
 						onMouseLeave={() => mouseLeavePopover()}
 					>
 
-						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white shadow-lg rounded-sm ring-1  ring-black ring-opacity-5"></div>
+						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white shadow-lg ring-1  ring-black/5 "></div>
 						<div className="absolute left-10 top-4 z-[3] h-5 w-5 -translate-y-1/2 rotate-45 bg-white rounded-sm"></div>
-						<div className="relative shadow-lg z-[2] ring-1  ring-black ring-opacity-5 bg-gradient-to-b from-white via-white to-gray-100">
+						<div className="relative shadow-lg z-[2] ring-1  ring-black/5  bg-gradient-to-b from-white via-white to-gray-100">
 
 							<div className="flex flex-1 gap-1">
 								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">

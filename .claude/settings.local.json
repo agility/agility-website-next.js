@@ -4,7 +4,15 @@
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_take_screenshot",
       "mcp__playwright__browser_evaluate",
-      "WebFetch(domain:scroll-driven-animations.style)"
+      "WebFetch(domain:scroll-driven-animations.style)",
+      "Bash(yarn add:*)",
+      "Bash(yarn build:tw:*)",
+      "Bash(yarn tailwindcss --help:*)",
+      "Bash(npx tailwindcss --help:*)",
+      "Bash(npx @tailwindcss/cli:*)",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click"
     ],
     "deny": [],
     "ask": []

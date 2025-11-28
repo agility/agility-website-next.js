@@ -24,7 +24,7 @@ export const CardStylePanel = ({ contentID, panels, textSide, darkMode }: Props)
 	const numCards = panels.length
 
 	return (
-		<div className="vertical-content-panel-container">
+		<div className="vertical-content-panel-container vertical-content-panel-container--card-style">
 			<ul
 				className={clsx(styles['vertical-cards-list'], "list-none p-0 m-0")}
 				style={{ "--numcards": numCards } as React.CSSProperties}
