@@ -30,6 +30,7 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 	const [activePanel, setActivePanel] = useState(0)
 	const [open, setOpen] = useState(true)
 	const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+	const containerRef = useRef<HTMLDivElement | null>(null)
 	const isHovering = useRef(false)
 
 	// Handle resize to ensure images load properly when switching between screen sizes
@@ -75,7 +76,7 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 	}, [panels.length, activePanel])
 
 	return (
-		<div className={clsx("items-center gap-2 lg:flex", textSide === "right" ? "lg:flex-row-reverse" : "")}>
+		<div ref={containerRef} className={clsx("vertical-content-panel-container--vertical-style items-center gap-2 lg:flex", textSide === "right" ? "lg:flex-row-reverse" : "")}>
 			<div className="lg:flex lg:w-1/2 lg:flex-col">
 				{panels.map((panel, index) => (
 					<div
