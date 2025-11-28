@@ -6,53 +6,38 @@ import { LogoItem } from "./LogoListingModule.server"
 import Link from "next/link"
 import { Fragment } from "react"
 
-import "./logo-listing.css"
+import "./LogoListingModule.css"
 
 interface Props {
 	logos: LogoItem[]
 }
 
 export const LogoListingModuleClient = ({ logos }: Props) => {
-	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, dragFree: true }, [
+	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, dragFree: false, skipSnaps: true }, [
 		Autoplay({ playOnInit: true, delay: 5000 })
 	])
 
 	return (
-		<div className="logo-listing embla">
+		<div className="logo-listing-module embla">
 			<div className="embla__viewport" ref={emblaRef}>
 				<div className="embla__container">
 					{logos.map((logo, index) => {
-						let src = `${logo.logo.url}?format=auto&h=128`
+						let src = `${logo.logo.url}?format=auto&w=400`
 						if (logo.logo.url.endsWith(".svg")) src = logo.logo.url
 
 						return (
 							<div className="embla__slide flex items-center justify-center" key={index}>
-								{logo.uRL ? (
-									<Link
-										href={logo.uRL.href}
-										target={logo.uRL.target}
-										title={logo.uRL.text || logo.title}
-									className="my-3 block"
-								>
+
+								<div className="my-3 ">
 									{/* eslint-disable-next-line @next/next/no-img-element */}
-									<img 
-										src={src} 
-										alt={logo.logo.label || logo.title} 
-										className="w-32" 
+									<img
+										src={src}
+										alt={logo.title}
+										className="w-full"
 										loading="lazy"
 									/>
-								</Link>
-								) : (
-									<div className="my-3">
-										{/* eslint-disable-next-line @next/next/no-img-element */}
-										<img 
-											src={src} 
-											alt={logo.title} 
-											className="h-16 w-auto" 
-											loading="lazy"
-										/>
-									</div>
-								)}
+								</div>
+
 							</div>
 						)
 					})}

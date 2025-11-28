@@ -1,13 +1,13 @@
-.logo-listing.embla {
-	max-width: 70rem;
+.logo-listing-module.embla {
+	max-width: 100%;
 	margin: auto;
 	--slide-height: 19rem;
-	--slide-spacing: 1rem;
-	--slide-size: 200px;
-	--slide-spacing-sm: 1.6rem;
-	--slide-size-sm: 200px;
-	--slide-spacing-lg: 2rem;
-	--slide-size-lg: 200px;
+	--slide-spacing: 1.5rem;
+	--slide-size: 125px;
+	--slide-spacing-sm: 2rem;
+	--slide-size-sm: 150px;
+	--slide-spacing-lg: 3rem;
+	--slide-size-lg: 175px;
 
 	.embla__viewport {
 		overflow: hidden;
