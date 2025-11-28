@@ -114,6 +114,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 								cancelShowSubmenu()
 								checkClosePopover()
 							}}
+
 						>
 							<div>{link.menuItem.fields.title}</div>
 						</Link>
@@ -122,7 +123,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 						transition
 						anchor="bottom start"
 						className={classNames(
-							"z-[51] bg-white shadow-lg ring-1 ring-gray-900/5 [--anchor-gap:12px] [--anchor-offset:-20px]",
+							"z-[51]  [--anchor-gap:0px] [--anchor-offset:-20px] p-3 ",
 							hasMegaContent ? "w-screen max-w-lg" : "",
 							"transition data-[closed]:translate-y-1 data-[closed]:opacity-0",
 							"data-[enter]:duration-200 data-[enter]:ease-out",
@@ -131,9 +132,13 @@ export const MenuItemOutput = ({ link }: Props) => {
 						onMouseEnter={() => mouseEnterPopover(close)}
 						onMouseLeave={() => mouseLeavePopover()}
 					>
-						<div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
+
+						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white shadow-lg rounded-sm ring-1  ring-black ring-opacity-5"></div>
+						<div className="absolute left-10 top-4 z-[3] h-5 w-5 -translate-y-1/2 rotate-45 bg-white rounded-sm"></div>
+						<div className="relative shadow-lg z-[2] ring-1  ring-black ring-opacity-5 bg-gradient-to-b from-white via-white to-gray-100">
+
 							<div className="flex flex-1 gap-1">
-								<div className="relative grid min-w-[260px] gap-5 bg-white px-6 py-7">
+								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
 									{link.subMenuList?.map((subLink) => (
 										<Link
 											key={subLink.contentID}
@@ -236,6 +241,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 								)}
 							</div>
 						</div>
+
 					</PopoverPanel>
 				</>
 			)}
