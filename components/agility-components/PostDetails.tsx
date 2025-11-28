@@ -172,7 +172,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 							}}
 						/>
 
-						<div className="mt-10 lg:mt-96">
+						<div className="mt-10 lg:mt-60">
 							<h3 className="text-center text-xl font-medium lg:text-left">
 								{post.titleRelatedResources}
 							</h3>

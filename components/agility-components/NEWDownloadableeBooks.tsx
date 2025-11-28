@@ -86,55 +86,57 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 	const resources = data["resources"] as IMiniResource[]
 
 	return (
-		<div className="bg-gradient-to-b from-background/40 to-white">
-			<Container className="mx-auto flex max-w-7xl flex-col">
-				<div className="flex w-full justify-center">
-					<div
-						className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
-						dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-					/>
-				</div>
+		<div className="py-14">
+			<div className="bg-linear-to-b from-background/40 to-white">
+				<Container className="mx-auto flex max-w-7xl flex-col">
+					<div className="flex w-full justify-center">
+						<div
+							className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+							dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+						/>
+					</div>
 
-				<div className="mt-8 flex w-full flex-col items-center justify-center gap-6 lg:flex-row lg:items-start">
-					{resources.map((resource, index) => {
-						const url = `/resources/${resource.fields.resourceType.fields.title?.toLowerCase().replace(/ /g, "-")}/${resource.fields.uRL}`
+					<div className="mt-8 flex w-full flex-col items-center justify-center gap-6 lg:flex-row lg:items-start">
+						{resources.map((resource, index) => {
+							const url = `/resources/${resource.fields.resourceType.fields.title?.toLowerCase().replace(/ /g, "-")}/${resource.fields.uRL}`
 
-						return (
-							<div key={`top-book-${resource.contentID}`} className="flex w-80 flex-col">
-								<Link
-									href={url}
-									className="group bg-cover bg-no-repeat p-7"
-									style={{ backgroundImage: "url(/images/features/downloadable-pattern.svg)" }}
-								>
-									<AgilityPic
-										image={resource.fields.bookCover}
-										fallbackWidth={400}
-										className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
-									/>
-								</Link>
-								<h3 className="min-h-16 text-balance text-center text-xl font-medium">
-									{resource.fields.title}
-								</h3>
-								<p className="line-clamp-2 text-left">{resource.fields.excerpt}</p>
-								<div className="mt-4">
+							return (
+								<div key={`top-book-${resource.contentID}`} className="flex w-80 flex-col">
 									<Link
 										href={url}
-										className="flex items-center gap-1 font-medium text-highlight-light hover:text-highlight-dark"
+										className="group bg-cover bg-no-repeat p-7"
+										style={{ backgroundImage: "url(/images/features/downloadable-pattern.svg)" }}
 									>
-										Download
-										<IconChevronRight size={20} stroke={2} />
+										<AgilityPic
+											image={resource.fields.bookCover}
+											fallbackWidth={400}
+											className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
+										/>
 									</Link>
+									<h3 className="min-h-16 text-balance text-center text-xl font-medium">
+										{resource.fields.title}
+									</h3>
+									<p className="line-clamp-2 text-left">{resource.fields.excerpt}</p>
+									<div className="mt-4">
+										<Link
+											href={url}
+											className="flex items-center gap-1 font-medium text-highlight-light hover:text-highlight-dark"
+										>
+											Download
+											<IconChevronRight size={20} stroke={2} />
+										</Link>
+									</div>
 								</div>
-							</div>
-						)
-					})}
-				</div>
-				<div className="mt-8 flex justify-center">
-					<LinkButton type="secondary" size="md" href={fields.cTAButton?.href}>
-						{fields.cTAButton?.text}
-					</LinkButton>
-				</div>
-			</Container>
+							)
+						})}
+					</div>
+					<div className="mt-8 flex justify-center">
+						<LinkButton type="secondary" size="md" href={fields.cTAButton?.href}>
+							{fields.cTAButton?.text}
+						</LinkButton>
+					</div>
+				</Container>
+			</div>
 		</div>
 	)
 }
