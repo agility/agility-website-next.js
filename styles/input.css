@@ -63,7 +63,7 @@
 	}
 
 	.vertical-content-panel-desc {
-		@apply leading-[1.2];
+		@apply leading-[1.25] !important;
 
 		a {
 			@apply text-highlight-light;

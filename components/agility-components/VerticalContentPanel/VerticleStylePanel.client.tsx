@@ -20,7 +20,7 @@ interface Props {
 	panels: VerticalPanel[]
 }
 
-export const VerticalContentPanelClient = ({ contentID, panels, textSide }: Props) => {
+export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 	const idStr = `module-${contentID}`
 
 	const activatePanel = (index: number) => {

@@ -4,8 +4,9 @@ import { Container } from "components/micro/Container"
 
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
-import { VerticalContentPanelClient } from "./VerticalContentPanel.client"
+import { CardStylePanel } from "./CardStylePanel"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { VerticleStylePanel } from "./VerticleStylePanel.client"
 
 interface VerticalPanel {
 	title: string
@@ -17,6 +18,8 @@ interface IVerticalContentPanel {
 	title?: string
 	description?: string
 	textSide: "right" | "left"
+	cardStyle: "true" | "false"
+	darkMode: "true" | "false"
 	verticalContentPanels: {
 		referencename: string
 		fulllist: boolean
@@ -36,7 +39,7 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 	const panels = resPanels.items as ContentItem<VerticalPanel>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
+		<div id={`${contentID}`} data-agility-component={contentID} className="px-1 sm:px-8 pt-14">
 			<div className="mx-auto max-w-5xl text-center">
 				{title && <h1 className="text-balance text-4xl">{title}</h1>}
 				{description && (
@@ -48,12 +51,20 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 			</div>
 
 			<div className="mx-auto mt-14 max-w-7xl">
-				<VerticalContentPanelClient
-					contentID={contentID}
-					textSide={textSide}
-					panels={panels.map((p) => p.fields)}
-				/>
+				{fields.cardStyle === "true" ? (
+					<CardStylePanel
+						contentID={contentID}
+						textSide={textSide}
+						panels={panels.map((p) => p.fields)}
+					/>
+				) : (
+					<VerticleStylePanel
+						contentID={contentID}
+						textSide={textSide}
+						panels={panels.map((p) => p.fields)}
+					/>
+				)}
 			</div>
-		</Container>
+		</div>
 	)
 }
