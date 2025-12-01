@@ -52,7 +52,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 	if (!header) {
 		return (
 			<header className="relative p-8 text-center">
-				<p className="font-bold text-gray-400">No Header Available</p>
+				<p className="font-bold text-gray-400 dark:text-gray-500">No Header Available</p>
 			</header>
 		)
 	}
@@ -90,7 +90,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 
 			<header
 				className={classNames(
-					"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow px-8 2xl:px-0",
+					"sticky top-0 z-50 mx-auto w-full bg-white dark:bg-gray-900 transition-shadow px-8 2xl:px-0",
 					isScrolled ? "shadow-b" : "shadow-none"
 				)}
 			>
@@ -127,7 +127,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 								onClick={() => setOpen(!open)}
 								aria-label="Toggle Menu"
 								type="button"
-								className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+								className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 dark:text-gray-500 transition duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-500 dark:hover:text-gray-400 focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-500 dark:focus:text-gray-400 focus:outline-none"
 							>
 								{/* <!-- Heroicon name: menu --> */}
 								<svg
@@ -173,6 +173,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 										href={header.fields.primaryButton.href}
 										target={header.fields.primaryButton.target}
 										type="secondary"
+										className="dark:!bg-secondary dark:!ring-secondary dark:!text-gray-900 dark:hover:!bg-secondary"
 									>
 										{header.fields.primaryButton.text}
 									</LinkButton>
@@ -196,7 +197,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 					<div className="fixed inset-0 z-[51]" />
 					<DialogPanel
 						className={classNames(
-							"fixed inset-y-0 right-0 z-[52] w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+							"fixed inset-y-0 right-0 z-[52] w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:sm:ring-gray-100/10"
 						)}
 					>
 						<div className="flex items-center justify-between">
@@ -207,7 +208,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 							<button
 								type="button"
 								onClick={() => setOpen(false)}
-								className="-m-2.5 rounded-md p-2.5 text-gray-700"
+								className="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300"
 							>
 								<span className="sr-only">Close menu</span>
 								<IconX aria-hidden="true" className="h-6 w-6" />
@@ -221,13 +222,13 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											//has sub menu
 											return (
 												<Disclosure as="div" key={`mobile-${index}`} className="-mx-3">
-													<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+													<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">
 														<Link
 															onClick={() => setOpen(false)}
 															href={link.menuItem.fields.uRL.href}
 															target={link.menuItem.fields.uRL.target}
 															key={`mobile-${index}`}
-															className="transition-colors hover:text-highlight"
+															className="transition-colors hover:text-highlight dark:hover:text-secondary"
 														>
 															{link.menuItem.fields.title}
 														</Link>
@@ -243,7 +244,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 																as="a"
 																href={subLink.fields.uRL.href}
 																onClick={() => setOpen(false)}
-																className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary transition-all hover:bg-gray-50 hover:text-highlight"
+																className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary dark:text-gray-300 transition-all hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-highlight dark:hover:text-secondary"
 															>
 																{subLink.fields.title}
 															</DisclosureButton>
@@ -258,7 +259,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 													href={link.menuItem.fields.uRL.href}
 													target={link.menuItem.fields.uRL.target}
 													key={`mobile-${index}`}
-													className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+													className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-highlight dark:hover:text-secondary transition-colors"
 													onClick={() => setOpen(false)}
 												>
 													{link.menuItem.fields.title}
@@ -289,6 +290,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 												href={header.fields.primaryButton.href}
 												target={header.fields.primaryButton.target}
 												type="secondary"
+												className="dark:!bg-secondary dark:!ring-secondary dark:!text-gray-900 dark:hover:!bg-secondary"
 												onClick={() => setOpen(false)}
 											>
 												{header.fields.primaryButton.text}

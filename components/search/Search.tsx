@@ -212,13 +212,13 @@ function SearchDialog({
 		>
 			<DialogBackdrop
 				transition
-				className="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in "
+				className="fixed inset-0 bg-zinc-400/25 dark:bg-zinc-900/50 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in "
 			/>
 
 			<div className="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
 				<DialogPanel
 					transition
-					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl  "
+					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 dark:bg-gray-800 shadow-xl ring-1 ring-zinc-900/7.5 dark:ring-gray-100/10 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl  "
 				>
 					<div {...autocomplete.getRootProps({})}>
 						<form
@@ -235,7 +235,7 @@ function SearchDialog({
 							/>
 							<div
 								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden  max-h-96 overflow-y-auto"
+								className="border-t border-zinc-200 dark:border-gray-700 bg-white dark:bg-gray-900 empty:hidden  max-h-96 overflow-y-auto"
 								{...autocomplete.getPanelProps({})}
 							>
 								{autocompleteState.isOpen && (
@@ -320,11 +320,11 @@ export function MobileSearch() {
 		<div className="contents lg:hidden">
 			<button
 				type="button"
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none lg:hidden  outline-violet-600"
+				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-gray-100/10 ui-not-focus-visible:outline-none lg:hidden  outline-violet-600"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 " />
+				<SearchIcon className="h-5 w-5 stroke-zinc-900 dark:stroke-gray-100 " />
 			</button>
 			<Suspense fallback={null}>
 				<SearchDialog className="lg:hidden" {...dialogProps} />

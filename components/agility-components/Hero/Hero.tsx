@@ -43,8 +43,8 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 				{fields.mediaType === "animation" && fields.animation && <HeroAnimation animation={fields.animation} />}
 
 				{fields.heading && <h1 className="text-6xl font-black text-highlight-light">{fields.heading}</h1>}
-				{fields.subHeading && <h2 className="mt-2 text-5xl font-bold text-black">{fields.subHeading}</h2>}
-				{fields.content && <p className="mt-3">{fields.content}</p>}
+				{fields.subHeading && <h2 className="mt-2 text-5xl font-bold text-black dark:text-white">{fields.subHeading}</h2>}
+				{fields.content && <p className="mt-3 dark:text-gray-300">{fields.content}</p>}
 				{fields.cTA && (
 					<LinkButton
 						type="alternate"

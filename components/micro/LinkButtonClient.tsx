@@ -49,7 +49,7 @@ export const LinkButtonClient = ({
 					: type === "secondary"
 						? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
 						: type === "alternate"
-							? "bg-secondary ring-2 ring-secondary ring-inset"
+							? "bg-secondary ring-2 ring-secondary ring-inset text-gray-900 dark:text-gray-900"
 							: type === "slate"
 								? "bg-slate-500 ring-2 ring-slate-500 ring-inset text-white"
 								: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",

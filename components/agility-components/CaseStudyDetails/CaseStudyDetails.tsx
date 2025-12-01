@@ -57,7 +57,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 			<Container >
 				<div className="mx-auto max-w-7xl">
 					<div className="lg:flex lg:flex-row-reverse">
-						<div className="bg-background/60 p-6 lg:w-1/3 lg:bg-white lg:p-0">
+						<div className="bg-background/60 dark:bg-gray-800/60 p-6 lg:w-1/3 lg:bg-white dark:lg:bg-gray-800 lg:p-0">
 							{caseStudy.website && (
 								<>
 									<div className="font-bold">Website</div>

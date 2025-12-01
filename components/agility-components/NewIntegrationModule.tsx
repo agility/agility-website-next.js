@@ -61,7 +61,7 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 
 	const partners = data[fields.integrationPartners.referencename] as IIntegration[]
 	return (
-		<div className="bg-background">
+		<div className="bg-background dark:bg-gray-900 pb-14">
 			<Container className="mx-auto max-w-6xl">
 				<div
 					className={clsx(
@@ -70,11 +70,11 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 					)}
 				>
 					<div className="flex w-full flex-col gap-5 lg:w-1/3">
-						<h2 className="text-balance text-4xl">{fields.title}</h2>
-						<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}></div>
+						<h2 className="text-balance text-4xl dark:text-white">{fields.title}</h2>
+						<div className="prose dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}></div>
 						{fields.cTA1Optional && (
 							<div>
-								<LinkButton href={fields.cTA1Optional.href} className="mt-4" type="secondary" size="md">
+								<LinkButton href={fields.cTA1Optional.href} className="mt-4 dark:bg-secondary! dark:text-gray-900! dark:hover:bg-secondary! ring-secondary" type="secondary" size="md">
 									{fields.cTA1Optional.text}
 								</LinkButton>
 							</div>
@@ -85,7 +85,7 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 							<Link
 								href={`/partners/integrations/${partner.fields.uRL}`}
 								key={partner.contentID}
-								className="group flex items-center justify-center bg-white p-4"
+								className="group flex items-center justify-center bg-white dark:bg-gray-800 p-4 rounded-lg"
 								title={partner.fields.title}
 							>
 								<AgilityPic

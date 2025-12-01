@@ -50,7 +50,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 			)}
 			<div className="mx-auto max-w-5xl text-center">
 				{section && (
-					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500">
+					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500 dark:text-gray-400">
 						{section}
 					</h5>
 				)}
@@ -91,7 +91,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 								type="secondary"
 								href={cTA2.href}
 								target={cTA2.target}
-								className="mt-8"
+								className="mt-8 dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary"
 								size="md"
 							>
 								{cTA2.text}

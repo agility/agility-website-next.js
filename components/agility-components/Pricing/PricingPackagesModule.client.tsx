@@ -157,7 +157,7 @@ export const PricingPackagesModuleClient = ({
 							<div
 								key={packageItem?.contentID}
 								className={clsx(
-									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 justify-self-center border-t-4 bg-white p-8 shadow-xl",
+									"flex h-full w-full max-w-[400px] flex-col items-center gap-6 justify-self-center border-t-4 bg-white dark:bg-gray-800 p-8 shadow-xl",
 									"lg:max-w-none",
 									index === 0
 										? "border-slate-300"
@@ -168,9 +168,9 @@ export const PricingPackagesModuleClient = ({
 								)}
 							>
 								<div className="flex items-center  gap-2 w-full">
-									<h2 className="text-2xl font-semibold text-left ">{packageItem?.fields?.title}</h2>
+									<h2 className="text-2xl font-semibold text-left dark:text-white">{packageItem?.fields?.title}</h2>
 									{packageItem?.fields?.isMostPopular && (
-										<div className="flex items-center gap-1 font-semibold italic rounded bg-background p-1 px-2 text-xs text-highlight-light">
+										<div className="flex items-center gap-1 font-semibold italic rounded bg-background dark:bg-gray-700 p-1 px-2 text-xs text-highlight-light dark:text-secondary">
 											<IconStarFilled size={12} />
 											Most Popular
 										</div>
@@ -189,11 +189,11 @@ export const PricingPackagesModuleClient = ({
 								{/* descriptions */}
 								<div className="flex flex-1 flex-col">
 									<div className="min-h-[162pxX]">
-										<h3 className="text-4xl font-bold">{packageItem?.fields?.cost}</h3>
-										<div className="text-sm mt-2">{packageItem?.fields?.pricingPlan}</div>
+										<h3 className="text-4xl font-bold dark:text-white">{packageItem?.fields?.cost}</h3>
+										<div className="text-sm mt-2 dark:text-gray-300">{packageItem?.fields?.pricingPlan}</div>
 
 										<div
-											className="prose mt-5 prose-p:leading-tight text-sm text-slate-500"
+											className="prose dark:prose-invert mt-5 prose-p:leading-tight text-sm text-slate-500 dark:text-gray-400"
 											dangerouslySetInnerHTML={renderHTMLCustom(packageItem?.fields?.description)}
 										></div>
 									</div>
@@ -230,30 +230,30 @@ export const PricingPackagesModuleClient = ({
 					</div>
 				</Container>
 
-				<div className="-mt-44 min-h-72 bg-slate-50 pt-52">
+				<div className="-mt-44 min-h-72 bg-slate-50 dark:bg-gray-900 pt-52">
 					<div id={headerIDstr}>
 						{comparePackagesTitle && (
-							<h2 className="text-balance text-center text-5xl">{comparePackagesTitle}</h2>
+							<h2 className="text-balance text-center text-5xl dark:text-white">{comparePackagesTitle}</h2>
 						)}
 						<ThreeDashLine />
 					</div>
 				</div>
 			</div>
 
-			<div className="bg-slate-50 pt-6">
+			<div className="bg-slate-50 dark:bg-gray-900 pt-6">
 				<div
 					id={idStr}
-					className="sticky top-[83px] z-10 mb-3 gap-4 border-b border-b-slate-300 bg-slate-50 py-3"
+					className="sticky top-[83px] z-10 mb-3 gap-4 border-b border-b-slate-300 dark:border-b-gray-700 bg-slate-50 dark:bg-gray-900 py-3"
 				>
 					<div className="mx-auto flex max-w-7xl justify-center px-8">
-						<h3 className="hidden flex-1 items-center text-xl font-bold lg:block">
+						<h3 className="hidden flex-1 items-center text-xl font-bold dark:text-white lg:block">
 							{isScrolling && <div className="">All Features</div>}
 						</h3>
 						{packages.map((packageItem, index) => {
 
 							return (
 								<div key={`listing-${packageItem?.contentID}`} className="w-52">
-									<h3 className="text-center text-2xl font-bold">{packageItem?.fields?.title}</h3>
+									<h3 className="text-center text-2xl font-bold dark:text-white">{packageItem?.fields?.title}</h3>
 									{isScrolling && (
 										<div className="mt-2 hidden justify-center md:flex">
 											<LinkButtonClient
@@ -282,14 +282,14 @@ export const PricingPackagesModuleClient = ({
 					{listPricingByCategory.map((catFeature, index) => (
 						<Disclosure as="div" key={`cats-${catFeature.category.id}`} className="group" defaultOpen>
 							{index > 0 && (
-								<DisclosureButton className="my-4 flex w-full items-center justify-between bg-background/70 p-3 transition-all hover:bg-background">
-									<h4 className="text-lg font-semibold text-highlight-light">
+								<DisclosureButton className="my-4 flex w-full items-center justify-between bg-background/70 dark:bg-gray-800/70 p-3 transition-all hover:bg-background dark:hover:bg-gray-800">
+									<h4 className="text-lg font-semibold text-highlight-light dark:text-secondary">
 										{catFeature.category.categoryName}
 									</h4>
 									<div>
 										<IconChevronDown
 											stroke={2.5}
-											className="text-highlight-light transition-transform duration-300 ease-in-out group-data-[open]:-rotate-180"
+											className="text-highlight-light dark:text-secondary transition-transform duration-300 ease-in-out group-data-[open]:-rotate-180"
 										/>
 									</div>
 								</DisclosureButton>
@@ -304,14 +304,14 @@ export const PricingPackagesModuleClient = ({
 									<Fragment key={feature.contentID}>
 										<div className="pt-1 lg:hidden">
 											<h5
-												className="font-medium"
+												className="font-medium dark:text-white"
 												dangerouslySetInnerHTML={renderHTMLCustom(feature.fields.title)}
 											></h5>
 										</div>
-										<div className="my-2 flex justify-center bg-background/70 p-1 transition-all lg:my-0 lg:bg-background/0 lg:p-0 lg:hover:bg-background/70">
+										<div className="my-2 flex justify-center bg-background/70 dark:bg-gray-800/70 p-1 transition-all lg:my-0 lg:bg-background/0 dark:lg:bg-transparent lg:p-0 lg:hover:bg-background/70 dark:lg:hover:bg-gray-800/70">
 											<div className="hidden flex-1 p-3 lg:block">
 												<h5
-													className="font-bold"
+													className="font-bold dark:text-white"
 													dangerouslySetInnerHTML={renderHTMLCustom(feature.fields.title)}
 												></h5>
 												<div
@@ -337,15 +337,15 @@ export const PricingPackagesModuleClient = ({
 														className="flex w-52 items-center justify-center"
 													>
 														{packageFeature?.fields.textValue ? (
-															<div className="text-center lg:font-medium">
+															<div className="text-center lg:font-medium dark:text-gray-300">
 																{packageFeature?.fields.textValue}
 															</div>
 														) : packageFeature?.fields.trueFalseValue ? (
 															<div className="flex justify-center">
-																<IconSquareCheckFilled className="text-highlight-light" />
+																<IconSquareCheckFilled className="text-highlight-light dark:text-secondary" />
 															</div>
 														) : (
-															<div>-</div>
+															<div className="dark:text-gray-600">-</div>
 														)}
 													</div>
 												)

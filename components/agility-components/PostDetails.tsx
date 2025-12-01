@@ -78,7 +78,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	return (
 		<Container >
 			<article className="mx-auto max-w-7xl">
-				<time className="text-slate-600">{dateStr}</time>
+				<time className="text-slate-600 dark:text-gray-400">{dateStr}</time>
 				<h1 className="mt-5 text-balance text-4xl font-medium">{post.title}</h1>
 				<h2 className="mt-5 text-balance text-lg font-medium">{post.subTitle}</h2>
 

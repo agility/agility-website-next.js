@@ -12,7 +12,7 @@ export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, modul
 	const logo = partner.partnerLogo || partner.logo
 
 	return (
-		<div className="bg-highlight-light text-white">
+		<div className="bg-highlight-light text-white pb-14 dark:bg-gray-800">
 			<Container className="">
 				<div className="mx-auto max-w-7xl">
 					<div className="flex flex-col items-center lg:flex-row">

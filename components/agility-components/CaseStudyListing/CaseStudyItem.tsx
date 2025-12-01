@@ -128,18 +128,18 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 					</div>
 				</div>
 			)}
-			<div className={clsx("flex flex-1 flex-col p-8", isPurpleBackground ? "" : "border-2 border-t-0")}>
-				<h2 className="mt-1 text-2xl font-medium">{item.fields.title}</h2>
+			<div className={clsx("flex flex-1 flex-col p-8 transition-colors group-hover:bg-gray-50 dark:group-hover:bg-gray-700/50", isPurpleBackground ? "" : "border-2 border-t-0 border-background dark:border-gray-700 bg-white dark:bg-gray-800")}>
+				<h2 className={clsx("mt-1 text-2xl font-medium transition-colors group-hover:text-highlight-light dark:group-hover:text-highlight-light", isPurpleBackground ? "" : "dark:text-white")}>{item.fields.title}</h2>
 				<div className="mt-3 flex-1">
-					<p className="line-clamp-3">{item.fields.excerpt}</p>
+					<p className={clsx("line-clamp-3", isPurpleBackground ? "" : "dark:text-gray-300")}>{item.fields.excerpt}</p>
 				</div>
 
 				<div
 					className={clsx(
-						"mt-3 flex items-center gap-1",
+						"mt-3 flex items-center gap-1 font-semibold",
 						isPurpleBackground
 							? ""
-							: "text-highlight-dark transition-colors group-hover:text-highlight-light"
+							: "text-highlight-dark dark:text-highlight-light transition-colors group-hover:text-highlight-light dark:group-hover:text-secondary"
 					)}
 				>
 					Read More

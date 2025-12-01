@@ -18,18 +18,18 @@ export const ScheduleADemo = async ({ module, languageCode }: UnloadedModuleProp
 	return (
 		<div
 			id="scheduler-page"
-			className="bg-background/40"
+			className="bg-background/40 dark:bg-gray-900 "
 			style={{
 				backgroundImage: "url(/images/icon-agility.svg)",
 				backgroundRepeat: "no-repeat",
-				backgroundPosition: "left bottom"
+				backgroundPosition: "left bottom",
 			}}
 		>
 			<Container className="mx-auto my-12 flex max-w-7xl">
 				<div className="my-8 flex w-full flex-col gap-5 lg:flex-row">
 					<div className="lg:w-2/5">
 						<div
-							className="prose lg:prose-lg"
+							className="prose lg:prose-lg dark:prose-invert"
 							dangerouslySetInnerHTML={renderHTMLCustom(fields.leftPanelContent)}
 						></div>
 					</div>

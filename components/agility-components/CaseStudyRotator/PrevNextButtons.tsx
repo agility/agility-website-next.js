@@ -50,11 +50,11 @@ export const PrevButton: React.FC<PropType> = (props) => {
 
 	return (
 		<button
-			className="pointer-events-auto group rounded-full p-1 hover:bg-gray-100/25 transition-all -ml-12 lg:ml-0 hover:scale-110"
+			className="pointer-events-auto cursor-pointer group rounded-full p-1 hover:bg-gray-100/25 transition-all -ml-12 lg:ml-0 hover:scale-110"
 			type="button"
 			{...restProps}
 		>
-			<IconChevronLeft className="h-10 w-10 group-hover:text-highlight-light transition-all" />
+			<IconChevronLeft className="h-10 w-10 group-hover:text-highlight-light dark:group-hover:text-gray-200 transition-all" />
 			{children}
 		</button>
 	)
@@ -65,11 +65,11 @@ export const NextButton: React.FC<PropType> = (props) => {
 
 	return (
 		<button
-			className="pointer-events-auto group rounded-full p-1 hover:bg-gray-100/25 transition-all -mr-12 lg:mr-0 hover:scale-110"
+			className="pointer-events-auto cursor-pointer group rounded-full p-1 hover:bg-gray-100/25 transition-all -mr-12 lg:mr-0 hover:scale-110"
 			type="button"
 			{...restProps}
 		>
-			<IconChevronRight className="h-10 w-10 group-hover:text-highlight-light transition-all" />
+			<IconChevronRight className="h-10 w-10 group-hover:text-highlight-light dark:group-hover:text-gray-200 transition-all" />
 			{children}
 		</button>
 	)

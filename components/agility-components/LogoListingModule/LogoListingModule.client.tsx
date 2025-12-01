@@ -28,7 +28,7 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 						return (
 							<div className="embla__slide flex items-center justify-center" key={index}>
 
-								<div className="my-3 ">
+								<div className="my-3 p-2 rounded-2xl dark:bg-white">
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img
 										src={src}

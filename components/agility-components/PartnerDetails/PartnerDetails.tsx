@@ -96,9 +96,9 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 			<div className="mx-auto max-w-7xl">
 				<div className="flex flex-col lg:flex-row">
 					<div className="lg:w-2/3">
-						<h2 className="text-3xl font-medium">{heading}</h2>
+						<h2 className="text-3xl font-medium dark:text-white">{heading}</h2>
 						<div
-							className="prose mt-4"
+							className="prose dark:prose-invert mt-4"
 							dangerouslySetInnerHTML={renderHTMLCustom(partner.textblob || partner.overviewContent)}
 						></div>
 
@@ -108,12 +108,12 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 									<div key={item.contentID} className="mt-8">
 										<div className="flex gap-4">
 											<div className="pt-1">
-												<IconCheckbox className="text-highlight-light" size={20} />
+												<IconCheckbox className="text-highlight-light dark:text-secondary" size={20} />
 											</div>
 											<div>
-												<h3 className="text-lg font-medium">{item.fields.heading}</h3>
+												<h3 className="text-lg font-medium dark:text-white">{item.fields.heading}</h3>
 												<div
-													className="prose mt-2"
+													className="prose dark:prose-invert mt-2"
 													dangerouslySetInnerHTML={renderHTMLCustom(item.fields.description)}
 												></div>
 											</div>
@@ -125,22 +125,22 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 						{partner.quote && (
 							<div
-								className="max-2 mt-10 rounded-md border border-highlight-light p-4"
+								className="max-2 mt-10 rounded-md border border-highlight-light dark:border-gray-700 p-4"
 								style={{ maxWidth: "65ch" }}
 							>
-								<IconQuote size={24} className="text-highlight-dark" />
-								<div className="mt-4">{partner.quote}</div>
+								<IconQuote size={24} className="text-highlight-dark dark:text-gray-400" />
+								<div className="mt-4 dark:text-gray-300">{partner.quote}</div>
 							</div>
 						)}
 					</div>
-					<div className="mt-10 bg-background/60 p-8 lg:mt-0 lg:w-1/3 lg:bg-white lg:p-0">
+					<div className="mt-10 bg-background/60 dark:bg-gray-900 p-8 lg:mt-0 lg:w-1/3 lg:bg-white dark:lg:bg-gray-900 lg:p-0">
 						{websiteLink && (
 							<>
-								<div className="font-bold">Website</div>
+								<div className="font-bold dark:text-white">Website</div>
 								<div className="mt-2 flex flex-wrap gap-1">
 									<a
 										href={websiteLink.href}
-										className="text-highlight-light hover:text-highlight-dark"
+										className="text-highlight-light dark:text-secondary hover:text-highlight-dark dark:hover:text-secondary"
 										target="_blank"
 										rel="noreferrer"
 									>
@@ -152,13 +152,13 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 						{customTags.length > 0 && (
 							<>
-								<div className="mt-8 font-bold">Region</div>
+								<div className="mt-8 font-bold dark:text-white">Region</div>
 								<div className="mt-2 flex flex-wrap gap-1">
 									{customTags.map((tag: any) => (
 										<Link
 											key={tag.contentID}
 											href={`../implementation?region=${encodeURIComponent(tag.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-											className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+											className="rounded bg-background dark:bg-gray-700 dark:text-gray-200 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 										>
 											{tag.fields.title}
 										</Link>
@@ -169,13 +169,13 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 						{partner.integrationType && partner.integrationType.length > 0 && (
 							<>
-								<div className="mt-8 font-bold">Integration Type</div>
+								<div className="mt-8 font-bold dark:text-white">Integration Type</div>
 								<div className="mt-2 flex flex-wrap gap-1">
 									{partner.integrationType.map((tag: any) => (
 										<Link
 											key={tag.contentID}
 											href={`/partners/integrations?integration=${encodeURIComponent(tag.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-											className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+											className="rounded bg-background dark:bg-gray-700 dark:text-gray-200 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 										>
 											{tag.fields.title}
 										</Link>
@@ -186,7 +186,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 						{documentationItems.length > 0 && (
 							<>
-								<div className="mt-8 font-bold">Documentation</div>
+								<div className="mt-8 font-bold dark:text-white">Documentation</div>
 								<div className="mt-2 flex flex-wrap gap-1">
 									{documentationItems
 										.filter((item: any) => item.fields.uRL)
@@ -194,7 +194,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 											<Link
 												key={item.contentID}
 												href={item.fields.uRL.href}
-												className="text-highlight-light hover:text-highlight-dark"
+												className="text-highlight-light dark:text-secondary hover:text-highlight-dark dark:hover:text-secondary"
 											>
 												{item.fields.uRL.text}
 											</Link>
@@ -204,9 +204,9 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 						)}
 
 						{fields.cTAButton && (
-							<div className="mt-14 bg-highlight-light px-6 py-8 text-center">
+							<div className="mt-14 bg-highlight-light dark:bg-gray-800 px-6 py-8 text-center">
 								<div
-									className="prose prose-invert"
+									className="prose prose-invert dark:prose-invert"
 									dangerouslySetInnerHTML={renderHTMLCustom(fields.cTAContent)}
 								></div>
 								<div className="mt-6">
@@ -247,7 +247,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 				{otherPartnersFiltered.length > 0 && (
 					<div>
-						<h2 className="mt-14 text-center text-3xl font-medium">{fields.titleMorePartners}</h2>
+						<h2 className="mt-14 text-center text-3xl font-medium dark:text-white">{fields.titleMorePartners}</h2>
 						<div className="mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row">
 							{otherPartnersFiltered.map((item) => (
 								<div key={item.contentID} className="flex flex-col md:w-[400px] lg:w-[300px] xl:w-[480px]">

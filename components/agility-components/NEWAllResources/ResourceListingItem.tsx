@@ -18,7 +18,7 @@ export const ResourceListingItem = ({ item, index, size }: Props) => {
 		<Link
 			className={clsx(
 				"group mb-8 flex flex-col md:mb-0",
-				"border border-background transition-all hover:shadow-lg"
+				"border border-background dark:border-gray-700 bg-white dark:bg-gray-800 transition-all hover:shadow-lg"
 			)}
 			href={url}
 			key={item.contentID}
@@ -44,9 +44,9 @@ export const ResourceListingItem = ({ item, index, size }: Props) => {
 			</div>
 
 			<div className={clsx("flex flex-1 flex-col p-8", "")}>
-				<h2 className="mt-1 text-2xl font-medium">{item.fields.title}</h2>
+				<h2 className="mt-1 text-2xl font-medium dark:text-white">{item.fields.title}</h2>
 				<div className="mt-3 flex-1">
-					<p className="line-clamp-3">{item.fields.excerpt}</p>
+					<p className="line-clamp-3 dark:text-gray-300">{item.fields.excerpt}</p>
 				</div>
 
 				<div

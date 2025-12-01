@@ -34,7 +34,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 		<Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
-			className="bg-gradient-to-b from-background/60 to-white/0"
+			className="bg-gradient-to-b from-background/60 dark:from-gray-800/60 to-white/0 dark:to-gray-900/0"
 		>
 			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
 				<h2 className="text-balance text-center text-5xl font-medium">{fields.title}</h2>
@@ -63,7 +63,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 								</div>
 							)}
 							{fields.panel1UncheckedContent && (
-								<div className="flex items-start gap-3 text-gray-500">
+								<div className="flex items-start gap-3 text-gray-500 dark:text-gray-400">
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>
@@ -89,7 +89,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 								</div>
 							)}
 							{fields.panel2UncheckedContent && (
-								<div className="flex items-start gap-3 text-gray-500">
+								<div className="flex items-start gap-3 text-gray-500 dark:text-gray-400">
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>
@@ -115,7 +115,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 								</div>
 							)}
 							{fields.panel3UncheckedContent && (
-								<div className="flex items-start gap-3 text-gray-500">
+								<div className="flex items-start gap-3 text-gray-500 dark:text-gray-400">
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>

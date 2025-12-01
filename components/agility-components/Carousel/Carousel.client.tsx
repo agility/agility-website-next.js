@@ -89,8 +89,8 @@ export const CarouselClient = ({ items }: Props) => {
 						})}
 					</div>
 				</div>
-				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
-				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
+				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
+				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
 				<div className="pointer-events-none absolute top-[45%] flex w-full justify-between px-4 lg:px-14">
 					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
 					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />

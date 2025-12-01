@@ -56,7 +56,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) =>
 									<div className="embla__slide__number relative mx-4 h-[320px] overflow-clip lg:h-[450px] xl:h-[550px]">
 										<div
 											className="absolute left-0 top-0 h-full w-full bg-cover transition-all group-hover:scale-105"
-											// style={{ backgroundImage: `url(${imgUrl})` }}
+										// style={{ backgroundImage: `url(${imgUrl})` }}
 										>
 											<AgilityPic
 												image={caseStudy.image}
@@ -122,8 +122,8 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) =>
 						})}
 					</div>
 				</div>
-				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
-				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
+				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
+				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
 				<div className="pointer-events-none absolute top-[45%] flex w-full justify-between px-4 lg:px-14">
 					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
 					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />

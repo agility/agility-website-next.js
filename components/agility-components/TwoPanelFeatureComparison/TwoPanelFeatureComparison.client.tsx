@@ -57,13 +57,13 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 	return (
 		<>
 			<div className="sticky top-6 z-10 hidden pt-14 md:block">
-				<div className="flex justify-center border-b border-b-gray-500">
+				<div className="flex justify-center border-b border-b-gray-500 dark:border-b-gray-700">
 					<button
 						className={clsx(
 							"flex-1 p-3 pr-12 text-right font-bold transition-colors",
 							selectedGroup === 0
-								? "bg-background text-highlight-light"
-								: "bg-gray-800 text-gray-600 hover:bg-background hover:text-highlight-light"
+								? "bg-background dark:bg-gray-900 text-highlight-light dark:text-secondary"
+								: "bg-gray-800 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-background dark:hover:bg-gray-900 hover:text-highlight-light dark:hover:text-secondary"
 						)}
 						onClick={() => {
 							setSelectedGroup(0)
@@ -76,8 +76,8 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 						className={clsx(
 							"flex-1 p-3 pl-12 text-left font-bold transition-colors",
 							selectedGroup === 1
-								? "bg-black text-secondary"
-								: "bg-gray-300 text-gray-400 hover:bg-black hover:text-secondary"
+								? "bg-black dark:bg-gray-800 text-secondary"
+								: "bg-gray-300 dark:bg-gray-700 text-gray-400 dark:text-gray-500 hover:bg-black dark:hover:bg-gray-800 hover:text-secondary"
 						)}
 						onClick={() => {
 							setSelectedGroup(1)
@@ -90,7 +90,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 			</div>
 			<div
 				className={clsx(
-					"border-b border-b-gray-400 bg-background p-4 text-center font-bold text-highlight-light md:hidden"
+					"border-b border-b-gray-400 dark:border-b-gray-700 bg-background dark:bg-gray-900 p-4 text-center font-bold text-highlight-light dark:text-secondary md:hidden"
 				)}
 				onClick={() => {
 					setSelectedGroup(0)
@@ -99,7 +99,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 			>
 				{group1Title}
 			</div>
-			<div id={idStr1} className="bg-background">
+			<div id={idStr1} className="bg-background dark:bg-gray-900">
 				<Container className="mx-auto max-w-5xl">
 					{/* output group 1 */}
 					{group1Panels?.map((panel, index) => {
@@ -128,22 +128,22 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 									<img src={img2} alt="" className="absolute left-0 top-0 -mb-[100%] max-w-full" />
 								</div>
 								<div className="flex-1">
-									<h3 className="text-4xl">{panel.fields.title}</h3>
+									<h3 className="text-4xl dark:text-white">{panel.fields.title}</h3>
 									<div
-										className="prose prose-lg mt-4"
+										className="prose prose-lg dark:prose-invert mt-4"
 										dangerouslySetInnerHTML={renderHTMLCustom(panel.fields.description)}
 									></div>
 									<div className="mt-4 flex flex-col gap-2">
 										{panel.fields.checkedItems?.map((item, index) => (
 											<div
 												key={item.contentID}
-												className="flex items-center gap-2 bg-white px-3 py-2"
+												className="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-2"
 											>
 												{/* <div className="h-6 w-6 rounded-full bg-highlight-light"></div> */}
-												<IconCheckbox size={20} stroke={2} className="text-highlight" />
+												<IconCheckbox size={20} stroke={2} className="text-highlight dark:text-secondary" />
 												<div>
-													<h4 className="">{item.fields.title}</h4>
-													<p>{item.fields.textblob}</p>
+													<h4 className="dark:text-white">{item.fields.title}</h4>
+													<p className="dark:text-gray-300">{item.fields.textblob}</p>
 												</div>
 											</div>
 										))}
@@ -157,15 +157,15 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 			{/* so the intersection observer will work */}
 
 			<div className="">
-				<div className="h-14 bg-background"></div>
+				<div className="h-14 bg-background dark:bg-gray-900"></div>
 				<div
 					className={clsx(
-						"border-b border-b-slate-600 bg-black p-4 text-center font-bold text-secondary md:hidden"
+						"border-b border-b-slate-600 dark:border-b-gray-700 bg-black dark:bg-gray-800 p-4 text-center font-bold text-secondary md:hidden"
 					)}
 				>
 					{group2Title}
 				</div>
-				<div id={idStr2} className="bg-black">
+				<div id={idStr2} className="bg-black dark:bg-gray-800">
 					<Container className="mx-auto max-w-5xl">
 						{/* output group 2 */}
 						{group2Panels?.map((panel, index) => {
@@ -194,22 +194,22 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 										<img src={img2} alt="" className="absolute bottom-0 right-0 max-w-full" />
 									</div>
 									<div className="flex-1">
-										<h3 className="text-4xl text-white">{panel.fields.title}</h3>
+										<h3 className="text-4xl text-white dark:text-white">{panel.fields.title}</h3>
 										<div
-											className="prose prose-lg prose-invert mt-4"
+											className="prose prose-lg prose-invert dark:prose-invert mt-4"
 											dangerouslySetInnerHTML={renderHTMLCustom(panel.fields.description)}
 										></div>
 										<div className="mt-4 flex flex-col gap-2">
 											{panel.fields.checkedItems?.map((item, index) => (
 												<div
 													key={item.contentID}
-													className="flex items-center gap-2 bg-slate-700 px-3 py-2 text-white"
+													className="flex items-center gap-2 bg-slate-700 dark:bg-gray-700 px-3 py-2 text-white dark:text-white"
 												>
 													{/* <div className="h-6 w-6 rounded-full bg-highlight-light"></div> */}
-													<IconCheckbox size={20} stroke={2} className="text-secondary" />
+													<IconCheckbox size={20} stroke={2} className="text-secondary dark:text-secondary" />
 													<div>
-														<h4 className="">{item.fields.title}</h4>
-														<p>{item.fields.textblob}</p>
+														<h4 className="dark:text-white">{item.fields.title}</h4>
+														<p className="dark:text-gray-300">{item.fields.textblob}</p>
 													</div>
 												</div>
 											))}

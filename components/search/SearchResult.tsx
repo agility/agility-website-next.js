@@ -30,8 +30,8 @@ export function SearchResult({
 	return (
 		<li
 			className={clsx(
-				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 ',
-				resultIndex > 0 && 'border-t border-zinc-100 ',
+				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 dark:aria-selected:bg-gray-800 ',
+				resultIndex > 0 && 'border-t border-zinc-100 dark:border-gray-700 ',
 			)}
 			aria-labelledby={`${id}-hierarchy ${id}-title`}
 			{...autocomplete.getItemProps({
@@ -42,7 +42,7 @@ export function SearchResult({
 			<div
 				id={`${id}-title`}
 				aria-hidden="true"
-				className="text-base font-medium text-zinc-900 group-aria-selected:text-highlight-dark "
+				className="text-base font-medium text-zinc-900 dark:text-gray-100 group-aria-selected:text-highlight-dark "
 			>
 				<HighlightQuery text={result.title} query={query} />
 			</div>
@@ -56,7 +56,7 @@ export function SearchResult({
 				<div
 					id={`${id}-hierarchy`}
 					aria-hidden="true"
-					className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500"
+					className="mt-1 truncate whitespace-nowrap text-2xs text-zinc-500 dark:text-gray-400"
 				>
 					{result.__autocomplete_indexName == "doc_site" && (
 						<div className='text-xs'>
