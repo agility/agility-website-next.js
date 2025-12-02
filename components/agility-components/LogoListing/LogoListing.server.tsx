@@ -40,7 +40,7 @@ export const LogoListing = async ({ module, languageCode }: UnloadedModuleProps)
 				<div className="flex justify-center">
 					{heading && (
 						<div className="mb-5">
-							<h2 className="mb-3 text-balance text-5xl font-medium leading-10 sm:leading-tight">
+							<h2 className="mb-3 text-balance text-5xl font-medium leading-10 sm:leading-tight dark:text-white">
 								{heading}
 							</h2>
 							<ThreeDashLine />

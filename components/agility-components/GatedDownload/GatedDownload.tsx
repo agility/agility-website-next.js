@@ -21,11 +21,11 @@ export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProp
 	return (
 		<Container className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
 			<div className="lg:w-1/2">
-				<h2 className="text-balance text-4xl font-medium">{fields.leftColumnTitle}</h2>
-				<div className="prose mt-10" dangerouslySetInnerHTML={renderHTMLCustom(fields.leftColumnBody)}></div>
+				<h2 className="text-balance text-4xl font-medium dark:text-white">{fields.leftColumnTitle}</h2>
+				<div className="prose mt-10 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(fields.leftColumnBody)}></div>
 			</div>
 			<div className="lg:w-1/2">
-				<div className="border-t-4 border-t-highlight-light p-6 shadow-lg">
+				<div className="border-t-4 border-t-highlight-light dark:border-t-secondary p-6 shadow-lg dark:bg-gray-800">
 					<GatedDownloadClient redirectURL={fields.redirectURL.href} hubspotForm={fields.hubspotForm} />
 				</div>
 			</div>

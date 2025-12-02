@@ -16,10 +16,10 @@ export const PodcastDetail = async ({ module, languageCode, dynamicPageItem }: U
 	return (
 		<Container >
 			<div className="mx-auto max-w-7xl">
-				<h1 className="text-balance text-4xl font-medium leading-tight">{podcast.title}</h1>
+				<h1 className="text-balance text-4xl font-medium leading-tight dark:text-white">{podcast.title}</h1>
 				<div className="mt-5 flex items-center gap-2">
-					<div className="font-medium">EPISODE #{podcast.episodeNumber}</div>
-					<time className="text-slate-500" dateTime={podcast.date}>
+					<div className="font-medium dark:text-gray-300">EPISODE #{podcast.episodeNumber}</div>
+					<time className="text-slate-500 dark:text-gray-400" dateTime={podcast.date}>
 						{dateStr}
 					</time>
 				</div>
@@ -38,7 +38,7 @@ export const PodcastDetail = async ({ module, languageCode, dynamicPageItem }: U
 
 				<div className="mt-5" dangerouslySetInnerHTML={renderHTMLCustom(podcast.embed)}></div>
 
-				<div className="prose mx-auto mt-5" dangerouslySetInnerHTML={renderHTMLCustom(podcast.textblob)}></div>
+				<div className="prose mx-auto mt-5 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(podcast.textblob)}></div>
 			</div>
 		</Container>
 	)

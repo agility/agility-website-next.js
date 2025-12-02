@@ -42,12 +42,12 @@ export const LatestPosts = async ({ module, languageCode }: UnloadedModuleProps)
 	return (
 		<Container>
 			<div className="mx-auto max-w-7xl">
-				<h2 className="text-balance text-center text-4xl font-medium">{fields.title}</h2>
+				<h2 className="text-balance text-center text-4xl font-medium dark:text-white">{fields.title}</h2>
 				<div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{posts.map((post, index) => (
 						<Link
 							key={post.contentID}
-							className="group flex flex-col transition-shadow hover:shadow-lg"
+							className="group flex flex-col transition-shadow hover:shadow-lg dark:bg-gray-800"
 							href={`/blog/${post.fields.uRL}`}
 						>
 							{post.fields.postImage && (
@@ -59,16 +59,16 @@ export const LatestPosts = async ({ module, languageCode }: UnloadedModuleProps)
 									/>
 								</div>
 							)}
-							<div className="flex flex-1 flex-col gap-3 border border-t-0 border-background p-5">
-								<h3 className="text-balance text-xl font-semibold">{post.fields.title}</h3>
+							<div className="flex flex-1 flex-col gap-3 border border-t-0 border-background dark:border-gray-700 p-5">
+								<h3 className="text-balance text-xl font-semibold dark:text-white">{post.fields.title}</h3>
 								<div className="flex-1">
 									<div
-										className="prose prose-slate line-clamp-3 prose-p:leading-snug"
+										className="prose prose-slate line-clamp-3 prose-p:leading-snug dark:prose-invert"
 										dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
 									></div>
 								</div>
 								<div className="flex justify-center">
-									<div className="border-2 border-highlight-light px-4 py-2 font-medium text-highlight-light">
+									<div className="border-2 border-highlight-light dark:border-secondary px-4 py-2 font-medium text-highlight-light dark:text-secondary">
 										{fields.readMoreLabel}
 									</div>
 								</div>

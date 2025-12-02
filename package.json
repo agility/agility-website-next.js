@@ -16,7 +16,8 @@
 		"start": "next start",
 		"crawl": "tsx node/crawl.ts",
 		"lint": "next lint",
-		"generate": "graphql-codegen"
+		"generate": "graphql-codegen",
+		"test:dark-mode": "node dark-mode-testing/test-dark-mode-automated.js"
 	},
 	"engines": {
 		"node": ">=20.x"
@@ -66,6 +67,7 @@
 		"@netlify/blobs": "^8.0.0",
 		"@netlify/functions": "^3.0.0",
 		"@parcel/watcher": "^2.4.1",
+		"@playwright/test": "^1.57.0",
 		"@tailwindcss/cli": "^4.1.17",
 		"@tailwindcss/typography": "^0.5.19",
 		"@types/he": "^1.2.3",
@@ -82,6 +84,7 @@
 		"he": "^1.2.0",
 		"lightningcss-cli": "^1.28.2",
 		"npm-run-all": "^4.1.5",
+		"playwright": "^1.57.0",
 		"postcss": "^8.4.19",
 		"prettier": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.5",

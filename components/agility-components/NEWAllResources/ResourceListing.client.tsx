@@ -124,7 +124,7 @@ export const ResourceListingClient = ({
 
 			<div className="relative mb-12 mt-8">
 				<div className="max-w-screen-7xl mx-auto">
-					{items.length === 0 && <div className="text-center text-lg">No resources found.</div>}
+					{items.length === 0 && <div className="text-center text-lg dark:text-gray-300">No resources found.</div>}
 					{items.length > 0 && (
 						<>
 							<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">

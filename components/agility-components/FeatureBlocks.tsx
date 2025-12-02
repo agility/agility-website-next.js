@@ -96,26 +96,26 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 								<Link
 									href={feature.fields.bottomLink?.href || "#"}
 									key={feature.contentID}
-									className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
+									className="flex flex-col items-center gap-4 border border-background dark:border-gray-700 dark:bg-gray-800 p-6 pt-7 shadow-md transition-all hover:shadow-lg"
 								>
 									{/* these are always SVGs, so no need to formatting */}
 									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
-									<h2 className="text-lg font-medium">{feature.fields.title}</h2>
-									<h3>{feature.fields.subtitle}</h3>
-									<p className="flex-1">{feature.fields.textBlob}</p>
+									<h2 className="text-lg font-medium dark:text-white">{feature.fields.title}</h2>
+									<h3 className="dark:text-gray-300">{feature.fields.subtitle}</h3>
+									<p className="flex-1 dark:text-gray-300">{feature.fields.textBlob}</p>
 								</Link>
 							)
 						} else {
 							return (
 								<div
 									key={feature.contentID}
-									className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
+									className="flex flex-col items-center gap-4 border border-background dark:border-gray-700 dark:bg-gray-800 p-6 pt-7 shadow-md transition-all hover:shadow-lg"
 								>
 									{/* these are always SVGs, so no need to formatting */}
 									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
-									<h2 className="text-lg font-medium">{feature.fields.title}</h2>
-									<h3>{feature.fields.subtitle}</h3>
-									<p className="flex-1">{feature.fields.textBlob}</p>
+									<h2 className="text-lg font-medium dark:text-white">{feature.fields.title}</h2>
+									<h3 className="dark:text-gray-300">{feature.fields.subtitle}</h3>
+									<p className="flex-1 dark:text-gray-300">{feature.fields.textBlob}</p>
 								</div>
 							)
 						}

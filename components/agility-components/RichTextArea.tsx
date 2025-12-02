@@ -31,7 +31,7 @@ const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 				<div
 					data-agility-field="textblob"
 					data-agility-html
-					className="prose prose-sm my-6 !max-w-none sm:prose lg:prose-lg xl:prose-xl"
+					className="prose prose-sm my-6 !max-w-none sm:prose lg:prose-lg xl:prose-xl dark:prose-invert"
 					dangerouslySetInnerHTML={renderHTMLCustom(textblob)}
 				></div>
 			</div>

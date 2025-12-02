@@ -35,8 +35,8 @@ export const PodcastContentPanel = async ({ module, languageCode }: UnloadedModu
 						)}
 					</div>
 					<div>
-						<h1 className="text-balance text-4xl font-medium">{fields.title}</h1>
-						<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
+						<h1 className="text-balance text-4xl font-medium dark:text-white">{fields.title}</h1>
+						<div className="prose mt-5 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
 					</div>
 				</div>
 			</div>

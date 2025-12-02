@@ -45,7 +45,7 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 
 	const calloutTextColor = () => {
 		switch (fields?.theme) {
-			case "secondary": return "";
+			case "secondary": return "dark:text-gray-900";
 			case "primary": return "text-white";
 			case "highlight": return "text-white";
 			default: return "text-white"

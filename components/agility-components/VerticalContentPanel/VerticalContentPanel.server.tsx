@@ -41,10 +41,10 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 	return (
 		<div id={`${contentID}`} data-agility-component={contentID} className="px-1 sm:px-8 pt-14">
 			<div className="mx-auto max-w-5xl text-center">
-				{title && <h1 className="text-balance text-4xl">{title}</h1>}
+				{title && <h1 className="text-balance text-4xl dark:text-white">{title}</h1>}
 				{description && (
 					<div
-						className="vertical-content-panel-desc mt-3 text-xl"
+						className="vertical-content-panel-desc mt-3 text-xl dark:text-gray-300 dark:prose-invert"
 						dangerouslySetInnerHTML={renderHTMLCustom(description)}
 					/>
 				)}

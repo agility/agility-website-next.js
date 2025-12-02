@@ -20,8 +20,8 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 			<div className="mx-auto max-w-7xl pb-14">
 				<div className="gap-5 lg:flex lg:flex-row">
 					<div className="flex-1">
-						<h1 className="text-balance text-5xl font-medium">{starter.name}</h1>
-						<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(starter.details)}></div>
+						<h1 className="text-balance text-5xl font-medium dark:text-white">{starter.name}</h1>
+						<div className="prose mt-5 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(starter.details)}></div>
 						<div className="mt-10">
 							<AgilityPic
 								image={starter.image}
@@ -36,7 +36,7 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 					</div>
 					<div className="mx-auto mt-5 w-full lg:mt-0 lg:w-80">
 						{framework && (
-							<div className="x-2 relative mx-auto w-64 rounded border border-background/60 bg-white p-4 shadow">
+							<div className="x-2 relative mx-auto w-64 rounded border border-background/60 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow">
 								{frameWorkSvgUrl ? (
 									<img src={frameWorkSvgUrl} alt={framework.fields.logo.label} className="w-full" />
 								) : (
@@ -46,12 +46,12 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 						)}
 						<div
 							className={clsx(
-								"space-y-5 border-b-2 border-b-highlight-light bg-background p-8",
+								"space-y-5 border-b-2 border-b-highlight-light dark:border-b-secondary bg-background dark:bg-gray-800 p-8",
 								framework ? "-mt-20 pt-36" : ""
 							)}
 						>
-							<div className="font-bold">{starter.name}</div>
-							<div className="text-slate-500">{starter.description}</div>
+							<div className="font-bold dark:text-white">{starter.name}</div>
+							<div className="text-slate-500 dark:text-gray-300">{starter.description}</div>
 							<div>
 								<LinkButton type="primary" size="md" href={starter.startfreeproject.href} target="_blank">
 									{starter.startfreeproject.text}
@@ -62,12 +62,12 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 						<div className="p-6">
 							{starter.previewURL && (
 								<>
-									<div className="mt-5 font-bold">Live Preview</div>
+									<div className="mt-5 font-bold dark:text-white">Live Preview</div>
 									<div>
 										<a
 											href={starter.previewURL}
 											target="_blank"
-											className="text-highlight-light"
+											className="text-highlight-light dark:text-secondary"
 											rel="noreferrer"
 										>
 											{starter.previewURL}
@@ -78,12 +78,12 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 
 							{starter.githubLink && (
 								<>
-									<div className="mt-5 font-bold">Github Repo</div>
+									<div className="mt-5 font-bold dark:text-white">Github Repo</div>
 									<div>
 										<a
 											href={starter.githubLink}
 											target="_blank"
-											className="text-highlight-light"
+											className="text-highlight-light dark:text-secondary"
 											rel="noreferrer"
 										>
 											{starter.githubLink}

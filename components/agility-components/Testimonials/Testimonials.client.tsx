@@ -48,8 +48,8 @@ export const TestimonialsClient = ({ items }: Props) => {
 							return (
 								<div className={clsx("embla__slide group")} key={item.contentID}>
 									<div className="embla__slide__number relative mx-4 h-[320px] overflow-clip">
-										<div className="flex h-full flex-col gap-4 border border-background p-8">
-											<div className="flex-1 text-base font-medium">{item.fields.excerpt}</div>
+										<div className="flex h-full flex-col gap-4 border border-background dark:border-gray-700 dark:bg-gray-800 p-8">
+											<div className="flex-1 text-base font-medium dark:text-gray-300">{item.fields.excerpt}</div>
 
 											<div className="flex w-full items-center justify-between gap-2">
 												{item.fields.headshot && (
@@ -63,9 +63,9 @@ export const TestimonialsClient = ({ items }: Props) => {
 												)}
 
 												<div className="flex-1">
-													<div className="text-lg font-bold">{item.fields.title}</div>
-													<div>{item.fields.jobTitle}</div>
-													<div>{item.fields.companyName}</div>
+													<div className="text-lg font-bold dark:text-white">{item.fields.title}</div>
+													<div className="dark:text-gray-300">{item.fields.jobTitle}</div>
+													<div className="dark:text-gray-300">{item.fields.companyName}</div>
 												</div>
 												<div>
 													{item.fields.companyLogo && (
@@ -84,8 +84,8 @@ export const TestimonialsClient = ({ items }: Props) => {
 						})}
 					</div>
 				</div>
-				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
-				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 lg:block"></div>
+				<div className="absolute top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
+				<div className="absolute right-0 top-0 hidden h-full w-[135px] bg-white/60 dark:bg-gray-900/60 lg:block"></div>
 				<div className="pointer-events-none absolute top-[45%] flex w-full justify-between px-4 lg:px-14">
 					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
 					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />

@@ -26,7 +26,7 @@ export const G2CrowdReviewListing = async ({ module, languageCode }: UnloadedMod
 			<div className="mx-auto max-w-5xl text-center">
 				{heading && (
 					<>
-						<h1 className="text-balance text-5xl">{heading}</h1>
+						<h1 className="text-balance text-5xl dark:text-white">{heading}</h1>
 						<ThreeDashLine />
 					</>
 				)}
