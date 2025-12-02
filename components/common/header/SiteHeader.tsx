@@ -21,6 +21,7 @@ import { IconChevronDown, IconX } from "@tabler/icons-react"
 import { renderHTML } from "@agility/nextjs"
 import { MobileSearch, Search } from "components/search/Search"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { DarkModeToggle } from "components/common/DarkModeToggle"
 
 interface Props {
 	headerContent: HeaderContent
@@ -74,6 +75,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 					)}
 					<div className="flex items-center gap-1">
 						<Search />
+						<DarkModeToggle />
 						{preheaderLinks.map((link, index) => (
 							<Link
 								key={`preheader-link-${index}`}
@@ -110,6 +112,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 						</div>
 						<div className="-my-2 -mr-2 flex items-center gap-1 lg:hidden">
 							<MobileSearch />
+							<DarkModeToggle />
 							{
 								/* Contact Us */
 								header.fields.contactus && (

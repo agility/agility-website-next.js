@@ -14,6 +14,7 @@ import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { Mulish } from 'next/font/google'
 import { PostHogProvider } from "./providers"
+import { ThemeScript } from "components/common/ThemeScript"
 
 // If loading a variable font, you don't need to specify the font weight
 const mulish = Mulish({
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en" className={`font-sans text-primary dark:text-gray-200 ${mulish.variable}`}>
 			<head>
+				<ThemeScript />
 				<head>
 					<link rel="preconnect" href="https://static.agilitycms.com" />
 

@@ -5,6 +5,9 @@
 /* Import Tailwind v4 */
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based selector instead of prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Import Tailwind Typography plugin */
 @plugin "@tailwindcss/typography";
 
