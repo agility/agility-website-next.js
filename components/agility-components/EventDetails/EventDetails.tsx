@@ -83,6 +83,7 @@ export const EventDetails = async ({ module, languageCode, dynamicPageItem }: Un
 							size="md"
 							href={event.externalLink?.href}
 							target={event.externalLink.target}
+							className="dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary"
 						>
 							{event.externalLink.text}
 						</LinkButton>

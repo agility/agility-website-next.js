@@ -62,7 +62,7 @@ export const SubmissionFormClient = ({
 				<div className="mx-auto max-w-5xl">
 					<div className="flex flex-col gap-10 md:flex-row">
 						<div className="width-1/2 relative flex-1">
-							<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white dark:bg-gray-800 p-6 shadow-lg">
+							<div className="relative z-2 border-t-2 border-t-highlight-light bg-white dark:bg-gray-800 p-6 shadow-lg">
 								<div id={divID}></div>
 							</div>
 							<img

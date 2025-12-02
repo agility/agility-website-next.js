@@ -86,12 +86,12 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 	const resources = data["resources"] as IMiniResource[]
 
 	return (
-		<div className="py-14">
-			<div className="bg-linear-to-b from-background/40 to-white">
+		<div className="">
+			<div className="bg-linear-to-b from-background/40 to-white dark:from-gray-900 dark:to-gray-800 pb-14">
 				<Container className="mx-auto flex max-w-7xl flex-col">
 					<div className="flex w-full justify-center">
 						<div
-							className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+							className="prose dark:prose-invert w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
 							dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
 						/>
 					</div>
@@ -113,14 +113,14 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 											className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
 										/>
 									</Link>
-									<h3 className="min-h-16 text-balance text-center text-xl font-medium">
+									<h3 className="min-h-16 text-balance text-center text-xl font-medium dark:text-white">
 										{resource.fields.title}
 									</h3>
-									<p className="line-clamp-2 text-left">{resource.fields.excerpt}</p>
+									<p className="line-clamp-2 text-left dark:text-gray-300">{resource.fields.excerpt}</p>
 									<div className="mt-4">
 										<Link
 											href={url}
-											className="flex items-center gap-1 font-medium text-highlight-light hover:text-highlight-dark"
+											className="flex items-center gap-1 font-medium text-highlight-light dark:text-secondary hover:text-highlight-dark dark:hover:text-secondary"
 										>
 											Download
 											<IconChevronRight size={20} stroke={2} />
@@ -131,7 +131,7 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 						})}
 					</div>
 					<div className="mt-8 flex justify-center">
-						<LinkButton type="secondary" size="md" href={fields.cTAButton?.href}>
+						<LinkButton type="secondary" size="md" href={fields.cTAButton?.href} className="dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary">
 							{fields.cTAButton?.text}
 						</LinkButton>
 					</div>

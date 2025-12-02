@@ -57,7 +57,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 						)}
 
 						{res.textblob && (
-							<div className="prose mt-4" dangerouslySetInnerHTML={renderHTMLCustom(res.textblob)}></div>
+							<div className="prose mt-4 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(res.textblob)}></div>
 						)}
 					</div>
 					<div className="lg:w-96">
@@ -68,7 +68,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 									<Link
 										key={resourceType.contentID}
 										href={`/resources/category/${encodeURIComponent(resourceType.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-										className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light"
+										className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 									>
 										{resourceType.fields.title}
 									</Link>
@@ -84,7 +84,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 										<Link
 											key={item.contentID}
 											href={`/resources/topic/${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-											className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light"
+											className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 										>
 											{item.fields.title}
 										</Link>

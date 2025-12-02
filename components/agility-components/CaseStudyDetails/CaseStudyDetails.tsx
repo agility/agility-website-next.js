@@ -57,7 +57,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 			<Container >
 				<div className="mx-auto max-w-7xl">
 					<div className="lg:flex lg:flex-row-reverse">
-						<div className="bg-background/60 dark:bg-gray-800/60 p-6 lg:w-1/3 lg:bg-white dark:lg:bg-gray-800 lg:p-0">
+						<div className="bg-background/60 dark:bg-gray-900 p-6 lg:w-1/3 lg:bg-white dark:lg:bg-gray-900 lg:p-0">
 							{caseStudy.website && (
 								<>
 									<div className="font-bold">Website</div>
@@ -66,7 +66,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 											href={caseStudy.website?.href}
 											target="_blank"
 											rel="noreferrer"
-											className="text-highlight-light underline"
+											className="text-highlight-light underline dark:text-secondary"
 										>
 											{caseStudy.website?.text}
 										</a>
@@ -82,7 +82,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 											<Link
 												key={industry.contentID}
 												href={`../case-studies?industry=${encodeURIComponent(industry.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-												className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+												className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light"
 											>
 												{industry.fields.title}
 											</Link>
@@ -99,7 +99,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 											<Link
 												key={item.contentID}
 												href={`../case-studies?challenge=${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-												className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+												className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light"
 											>
 												{item.fields.title}
 											</Link>
@@ -122,7 +122,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 											<IconQuote className="text-highlight-light" size={72} />
 										</div>
 										<div
-											className="prose prose-lg"
+											className="prose prose-lg dark:prose-invert"
 											dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.quote)}
 										></div>
 									</div>
@@ -131,7 +131,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 						</div>
 						<div className="mt-8 lg:mt-0 lg:w-2/3">
 							{/* top content */}
-							<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.topContent)}></div>
+							<div className="prose dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.topContent)}></div>
 						</div>
 					</div>
 
@@ -142,7 +142,7 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 
 					{/* Bottom Content */}
 					<div className="mt-10 lg:w-2/3">
-						<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.bottomContent)}></div>
+						<div className="prose dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(caseStudy.bottomContent)}></div>
 					</div>
 				</div>
 			</Container>

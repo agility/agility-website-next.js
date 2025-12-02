@@ -83,7 +83,7 @@ export const NewIntegrationListingModuleClient = ({
 							href={url}
 							className="group flex w-full flex-col items-start gap-2 border border-background p-6 text-left transition-shadow hover:shadow-lg"
 						>
-							<div className="flex h-32 w-full items-center justify-center">
+							<div className="flex h-32 w-full items-center justify-center dark:bg-white dark:rounded-xl">
 								{logo && (
 									<AgilityPic
 										image={{
@@ -103,7 +103,7 @@ export const NewIntegrationListingModuleClient = ({
 							<p className="flex-1">{companyDescription}</p>
 							{/* {integrationType && <p>{integrationType.fields?.title}</p>} */}
 
-							<div className="flex items-center gap-1 font-medium text-highlight-light">
+							<div className="flex items-center gap-1 font-medium text-highlight-light dark:text-secondary">
 								<span>{cTATitle}</span>
 								<IconChevronRight className="h-5 w-5" />
 							</div>

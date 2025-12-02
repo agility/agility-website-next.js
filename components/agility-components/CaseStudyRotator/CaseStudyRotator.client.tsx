@@ -101,7 +101,7 @@ export const CaseStudyRotatorClient = ({ caseStudies, cTAbuttonText }: Props) =>
 															type="alternate"
 															href={caseStudyUrl}
 															size="md"
-															className="pointer-events-auto text-primary"
+															className="pointer-events-auto text-primary dark:text-secondary"
 														>
 															{cTAbuttonText}
 														</LinkButton>

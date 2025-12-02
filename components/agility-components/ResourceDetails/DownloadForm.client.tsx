@@ -60,7 +60,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
 
 			<div className="relative">
-				<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white dark:bg-gray-800 p-6 shadow-lg">
+				<div className="relative z-2 border-t-2 border-t-highlight-light bg-white dark:bg-gray-800  p-6 shadow-lg">
 					<div id={divID}></div>
 				</div>
 				<img

@@ -31,7 +31,7 @@ export const ResourceCard = async ({ resource, languageCode, ctaLabel }: Props) 
 	return (
 		<Link
 			href={url}
-			className="group flex max-w-80 flex-col border border-background text-left transition-shadow hover:shadow-lg"
+			className="group flex max-w-80 flex-col border border-background dark:border-gray-700 text-left transition-shadow hover:shadow-lg"
 		>
 			<div className="h-44 overflow-clip">
 				{resource.image ? (
@@ -44,7 +44,7 @@ export const ResourceCard = async ({ resource, languageCode, ctaLabel }: Props) 
 
 			<div className="p-4">
 				<h3 className="text-xl font-medium">{resource.title}</h3>
-				<div className="mt-3 flex gap-1 font-medium text-highlight-light">
+				<div className="mt-3 flex gap-1 font-medium text-highlight-light dark:text-secondary">
 					{ctaLabel} <IconChevronRight />
 				</div>
 			</div>
