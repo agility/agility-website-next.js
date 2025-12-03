@@ -37,22 +37,22 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const faqs = lstFaqs.items as ContentItem<Faq>[]
 
 	return (
-		<div className="bg-background/60 pb-14">
+		<div className="bg-background/60 dark:bg-gray-900 pb-14">
 			<Container className="mx-auto max-w-5xl">
-				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
+				<h2 className="text-balance text-center text-5xl dark:text-white">{fields.title}</h2>
 				<dl className="mt-8">
 					{faqs.map((faq) => {
 						return (
 							<>
 								<Disclosure as="div" key={faq.contentID} className="group">
-									<DisclosureButton className={clsx("w-full text-left flex gap-2 items-center hover:text-highlight-light transition-colors")}>
+									<DisclosureButton className={clsx("w-full text-left flex gap-2 items-center hover:text-highlight-light dark:hover:text-secondary transition-colors")}>
 										<div className="">
 											<IconChevronRight
 												stroke={2.5}
-												className="h-5 w-5 transition-transform duration-300 ease-in-out group-data-[open]:rotate-90"
+												className="h-5 w-5 text-gray-700 dark:text-gray-300 transition-transform duration-300 ease-in-out group-data-[open]:rotate-90"
 											/>
 										</div>
-										<dt className="text-lg font-medium ">
+										<dt className="text-lg font-medium dark:text-white">
 											{faq.fields.question}
 										</dt>
 									</DisclosureButton>
@@ -62,7 +62,7 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 											className="origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
 										>
 											<dd
-												className="prose max-w-full pb-6 ml-9"
+												className="prose dark:prose-invert max-w-full pb-6 ml-9"
 												dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
 											></dd>
 										</DisclosurePanel>

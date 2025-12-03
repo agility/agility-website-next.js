@@ -28,7 +28,7 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 		<Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
-			className={clsx("relative overflow-clip pb-14 text-white", darkMode ? "bg-black" : "bg-highlight mt-14")}
+			className={clsx("relative overflow-clip pb-14 text-white", darkMode ? "bg-black dark:bg-gray-900" : "bg-highlight mt-14")}
 		>
 			<div
 				className={clsx("absolute -top-7 h-12 w-12 rotate-45", darkMode ? "bg-secondary" : "bg-white")}
@@ -38,7 +38,7 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 				{title && <h2 className="text-balance text-5xl">{title}</h2>}
 				<ThreeDashLine />
 				{description && (
-					<div className="mt-2 text-balance text-xl" dangerouslySetInnerHTML={renderHTMLCustom(description)} />
+					<div className="mt-2 text-balance text-xl dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(description)} />
 				)}
 				{(cTA1 || cTA2) && (
 					<div className="mt-8 flex items-center justify-center gap-2">

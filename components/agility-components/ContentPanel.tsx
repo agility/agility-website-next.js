@@ -71,10 +71,10 @@ export const ContentPanel = async ({ module, languageCode }: UnloadedModuleProps
 					)}
 				</div>
 				<div className="flex-1">
-					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
+					<h2 className="text-balance text-5xl font-medium leading-snug dark:text-white">{title}</h2>
 					{textblob && (
 						<div
-							className={clsx("prose mt-5 max-w-none")}
+							className={clsx("prose mt-5 max-w-none dark:prose-invert")}
 							dangerouslySetInnerHTML={renderHTMLCustom(textblob)}
 						></div>
 					)}

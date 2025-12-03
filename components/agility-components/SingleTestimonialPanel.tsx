@@ -27,10 +27,10 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<section className="isolate overflow-hidden bg-white px-6 lg:px-8">
+			<section className="isolate overflow-hidden bg-white dark:bg-gray-900 px-6 lg:px-8">
 				<div className="relative mx-auto max-w-2xl py-24 sm:py-32 lg:max-w-4xl">
 					<div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.purple.100),white)] opacity-20 lg:left-36" />
-					<div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-purple-600/10 ring-1 ring-purple-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+					<div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white dark:bg-gray-800 shadow-xl shadow-purple-600/10 dark:shadow-purple-600/20 ring-1 ring-purple-50 dark:ring-purple-900/20 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
 					<figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
 						<div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
 							<svg
@@ -45,7 +45,7 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 								/>
 								<use x={86} href="#b56e9dab-6ccb-4d32-ad02-6b4bb5d9bbeb" />
 							</svg>
-							<blockquote className="text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
+							<blockquote className="text-xl font-semibold leading-8 text-gray-900 dark:text-white sm:text-2xl sm:leading-9">
 								<p>{testimonial.fields.excerpt}</p>
 							</blockquote>
 						</div>
@@ -64,9 +64,9 @@ const SingleTestimonialPanel = async ({ module, languageCode }: UnloadedModulePr
 						<figcaption className="text-base lg:col-start-1 lg:row-start-3">
 							<div className="flex items-center justify-between gap-2">
 								<div>
-									<div className="font-semibold text-gray-900">{testimonial.fields.title}</div>
-									<div className="mt-1 text-gray-500">{testimonial.fields.jobTitle}</div>
-									<div className="mt-1 text-gray-500">{testimonial.fields.companyName}</div>
+									<div className="font-semibold text-gray-900 dark:text-white">{testimonial.fields.title}</div>
+									<div className="mt-1 text-gray-500 dark:text-gray-400">{testimonial.fields.jobTitle}</div>
+									<div className="mt-1 text-gray-500 dark:text-gray-400">{testimonial.fields.companyName}</div>
 								</div>
 
 								<div>

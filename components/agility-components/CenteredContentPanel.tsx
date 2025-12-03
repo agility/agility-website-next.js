@@ -50,7 +50,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 			)}
 			<div className="mx-auto max-w-5xl text-center">
 				{section && (
-					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500">
+					<h5 data-agility-field="section" className="mb-5 text-lg font-medium uppercase text-gray-500 dark:text-gray-400">
 						{section}
 					</h5>
 				)}
@@ -73,16 +73,20 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 				{(cTA1 || cTA2) && (
 					<div className="flex items-center justify-center gap-2">
 						{cTA1 && cTA1.href && (
-							<LinkButton
-								data-agility-field="cTA1"
-								type="primary"
-								href={cTA1.href}
-								target={cTA1.target}
-								className="mt-8"
-								size="md"
-							>
-								{cTA1.text}
-							</LinkButton>
+							<>
+								<LinkButton
+									data-agility-field="cTA1"
+									type="primary"
+									href={cTA1.href}
+									target={cTA1.target}
+									className="mt-8"
+									size="md"
+								>
+									{cTA1.text}
+								</LinkButton>
+
+
+							</>
 						)}
 
 						{cTA2 && cTA2.href && (
@@ -91,7 +95,7 @@ export const CenteredContentPanel = async ({ module, languageCode }: UnloadedMod
 								type="secondary"
 								href={cTA2.href}
 								target={cTA2.target}
-								className="mt-8"
+								className="mt-8 dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary dark:ring-secondary"
 								size="md"
 							>
 								{cTA2.text}

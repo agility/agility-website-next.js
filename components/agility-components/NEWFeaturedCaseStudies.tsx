@@ -74,7 +74,7 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 			<div className="mx-auto max-w-7xl">
 				<div
 					dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-					className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
+					className="prose-xl dark:prose-invert mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
 				></div>
 
 				<div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -83,7 +83,7 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 							<Link
 								href={`/resources/case-studies/${caseStudy.fields.uRL}`}
 								key={`fcs-${caseStudy.contentID}`}
-								className="group flex flex-col gap-3 border border-background transition-all hover:shadow-lg"
+								className="group flex flex-col gap-3 border border-background dark:border-gray-700 dark:bg-gray-800 transition-all hover:shadow-lg"
 							>
 								<div className="h-52 w-full overflow-hidden">
 									{caseStudy.fields.image && (
@@ -93,10 +93,10 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 										/>
 									)}
 								</div>
-								<h3 className="px-3 text-xl font-medium">{caseStudy.fields.title}</h3>
-								<p className="flex-1 px-3">{caseStudy.fields.excerpt}</p>
+								<h3 className="px-3 text-xl font-medium dark:text-white dark:group-hover:text-secondary">{caseStudy.fields.title}</h3>
+								<p className="flex-1 px-3 dark:text-gray-300">{caseStudy.fields.excerpt}</p>
 								<div>
-									<div className="flex items-center gap-1 p-3 font-medium text-highlight-light">
+									<div className="flex items-center gap-1 p-3 font-medium text-highlight-light dark:text-secondary group-hover:text-highlight-dark dark:group-hover:text-secondary">
 										Read More <IconChevronRight />
 									</div>
 								</div>
@@ -106,7 +106,7 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 				</div>
 				{fields.cTAButton && (
 					<div className="mt-10 text-center">
-						<LinkButton href={fields.cTAButton?.href} type="secondary" size="md">
+						<LinkButton href={fields.cTAButton?.href} type="secondary" size="md" className="dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary">
 							{fields.cTAButton?.text}
 						</LinkButton>
 					</div>

@@ -45,11 +45,11 @@ export const LinkButton = ({
 			type === "primary"
 				? "text-white bg-highlight-light ring-2 ring-highlight-light ring-inset focus:ring-white/40"
 				: type === "secondary"
-					? "text-highlight-light bg-white/0 hover:bg-gray-50 ring-2 ring-highlight-light ring-inset"
+					? "text-highlight-light bg-white/0 dark:bg-gray-900/0 hover:bg-gray-50 dark:hover:bg-gray-800 ring-2 ring-highlight-light ring-inset"
 					: type === "secondary-bg"
 						? "text-base bg-secondary"
 						: type === "alternate"
-							? "bg-secondary ring-2 ring-secondary ring-inset text-gray-900 focus:ring-white/40"
+							? "bg-secondary ring-2 ring-secondary ring-inset text-gray-900 dark:text-gray-900 focus:ring-white/40"
 							: type === "slate"
 								? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
 								: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",

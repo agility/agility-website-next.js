@@ -45,12 +45,12 @@ export const SearchInput = forwardRef<
 
 	return (
 		<div className="group relative flex h-12 ">
-			<SearchIcon className="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500" />
+			<SearchIcon className="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500 dark:stroke-gray-400" />
 			<input
 				ref={inputRef}
 				data-autofocus
 				className={clsx(
-					'flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none sm:text-sm  [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-webkit-search-results-button]:hidden [&::-webkit-search-results-decoration]:hidden',
+					'flex-auto appearance-none bg-transparent pl-10 text-zinc-900 dark:text-gray-100 outline-none placeholder:text-zinc-500 dark:placeholder:text-gray-400 focus:w-full focus:flex-none sm:text-sm  [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden [&::-webkit-search-results-button]:hidden [&::-webkit-search-results-decoration]:hidden',
 					autocompleteState.status === 'stalled' ? 'pr-11' : 'pr-4',
 					"border border-violet-600 rounded-lg"
 				)}

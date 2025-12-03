@@ -48,8 +48,8 @@ export const Testimonials = async ({ module, languageCode }: UnloadedModuleProps
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
 			<div className="mx-auto max-w-5xl text-center">
-				{header && <h2 className="text-balance text-4xl">{header}</h2>}
-				{subHeading && <p className="mt-4 text-balance text-lg">{subHeading}</p>}
+				{header && <h2 className="text-balance text-4xl dark:text-white">{header}</h2>}
+				{subHeading && <p className="mt-4 text-balance text-lg dark:text-gray-300">{subHeading}</p>}
 			</div>
 			<TestimonialsClient {...{ items: items }} />
 		</Container>

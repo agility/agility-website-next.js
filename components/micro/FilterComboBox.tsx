@@ -25,8 +25,8 @@ export const FilterComboBox = ({ items, onChange, selectedItem, label, className
 			query === ""
 				? items
 				: items.filter((item) => {
-						return item.text.toLowerCase().includes(query.toLowerCase())
-					}),
+					return item.text.toLowerCase().includes(query.toLowerCase())
+				}),
 		[query, items]
 	)
 
@@ -43,31 +43,31 @@ export const FilterComboBox = ({ items, onChange, selectedItem, label, className
 		>
 			<div className="relative mt-2">
 				<ComboboxInput
-					className="w-full border-0 bg-background py-2 pl-3 pr-10 text-base font-medium text-highlight shadow-sm focus:ring-2 focus:ring-inset focus:ring-highlight sm:text-sm sm:leading-6"
+					className="w-full border-0 bg-background dark:bg-gray-800 py-2 pl-3 pr-10 text-base font-medium text-highlight dark:text-secondary shadow-sm focus:ring-2 focus:ring-inset focus:ring-highlight dark:focus:ring-secondary sm:text-sm sm:leading-6"
 					onChange={(event) => setQuery(event.target.value)}
 					onBlur={() => setQuery("")}
 					displayValue={(item: ComboboItem) => item.text}
 				/>
 				<ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
 					<IconChevronDown
-						className="h-5 w-5 text-highlight transition-transform group-data-[open]:rotate-180"
+						className="h-5 w-5 text-highlight dark:text-secondary transition-transform group-data-[open]:rotate-180"
 						aria-hidden="true"
 					/>
 				</ComboboxButton>
 
 				{filteredItems.length > 0 && (
-					<ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+					<ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none sm:text-sm">
 						<ComboboxOption
 							key={label}
 							value={{
 								text: label,
 								value: ""
 							}}
-							className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
+							className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-white data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700 data-[focus]:text-gray-900 dark:data-[focus]:text-white"
 						>
 							<span className="block truncate group-data-[selected]:font-semibold">{label}</span>
 
-							<span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-[selected]:flex group-data-[focus]:text-white">
+							<span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-gray-600 dark:text-secondary group-data-[selected]:flex group-data-[focus]:text-gray-900 dark:group-data-[focus]:text-white">
 								<IconCheck className="h-5 w-5" aria-hidden="true" />
 							</span>
 						</ComboboxOption>
@@ -76,11 +76,11 @@ export const FilterComboBox = ({ items, onChange, selectedItem, label, className
 							<ComboboxOption
 								key={item.value || item.text}
 								value={item}
-								className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
+								className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-white data-[focus]:bg-gray-100 dark:data-[focus]:bg-gray-700 data-[focus]:text-gray-900 dark:data-[focus]:text-white"
 							>
 								<span className="block truncate group-data-[selected]:font-semibold">{item.text}</span>
 
-								<span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-[selected]:flex group-data-[focus]:text-white">
+								<span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-gray-600 dark:text-secondary group-data-[selected]:flex group-data-[focus]:text-gray-900 dark:group-data-[focus]:text-white">
 									<IconCheck className="h-5 w-5" aria-hidden="true" />
 								</span>
 							</ComboboxOption>

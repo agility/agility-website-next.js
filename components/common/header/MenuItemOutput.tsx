@@ -33,13 +33,11 @@ export const MenuItemOutput = ({ link }: Props) => {
 		refIsMouseOnPopover.current = true
 		cancelShowSubmenu()
 		refShowSubmenuDelay.current = setTimeout(() => {
-			console.log("showSubmenu")
 			refPopoverButton.current?.click()
 		}, 50)
 	}
 
 	const cancelShowSubmenu = () => {
-		console.log("cancelShowSubmenu")
 		clearTimeout(refShowSubmenuDelay.current)
 		refIsMouseOnPopover.current = false
 	}
@@ -77,7 +75,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 				target={link.menuItem.fields.uRL.target}
 				className={classNames(
 					"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
-					"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
+					"transition-colors hover:text-highlight dark:hover:text-secondary dark:focus:text-secondary focus:text-highlight-light focus:outline-none"
 					//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 				)}
 			>
@@ -105,8 +103,8 @@ export const MenuItemOutput = ({ link }: Props) => {
 							target={link.menuItem.fields.uRL.target}
 							className={classNames(
 								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
-								open && "text-highlight"
+								"transition-colors hover:text-highlight dark:hover:text-secondary focus:text-highlight-light focus:outline-none",
+								open && "text-highlight dark:text-secondary"
 							)}
 							onClick={(e) => {
 								// Allow the link to work normally
@@ -133,9 +131,9 @@ export const MenuItemOutput = ({ link }: Props) => {
 						onMouseLeave={() => mouseLeavePopover()}
 					>
 
-						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white shadow-lg ring-1  ring-black/5 "></div>
-						<div className="absolute left-10 top-4 z-[3] h-5 w-5 -translate-y-1/2 rotate-45 bg-white rounded-sm"></div>
-						<div className="relative shadow-lg z-[2] ring-1  ring-black/5  bg-gradient-to-b from-white via-white to-gray-100">
+						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white dark:bg-gray-800 shadow-lg ring-1  ring-black/5 dark:ring-gray-100/5 "></div>
+						<div className="absolute left-10 top-4 z-[3] h-5 w-5 -translate-y-1/2 rotate-45 bg-white dark:bg-gray-800 rounded-sm"></div>
+						<div className="relative shadow-lg z-[2] ring-1  ring-black/5 dark:ring-gray-100/5  bg-gradient-to-b from-white dark:from-gray-800 via-white dark:via-gray-800 to-gray-100 dark:to-gray-700">
 
 							<div className="flex flex-1 gap-1">
 								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
@@ -146,7 +144,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 											target={subLink.fields.uRL.target}
 											className={classNames(
 												"text-secondary-500 text-sm font-medium leading-6",
-												"transition-all duration-300 hover:text-highlight focus:text-highlight focus:outline-none"
+												"transition-all duration-300 hover:text-highlight dark:hover:text-secondary focus:text-highlight focus:outline-none"
 											)}
 											onClick={() => close()}
 										>
@@ -155,8 +153,8 @@ export const MenuItemOutput = ({ link }: Props) => {
 									))}
 								</div>
 								{megaContent && megaTitle && (
-									<div className="flex-1 bg-gray-100 px-6 py-7">
-										<div className="text-sm uppercase text-gray-500">{megaTitle}</div>
+									<div className="flex-1 bg-gray-100 dark:bg-gray-800 px-6 py-7">
+										<div className="text-sm uppercase text-gray-500 dark:text-gray-400">{megaTitle}</div>
 
 										<div className="mt-4 flex flex-col gap-2">
 											{megaContent.map((item) => {

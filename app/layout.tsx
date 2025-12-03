@@ -14,6 +14,7 @@ import Script from "next/script"
 import HubspotTracker from "components/common/HubspotTracker"
 import { Mulish } from 'next/font/google'
 import { PostHogProvider } from "./providers"
+import { ThemeScript } from "components/common/ThemeScript"
 
 // If loading a variable font, you don't need to specify the font weight
 const mulish = Mulish({
@@ -44,8 +45,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	}
 
 	return (
-		<html lang="en" className={`font-sans text-primary ${mulish.variable}`}>
+		<html lang="en" className={`font-sans text-primary dark:text-gray-200 ${mulish.variable}`}>
 			<head>
+				<ThemeScript />
 				<head>
 					<link rel="preconnect" href="https://static.agilitycms.com" />
 
@@ -63,7 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<PostHogProvider>
 					<div id="site-wrapper">
 						<div id="site">
-							<div className="flex min-h-screen flex-col">
+							<div className="flex min-h-screen flex-col bg-white dark:bg-gray-900">
 								<SiteHeader {...{ headerContent }} />
 
 								<main className={`flex-grow`}>
@@ -79,8 +81,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 					<HubspotTracker />
 					{/* Load in the agility web-studio-sdk script - deferred to reduce blocking */}
-					<Script 
-						src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" 
+					<Script
+						src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js"
 						strategy="lazyOnload"
 					/>
 				</PostHogProvider>

@@ -80,7 +80,7 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 										{resource.fields.excerpt && <p>{resource.fields.excerpt}</p>}
 									</div>
 									<div className="p-4">
-										<LinkButton href={resourceUrl} type="secondary" size="md">
+										<LinkButton href={resourceUrl} type="secondary" size="md" className="dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary">
 											Read More <IconChevronRight />
 										</LinkButton>
 									</div>

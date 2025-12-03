@@ -26,18 +26,18 @@ export const EventCard = ({ event }: Props) => {
 				)}
 			</Link>
 			<div className="flex flex-col gap-3 text-center lg:w-1/2 lg:text-left">
-				<h3 className="text-3xl font-medium">{event.fields.title}</h3>
+				<h3 className="text-3xl font-medium dark:text-white">{event.fields.title}</h3>
 				<time dateTime={dt.toISO()} className="flex gap-3">
 					<div className="flex items-center gap-1">
-						<IconCalendarCheck size={24} className="text-slate-500" />
-						<div className="font-medium">{dateStr}</div>
+						<IconCalendarCheck size={24} className="text-slate-500 dark:text-gray-400" />
+						<div className="font-medium dark:text-gray-300">{dateStr}</div>
 					</div>
 					<div className="flex items-center gap-1">
-						<IconClock size={24} className="text-slate-500" />
-						<div className="font-medium">{timeStr}</div>
+						<IconClock size={24} className="text-slate-500 dark:text-gray-400" />
+						<div className="font-medium dark:text-gray-300">{timeStr}</div>
 					</div>
 				</time>
-				<p className="text-base text-slate-500">{event.fields.description}</p>
+				<p className="text-base text-slate-500 dark:text-gray-400">{event.fields.description}</p>
 				<div>
 					<LinkButton type="primary" href={url} className="mt-5">
 						{isPast ? "View Event" : "Register Now"}

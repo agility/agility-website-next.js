@@ -20,12 +20,12 @@ export const CaseStudyDetailRotator = ({ galleryItems }: Props) => {
 
 	return (
 		<section className="cs-detail-rotator relative mt-10">
-			<div className="embla bg-background py-10">
+			<div className="embla bg-background dark:bg-gray-900 py-10">
 				<div className="embla__viewport" ref={emblaRef}>
 					<div className="embla__container">
 						{galleryItems.map((item, index) => (
 							<div className="embla__slide" key={index}>
-								<div className="mx-auto h-96 w-4/5">
+								<div className="mx-auto h-96 w-4/5 rounded-lg bg-gray-50 dark:bg-gray-800 p-4">
 									<img
 										src={`${item.url}?format=auto`}
 										alt={item.fileName}
@@ -49,9 +49,9 @@ export const CaseStudyDetailRotator = ({ galleryItems }: Props) => {
 				{scrollSnaps.map((_, index) => (
 					<DotButton key={index} onClick={() => onDotButtonClick(index)} className="p-2">
 						{index === selectedIndex ? (
-							<IconPointFilled className="text-highlight-light" />
+							<IconPointFilled className="text-highlight-light dark:text-secondary" />
 						) : (
-							<IconPoint className="text-highlight-light" stroke={1} />
+							<IconPoint className="text-highlight-light dark:text-secondary" stroke={1} />
 						)}
 					</DotButton>
 				))}

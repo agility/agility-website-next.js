@@ -34,7 +34,7 @@ export const PodcastListing = async ({ module, languageCode }: UnloadedModulePro
 							<Link
 								key={pod.contentID}
 								href={`/resources/agileliving/${pod.fields.uRL}`}
-								className="group flex flex-col transition-shadow duration-200 hover:shadow-lg"
+								className="group flex flex-col transition-shadow duration-200 hover:shadow-lg dark:bg-gray-800"
 							>
 								<div className="h-52 overflow-clip">
 									{(pod.fields.listingImage || pod.fields.mainImage) && (
@@ -45,9 +45,9 @@ export const PodcastListing = async ({ module, languageCode }: UnloadedModulePro
 										/>
 									)}
 								</div>
-								<div className="flex-1 border border-t-0 border-background p-5">
-									<p className="text-sm text-slate-500">EPISODE #{pod.fields.episodeNumber}</p>
-									<h3 className="mt-3 text-lg font-medium">{pod.fields.title}</h3>
+								<div className="flex-1 border border-t-0 border-background dark:border-gray-700 p-5">
+									<p className="text-sm text-slate-500 dark:text-gray-400">EPISODE #{pod.fields.episodeNumber}</p>
+									<h3 className="mt-3 text-lg font-medium dark:text-white">{pod.fields.title}</h3>
 								</div>
 							</Link>
 						)

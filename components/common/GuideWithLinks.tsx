@@ -37,7 +37,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 	const bgImg = "https://static.agilitycms.com/layout/img/bg/computer.png?format=auto"
 
 	return (
-		<div className="relative overflow-clip bg-highlight-dark px-10 py-36 text-white">
+		<div className="mt-14 relative overflow-clip bg-highlight-dark px-10 py-36 text-white dark:bg-gray-900">
 			<img src={bgImg} alt="" className="absolute -right-1/4 -top-1/2" />
 			<div className="absolute -bottom-20 -left-20 opacity-10">
 				<div className="relative h-72 w-72">
@@ -66,7 +66,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 					)}
 				</div>
 				<div className="lg:w-1/2 xl:w-3/5">
-					<div className="flex flex-col gap-4 bg-black/20 p-5">
+					<div className="flex flex-col gap-4 bg-black/20 p-5 dark:bg-gray-800/50">
 						{items.map((item, index) => (
 							<>
 								{item.uRL ? (
@@ -74,7 +74,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 										href={item.uRL.href}
 										target={item.uRL.target}
 										key={index}
-										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100"
+										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100 dark:hover:bg-gray-700/50"
 									>
 										<div className="flex-1">
 											<h3 className="text-lg">{item.title}</h3>
@@ -85,7 +85,7 @@ export const GuideWithLinks = async ({ mainInfo, items }: Props) => {
 								) : (
 									<div
 										key={index}
-										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100"
+										className="flex items-center gap-4 bg-highlight bg-opacity-0 p-4 transition-all hover:bg-opacity-100 dark:hover:bg-gray-700/50"
 									>
 										<div className="flex-1">
 											<h3 className="text-lg">{item.title}</h3>

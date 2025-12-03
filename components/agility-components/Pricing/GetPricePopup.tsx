@@ -84,7 +84,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 					<DialogPanel
 						transition
 						className={clsx(
-							"relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-full",
+							"relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all w-full max-w-full",
 							" sm:w-[640px] md:w-[800px]",
 							"data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-indata-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95")}
 					>
@@ -92,7 +92,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 							<button
 								type="button"
 								onClick={() => setPriceDialogOpen(false)}
-								className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+								className="rounded-md bg-white dark:bg-gray-800 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
 							>
 								<span className="sr-only">Close</span>
 								<IconX aria-hidden="true" className="size-6" />

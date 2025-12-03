@@ -12,14 +12,14 @@ export const PartnerContentPanel = async ({ languageCode, dynamicPageItem, modul
 	const logo = partner.partnerLogo || partner.logo
 
 	return (
-		<div className="bg-highlight-light text-white">
+		<div className="bg-highlight-light text-white pb-14 dark:bg-gray-800">
 			<Container className="">
 				<div className="mx-auto max-w-7xl">
 					<div className="flex flex-col items-center lg:flex-row">
 						<div className="flex flex-col justify-center gap-4 text-center lg:w-3/5 lg:text-left">
 							<h1 className="text-5xl">{partner.title}</h1>
 							<div
-								className="prose prose-lg prose-invert"
+								className="prose prose-lg dark:prose-invert"
 								dangerouslySetInnerHTML={renderHTMLCustom(partner.contentPanelCopy || partner.companyDescription)}
 							></div>
 						</div>

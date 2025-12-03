@@ -28,6 +28,7 @@ import clsx from 'clsx'
 import SearchResults from './SearchResults';
 import { SearchInput } from './SearchInput';
 import { SearchIcon } from './SearchIcon';
+import { LinkButton } from 'components/micro/LinkButton';
 
 
 export type Result = {
@@ -212,13 +213,13 @@ function SearchDialog({
 		>
 			<DialogBackdrop
 				transition
-				className="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in "
+				className="fixed inset-0 bg-zinc-400/25 dark:bg-zinc-900/50 backdrop-blur-sm data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in "
 			/>
 
 			<div className="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
 				<DialogPanel
 					transition
-					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl  "
+					className="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 dark:bg-gray-800 shadow-xl ring-1 ring-zinc-900/7.5 dark:ring-gray-100/10 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:max-w-xl  "
 				>
 					<div {...autocomplete.getRootProps({})}>
 						<form
@@ -235,7 +236,7 @@ function SearchDialog({
 							/>
 							<div
 								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden  max-h-96 overflow-y-auto"
+								className="border-t border-zinc-200 dark:border-gray-700 bg-white dark:bg-gray-900 empty:hidden  max-h-96 overflow-y-auto"
 								{...autocomplete.getPanelProps({})}
 							>
 								{autocompleteState.isOpen && (
@@ -303,7 +304,7 @@ export function Search() {
 				<span className="whitespace-nowrap text-sm font-medium text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 					Search
 				</span>
-				<SearchIcon className="h-5 w-5 flex-shrink-0 stroke-white stroke-2 group-hover:stroke-secondary transition-colors" />
+				<SearchIcon className="h-6 w-6 flex-shrink-0 stroke-white stroke-2 group-hover:stroke-secondary transition-colors" />
 
 			</button>
 			<Suspense fallback={null}>
@@ -317,15 +318,16 @@ export function MobileSearch() {
 	let { buttonProps, dialogProps } = useSearchProps()
 
 	return (
-		<div className="contents lg:hidden">
-			<button
-				type="button"
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none lg:hidden  outline-violet-600"
+		<div className="lg:hidden ">
+			<LinkButton
+				type="secondary"
+				className="w-full flex dark:text-secondary dark:ring-secondary"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 " />
-			</button>
+				<span>Search</span>
+				<SearchIcon className="h-5 w-5 stroke-current" />
+			</LinkButton>
 			<Suspense fallback={null}>
 				<SearchDialog className="lg:hidden" {...dialogProps} />
 			</Suspense>

@@ -10,6 +10,7 @@ import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
 import { useRouter } from "next/navigation"
 import { IconChevronRight } from "@tabler/icons-react"
 import { Container } from "components/micro/Container"
+import clsx from "clsx"
 
 interface Props {
 	pageSize: number
@@ -74,7 +75,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 							<Link
 								href={post.url}
 								key={post.contentID}
-								className="group relative flex h-full min-h-0 flex-col border border-background transition-shadow hover:shadow-lg"
+								className="group relative flex h-full min-h-0 flex-col border border-background dark:border-gray-700 dark:bg-gray-800 transition-shadow hover:shadow-lg"
 							>
 								<div className="relative h-56 w-full overflow-clip">
 									{post.image ? (
@@ -106,16 +107,16 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 								</div>
 								<div className="min-h-0 flex-1">
 									<div className="min-h-[350px]X flex h-full flex-col gap-3 p-6">
-										<h2 className="text-secondary-500 group-hover:text-primary-500 text-2xl font-medium transition duration-300">
+										<h2 className="text-secondary-500 dark:text-gray-200 group-hover:text-primary-500 dark:group-hover:text-secondary text-2xl font-medium transition duration-300">
 											{post.title}
 										</h2>
-										<div className="mt-4 text-xs font-semibold uppercase italic text-gray-600">
+										<div className="mt-4 text-xs font-semibold uppercase italic text-gray-600 dark:text-gray-400">
 											{post.date}
 										</div>
 										<div className="flex gap-2">
 											{post.tags.map((tag) => (
 												<div
-													className="rounded bg-background p-1 px-2 text-xs hover:text-highlight-light"
+													className="rounded bg-background dark:!bg-gray-700 dark:hover:text-gray-300 dark:text-gray-200 p-1 px-2 text-xs hover:text-highlight-light"
 													key={tag.url}
 													onClick={(e) => {
 														e.preventDefault()
@@ -127,11 +128,12 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 												</div>
 											))}
 										</div>
-										<div className="flex-1 text-slate-500">
+										<div className="flex-1 text-slate-500 dark:text-gray-400">
 											<div className="line-clamp-3">{post.excerpt}</div>
 										</div>
 										<div className="">
-											<div className="flex items-center gap-1 font-semibold text-highlight-dark transition-colors group-hover:text-highlight-light">
+											<div className={clsx("flex items-center gap-1 font-semibold text-highlight-dark transition-colors group-hover:text-highlight-light",
+												"dark:text-secondary dark:group-hover:text-secondary")} >
 												Read More
 												<IconChevronRight size={20} />
 											</div>

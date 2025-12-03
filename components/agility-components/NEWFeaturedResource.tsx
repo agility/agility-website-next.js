@@ -38,8 +38,8 @@ export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModu
 	const url = `/resources/${resType.fields.title?.toLowerCase().replace(/ /g, "-")}/${res.fields.uRL}`
 
 	return (
-		<div className="py-14">
-			<div className="bg-linear-to-b from-background/40 to-white">
+		<div className="">
+			<div className="bg-linear-to-b from-background/40 to-white dark:from-gray-900 dark:to-gray-800 pb-14">
 				<Container className="mx-auto flex max-w-5xl flex-col gap-8 lg:flex-row">
 					<Link className="mx-10 flex-1 lg:mx-0" href={url}>
 						{res.fields.image && (
@@ -47,11 +47,11 @@ export const NEWFeaturedResource = async ({ module, languageCode }: UnloadedModu
 						)}
 					</Link>
 					<div className="flex-1 text-center lg:text-left">
-						<div className="font-medium uppercase text-slate-500">{resType.fields.title}</div>
-						<h2 className="my-4 text-4xl font-medium">{res.fields.title}</h2>
-						<p>{res.fields.excerpt}</p>
+						<div className="font-medium uppercase text-slate-500 dark:text-gray-400">{resType.fields.title}</div>
+						<h2 className="my-4 text-4xl font-medium dark:text-white">{res.fields.title}</h2>
+						<p className="dark:text-gray-300">{res.fields.excerpt}</p>
 						<div className="my-4">
-							<LinkButton type="secondary" href={url}>
+							<LinkButton type="secondary" href={url} className="dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary ring-secondary">
 								{res.fields.formTitle || "Learn More"}
 							</LinkButton>
 						</div>

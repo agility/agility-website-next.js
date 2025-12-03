@@ -29,7 +29,7 @@ export const LogoListingModule = async ({ module, languageCode }: UnloadedModule
 			<div className="mx-auto max-w-7xl">
 				<div className="border-t border-t-background"></div>
 				<div className="flex justify-center">
-					<h3 className="-mt-3 text-balance bg-white px-8 text-center text-sm font-medium uppercase text-highlight-light">
+					<h3 className="-mt-3 text-balance bg-white dark:bg-gray-900 px-8 text-center text-sm font-medium uppercase text-highlight-light dark:text-gray-200">
 						{title}
 					</h3>
 				</div>

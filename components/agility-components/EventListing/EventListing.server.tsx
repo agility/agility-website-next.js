@@ -65,9 +65,9 @@ export const EventListing = async ({ module, languageCode }: UnloadedModuleProps
 	return (
 		<Container >
 			<div className="mx-auto max-w-7xl">
-				<h2 className="text-center text-5xl font-medium">{fields.title}</h2>
+				<h2 className="text-center text-5xl font-medium dark:text-white">{fields.title}</h2>
 				<ThreeDashLine />
-				<div className="prose prose-lg mx-auto mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.subTitle)}></div>
+				<div className="prose prose-lg mx-auto mt-5 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(fields.subTitle)}></div>
 				<EventListingClient {...{ events, locale, getNext, pageSize }} />
 			</div>
 		</Container>

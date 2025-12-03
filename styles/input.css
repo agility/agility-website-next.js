@@ -5,6 +5,9 @@
 /* Import Tailwind v4 */
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based selector instead of prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Import Tailwind Typography plugin */
 @plugin "@tailwindcss/typography";
 
@@ -43,6 +46,44 @@
 
 	h2 {
 		letter-spacing: -0.35px;
+	}
+
+	/* Dark mode prose styles */
+	.prose {
+		@apply dark:text-gray-300;
+	}
+
+	.prose h1,
+	.prose h2,
+	.prose h3,
+	.prose h4,
+	.prose h5,
+	.prose h6 {
+		@apply dark:text-white;
+	}
+
+	.prose p {
+		@apply dark:text-gray-300;
+	}
+
+	.prose a {
+		@apply dark:text-secondary;
+	}
+
+	.prose strong {
+		@apply dark:text-white;
+	}
+
+	.prose code {
+		@apply dark:bg-gray-800 dark:text-gray-200;
+	}
+
+	.prose pre {
+		@apply dark:bg-gray-800 dark:text-gray-200;
+	}
+
+	.prose blockquote {
+		@apply dark:border-gray-700 dark:text-gray-300;
 	}
 }
 
@@ -102,7 +143,7 @@
 		}
 
 		&:not(.prose-invert) a {
-			@apply text-highlight-light;
+			@apply text-highlight-light dark:text-secondary;
 		}
 
 		&.prose-invert {
@@ -112,5 +153,10 @@
 				@apply text-secondary;
 			}
 		}
+	}
+
+	[id^=gartner-pi-widget] * {
+		/*special case for the gartner pi widget*/
+    font-family: var(--font-sans) !important;
 	}
 }

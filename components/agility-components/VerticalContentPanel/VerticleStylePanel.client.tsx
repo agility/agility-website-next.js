@@ -88,8 +88,8 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 					>
 						<label
 							className={clsx(
-								"group relative block p-8 pt-4 text-left transition-colors lg:cursor-pointer lg:hover:bg-background",
-								"lg:has-[:checked]:bg-background",
+								"group relative block p-8 pt-4 text-left transition-colors lg:cursor-pointer lg:hover:bg-background dark:lg:hover:bg-gray-800",
+								"lg:has-[:checked]:bg-background dark:lg:has-[:checked]:bg-gray-800",
 								"m-auto md:w-1/2 lg:w-auto"
 							)}
 							onMouseEnter={() => {
@@ -115,17 +115,19 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 							</div>
 							<h4
 								className={clsx(
-									"text-base font-bold transition-colors lg:group-hover:text-highlight-light lg:peer-checked:text-highlight-light"
+									"text-base font-bold transition-colors dark:text-white",
+									"lg:group-hover:text-highlight-light dark:lg:group-hover:text-secondary",
+									"lg:peer-checked:text-highlight-light dark:lg:peer-checked:text-secondary"
 								)}
 							>
 								{panel.title}
 							</h4>
 
 							<div className={clsx(
-								"absolute left-0 top-0 w-0.5 bg-highlight-light transition-all duration-300",
+								"absolute left-0 top-0 w-0.5 bg-highlight-light dark:bg-secondary transition-all duration-300",
 								activePanel === index ? "h-full" : "h-0 lg:group-hover:h-full"
 							)}></div>
-							<div className="vertical-content-panel-desc prose mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
+							<div className="vertical-content-panel-desc prose dark:prose-invert mt-2 " dangerouslySetInnerHTML={renderHTMLCustom(panel.description)}></div>
 						</label>
 						<div className="flex items-center justify-center md:w-1/2 lg:hidden">
 							{panel?.graphic &&
@@ -164,20 +166,20 @@ export const VerticleStylePanel = ({ contentID, panels, textSide }: Props) => {
 								<div
 									key={index}
 									className={clsx(
-										"absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-in-out",
-										activePanel === index ? "opacity-100 z-10" : "opacity-0 z-[5]"
+										"absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-in-out ",
+										activePanel === index ? "opacity-100 z-10" : "opacity-0"
 									)}
 								>
 									{panel.graphic.url.endsWith(".svg") ? (
 										<img
 											src={panel.graphic.url}
 											alt=""
-											className="h-full bg-white object-contain"
+											className="h-full bg-white dark:bg-none object-contain"
 										/>
 									) : (
 										<AgilityPic
 											image={panel.graphic}
-											className="mx-auto h-full bg-white object-contain"
+											className="mx-auto h-full g-white dark:bg-none object-contain dark:rounded-2xl"
 											fallbackWidth={600}
 										/>
 									)}

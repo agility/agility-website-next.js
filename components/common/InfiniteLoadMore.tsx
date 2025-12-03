@@ -76,7 +76,7 @@ export const InfiniteLoadMore = (props: Props) => {
 				onClick={() => onLoadMore()}
 				type="secondary"
 				disabled={isLoadingInternal}
-				className="w-40"
+				className="w-40 dark:!bg-secondary dark:!text-gray-900 dark:hover:!bg-secondary"
 			>
 				{isLoadingInternal ? (
 					<div className="h-6 w-6">

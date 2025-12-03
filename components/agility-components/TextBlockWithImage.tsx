@@ -117,20 +117,20 @@ const TextBlockWithImage = async ({ module, languageCode }: UnloadedModuleProps)
 						{fields.tagline && (
 							<div
 								data-agility-field="tagline"
-								className="text-primary-500 py-1 text-center text-sm font-bold uppercase md:text-left"
+								className="text-primary-500 dark:text-secondary py-1 text-center text-sm font-bold uppercase md:text-left"
 							>
 								{fields.tagline}
 							</div>
 						)}
 						<h2
 							data-agility-field="title"
-							className="font-display text-secondary-500 mt-4 text-center text-4xl font-black tracking-wide md:text-left md:text-3xl lg:text-5xl lg:leading-tight"
+							className="font-display text-secondary-500 dark:text-white mt-4 text-center text-4xl font-black tracking-wide md:text-left md:text-3xl lg:text-5xl lg:leading-tight"
 						>
 							{fields.title}
 						</h2>
 						<p
 							data-agility-field="content"
-							className="text-secondary-200 mt-4 text-center text-sm font-medium leading-relaxed md:text-left md:text-base lg:text-lg"
+							className="text-secondary-200 dark:text-gray-300 mt-4 text-center text-sm font-medium leading-relaxed md:text-left md:text-base lg:text-lg"
 						>
 							{fields.content}
 						</p>

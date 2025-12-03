@@ -48,7 +48,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 			<div className="mx-auto max-w-7xl pb-14">
 				<div className="gap-8 lg:flex lg:flex-row">
 					<div className="flex-1">
-						<time className="text-sm text-gray-500">{dateStr}</time>
+						<time className="text-sm text-gray-500 dark:text-gray-400">{dateStr}</time>
 						<h1 className="mt-4 text-balance text-5xl font-medium leading-tight">{res.title}</h1>
 						<div className="mt-4">{res.subTitle}</div>
 
@@ -57,7 +57,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 						)}
 
 						{res.textblob && (
-							<div className="prose mt-4" dangerouslySetInnerHTML={renderHTMLCustom(res.textblob)}></div>
+							<div className="prose mt-4 dark:prose-invert" dangerouslySetInnerHTML={renderHTMLCustom(res.textblob)}></div>
 						)}
 					</div>
 					<div className="lg:w-96">
@@ -68,7 +68,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 									<Link
 										key={resourceType.contentID}
 										href={`/resources/category/${encodeURIComponent(resourceType.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-										className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+										className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 									>
 										{resourceType.fields.title}
 									</Link>
@@ -84,7 +84,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 										<Link
 											key={item.contentID}
 											href={`/resources/topic/${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-											className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+											className="rounded bg-background dark:bg-gray-800 px-2 py-1 hover:text-highlight-light dark:hover:text-secondary"
 										>
 											{item.fields.title}
 										</Link>
@@ -128,7 +128,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 											/>
 										)}
 									</div>
-									<div className="flex flex-col gap-3 border border-t-0 border-background p-5">
+									<div className="flex flex-col gap-3 border border-t-0 border-background dark:border-gray-700 p-5">
 										<h5 className="text-lg font-medium">{res.resourceItem.fields.title}</h5>
 										<div className="flex">
 											<div className="rounded bg-background px-2 py-1">
@@ -150,7 +150,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 								</h3>
 								{res.rightCTAContent && (
 									<div
-										className="prose prose-invert text-center"
+										className="prose darl:prose-invert text-center"
 										dangerouslySetInnerHTML={renderHTMLCustom(res.rightCTAContent)}
 									></div>
 								)}

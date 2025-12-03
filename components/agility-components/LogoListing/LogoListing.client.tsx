@@ -26,16 +26,16 @@ export const LogoListingClient = ({ logos }: Props) => {
 						if (logo.logo.url.endsWith(".svg")) src = logo.logo.url
 
 						return (
-							<div className="embla__slide flex items-center justify-center" key={index}>
-							<div className="my-3">
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img 
-									src={src} 
-									alt={logo.title} 
-									className="h-16 w-auto" 
-									loading="lazy"
-								/>
-							</div>
+							<div className="embla__slide flex items-center justify-center dark:h-24 " key={index}>
+								<div className="my-3 dark:bg-white dark:w-auto dark:rounded-2xl dark:px-4">
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										src={src}
+										alt={logo.title}
+										className="h-16 w-auto"
+										loading="lazy"
+									/>
+								</div>
 							</div>
 						)
 					})}
