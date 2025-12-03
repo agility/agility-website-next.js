@@ -6147,6 +6147,26 @@
       background-color: var(--color-secondary) !important;
     }
   }
+  .dark\:bg-gray-200 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-200);
+    }
+  }
+  .dark\:bg-gray-300 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-300);
+    }
+  }
+  .dark\:bg-gray-400 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-400);
+    }
+  }
+  .dark\:bg-gray-500 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-500);
+    }
+  }
   .dark\:bg-gray-700 {
     &:where(.dark, .dark *) {
       background-color: var(--color-gray-700);
@@ -6281,6 +6301,21 @@
       stroke: var(--color-gray-400);
     }
   }
+  .dark\:p-2 {
+    &:where(.dark, .dark *) {
+      padding: calc(var(--spacing) * 2);
+    }
+  }
+  .dark\:px-2 {
+    &:where(.dark, .dark *) {
+      padding-inline: calc(var(--spacing) * 2);
+    }
+  }
+  .dark\:px-4 {
+    &:where(.dark, .dark *) {
+      padding-inline: calc(var(--spacing) * 4);
+    }
+  }
   .dark\:\!text-gray-900 {
     &:where(.dark, .dark *) {
       color: var(--color-gray-900) !important;
@@ -6376,6 +6411,11 @@
       @supports (color: color-mix(in lab, red, red)) {
         --tw-ring-color: color-mix(in oklab, var(--color-purple-900) 20%, transparent);
       }
+    }
+  }
+  .dark\:ring-secondary {
+    &:where(.dark, .dark *) {
+      --tw-ring-color: var(--color-secondary);
     }
   }
   .dark\:prose-invert {
@@ -6551,6 +6591,13 @@
     &:where(.dark, .dark *) {
       &:focus {
         color: var(--color-gray-400);
+      }
+    }
+  }
+  .dark\:focus\:text-secondary {
+    &:where(.dark, .dark *) {
+      &:focus {
+        color: var(--color-secondary);
       }
     }
   }

@@ -272,6 +272,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 							type="secondary"
 							href={fields.exploreAllPartners.href}
 							target={fields.exploreAllPartners.target}
+							className="dark:text-secondary dark:ring-secondary"
 						>
 							{fields.exploreAllPartners.text}
 						</LinkButton>

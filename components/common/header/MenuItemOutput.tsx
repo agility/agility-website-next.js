@@ -75,7 +75,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 				target={link.menuItem.fields.uRL.target}
 				className={classNames(
 					"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6",
-					"transition-colors hover:text-highlight dark:hover:text-secondary focus:text-highlight-light focus:outline-none"
+					"transition-colors hover:text-highlight dark:hover:text-secondary dark:focus:text-secondary focus:text-highlight-light focus:outline-none"
 					//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
 				)}
 			>

@@ -62,7 +62,7 @@ export const SubmissionFormClient = ({
 				<div className="mx-auto max-w-5xl">
 					<div className="flex flex-col gap-10 md:flex-row">
 						<div className="width-1/2 relative flex-1">
-							<div className="relative z-2 border-t-2 border-t-highlight-light bg-white dark:bg-gray-800 p-6 shadow-lg">
+							<div className="relative z-2 border-t-2 border-t-highlight-light bg-white dark:bg-gray-300 p-6 shadow-lg">
 								<div id={divID}></div>
 							</div>
 							<img
@@ -78,7 +78,7 @@ export const SubmissionFormClient = ({
 						</div>
 						<div className="width-1/2 flex-1">
 							<h2 className="text-balance text-5xl font-medium">{leftColumnTitle}</h2>
-							<div className="prose" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
+							<div className="prose dark:prose-invert" dangerouslySetInnerHTML={{ __html: leftColumnBody }} />
 						</div>
 					</div>
 				</div>

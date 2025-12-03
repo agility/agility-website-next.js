@@ -139,7 +139,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 									<h5 className="uppercase text-slate-600">About the Author</h5>
 									<div className="mt-3 text-balance font-medium">{post.author.fields.title}</div>
 									<div
-										className="prose"
+										className="prose dark:prose-invert"
 										dangerouslySetInnerHTML={renderHTMLCustom(post.author.fields.textblob)}
 									></div>
 								</div>
