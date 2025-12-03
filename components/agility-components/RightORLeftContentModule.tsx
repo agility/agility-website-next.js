@@ -65,11 +65,11 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
-					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
+					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600 dark:text-gray-400")}>{breadcrumb}</div>}
 					<h2 className="text-balance text-5xl font-medium leading-[1.15]">{title}</h2>
 					{description && (
 						<div
-							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
+							className={clsx("prose mt-5 max-w-none dark:prose-invert", darkMode ? "prose-invert" : "")}
 							dangerouslySetInnerHTML={renderHTMLCustom(description)}
 						></div>
 					)}

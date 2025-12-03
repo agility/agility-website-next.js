@@ -116,7 +116,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 										<div className="flex gap-2">
 											{post.tags.map((tag) => (
 												<div
-													className="rounded bg-background dark:!bg-gray-700 dark:text-gray-200 p-1 px-2 text-xs hover:text-highlight-light"
+													className="rounded bg-background dark:!bg-gray-700 dark:hover:text-gray-300 dark:text-gray-200 p-1 px-2 text-xs hover:text-highlight-light"
 													key={tag.url}
 													onClick={(e) => {
 														e.preventDefault()

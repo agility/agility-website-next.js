@@ -6131,6 +6131,11 @@
       background-color: var(--color-secondary) !important;
     }
   }
+  .dark\:bg-gray-200 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-200);
+    }
+  }
   .dark\:bg-gray-300 {
     &:where(.dark, .dark *) {
       background-color: var(--color-gray-300);
