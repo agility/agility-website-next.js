@@ -14,7 +14,6 @@ interface IRightORLeftContentModule {
 	graphic?: ImageField
 	darkMode?: string
 	breadcrumb?: string
-	lessVerticalWhitespace?: boolean
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -27,7 +26,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 
 	const { fields, contentID } = componentItem
 
-	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb, lessVerticalWhitespace } = fields
+	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb } = fields
 
 	const darkMode = fields.darkMode === "true"
 
@@ -41,7 +40,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 				className={clsx(
 					"mx-auto flex max-w-5xl flex-col items-center gap-4",
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row",
-					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
+					"pb-14"
 				)}
 			>
 				<div className="flex-1">
@@ -66,8 +65,8 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
-					{breadcrumb && <div className="mb-2">{breadcrumb}</div>}
-					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
+					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
+					<h2 className="text-balance text-5xl font-medium leading-[1.15]">{title}</h2>
 					{description && (
 						<div
 							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
@@ -76,13 +75,13 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
-							<LinkButton type="secondary-bg" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
+							<LinkButton type={darkMode ? "primary" : "primary"} href={cTA1Optional.href} target={cTA1Optional.target} size="md">
 								{cTA1Optional.text}
 							</LinkButton>
 						)}
 						{cTA2Optional && cTA2Optional.href !== "" && (
 							<LinkButton
-								type="secondary"
+								type={darkMode ? "primary" : "primary"}
 								href={cTA2Optional.href}
 								target={cTA2Optional.target}
 								size="md"

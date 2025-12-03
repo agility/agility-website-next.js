@@ -57,8 +57,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 				</head>
 			</head>
-			{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 			<body data-agility-guid={process.env.AGILITY_GUID}>
+				{/* GTM loaded with lazyOnload strategy to defer until after page interactive */}
+				{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
 				<PostHogProvider>
 					<div id="site-wrapper">
 						<div id="site">
@@ -77,8 +78,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					)}
 
 					<HubspotTracker />
-					{/* Load in the agility web-studio-sdk script */}
-					<Script src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" />
+					{/* Load in the agility web-studio-sdk script - deferred to reduce blocking */}
+					<Script 
+						src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" 
+						strategy="lazyOnload"
+					/>
 				</PostHogProvider>
 			</body>
 		</html>

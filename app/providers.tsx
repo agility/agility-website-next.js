@@ -7,12 +7,16 @@ import { useEffect } from 'react'
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
-		if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-			posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-				api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-				defaults: '2025-05-24',
-			})
-		}
+		// Defer PostHog initialization to reduce main thread blocking
+		const timer = setTimeout(() => {
+			if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+				posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+					api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+					defaults: '2025-05-24',
+				})
+			}
+		}, 1000)
+		return () => clearTimeout(timer)
 	}, [])
 
 	return (

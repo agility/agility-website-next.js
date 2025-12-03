@@ -20,22 +20,24 @@ export const PodcastContentPanel = async ({ module, languageCode }: UnloadedModu
 	})
 
 	return (
-		<Container className="mx-auto max-w-7xl">
-			<div
-				className={clsx(
-					"flex flex-col items-center gap-8 lg:flex-row lg:items-start",
-					fields.imagePosition === "right" ? "lg:flex-row-reverse" : ""
-				)}
-			>
-				<div>
-					{fields.image && <AgilityPic image={fields.image} fallbackWidth={640} className="" />}
-					{fields.podcastEmbedCode && (
-						<div dangerouslySetInnerHTML={{ __html: fields.podcastEmbedCode }}></div>
+		<Container >
+			<div className="mx-auto max-w-7xl">
+				<div
+					className={clsx(
+						"flex flex-col items-center gap-8 lg:flex-row lg:items-start",
+						fields.imagePosition === "right" ? "lg:flex-row-reverse" : ""
 					)}
-				</div>
-				<div>
-					<h1 className="text-balance text-4xl font-medium">{fields.title}</h1>
-					<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
+				>
+					<div>
+						{fields.image && <AgilityPic image={fields.image} fallbackWidth={640} className="" />}
+						{fields.podcastEmbedCode && (
+							<div dangerouslySetInnerHTML={{ __html: fields.podcastEmbedCode }}></div>
+						)}
+					</div>
+					<div>
+						<h1 className="text-balance text-4xl font-medium">{fields.title}</h1>
+						<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
+					</div>
 				</div>
 			</div>
 		</Container>

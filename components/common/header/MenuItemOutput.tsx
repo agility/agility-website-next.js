@@ -33,14 +33,15 @@ export const MenuItemOutput = ({ link }: Props) => {
 		refIsMouseOnPopover.current = true
 		cancelShowSubmenu()
 		refShowSubmenuDelay.current = setTimeout(() => {
+			console.log("showSubmenu")
 			refPopoverButton.current?.click()
-		}, 150)
+		}, 50)
 	}
 
 	const cancelShowSubmenu = () => {
+		console.log("cancelShowSubmenu")
 		clearTimeout(refShowSubmenuDelay.current)
 		refIsMouseOnPopover.current = false
-		checkClosePopover()
 	}
 
 	const mouseEnterPopover = (closeMethod: () => void) => {
@@ -89,49 +90,55 @@ export const MenuItemOutput = ({ link }: Props) => {
 		<Popover className="relative">
 			{({ open, close }) => (
 				<>
-					<div
-						className="group flex gap-1"
+					<PopoverButton
+						ref={refPopoverButton}
+						as="div"
+						className="group flex cursor-pointer"
 						onMouseEnter={() => showSubmenu(close)}
-						onMouseLeave={() => cancelShowSubmenu()}
+						onMouseLeave={() => {
+							cancelShowSubmenu()
+							checkClosePopover()
+						}}
 					>
 						<Link
 							href={link.menuItem.fields.uRL.href}
 							target={link.menuItem.fields.uRL.target}
 							className={classNames(
 								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
-								//"ring-highlight transition-all duration-300 focus:text-highlight focus:outline-none focus:ring-2 group-hover:text-highlight"
+								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+								open && "text-highlight"
 							)}
+							onClick={(e) => {
+								// Allow the link to work normally
+								e.stopPropagation()
+								cancelShowSubmenu()
+								checkClosePopover()
+							}}
+
 						>
 							<div>{link.menuItem.fields.title}</div>
 						</Link>
-						<PopoverButton
-							ref={refPopoverButton}
-							className={classNames(
-								"text-secondary-500 ring-0X outline-highlightX -ml-2 rounded-full text-sm font-medium leading-6",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none"
-							)}
-						>
-							<IconChevronDown
-								className={classNames("h-4 w-4 transition-all", open ? "rotate-180" : "rotate-0")}
-							/>
-						</PopoverButton>
-					</div>
+					</PopoverButton>
 					<PopoverPanel
 						transition
 						anchor="bottom start"
 						className={classNames(
-							"absolute z-[51] -ml-36 mt-3 bg-white shadow-lg ring-1 ring-gray-900/5",
+							"z-[51]  [--anchor-gap:0px] [--anchor-offset:-20px] p-3 ",
 							hasMegaContent ? "w-screen max-w-lg" : "",
 							"transition data-[closed]:translate-y-1 data-[closed]:opacity-0",
 							"data-[enter]:duration-200 data-[enter]:ease-out",
 							"data-[leave]:duration-150 data-[leave]:ease-in"
 						)}
 						onMouseEnter={() => mouseEnterPopover(close)}
+						onMouseLeave={() => mouseLeavePopover()}
 					>
-						<div className="overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
+
+						<div className="absolute left-10 top-4 z-[1] h-5 w-5 -translate-y-1/2 rotate-45 bg-white shadow-lg ring-1  ring-black/5 "></div>
+						<div className="absolute left-10 top-4 z-[3] h-5 w-5 -translate-y-1/2 rotate-45 bg-white rounded-sm"></div>
+						<div className="relative shadow-lg z-[2] ring-1  ring-black/5  bg-gradient-to-b from-white via-white to-gray-100">
+
 							<div className="flex flex-1 gap-1">
-								<div className="relative grid min-w-[260px] gap-5 bg-white px-6 py-7">
+								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
 									{link.subMenuList?.map((subLink) => (
 										<Link
 											key={subLink.contentID}
@@ -234,6 +241,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 								)}
 							</div>
 						</div>
+
 					</PopoverPanel>
 				</>
 			)}

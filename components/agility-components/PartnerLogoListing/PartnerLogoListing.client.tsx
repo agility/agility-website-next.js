@@ -6,7 +6,7 @@ import { LogoItem } from "./PartnerLogoListing.server"
 import Link from "next/link"
 import { Fragment } from "react"
 
-import "./logo-listing.css"
+import "./PartnerLogoListing.css"
 import { IPartner } from "lib/types/IPartner"
 
 interface Props {

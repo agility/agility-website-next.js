@@ -69,7 +69,6 @@ import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar"
 import { ReviewRotator } from "./ReviewRotator/ReviewRotator"
 import { LatestPosts } from "./LatestPosts"
 import { GatedDownload } from "./GatedDownload/GatedDownload"
-import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server"
 import { PodcastContentPanel } from "./Podcast/PodcastContentPanel"
 import { PodcastListing } from "./Podcast/PodcastListing"
 import { SplashImage } from "./SplashImage/SplashImage"
@@ -85,7 +84,6 @@ const allModules = [
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },
 	{ name: "LogoListingModule", module: LogoListingModule },
-	{ name: "LogoListingModuleCopy", module: LogoListingModuleCopy },
 	{ name: "LogoListing", module: LogoListing },
 	{ name: "PartnerLogoListing", module: PartnerLogoListing },
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },

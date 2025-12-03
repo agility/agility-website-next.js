@@ -3,12 +3,12 @@
 	"version": "14.0.0",
 	"private": true,
 	"scripts": {
-		"dev:tw": "tailwindcss -i ./styles/input.css -o ./styles/output.css -w",
+		"dev:tw": "tailwindcss -i ./styles/input.css -o ./styles/output.css --watch",
 		"dev:next": "next dev",
 		"dev": "npm-run-all --parallel \"dev:*\"",
 		"dev-g": "concurrently \"next dev\" \"yarn generate --watch\"",
 		"prebuild": "tsx node/prebuild.ts",
-		"build:tw": "tailwindcss -i ./styles/input.css -o ./styles/output.css",
+		"build:tw": "tailwindcss -i ./styles/input.css -o ./styles/output.css --minify",
 		"buildX:l": "lightningcss --minify --bundle --targets \">= 0.25%\" ./styles/output-pre.css -o ./styles/output.css",
 		"build:next": "next build",
 		"build": "npm-run-all \"build:*\"",
@@ -44,6 +44,7 @@
 		"html-react-parser": "^3.0.4",
 		"lodash": "^4.17.21",
 		"luxon": "^3.1.0",
+		"motion": "^12.23.24",
 		"next": "^14.2.23",
 		"posthog-js": "^1.260.1",
 		"react": "18.2.0",
@@ -65,7 +66,8 @@
 		"@netlify/blobs": "^8.0.0",
 		"@netlify/functions": "^3.0.0",
 		"@parcel/watcher": "^2.4.1",
-		"@tailwindcss/typography": "^0.5.13",
+		"@tailwindcss/cli": "^4.1.17",
+		"@tailwindcss/typography": "^0.5.19",
 		"@types/he": "^1.2.3",
 		"@types/lodash": "^4.17.7",
 		"@types/luxon": "^3.1.0",
@@ -83,7 +85,7 @@
 		"postcss": "^8.4.19",
 		"prettier": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.5",
-		"tailwindcss": "^3.4.4",
+		"tailwindcss": "^4.1.17",
 		"tsx": "^4.19.1"
 	}
 }

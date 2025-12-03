@@ -6,7 +6,7 @@ interface Props {
 	href?: string
 	target?: string
 	children: React.ReactNode
-	type: "primary" | "secondary" | "secondary-bg" | "secondary-inverted" | "alternate" | "slate"
+	type: "primary" | "primary-outline" | "secondary" | "secondary-bg" | "secondary-inverted" | "alternate" | "slate"
 	size?: "sm" | "md" | "lg"
 	buttonType?: "button" | "submit" | "reset"
 	className?: string
@@ -38,7 +38,7 @@ export const LinkButton = ({
 
 	const btnClass = useMemo(() => {
 		return classNames(
-			"inline-flex items-center justify-center font-medium",
+			"inline-flex items-center justify-center font-medium whitespace-nowrap",
 			size === "sm" ? "text-sm px-4 h-9" : size === "md" ? "text-base px-6 h-10" : "text-lg px-8 h-12",
 			"duration-200 ease-in-out transition-all",
 			"hover:scale-105",
@@ -49,7 +49,7 @@ export const LinkButton = ({
 					: type === "secondary-bg"
 						? "text-base bg-secondary"
 						: type === "alternate"
-							? "bg-secondary ring-2 ring-secondary ring-inset"
+							? "bg-secondary ring-2 ring-secondary ring-inset text-gray-900 focus:ring-white/40"
 							: type === "slate"
 								? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
 								: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",

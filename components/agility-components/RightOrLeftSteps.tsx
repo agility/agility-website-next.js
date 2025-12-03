@@ -34,7 +34,7 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 			data-agility-component={contentID}
 			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
 		>
-			<div className="mx-auto max-w-5xl">
+			<div className="mx-auto max-w-5xl pb-14">
 				{title && <h2 className="text-balance text-center text-4xl leading-10 sm:leading-tight">{title}</h2>}
 				{subTitle && <h4 className="mb-10 mt-4 text-balance text-center">{subTitle}</h4>}
 

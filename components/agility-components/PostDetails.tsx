@@ -76,8 +76,8 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	const dateStr = DateTime.fromJSDate(new Date(post.date)).toFormat("LLL. dd, yyyy")
 
 	return (
-		<Container className="mx-auto max-w-7xl">
-			<article>
+		<Container >
+			<article className="mx-auto max-w-7xl">
 				<time className="text-slate-600">{dateStr}</time>
 				<h1 className="mt-5 text-balance text-4xl font-medium">{post.title}</h1>
 				<h2 className="mt-5 text-balance text-lg font-medium">{post.subTitle}</h2>
@@ -172,7 +172,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 							}}
 						/>
 
-						<div className="mt-10 lg:mt-96">
+						<div className="mt-10 lg:mt-60">
 							<h3 className="text-center text-xl font-medium lg:text-left">
 								{post.titleRelatedResources}
 							</h3>

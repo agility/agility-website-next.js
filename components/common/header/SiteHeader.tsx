@@ -26,12 +26,11 @@ interface Props {
 	headerContent: HeaderContent
 }
 
-const SiteHeader = ({ headerContent: { header, links } }: Props) => {
+const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props) => {
 	// open / close mobile nav
 	const [open, setOpen] = useState(false)
 
 	const [isScrolled, setIsScrolled] = useState(false)
-
 	/**
 	 * Keep track of whether the user has scrolled so we can show a shadow on the header
 	 */
@@ -60,22 +59,42 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 
 	return (
 		<>
-			{/* MARKETING MESSAGE */}
-			{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
-				<div className="marketing-banner hidden bg-highlight text-white lg:flex justify-center">
-					<div
-						className="mx-auto max-w-7xl p-3 px-8 text-sm"
-						dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
-					></div>
+
+			{/* PRE HEADER */}
+			<div className="bg-highlight text-white py-3 hidden lg:block px-8 2xl:px-0">
+				<div className="mx-auto max-w-7xl flex justify-between items-center">
+					{/* MARKETING MESSAGE */}
+					{header.fields.hideMarketingBanner !== "true" && header.fields.marketingBanner && (
+						<div className="marketing-banner  justify-start items-center flex-shrink line-clamp-1 ">
+							<div
+								className=" text-sm"
+								dangerouslySetInnerHTML={renderHTMLCustom(header.fields.marketingBanner)}
+							></div>
+						</div>
+					)}
+					<div className="flex items-center gap-1">
+						<Search />
+						{preheaderLinks.map((link, index) => (
+							<Link
+								key={`preheader-link-${index}`}
+								href={link.url.href}
+								target={link.url.target}
+								className="ml-4 text-sm font-medium text-white whitespace-nowrap hover:text-secondary transition-colors"
+							>
+								{link.title}
+							</Link>
+						))}
+					</div>
 				</div>
-			)}
+			</div>
+
 			<header
 				className={classNames(
-					"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow",
+					"sticky top-0 z-50 mx-auto w-full bg-white transition-shadow px-8 2xl:px-0",
 					isScrolled ? "shadow-b" : "shadow-none"
 				)}
 			>
-				<div className="mx-auto max-w-7xl px-8">
+				<div className="mx-auto max-w-7xl">
 					{/* DESKTOP NAV */}
 					<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 						<div className="lg:w-0 lg:flex-1">
@@ -127,13 +146,12 @@ const SiteHeader = ({ headerContent: { header, links } }: Props) => {
 								</svg>
 							</button>
 						</div>
-						<PopoverGroup as="nav" className="hidden items-center space-x-1 lg:flex">
+						<PopoverGroup as="nav" className="hidden items-center space-x-3 lg:flex">
 							{links.map((link, index) => {
 								return <MenuItemOutput key={link.menuItem.contentID} link={link} />
 							})}
 
-							<div className="w-4"></div>
-							<Search />
+
 							<div className="w-1"></div>
 							{
 								/* Contact Us */
