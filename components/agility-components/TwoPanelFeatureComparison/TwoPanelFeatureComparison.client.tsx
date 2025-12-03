@@ -196,7 +196,7 @@ export const TwoPanelFeatureComparisonClient = ({ group1Title, group2Title, grou
 									<div className="flex-1">
 										<h3 className="text-4xl text-white dark:text-white">{panel.fields.title}</h3>
 										<div
-											className="prose prose-lg prose-invert dark:prose-invert mt-4"
+											className="prose prose-lg dark:prose-invert mt-4"
 											dangerouslySetInnerHTML={renderHTMLCustom(panel.fields.description)}
 										></div>
 										<div className="mt-4 flex flex-col gap-2">

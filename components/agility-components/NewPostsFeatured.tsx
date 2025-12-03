@@ -92,7 +92,7 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 								<h3 className="text-balance text-xl font-bold">{post.fields.title}</h3>
 								{post.fields.excerpt && (
 									<div
-										className="prose prose-invert line-clamp-4 flex-1"
+										className="prose dark:prose-invert line-clamp-4 flex-1"
 										dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
 									></div>
 								)}

@@ -206,7 +206,7 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 						{fields.cTAButton && (
 							<div className="mt-14 bg-highlight-light dark:bg-gray-800 px-6 py-8 text-center">
 								<div
-									className="prose prose-invert dark:prose-invert"
+									className="prose dark:prose-invert"
 									dangerouslySetInnerHTML={renderHTMLCustom(fields.cTAContent)}
 								></div>
 								<div className="mt-6">

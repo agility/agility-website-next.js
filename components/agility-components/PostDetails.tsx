@@ -121,7 +121,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 						)}
 
 						<div
-							className="prose mt-5 max-w-full"
+							className="prose mt-5 max-w-full dark:prose-invert"
 							dangerouslySetInnerHTML={renderHTMLCustom(post.textblob)}
 						></div>
 
@@ -155,7 +155,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 										<Link
 											key={item.contentID}
 											href={`/blog/tag/${encodeURIComponent(item.fields.title.toLowerCase().replaceAll(" ", "-"))}`}
-											className="rounded bg-background px-2 py-1 hover:text-highlight-light"
+											className="rounded bg-background px-2 py-1 hover:text-highlight-light dark:bg-gray-800 dark:text-gray-200"
 										>
 											{item.fields.title}
 										</Link>
@@ -192,15 +192,15 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 											/>
 										</div>
 									)}
-									<div className="space-y-3 border border-t-0 border-background p-6">
+									<div className="space-y-3 border border-t-0 border-background dark:border-gray-700 p-6">
 										<h3 className="text-xl font-medium">{resource.fields.title}</h3>
 										<div>
-											<span className="rounded-md bg-background px-2 py-1">
+											<span className="rounded-md bg-background px-2 py-1 dark:bg-gray-800 dark:text-gray-200">
 												{resource.fields.categoriesTitle}
 											</span>
 										</div>
 										<div>
-											<div className="flex items-center gap-1 font-medium text-highlight-light">
+											<div className="flex items-center gap-1 font-medium text-highlight-light dark:text-secondary dark:group-hover:text-secondary">
 												Learn More
 												<IconChevronRight size={18} />
 											</div>

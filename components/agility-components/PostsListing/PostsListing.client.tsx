@@ -10,6 +10,7 @@ import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
 import { useRouter } from "next/navigation"
 import { IconChevronRight } from "@tabler/icons-react"
 import { Container } from "components/micro/Container"
+import clsx from "clsx"
 
 interface Props {
 	pageSize: number
@@ -106,7 +107,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 								</div>
 								<div className="min-h-0 flex-1">
 									<div className="min-h-[350px]X flex h-full flex-col gap-3 p-6">
-										<h2 className="text-secondary-500 dark:text-gray-200 group-hover:text-primary-500 dark:group-hover:text-highlight-light text-2xl font-medium transition duration-300">
+										<h2 className="text-secondary-500 dark:text-gray-200 group-hover:text-primary-500 dark:group-hover:text-secondary text-2xl font-medium transition duration-300">
 											{post.title}
 										</h2>
 										<div className="mt-4 text-xs font-semibold uppercase italic text-gray-600 dark:text-gray-400">
@@ -131,7 +132,8 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 											<div className="line-clamp-3">{post.excerpt}</div>
 										</div>
 										<div className="">
-											<div className="flex items-center gap-1 font-semibold text-highlight-dark dark:text-highlight-light transition-colors group-hover:text-highlight-light">
+											<div className={clsx("flex items-center gap-1 font-semibold text-highlight-dark transition-colors group-hover:text-highlight-light",
+												"dark:text-secondary dark:group-hover:text-secondary")} >
 												Read More
 												<IconChevronRight size={20} />
 											</div>

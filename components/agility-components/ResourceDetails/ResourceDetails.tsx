@@ -150,7 +150,7 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 								</h3>
 								{res.rightCTAContent && (
 									<div
-										className="prose prose-invert text-center"
+										className="prose darl:prose-invert text-center"
 										dangerouslySetInnerHTML={renderHTMLCustom(res.rightCTAContent)}
 									></div>
 								)}
