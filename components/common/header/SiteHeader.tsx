@@ -75,7 +75,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 					)}
 					<div className="flex items-center gap-1">
 						<Search />
-						<DarkModeToggle />
+						<DarkModeToggle placeMent="preheader" />
 						{preheaderLinks.map((link, index) => (
 							<Link
 								key={`preheader-link-${index}`}
@@ -111,8 +111,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 							</Link>
 						</div>
 						<div className="-my-2 -mr-2 flex items-center gap-1 lg:hidden">
-							<MobileSearch />
-							<DarkModeToggle />
+
 							{
 								/* Contact Us */
 								header.fields.contactus && (
@@ -219,7 +218,9 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 						</div>
 						<div className="mt-6 flow-root">
 							<div className="-my-6 divide-y divide-gray-500/10">
+
 								<div className="space-y-2 py-6">
+
 									{links.map((link, index) => {
 										if (link.subMenuList && link.subMenuList.length > 0) {
 											//has sub menu
@@ -272,13 +273,17 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 									})}
 								</div>
 								<div className="flex flex-col gap-2 py-6">
+									<div className="pt-2 pl-2">
+										<DarkModeToggle placeMent="mobile-menu" />
+									</div>
+									<MobileSearch />
 									{
 										/* Contact Us */
 										header.fields.contactus && (
 											<LinkButton
 												href={header.fields.contactus.href}
 												target={header.fields.contactus.target}
-												type="primary"
+												type="secondary"
 												className="block"
 												onClick={() => setOpen(false)}
 											>

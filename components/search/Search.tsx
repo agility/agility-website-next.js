@@ -28,6 +28,7 @@ import clsx from 'clsx'
 import SearchResults from './SearchResults';
 import { SearchInput } from './SearchInput';
 import { SearchIcon } from './SearchIcon';
+import { LinkButton } from 'components/micro/LinkButton';
 
 
 export type Result = {
@@ -303,7 +304,7 @@ export function Search() {
 				<span className="whitespace-nowrap text-sm font-medium text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 					Search
 				</span>
-				<SearchIcon className="h-5 w-5 flex-shrink-0 stroke-white stroke-2 group-hover:stroke-secondary transition-colors" />
+				<SearchIcon className="h-6 w-6 flex-shrink-0 stroke-white stroke-2 group-hover:stroke-secondary transition-colors" />
 
 			</button>
 			<Suspense fallback={null}>
@@ -317,15 +318,16 @@ export function MobileSearch() {
 	let { buttonProps, dialogProps } = useSearchProps()
 
 	return (
-		<div className="contents lg:hidden">
-			<button
-				type="button"
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-gray-100/10 ui-not-focus-visible:outline-none lg:hidden  outline-violet-600"
+		<div className="lg:hidden ">
+			<LinkButton
+				type="secondary"
+				className="w-full flex"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 dark:stroke-gray-100 " />
-			</button>
+				<span>Search</span>
+				<SearchIcon className="h-5 w-5 stroke-current" />
+			</LinkButton>
 			<Suspense fallback={null}>
 				<SearchDialog className="lg:hidden" {...dialogProps} />
 			</Suspense>

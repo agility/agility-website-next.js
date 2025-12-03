@@ -7,9 +7,11 @@ type Theme = "system" | "light" | "dark"
 
 const STORAGE_KEY = "theme-preference"
 
+interface IDarkModeToggle {
+	placeMent: "preheader" | "mobile-menu"
+}
 
-
-export function DarkModeToggle() {
+export function DarkModeToggle({ placeMent }: IDarkModeToggle) {
 	const [theme, setTheme] = useState<Theme>("system")
 	const [mounted, setMounted] = useState(false)
 
@@ -61,14 +63,35 @@ export function DarkModeToggle() {
 		localStorage.setItem(STORAGE_KEY, nextTheme)
 	}
 
+	// Get color classes based on placement
+	const getColorClasses = () => {
+		if (placeMent === "mobile-menu") {
+			return "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+		}
+		return "text-white hover:text-secondary"
+	}
+
 	// Prevent hydration mismatch by not rendering until mounted
 	if (!mounted) {
+		if (placeMent === "mobile-menu") {
+			return (
+				<button
+					type="button"
+					aria-label="Toggle theme"
+					title="Theme: System mode. Click to switch to Dark mode."
+					className={`-mx-3 flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 ${getColorClasses()} hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer`}
+				>
+					<span>Theme</span>
+					<IconSunMoon className="h-5 w-5" />
+				</button>
+			)
+		}
 		return (
 			<button
 				type="button"
 				aria-label="Toggle theme"
 				title="Theme: System mode. Click to switch to Dark mode."
-				className="inline-flex items-center justify-center rounded-md p-2 text-white hover:text-secondary transition-colors duration-150 ease-in-out focus:outline-none cursor-pointer bg-transparent"
+				className={`inline-flex items-center justify-center rounded-md p-2 ${getColorClasses()} transition-colors duration-150 ease-in-out focus:outline-none cursor-pointer bg-transparent`}
 			>
 				<IconSunMoon className="h-5 w-5" />
 			</button>
@@ -106,13 +129,42 @@ export function DarkModeToggle() {
 		return `Theme: ${currentThemeName} mode. Click to switch to ${nextThemeName} mode.`
 	}
 
+	const getDisplayLabel = () => {
+		switch (theme) {
+			case "light":
+				return "Light"
+			case "dark":
+				return "Dark"
+			case "system":
+			default:
+				return "Theme"
+		}
+	}
+
+	// Mobile menu layout: block element with label and icon
+	if (placeMent === "mobile-menu") {
+		return (
+			<button
+				type="button"
+				onClick={cycleTheme}
+				aria-label={getLabel()}
+				title={getTitle()}
+				className={`-mx-3 flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 ${getColorClasses()} hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none cursor-pointer`}
+			>
+				<span>{getDisplayLabel()}</span>
+				{getIcon()}
+			</button>
+		)
+	}
+
+	// Preheader layout: icon-only button
 	return (
 		<button
 			type="button"
 			onClick={cycleTheme}
 			aria-label={getLabel()}
 			title={getTitle()}
-			className="inline-flex items-center justify-center rounded-md p-2 text-white hover:text-secondary transition-colors duration-150 ease-in-out focus:outline-none cursor-pointer bg-transparent"
+			className={`inline-flex items-center justify-center rounded-md p-2 ${getColorClasses()} transition-colors duration-150 ease-in-out focus:outline-none cursor-pointer bg-transparent`}
 		>
 			{getIcon()}
 		</button>
