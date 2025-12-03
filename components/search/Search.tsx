@@ -296,7 +296,7 @@ export function Search() {
 			<button
 				type="button"
 				title={`Search ${modifierKey}K`}
-				className="flex h-6 items-center justify-end rounded-md transition-all duration-300 ease-in-out ui-not-focus-visible:outline-none outline-violet-600 group overflow-hidden w-8 hover:w-24 gap-1"
+				className="flex h-6 cursor-pointer items-center justify-end rounded-md transition-all duration-300 ease-in-out ui-not-focus-visible:outline-none outline-violet-600 group overflow-hidden w-8 hover:w-24 gap-1"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
