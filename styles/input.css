@@ -154,4 +154,9 @@
 			}
 		}
 	}
+
+	[id^=gartner-pi-widget] * {
+		/*special case for the gartner pi widget*/
+    font-family: var(--font-sans) !important;
+	}
 }

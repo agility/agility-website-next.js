@@ -1691,9 +1691,6 @@
   .block {
     display: block;
   }
-  .contents {
-    display: contents;
-  }
   .flex {
     display: flex;
   }
@@ -2527,9 +2524,6 @@
   }
   .bg-red-200 {
     background-color: var(--color-red-200);
-  }
-  .bg-red-500 {
-    background-color: var(--color-red-500);
   }
   .bg-secondary {
     background-color: var(--color-secondary);
@@ -3538,16 +3532,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-secondary);
-      }
-    }
-  }
-  .hover\:bg-zinc-900\/5 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: color-mix(in srgb, oklch(21% 0.006 285.885) 5%, transparent);
-        @supports (color: color-mix(in lab, red, red)) {
-          background-color: color-mix(in oklab, var(--color-zinc-900) 5%, transparent);
-        }
       }
     }
   }
@@ -6147,24 +6131,9 @@
       background-color: var(--color-secondary) !important;
     }
   }
-  .dark\:bg-gray-200 {
-    &:where(.dark, .dark *) {
-      background-color: var(--color-gray-200);
-    }
-  }
   .dark\:bg-gray-300 {
     &:where(.dark, .dark *) {
       background-color: var(--color-gray-300);
-    }
-  }
-  .dark\:bg-gray-400 {
-    &:where(.dark, .dark *) {
-      background-color: var(--color-gray-400);
-    }
-  }
-  .dark\:bg-gray-500 {
-    &:where(.dark, .dark *) {
-      background-color: var(--color-gray-500);
     }
   }
   .dark\:bg-gray-700 {
@@ -6291,24 +6260,9 @@
       --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
     }
   }
-  .dark\:stroke-gray-100 {
-    &:where(.dark, .dark *) {
-      stroke: var(--color-gray-100);
-    }
-  }
   .dark\:stroke-gray-400 {
     &:where(.dark, .dark *) {
       stroke: var(--color-gray-400);
-    }
-  }
-  .dark\:p-2 {
-    &:where(.dark, .dark *) {
-      padding: calc(var(--spacing) * 2);
-    }
-  }
-  .dark\:px-2 {
-    &:where(.dark, .dark *) {
-      padding-inline: calc(var(--spacing) * 2);
     }
   }
   .dark\:px-4 {
@@ -6489,18 +6443,6 @@
       &:hover {
         @media (hover: hover) {
           background-color: var(--color-secondary) !important;
-        }
-      }
-    }
-  }
-  .dark\:hover\:bg-gray-100\/10 {
-    &:where(.dark, .dark *) {
-      &:hover {
-        @media (hover: hover) {
-          background-color: color-mix(in srgb, oklch(96.7% 0.003 264.542) 10%, transparent);
-          @supports (color: color-mix(in lab, red, red)) {
-            background-color: color-mix(in oklab, var(--color-gray-100) 10%, transparent);
-          }
         }
       }
     }
@@ -6901,6 +6843,9 @@
         color: var(--color-secondary);
       }
     }
+  }
+  [id^=gartner-pi-widget] * {
+    font-family: var(--font-sans) !important;
   }
 }
 @property --tw-translate-x {
