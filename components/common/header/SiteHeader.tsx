@@ -81,7 +81,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 								key={`preheader-link-${index}`}
 								href={link.url.href}
 								target={link.url.target}
-								className="ml-4 text-sm font-medium text-white hover:text-secondary transition-colors"
+								className="ml-4 text-sm font-medium text-white whitespace-nowrap hover:text-secondary transition-colors"
 							>
 								{link.title}
 							</Link>
