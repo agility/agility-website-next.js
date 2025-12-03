@@ -284,7 +284,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 												href={header.fields.contactus.href}
 												target={header.fields.contactus.target}
 												type="secondary"
-												className="block"
+												className="block dark:text-secondary dark:ring-secondary"
 												onClick={() => setOpen(false)}
 											>
 												{header.fields.contactus.text}
@@ -297,7 +297,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											<LinkButton
 												href={header.fields.primaryButton.href}
 												target={header.fields.primaryButton.target}
-												type="secondary"
+												type="primary"
 												className="dark:!bg-secondary dark:!ring-secondary dark:!text-gray-900 dark:hover:!bg-secondary"
 												onClick={() => setOpen(false)}
 											>

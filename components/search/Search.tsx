@@ -321,7 +321,7 @@ export function MobileSearch() {
 		<div className="lg:hidden ">
 			<LinkButton
 				type="secondary"
-				className="w-full flex"
+				className="w-full flex dark:text-secondary dark:ring-secondary"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
