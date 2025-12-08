@@ -50,7 +50,7 @@ const PostListingClient = ({ posts, getNextPosts, pageSize, selectedTag, tags }:
 	}
 
 	return (
-		<Container className="">
+		<Container className="pb-14">
 			<div className="mx-auto max-w-7xl">
 				<div className="flex">
 					<FilterComboBox
