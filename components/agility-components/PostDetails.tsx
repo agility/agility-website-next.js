@@ -189,6 +189,15 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 												alt={resource.fields.title}
 												fallbackWidth={400}
 												className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+												sources={[
+													//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
+													{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1200 },
+													{ media: "(min-width: 1200px)", width: 600 },
+													{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 800 },
+													{ media: "(min-width: 1024px)", width: 500 },
+													{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 500 },
+													{ media: "(min-width: 768px)", width: 400 }
+												]}
 											/>
 										</div>
 									)}
