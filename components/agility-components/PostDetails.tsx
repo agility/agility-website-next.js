@@ -203,11 +203,13 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 									)}
 									<div className="space-y-3 border border-t-0 border-background p-6">
 										<h3 className="text-xl font-medium">{resource.fields.title}</h3>
-										<div>
-											<span className="rounded-md bg-background px-2 py-1">
-												{resource.fields.categoriesTitle}
-											</span>
-										</div>
+										{resource.fields.blogTagsTitle &&
+											<div>
+												<span className="rounded-md bg-background px-2 py-1">
+													{resource.fields.blogTagsTitle}
+												</span>
+											</div>
+										}
 										<div>
 											<div className="flex items-center gap-1 font-medium text-highlight-light">
 												Learn More
