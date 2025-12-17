@@ -11,7 +11,7 @@ import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalConte
 import SingleTestimonialPanel from "./SingleTestimonialPanel"
 import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator"
 import CenteredCTAPanel from "./CenteredCTAPanel"
-import RightORLeftContentModule from "./RightORLeftContentModule"
+import RightORLeftContentModule from "./RightORLeftContentModule/RightORLeftContentModule"
 import TriplePanelComparisonModule from "./TriplePanelComparisonModule"
 import RightOrLeftSteps from "./RightOrLeftSteps"
 import FeaturedResources from "./FeaturedResources"
