@@ -79,7 +79,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					"pb-14"
 				)}
 			>
-				<div className="flex-1">
+				<div className="w-full flex-1">
 					{hasVideo && vimeoVideoData && (
 						<VimeoVideoPlayer videoData={vimeoVideoData} />
 					)}
