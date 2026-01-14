@@ -97,7 +97,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 				)}
 
 				<div className="mt-5 lg:flex lg:flex-row lg:gap-20 xl:gap-32">
-					<div className="flex-1">
+					<div className="min-w-0 flex-1">
 						{post.postImage && (
 							<AgilityPic
 								image={post.postImage}
@@ -204,10 +204,12 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 									<div className="space-y-3 border border-t-0 border-background p-6">
 										<h3 className="text-xl font-medium">{resource.fields.title}</h3>
 										{resource.fields.blogTagsTitle &&
-											<div>
-												<span className="rounded-md bg-background px-2 py-1">
-													{resource.fields.blogTagsTitle}
-												</span>
+											<div className="flex flex-wrap gap-1">
+												{resource.fields.blogTagsTitle.split(",").map((tag: string, i: number) => (
+													<span key={i} className="rounded-md bg-background px-2 py-1 text-sm">
+														{tag.trim()}
+													</span>
+												))}
 											</div>
 										}
 										<div>

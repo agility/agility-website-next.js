@@ -30,7 +30,7 @@
 	--color-primaryHighlight: #f4f4f4;
 	--color-primary: #2a3846;
 	--color-secondary: #ffc414;
-	--color-highlight: #4501A8;
+	--color-highlight: #4501a8;
 	--color-highlight-dark: #370286;
 	--color-highlight-light: #5800d4;
 	--color-background: #e9f0f5;
@@ -67,6 +67,21 @@
 
 	.prose iframe {
 		max-width: 100%;
+	}
+
+	/* Make links inside code blocks readable on dark backgrounds */
+	.prose pre code a {
+		@apply text-indigo-300 underline;
+		&:hover {
+			@apply text-indigo-500;
+		}
+	}
+
+	.prose code a {
+		@apply text-indigo-600 underline;
+		&:hover {
+			@apply text-indigo-800;
+		}
 	}
 
 	/* Backwards compat */
