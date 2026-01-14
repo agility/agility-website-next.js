@@ -2017,6 +2017,9 @@
   .max-w-none {
     max-width: none;
   }
+  .min-w-0 {
+    min-width: calc(var(--spacing) * 0);
+  }
   .min-w-80 {
     min-width: calc(var(--spacing) * 80);
   }
@@ -4756,11 +4759,6 @@
       margin-top: calc(var(--spacing) * 0);
     }
   }
-  .md\:mt-6 {
-    @media (width >= 48rem) {
-      margin-top: calc(var(--spacing) * 6);
-    }
-  }
   .md\:mt-8 {
     @media (width >= 48rem) {
       margin-top: calc(var(--spacing) * 8);
@@ -5438,11 +5436,6 @@
   .lg\:mt-0 {
     @media (width >= 64rem) {
       margin-top: calc(var(--spacing) * 0);
-    }
-  }
-  .lg\:mt-3 {
-    @media (width >= 64rem) {
-      margin-top: calc(var(--spacing) * 3);
     }
   }
   .lg\:mt-12 {

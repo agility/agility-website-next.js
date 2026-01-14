@@ -97,7 +97,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 				)}
 
 				<div className="mt-5 lg:flex lg:flex-row lg:gap-20 xl:gap-32">
-					<div className="flex-1">
+					<div className="min-w-0 flex-1">
 						{post.postImage && (
 							<AgilityPic
 								image={post.postImage}
