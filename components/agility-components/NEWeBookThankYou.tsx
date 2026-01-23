@@ -81,9 +81,11 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 		}
 	}
 
+
+
 	return (
 		<Container >
-			<div className="mx-auto max-w-7xl">
+			<div className="mx-auto max-w-7xl pb-14">
 				<div className="gap-5 lg:flex">
 					<div className="flex-1">
 						<div
@@ -91,11 +93,13 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 							dangerouslySetInnerHTML={renderHTMLCustom(selectedResource?.fields.thankYouContent)}
 						></div>
 
-						<div className="mt-5">
-							<LinkButton type="alternate" size="md" href={downloadUrl} target="_blank">
-								{selectedResource?.fields.resourceButtonText || "Download Now"}
-							</LinkButton>
-						</div>
+						{selectedResource?.fields.downloadButtonText && (
+							<div className="mt-5">
+								<LinkButton type="alternate" size="md" href={downloadUrl} target="_blank">
+									{selectedResource?.fields.downloadButtonText}
+								</LinkButton>
+							</div>
+						)}
 					</div>
 					<div className="lg:w-2/5">
 						<Link href={downloadUrl} target="_blank">
