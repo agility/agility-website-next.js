@@ -28,6 +28,7 @@ export interface IResource {
 	resourceItem?: ContentItem<IResource>,
 	resourceHeading?: string
 	resourceButtonText?: string
+	downloadButtonText?: string
 	thankYouContent?: string
 	rightColumnCTATitle?: string
 	rightCTAContent?: string
