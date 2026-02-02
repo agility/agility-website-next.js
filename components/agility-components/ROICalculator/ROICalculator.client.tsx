@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback, useEffect } from "react"
+import { useState, useMemo, useCallback, useEffect, useRef } from "react"
 import clsx from "clsx"
 import { LinkButton } from "components/micro/LinkButton"
 import { IROICalculator } from "./ROICalculator"
@@ -87,10 +87,14 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 	})
 
 	const [emailError, setEmailError] = useState("")
+	const [companyError, setCompanyError] = useState("")
 	const [consentGiven, setConsentGiven] = useState(false)
 	const [marketingOptIn, setMarketingOptIn] = useState(false)
 	const [consentError, setConsentError] = useState("")
 	const [hasSubmittedToHubSpot, setHasSubmittedToHubSpot] = useState(false)
+
+	// Ref for scrolling to top of calculator on step change
+	const calculatorTopRef = useRef<HTMLDivElement>(null)
 
 	// Handle smooth step transitions with fade effect
 	const transitionToStep = useCallback((newStep: CalculatorStep) => {
@@ -105,6 +109,8 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			const timer = setTimeout(() => {
 				setCurrentStep(pendingStep)
 				setPendingStep(null)
+				// Scroll to top of calculator
+				calculatorTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
 				// Small delay before fading back in
 				setTimeout(() => {
 					setIsTransitioning(false)
@@ -190,6 +196,13 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			hasError = true
 		} else {
 			setEmailError("")
+		}
+
+		if (!state.company.trim()) {
+			setCompanyError("Please enter your company name")
+			hasError = true
+		} else {
+			setCompanyError("")
 		}
 
 		if (!consentGiven) {
@@ -367,6 +380,9 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				<p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">{fields.subheading}</p>
 			</div>
 
+			{/* Scroll anchor for step navigation - positioned to show step indicators */}
+			<div ref={calculatorTopRef} className="scroll-mt-24" />
+
 			{/* Progress Steps (show when in calculator) */}
 			{currentStep !== "form" && currentStep !== "results" && (
 				<div className="mb-8 flex justify-center">
@@ -450,14 +466,22 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 								<label className="mb-1 flex items-center gap-2 text-sm font-medium text-gray-700">
 									<IconBuilding size={16} className="text-gray-400" />
 									{fields.companyLabel}
+									<span className="text-red-500">*</span>
 								</label>
 								<input
 									type="text"
 									value={state.company}
-									onChange={(e) => setState({ ...state, company: e.target.value })}
+									onChange={(e) => {
+										setState({ ...state, company: e.target.value })
+										setCompanyError("")
+									}}
 									placeholder={fields.companyPlaceholder}
-									className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-highlight-light focus:outline-none focus:ring-2 focus:ring-highlight-light/20"
+									className={clsx(
+										"w-full rounded-lg border px-4 py-3 transition-colors focus:border-highlight-light focus:outline-none focus:ring-2 focus:ring-highlight-light/20",
+										companyError ? "border-red-500" : "border-gray-300"
+									)}
 								/>
+								{companyError && <p className="mt-1 text-sm text-red-500">{companyError}</p>}
 							</div>
 
 							{/* Consent Checkboxes */}
