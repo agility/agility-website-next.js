@@ -410,6 +410,55 @@ Deployed to Netlify with:
 
 ---
 
+## Agility CMS Instance Details
+
+### Instance Configuration
+
+| Property | Value |
+|----------|-------|
+| **Instance GUID** | `80dc0987-be84-4405-a572-aba199832f68` |
+| **Instance Name** | Agility CMS Website - 2021 |
+| **Locale** | `en-ca` (English - Canada) |
+| **Sitemap Name** | `website` (ID: 1) |
+| **App URL** | https://app.agilitycms.com/instance/80dc0987-be84-4405-a572-aba199832f68 |
+
+### Page Models Available
+
+| Model Name | ID | Use Case |
+|------------|-----|----------|
+| Main Template | 1 | Standard pages with Main zone |
+| Two Column Template | 2 | Pages with two content columns |
+| Two Columns with Top Zone Template | 3 | Two columns plus top area |
+| Blank Template | 4 | Minimal pages |
+| Landing Page Template | 5 | Marketing landing pages |
+| New Main Template | 6 | Alternative main layout |
+
+### Key Content Zones
+
+- **Main** - Primary content zone in Main Template (most common)
+- **MainContentZone** - May exist in some templates
+- **TopZone** - Top area in Two Columns with Top Zone Template
+
+### Page URL Format in Agility CMS
+
+```
+https://app.agilitycms.com/instance/{instanceGuid}/{locale}/pages/page-{pageID}
+```
+
+Example: https://app.agilitycms.com/instance/80dc0987-be84-4405-a572-aba199832f68/en-ca/pages/page-545
+
+### Key Parent Pages
+
+| Page | ID | Path |
+|------|-----|------|
+| Home | 176 | `/` |
+| Product | 4 | `/product` |
+| Blog | 2 | `/blog` |
+| Partners | 14 | `/partners` |
+| Resources | 155 | `/resources` |
+
+---
+
 ## Contact & Resources
 
 - **Agility CMS Docs:** https://agilitycms.com/docs
