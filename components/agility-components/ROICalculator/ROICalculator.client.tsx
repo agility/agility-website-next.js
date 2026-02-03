@@ -164,7 +164,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 		const fteCapacityFreed = totalMonthlyHoursSaved / 160
 
-		const paybackMonths = state.implementationCost / (totalAnnualSavings / 12)
+		const paybackMonths = totalAnnualSavings > 0 ? state.implementationCost / (totalAnnualSavings / 12) : 0
 
 		return {
 			totalAnnualSavings: Math.round(totalAnnualSavings),
@@ -256,7 +256,8 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 	const highlightText = (text: string, highlight: string) => {
 		if (!highlight) return text
-		const parts = text.split(new RegExp(`(${highlight})`, "gi"))
+		const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+		const parts = text.split(new RegExp(`(${escaped})`, "gi"))
 		return parts.map((part, i) =>
 			part.toLowerCase() === highlight.toLowerCase() ? (
 				<span key={i} className="text-highlight-light">
