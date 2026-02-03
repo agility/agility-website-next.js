@@ -73,6 +73,7 @@ import { PodcastContentPanel } from "./Podcast/PodcastContentPanel"
 import { PodcastListing } from "./Podcast/PodcastListing"
 import { SplashImage } from "./SplashImage/SplashImage"
 import { CalendlyScheduler } from "./CalendlyScheduler/CalendlyScheduler"
+import { ROICalculator } from "./ROICalculator/ROICalculator"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -154,6 +155,7 @@ const allModules = [
 	{ name: "PodcastSubscribe", module: UnUsedComponent },
 	{ name: "PodcastListing", module: PodcastListing },
 	{ name: "CalendlyScheduler", module: CalendlyScheduler },
+	{ name: "ROICalculator", module: ROICalculator },
 
 ]
 
