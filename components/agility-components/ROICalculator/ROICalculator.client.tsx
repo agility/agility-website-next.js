@@ -91,7 +91,9 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 	const [consentGiven, setConsentGiven] = useState(false)
 	const [marketingOptIn, setMarketingOptIn] = useState(false)
 	const [consentError, setConsentError] = useState("")
-	const [hasSubmittedToHubSpot, setHasSubmittedToHubSpot] = useState(false)
+	const [marketingOptInError, setMarketingOptInError] = useState("")
+	const [hasSubmittedLead, setHasSubmittedLead] = useState(false)
+	const [hasSubmittedSummary, setHasSubmittedSummary] = useState(false)
 
 	// Ref for scrolling to top of calculator on step change
 	const calculatorTopRef = useRef<HTMLDivElement>(null)
@@ -212,7 +214,17 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			setConsentError("")
 		}
 
+		if (!marketingOptIn) {
+			setMarketingOptInError("Please opt in to receive communications")
+			hasError = true
+		} else {
+			setMarketingOptInError("")
+		}
+
 		if (hasError) return
+
+		// Submit lead to HubSpot immediately to capture the contact
+		submitLeadToHubSpot()
 
 		transitionToStep("step1")
 	}
@@ -256,26 +268,79 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		)
 	}
 
-	// Submit to HubSpot when reaching results
-	const submitToHubSpot = useCallback(async () => {
+	// Helper to get HubSpot tracking cookie
+	const getHubSpotCookie = () => {
+		const value = `; ${document.cookie}`
+		const parts = value.split(`; hubspotutk=`)
+		if (parts.length === 2) return parts.pop()?.split(";").shift()
+		return undefined
+	}
+
+	// Submit lead to HubSpot immediately when user starts the calculator
+	const submitLeadToHubSpot = useCallback(async () => {
 		if (!fields.hubspotPortalId || !fields.hubspotFormId) {
-			console.log("HubSpot not configured - skipping submission")
+			console.log("HubSpot not configured - skipping lead submission")
 			return
 		}
 
-		if (hasSubmittedToHubSpot) return
+		if (hasSubmittedLead) return
 
 		try {
 			const url = `https://api.hsforms.com/submissions/v3/integration/submit/${fields.hubspotPortalId}/${fields.hubspotFormId}`
+			const hubspotutk = getHubSpotCookie()
 
-			// Get HubSpot tracking cookie if available
-			const getCookie = (name: string) => {
-				const value = `; ${document.cookie}`
-				const parts = value.split(`; ${name}=`)
-				if (parts.length === 2) return parts.pop()?.split(";").shift()
-				return undefined
+			const data = {
+				fields: [
+					{ objectTypeId: "0-1", name: "email", value: state.email },
+					{ objectTypeId: "0-1", name: "company", value: state.company },
+				],
+				context: {
+					hutk: hubspotutk,
+					pageUri: typeof window !== "undefined" ? window.location.href : "",
+					pageName: "ROI Calculator",
+				},
+				legalConsentOptions: {
+					consent: {
+						consentToProcess: true,
+						text: fields.consentText || "I agree to the privacy policy.",
+						communications: marketingOptIn
+							? [
+									{
+										value: true,
+										subscriptionTypeId: 999,
+										text: fields.marketingOptInText || "I agree to receive marketing communications.",
+									},
+							  ]
+							: [],
+					},
+				},
 			}
-			const hubspotutk = getCookie("hubspotutk")
+
+			await fetch(url, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			})
+
+			setHasSubmittedLead(true)
+			console.log("Successfully submitted lead to HubSpot")
+		} catch (error) {
+			console.error("Error submitting lead to HubSpot:", error)
+		}
+	}, [fields, state.email, state.company, marketingOptIn, hasSubmittedLead])
+
+	// Submit ROI summary to HubSpot when reaching results (updates existing contact)
+	const submitSummaryToHubSpot = useCallback(async () => {
+		if (!fields.hubspotPortalId || !fields.hubspotFormId) {
+			console.log("HubSpot not configured - skipping summary submission")
+			return
+		}
+
+		if (hasSubmittedSummary) return
+
+		try {
+			const url = `https://api.hsforms.com/submissions/v3/integration/submit/${fields.hubspotPortalId}/${fields.hubspotFormId}`
+			const hubspotutk = getHubSpotCookie()
 
 			// Build summary text for sales
 			const summary = [
@@ -341,19 +406,19 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				body: JSON.stringify(data),
 			})
 
-			setHasSubmittedToHubSpot(true)
-			console.log("Successfully submitted to HubSpot")
+			setHasSubmittedSummary(true)
+			console.log("Successfully submitted ROI summary to HubSpot")
 		} catch (error) {
-			console.error("Error submitting to HubSpot:", error)
+			console.error("Error submitting summary to HubSpot:", error)
 		}
-	}, [fields, state, results, marketingOptIn, hasSubmittedToHubSpot])
+	}, [fields, state, results, marketingOptIn, hasSubmittedSummary])
 
-	// Trigger HubSpot submission when reaching results
+	// Trigger summary submission when reaching results
 	useEffect(() => {
-		if (currentStep === "results" && !hasSubmittedToHubSpot) {
-			submitToHubSpot()
+		if (currentStep === "results" && !hasSubmittedSummary) {
+			submitSummaryToHubSpot()
 		}
-	}, [currentStep, hasSubmittedToHubSpot, submitToHubSpot])
+	}, [currentStep, hasSubmittedSummary, submitSummaryToHubSpot])
 
 	const steps = [
 		{ id: "step1", label: "Baseline" },
@@ -385,13 +450,13 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 			{/* Progress Steps (show when in calculator) */}
 			{currentStep !== "form" && currentStep !== "results" && (
-				<div className="mb-8 flex justify-center">
-					<div className="flex items-center gap-2">
+				<div className="mb-8 flex justify-center px-4">
+					<div className="flex items-center gap-1 md:gap-2">
 						{steps.map((step, index) => (
 							<div key={step.id} className="flex items-center">
 								<div
 									className={clsx(
-										"flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-all",
+										"flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-medium transition-all md:h-8 md:w-8 md:text-sm",
 										currentStepIndex > index
 											? "bg-highlight-light text-white"
 											: currentStepIndex === index
@@ -399,11 +464,11 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 												: "bg-gray-200 text-gray-500"
 									)}
 								>
-									{currentStepIndex > index ? <IconCheck size={16} /> : index + 1}
+									{currentStepIndex > index ? <IconCheck size={14} /> : index + 1}
 								</div>
 								<span
 									className={clsx(
-										"ml-2 text-sm font-medium",
+										"ml-1 hidden text-xs font-medium md:inline md:ml-2 md:text-sm",
 										currentStepIndex >= index ? "text-primary" : "text-gray-400"
 									)}
 								>
@@ -412,7 +477,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 								{index < steps.length - 1 && (
 									<div
 										className={clsx(
-											"mx-4 h-0.5 w-12",
+											"mx-2 h-0.5 w-4 md:mx-4 md:w-12",
 											currentStepIndex > index ? "bg-highlight-light" : "bg-gray-200"
 										)}
 									/>
@@ -435,7 +500,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				>
 				{/* Lead Capture Form */}
 				{currentStep === "form" && (
-					<div className="rounded-2xl bg-white p-8 shadow-lg">
+					<div className="rounded-2xl bg-white p-5 shadow-lg md:p-8">
 						<h2 className="mb-2 text-center text-2xl font-bold text-primary">{fields.formHeading}</h2>
 						<p className="mb-6 text-center text-gray-600">{fields.formSubheading}</p>
 
@@ -521,18 +586,23 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 								<label className={clsx(
 									"flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
-									marketingOptIn ? "border-highlight-light bg-highlight-light/5" : "border-gray-200 hover:border-gray-300"
+									marketingOptInError ? "border-red-500 bg-red-50" : marketingOptIn ? "border-highlight-light bg-highlight-light/5" : "border-gray-200 hover:border-gray-300"
 								)}>
 									<input
 										type="checkbox"
 										checked={marketingOptIn}
-										onChange={(e) => setMarketingOptIn(e.target.checked)}
+										onChange={(e) => {
+											setMarketingOptIn(e.target.checked)
+											if (e.target.checked) setMarketingOptInError("")
+										}}
 										className="mt-0.5 h-4 w-4 rounded border-gray-300 text-highlight-light focus:ring-highlight-light"
 									/>
 									<span className="text-sm text-gray-700">
 										{fields.marketingOptInText || "Send me product updates, tips, and content about headless CMS."}
+										<span className="text-red-500"> *</span>
 									</span>
 								</label>
+								{marketingOptInError && <p className="text-sm text-red-500">{marketingOptInError}</p>}
 							</div>
 
 							<button
@@ -548,7 +618,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 				{/* Step 1: Baseline */}
 				{currentStep === "step1" && (
-					<div className="rounded-2xl bg-white p-8 shadow-lg">
+					<div className="rounded-2xl bg-white p-5 shadow-lg md:p-8">
 						<h2 className="mb-2 text-2xl font-bold text-primary">{fields.step1Heading}</h2>
 						<p className="mb-6 text-gray-600">{fields.step1Subheading}</p>
 
@@ -594,7 +664,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 				{/* Step 2: Team & Costs */}
 				{currentStep === "step2" && (
-					<div className="rounded-2xl bg-white p-8 shadow-lg">
+					<div className="rounded-2xl bg-white p-5 shadow-lg md:p-8">
 						<h2 className="mb-2 text-2xl font-bold text-primary">{fields.step2Heading}</h2>
 						<p className="mb-6 text-gray-600">{fields.step2Subheading}</p>
 
@@ -643,7 +713,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 				{/* Step 3: Time-to-Publish Pain */}
 				{currentStep === "step3" && (
-					<div className="rounded-2xl bg-white p-8 shadow-lg">
+					<div className="rounded-2xl bg-white p-5 shadow-lg md:p-8">
 						<h2 className="mb-2 text-2xl font-bold text-primary">{fields.step3Heading}</h2>
 						<p className="mb-6 text-gray-600">{fields.step3Subheading}</p>
 
@@ -691,7 +761,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 				{/* Step 4: IT Overhead */}
 				{currentStep === "step4" && (
-					<div className="rounded-2xl bg-white p-8 shadow-lg">
+					<div className="rounded-2xl bg-white p-5 shadow-lg md:p-8">
 						<h2 className="mb-2 text-2xl font-bold text-primary">{fields.step4Heading}</h2>
 						<p className="mb-6 text-gray-600">{fields.step4Subheading}</p>
 
@@ -769,15 +839,15 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 						</button>
 
 						{/* Main Results Card */}
-						<div className="rounded-2xl bg-gradient-to-br from-highlight-light to-highlight-dark p-8 text-white shadow-lg">
-							<h2 className="text-xl font-medium">
+						<div className="rounded-2xl bg-gradient-to-br from-highlight-light to-highlight-dark p-5 text-white shadow-lg md:p-8">
+							<h2 className="text-lg font-medium md:text-xl">
 								{fields.resultsHeadingPrefix}
 								{results.totalMonthlyHoursSaved} hours/month and
 							</h2>
-							<p className="mt-2 text-5xl font-bold">{formatCurrency(results.totalAnnualSavings)}/year</p>
-							<p className="mt-2 text-lg opacity-90">{fields.resultsHeadingSuffix}</p>
+							<p className="mt-2 text-3xl font-bold md:text-5xl">{formatCurrency(results.totalAnnualSavings)}/year</p>
+							<p className="mt-2 text-base opacity-90 md:text-lg">{fields.resultsHeadingSuffix}</p>
 
-							<div className="mt-6 flex gap-6">
+							<div className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-6">
 								<div className="flex items-center gap-2">
 									<IconUserCheck size={20} />
 									<span>
@@ -794,7 +864,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 						</div>
 
 						{/* Savings Breakdown */}
-						<div className="rounded-2xl bg-white p-6 shadow-lg">
+						<div className="rounded-2xl bg-white p-4 shadow-lg md:p-6">
 							<h3 className="mb-4 flex items-center gap-2 font-bold text-primary">
 								<IconPigMoney size={20} className="text-highlight-light" />
 								Savings Breakdown
@@ -841,7 +911,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 						</div>
 
 						{/* Implementation Investment */}
-						<div className="rounded-2xl bg-white p-6 shadow-lg">
+						<div className="rounded-2xl bg-white p-4 shadow-lg md:p-6">
 							<h3 className="mb-4 flex items-center gap-2 font-bold text-primary">
 								<IconChartBar size={20} className="text-highlight-light" />
 								Estimated Implementation Investment
@@ -875,10 +945,10 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 						</div>
 
 						{/* CTA Section */}
-						<div className="rounded-2xl bg-gradient-to-r from-primary to-gray-800 p-8 text-center text-white shadow-lg">
-							<h3 className="text-2xl font-bold">{fields.ctaHeading}</h3>
-							<p className="mx-auto mt-2 max-w-md text-gray-300">{fields.ctaSubheading}</p>
-							<div className="mt-6 flex justify-center gap-4">
+						<div className="rounded-2xl bg-gradient-to-r from-primary to-gray-800 p-5 text-center text-white shadow-lg md:p-8">
+							<h3 className="text-xl font-bold md:text-2xl">{fields.ctaHeading}</h3>
+							<p className="mx-auto mt-2 max-w-md text-sm text-gray-300 md:text-base">{fields.ctaSubheading}</p>
+							<div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
 								{fields.ctaPrimaryButton?.href && (
 									<LinkButton
 										href={fields.ctaPrimaryButton.href}
@@ -1037,14 +1107,14 @@ interface BreakdownRowProps {
 }
 
 const BreakdownRow = ({ label, value, sublabel, color }: BreakdownRowProps) => (
-	<div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
-		<div className="flex items-center gap-3">
-			<div className={clsx("h-3 w-3 rounded-full", color)} />
-			<div>
-				<div className="font-medium text-primary">{label}</div>
+	<div className="flex items-center justify-between gap-2 rounded-lg bg-gray-50 p-3">
+		<div className="flex min-w-0 items-center gap-2 md:gap-3">
+			<div className={clsx("h-3 w-3 shrink-0 rounded-full", color)} />
+			<div className="min-w-0">
+				<div className="text-sm font-medium text-primary md:text-base">{label}</div>
 				<div className="text-xs text-gray-500">{sublabel}</div>
 			</div>
 		</div>
-		<div className="text-lg font-bold text-primary">{value}</div>
+		<div className="shrink-0 text-base font-bold text-primary md:text-lg">{value}</div>
 	</div>
 )

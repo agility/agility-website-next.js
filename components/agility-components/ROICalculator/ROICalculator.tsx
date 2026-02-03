@@ -1,6 +1,5 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
-import { Container } from "components/micro/Container"
 import { ROICalculatorClient } from "./ROICalculator.client"
 
 export interface IROICalculator {
@@ -104,10 +103,10 @@ export const ROICalculator = async ({ module, languageCode }: UnloadedModuleProp
 	})
 
 	return (
-		<Container className="bg-gradient-to-b from-background to-white pb-20">
+		<section className="bg-gradient-to-b from-background to-white px-4 pt-14 pb-20 md:px-8 2xl:px-0">
 			<div className="mx-auto max-w-7xl">
 				<ROICalculatorClient fields={fields} />
 			</div>
-		</Container>
+		</section>
 	)
 }
