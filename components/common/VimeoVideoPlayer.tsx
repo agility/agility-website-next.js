@@ -5,14 +5,16 @@ import dynamic from "next/dynamic"
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false })
 
+export interface VimeoVideoData {
+	url?: string
+	video_id?: number
+	title?: string
+	thumbnail_url?: string
+	thumbnail_url_with_play_button?: string
+}
+
 interface VimeoVideoProps {
-	videoData: {
-		url?: string
-		video_id?: number
-		title?: string
-		thumbnail_url?: string
-		thumbnail_url_with_play_button?: string
-	}
+	videoData: VimeoVideoData
 }
 
 export const VimeoVideoPlayer = ({ videoData }: VimeoVideoProps) => {

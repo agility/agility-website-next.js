@@ -3,15 +3,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { Container } from "components/micro/Container"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 import { GetADemoClient } from "./GetADemo.client"
-import { VimeoVideoPlayer } from "components/common/VimeoVideoPlayer"
-
-interface VimeoVideoData {
-	url?: string
-	video_id?: number
-	title?: string
-	thumbnail_url?: string
-	thumbnail_url_with_play_button?: string
-}
+import { VimeoVideoPlayer, VimeoVideoData } from "components/common/VimeoVideoPlayer"
 
 export interface IGetADemo {
 	heading?: string

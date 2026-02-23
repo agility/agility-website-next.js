@@ -1,5 +1,6 @@
 "use client"
 
+import Script from "next/script"
 import { posthog } from "posthog-js"
 import { useCallback, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
@@ -10,9 +11,9 @@ interface Props {
 }
 
 export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
-	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
+	const { portalId, formId, name } = JSON.parse(hubspotForm || '{"portalId": "", "formId": ""}')
 	const divID = `get-a-demo-form-${formId}`
-	const formLoadRef = useRef<Boolean>(false)
+	const formLoadRef = useRef<boolean>(false)
 	const router = useRouter()
 
 	const loadForm = useCallback(() => {
@@ -44,15 +45,13 @@ export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
 	useEffect(() => {
 		if (window.hbspt) {
 			loadForm()
-			return
 		}
-
-		const script = document.createElement("script")
-		script.src = "https://js.hsforms.net/forms/v2.js"
-		script.async = true
-		script.onload = () => loadForm()
-		document.body.appendChild(script)
 	}, [loadForm])
 
-	return <div id={divID}></div>
+	return (
+		<>
+			<Script src="https://js.hsforms.net/forms/v2.js" async onLoad={() => loadForm()} />
+			<div id={divID}></div>
+		</>
+	)
 }
