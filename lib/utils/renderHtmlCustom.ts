@@ -6,7 +6,7 @@ export const renderHTMLCustom = (html: string | null | undefined) => {
 	let str = html.replace(/href="~\//gi, 'href="/')
 
 	try {
-		const $ = cheerio.load(str);
+		const $ = cheerio.load(str, null, false);
 		$("img").each((_, element) => {
 			const src = $(element).attr("src");
 
