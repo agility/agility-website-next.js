@@ -190,7 +190,9 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		return re.test(email)
 	}
 
-	const handleStartCalculator = () => {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
+	const handleStartCalculator = async () => {
 		let hasError = false
 
 		if (!validateEmail(state.email)) {
@@ -223,8 +225,17 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 		if (hasError) return
 
-		// Submit lead to HubSpot immediately to capture the contact
-		submitLeadToHubSpot()
+		// Submit lead to HubSpot and check for blocked email
+		setIsSubmitting(true)
+		const result = await submitLeadToHubSpot()
+		setIsSubmitting(false)
+
+		if (!result.success) {
+			if (result.blockedEmail) {
+				setEmailError("Please use your work email address")
+			}
+			return
+		}
 
 		transitionToStep("step1")
 	}
@@ -278,13 +289,14 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 	}
 
 	// Submit lead to HubSpot immediately when user starts the calculator
-	const submitLeadToHubSpot = useCallback(async () => {
+	// Returns { success: true } or { success: false, blockedEmail: true/false }
+	const submitLeadToHubSpot = useCallback(async (): Promise<{ success: boolean; blockedEmail?: boolean }> => {
 		if (!fields.hubspotPortalId || !fields.hubspotFormId) {
 			console.log("HubSpot not configured - skipping lead submission")
-			return
+			return { success: true }
 		}
 
-		if (hasSubmittedLead) return
+		if (hasSubmittedLead) return { success: true }
 
 		try {
 			const url = `https://api.hsforms.com/submissions/v3/integration/submit/${fields.hubspotPortalId}/${fields.hubspotFormId}`
@@ -317,16 +329,31 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				},
 			}
 
-			await fetch(url, {
+			const response = await fetch(url, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(data),
 			})
 
+			if (!response.ok) {
+				const body = await response.json().catch(() => null)
+				const isBlockedEmail = body?.errors?.some(
+					(e: { errorType?: string }) => e.errorType === "BLOCKED_EMAIL"
+				)
+				if (isBlockedEmail) {
+					console.warn("HubSpot blocked this email address")
+					return { success: false, blockedEmail: true }
+				}
+				console.error("HubSpot submission error:", body)
+				return { success: false }
+			}
+
 			setHasSubmittedLead(true)
 			console.log("Successfully submitted lead to HubSpot")
+			return { success: true }
 		} catch (error) {
 			console.error("Error submitting lead to HubSpot:", error)
+			return { success: false }
 		}
 	}, [fields, state.email, state.company, marketingOptIn, hasSubmittedLead])
 
@@ -608,10 +635,14 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 
 							<button
 								onClick={handleStartCalculator}
-								className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-highlight-light px-6 py-3 font-medium text-white transition-all hover:scale-[1.02] hover:bg-highlight-dark"
+								disabled={isSubmitting}
+								className={clsx(
+									"mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-highlight-light px-6 py-3 font-medium text-white transition-all",
+									isSubmitting ? "cursor-not-allowed opacity-70" : "hover:scale-[1.02] hover:bg-highlight-dark"
+								)}
 							>
-								{fields.startButtonText}
-								<IconArrowRight size={18} />
+								{isSubmitting ? "Submitting..." : fields.startButtonText}
+								{!isSubmitting && <IconArrowRight size={18} />}
 							</button>
 						</div>
 					</div>
