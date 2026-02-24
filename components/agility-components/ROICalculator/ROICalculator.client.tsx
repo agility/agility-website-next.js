@@ -64,7 +64,7 @@ interface CalculatorState {
 }
 
 export const ROICalculatorClient = ({ fields }: Props) => {
-	const [currentStep, setCurrentStep] = useState<CalculatorStep>("form")
+	const [currentStep, setCurrentStep] = useState<CalculatorStep>("step1")
 	const [isTransitioning, setIsTransitioning] = useState(false)
 	const [pendingStep, setPendingStep] = useState<CalculatorStep | null>(null)
 	const [state, setState] = useState<CalculatorState>({
@@ -237,11 +237,11 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			return
 		}
 
-		transitionToStep("step1")
+		transitionToStep("results")
 	}
 
 	const handleNext = () => {
-		const steps: CalculatorStep[] = ["form", "step1", "step2", "step3", "step4", "results"]
+		const steps: CalculatorStep[] = ["step1", "step2", "step3", "step4", "form", "results"]
 		const currentIndex = steps.indexOf(currentStep)
 		if (currentIndex < steps.length - 1) {
 			transitionToStep(steps[currentIndex + 1])
@@ -249,7 +249,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 	}
 
 	const handleBack = () => {
-		const steps: CalculatorStep[] = ["form", "step1", "step2", "step3", "step4", "results"]
+		const steps: CalculatorStep[] = ["step1", "step2", "step3", "step4", "form", "results"]
 		const currentIndex = steps.indexOf(currentStep)
 		if (currentIndex > 0) {
 			transitionToStep(steps[currentIndex - 1])
@@ -455,7 +455,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		{ id: "step4", label: "IT Overhead" },
 	]
 
-	const currentStepIndex = steps.findIndex((s) => s.id === currentStep)
+	const currentStepIndex = currentStep === "form" ? steps.length : steps.findIndex((s) => s.id === currentStep)
 
 	return (
 		<div className="py-10">
@@ -477,7 +477,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			<div ref={calculatorTopRef} className="scroll-mt-24" />
 
 			{/* Progress Steps (show when in calculator) */}
-			{currentStep !== "form" && currentStep !== "results" && (
+			{currentStep !== "results" && (
 				<div className="mb-8 flex justify-center px-4">
 					<div className="flex items-center gap-1 md:gap-2">
 						{steps.map((step, index) => (
@@ -633,17 +633,26 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 								{marketingOptInError && <p className="text-sm text-red-500">{marketingOptInError}</p>}
 							</div>
 
-							<button
-								onClick={handleStartCalculator}
-								disabled={isSubmitting}
-								className={clsx(
-									"mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-highlight-light px-6 py-3 font-medium text-white transition-all",
-									isSubmitting ? "cursor-not-allowed opacity-70" : "hover:scale-[1.02] hover:bg-highlight-dark"
-								)}
-							>
-								{isSubmitting ? "Submitting..." : fields.startButtonText}
-								{!isSubmitting && <IconArrowRight size={18} />}
-							</button>
+							<div className="mt-4 flex items-center justify-between">
+								<button
+									onClick={handleBack}
+									className="flex items-center gap-2 rounded-lg px-4 py-2 text-gray-600 transition-colors hover:bg-gray-100"
+								>
+									<IconArrowLeft size={18} />
+									Back
+								</button>
+								<button
+									onClick={handleStartCalculator}
+									disabled={isSubmitting}
+									className={clsx(
+										"flex items-center justify-center gap-2 rounded-lg bg-highlight-light px-6 py-3 font-medium text-white transition-all",
+										isSubmitting ? "cursor-not-allowed opacity-70" : "hover:scale-[1.02] hover:bg-highlight-dark"
+									)}
+								>
+									{isSubmitting ? "Submitting..." : fields.startButtonText}
+									{!isSubmitting && <IconArrowRight size={18} />}
+								</button>
+							</div>
 						</div>
 					</div>
 				)}
@@ -851,11 +860,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 							</div>
 						</div>
 
-						<NavigationButtons
-							onBack={handleBack}
-							onNext={handleNext}
-							nextLabel="Calculate ROI"
-						/>
+						<NavigationButtons onBack={handleBack} onNext={handleNext} />
 					</div>
 				)}
 
