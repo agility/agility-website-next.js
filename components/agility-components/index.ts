@@ -75,6 +75,14 @@ import { SplashImage } from "./SplashImage/SplashImage"
 import { CalendlyScheduler } from "./CalendlyScheduler/CalendlyScheduler"
 import { ROICalculator } from "./ROICalculator/ROICalculator"
 import { GetADemo } from "./GetADemo/GetADemo"
+import { SplitHero } from "./SplitHero/SplitHero"
+import { TrustedByLogos } from "./TrustedByLogos/TrustedByLogos"
+import { CustomerResults } from "./CustomerResults/CustomerResults"
+import { ValuePropositionCards } from "./ValuePropositionCards/ValuePropositionCards"
+import { G2AwardsBanner } from "./G2AwardsBanner/G2AwardsBanner"
+import { HeadlessBenefits } from "./HeadlessBenefits/HeadlessBenefits"
+import { TestimonialCarousel } from "./TestimonialCarousel/TestimonialCarousel"
+import { DualCTABanner } from "./DualCTABanner/DualCTABanner"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -159,6 +167,15 @@ const allModules = [
 	{ name: "ROICalculator", module: ROICalculator },
 	{ name: "GetADemo", module: GetADemo },
 
+	// Home Page Redesign Components
+	{ name: "SplitHero", module: SplitHero },
+	{ name: "TrustedByLogos", module: TrustedByLogos },
+	{ name: "CustomerResults", module: CustomerResults },
+	{ name: "ValuePropositionCards", module: ValuePropositionCards },
+	{ name: "G2AwardsBanner", module: G2AwardsBanner },
+	{ name: "HeadlessBenefits", module: HeadlessBenefits },
+	{ name: "TestimonialCarousel", module: TestimonialCarousel },
+	{ name: "DualCTABanner", module: DualCTABanner },
 ]
 
 /**
