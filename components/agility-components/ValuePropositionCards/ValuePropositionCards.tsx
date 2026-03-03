@@ -15,7 +15,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import Link from "next/link"
 
-const iconMap: Record<string, React.ComponentType<{ size?: number; stroke?: number; className?: string }>> = {
+const iconMap: Record<string, React.ComponentType<any>> = {
 	"stack-2": IconStack2,
 	code: IconCode,
 	"shield-check": IconShieldCheck,
