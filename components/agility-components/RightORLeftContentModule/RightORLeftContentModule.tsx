@@ -56,7 +56,6 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 	if (video) {
 		try {
 			vimeoVideoData = JSON.parse(video) as VimeoVideoData
-			console.log(vimeoVideoData)
 		} catch (error) {
 			console.error("Failed to parse Vimeo video data:", error)
 		}
