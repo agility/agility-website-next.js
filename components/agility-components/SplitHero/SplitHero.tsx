@@ -31,8 +31,10 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 	].filter((w): w is string => !!w && w.trim().length > 0)
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="overflow-hidden">
-			<div className="mx-auto flex max-w-7xl flex-col items-center gap-16 pb-14 lg:flex-row">
+		<Container id={`${contentID}`} data-agility-component={contentID} className="relative overflow-hidden">
+			{/* Subtle purple gradient wash */}
+			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-purple-50/50" />
+			<div className="relative mx-auto flex max-w-7xl flex-col items-center gap-16 pb-14 lg:flex-row">
 				{/* Left: Text Content */}
 				<div className="space-y-8 lg:w-1/2">
 					{cyclingWords.length > 0 && fields.heading ? (

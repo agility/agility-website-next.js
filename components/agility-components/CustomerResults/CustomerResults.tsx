@@ -38,8 +38,8 @@ export const CustomerResults = async ({ module, languageCode }: UnloadedModulePr
 	const results = lstResults.items as ContentItem<ICustomerResult>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl">
+		<Container id={`${contentID}`} data-agility-component={contentID} className="bg-gray-50 border-b border-gray-200">
+			<div className="mx-auto max-w-7xl pb-14">
 				{fields.heading && (
 					<h2 className="text-balance text-center text-sm font-semibold uppercase tracking-widest text-gray-500">
 						{fields.heading}
@@ -50,20 +50,20 @@ export const CustomerResults = async ({ module, languageCode }: UnloadedModulePr
 						const { logo, statValue, statLabel, link } = item.fields
 						let logoSrc: string | null = null
 						if (logo?.url) {
-							logoSrc = logo.url.endsWith(".svg") ? logo.url : `${logo.url}?format=auto&w=200`
+							logoSrc = logo.url.endsWith(".svg") ? logo.url : `${logo.url}?format=auto&w=300`
 						}
 
 						const cardContent = (
-							<div className="flex h-full flex-col items-center gap-4 rounded-2xl bg-white p-8 shadow-md transition-all hover:shadow-lg">
+							<div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:shadow-md">
 								{logoSrc ? (
 									<img
 										src={logoSrc}
 										alt={logo.label || ""}
-										className="h-10 w-auto"
+										className="h-20 w-auto"
 										loading="lazy"
 									/>
 								) : (
-									<div className="h-10" />
+									<div className="h-20" />
 								)}
 								<div className="text-4xl font-bold text-highlight-light lg:text-5xl">
 									{statValue}

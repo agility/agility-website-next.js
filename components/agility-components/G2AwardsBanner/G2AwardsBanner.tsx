@@ -15,7 +15,7 @@ export const G2AwardsBanner = async ({ module, languageCode }: UnloadedModulePro
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl">
+			<div className="mx-auto max-w-5xl pb-14">
 				{fields.heading && (
 					<h2 className="text-balance text-center text-4xl font-bold text-primary lg:text-5xl">
 						{fields.heading}

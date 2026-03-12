@@ -49,27 +49,29 @@ export const TestimonialCarousel = async ({ module, languageCode }: UnloadedModu
 	}))
 
 	return (
-		<Container
-			id={`${contentID}`}
-			data-agility-component={contentID}
-			className="bg-gradient-to-br from-highlight-dark via-highlight to-highlight-light text-white"
-		>
+		<Container id={`${contentID}`} data-agility-component={contentID} className="bg-purple-100/80">
 			<div className="mx-auto max-w-7xl pb-14">
-				{/* Section Label + Heading */}
-				<div className="text-center">
-					{fields.sectionLabel && (
-						<p className="text-sm font-semibold uppercase tracking-widest text-white/70">
-							{fields.sectionLabel}
-						</p>
-					)}
-					{fields.heading && (
-						<h2 className="mt-3 text-balance text-4xl font-bold lg:text-5xl">
-							{fields.heading}
-						</h2>
-					)}
+				{/* Section Label + Heading + hint */}
+				<div className="flex items-start justify-between">
+					<div>
+						{fields.sectionLabel && (
+							<p className="text-sm font-semibold uppercase tracking-widest text-purple-400">
+								{fields.sectionLabel}
+							</p>
+						)}
+						{fields.heading && (
+							<h2 className="mt-3 text-balance text-4xl font-bold text-primary lg:text-5xl">
+								{fields.heading}
+							</h2>
+						)}
+					</div>
+					<p className="hidden items-center gap-2 pt-2 text-sm text-gray-400 lg:flex">
+						<span className="inline-block h-2 w-2 rounded-full bg-purple-300" />
+						Swipe or use arrows
+					</p>
 				</div>
 
-				{/* Carousel (client) */}
+				{/* Carousel (client) — lavender theme */}
 				<TestimonialCarouselClient
 					items={items}
 					ctaButton={

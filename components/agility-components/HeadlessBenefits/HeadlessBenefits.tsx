@@ -36,8 +36,10 @@ export const HeadlessBenefits = async ({ module, languageCode }: UnloadedModuleP
 	const benefits = (lstBenefits?.items || []) as ContentItem<IHeadlessBenefit>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto grid max-w-7xl items-center gap-8 pb-14 lg:grid-cols-2 lg:gap-16">
+		<Container id={`${contentID}`} data-agility-component={contentID} className="relative">
+			{/* Light lavender background wash */}
+			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50/80 via-purple-50/40 to-transparent" />
+			<div className="relative mx-auto grid max-w-7xl items-center gap-8 pb-14 lg:grid-cols-2 lg:gap-16">
 				{/* Left: Illustration */}
 				<div className="flex justify-center">
 					{fields.image && (

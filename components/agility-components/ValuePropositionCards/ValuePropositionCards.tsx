@@ -60,7 +60,7 @@ export const ValuePropositionCards = async ({ module, languageCode }: UnloadedMo
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl">
+			<div className="mx-auto max-w-7xl pb-14">
 				<div className="mx-auto max-w-3xl text-center">
 					{fields.heading && (
 						<h2 className="text-balance text-4xl font-bold text-primary lg:text-5xl">

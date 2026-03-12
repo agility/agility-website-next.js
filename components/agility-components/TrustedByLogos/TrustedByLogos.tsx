@@ -38,24 +38,24 @@ export const TrustedByLogos = async ({ module, languageCode }: UnloadedModulePro
 
 	return (
 		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl">
+			<div className="mx-auto max-w-7xl pb-14">
 				{fields.heading && (
 					<p className="text-center text-sm font-semibold uppercase tracking-widest text-gray-500">
 						{fields.heading}
 					</p>
 				)}
-				<div className="mt-8 flex flex-wrap items-center justify-center gap-10 lg:gap-16">
+				<div className="group mt-8 flex flex-wrap items-center justify-center gap-10 lg:gap-16">
 					{logos.map((item) => {
 						const { logo, name, link } = item.fields
 						if (!logo?.url) return <div key={item.contentID} />
 
-						let src = logo.url.endsWith(".svg") ? logo.url : `${logo.url}?format=auto&w=200`
+						let src = logo.url.endsWith(".svg") ? logo.url : `${logo.url}?format=auto&w=300`
 
 						const imgEl = (
 							<img
 								src={src}
 								alt={name || logo.label || ""}
-								className="h-10 w-auto opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0 lg:h-12"
+								className="h-20 w-auto opacity-80 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0 lg:h-24"
 								loading="lazy"
 							/>
 						)

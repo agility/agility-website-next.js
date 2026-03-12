@@ -320,6 +320,21 @@ A centered call-to-action section with two buttons.
 - [x] Set icon values on all 4 ValuePropositionCard items (stack-2, code, shield-check, world)
 - [x] Fix `TrustedByLogos` layout — centered with larger gaps, bigger logos (`h-10 lg:h-12`), higher opacity (`0.7`)
 - [x] Fix `CustomerResults` logo sizing — bumped to `h-10` from `h-8`
+- [x] Add subtle purple gradient background wash to `SplitHero` (matches Replit reference's lavender tint)
+- [x] Add light lavender background gradient to `HeadlessBenefits` section
+- [x] Restyle `TestimonialCarousel` to match Replit reference:
+  - Header ("CUSTOMER STORIES" + heading) moved from deep purple/centered to white bg/left-aligned
+  - Carousel cards changed from deep purple + white text to light lavender bg + white cards + dark text
+  - Avatar initials changed from gold circles to purple circles (`bg-purple-200`)
+  - Brand chips changed from filled purple to outlined style with purple highlight on active
+  - Dots/arrows updated to match light lavender theme
+- [x] Restyle `DualCTABanner` to match Replit reference:
+  - Added decorative purple gradient wash + circular shapes in background
+  - Heading changed to italic
+  - Replaced LinkButton with custom Link elements to avoid default purple ring styles
+  - Primary button: yellow/gold filled, no border (`bg-secondary`)
+  - Secondary button: white with dark border (`border-gray-800`)
+  - Added bottom margin (`mb-8`)
 
 ---
 
@@ -343,13 +358,12 @@ A centered call-to-action section with two buttons.
 
 ## Remaining Items
 
+- [x] ~~Upload HeadlessBenefits illustration (JSON/API flow image)~~ — Done
+- [x] ~~Upload G2 badges composite image to G2AwardsBanner~~ — Done
+- [x] ~~Visual QA: Restyle SplitHero, HeadlessBenefits, TestimonialCarousel, DualCTABanner to match Replit reference~~ — Done
 - [ ] Add Scotiabank logo to TrustedByLogos (not included in provided images)
-- [ ] Upload HeadlessBenefits illustration (JSON/API flow image)
-- [ ] Upload G2 badges composite image to G2AwardsBanner content item (heading is set, image field is empty)
 - [ ] Set Link fields in CMS UI (MCP can't save Link field types):
   - SplitHero: change primary CTA text "Free Trial" → "Try for Free"
-  - DualCTABanner: add "Get a Demo" → `/contact-us/get-a-demo` + "Contact Sales" → `/contact-agility-cms`
   - HeadlessBenefits: add CTA "Learn more about Headless" → `/product/headless-cms`
   - TestimonialCarousel: add CTA "Read customer stories" → `/resources/case-studies`
 - [ ] Review/replace placeholder testimonial quotes for Scotiabank, Mitsubishi Electric, and Compass (only Cineplex quote is from reference)
-- [ ] Final visual QA against Replit reference

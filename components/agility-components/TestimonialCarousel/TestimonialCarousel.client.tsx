@@ -63,29 +63,29 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 
 	return (
 		<div className="mt-10">
-			{/* Carousel */}
-			<div className="testimonial-carousel embla relative">
+			{/* Carousel — light lavender theme */}
+			<div className="testimonial-carousel embla relative rounded-2xl bg-purple-200/40 p-4 lg:p-6">
 				<div className="overflow-hidden" ref={emblaRef}>
 					<div className="embla__container">
 						{items.map((item, index) => (
 							<div className="embla__slide" key={`${item.contentID}-${index}`}>
-								<div className="mx-2 flex h-full flex-col justify-between rounded-2xl bg-white/10 p-8 backdrop-blur-sm lg:mx-4 lg:p-10">
-									<blockquote className="text-xl font-medium leading-relaxed lg:text-2xl">
+								<div className="mx-2 flex h-full flex-col justify-between rounded-2xl bg-white/70 p-8 lg:mx-4 lg:p-10">
+									<blockquote className="text-xl font-bold leading-relaxed text-primary lg:text-2xl">
 										&ldquo;{item.quote}&rdquo;
 									</blockquote>
 									<div className="mt-6 flex items-center justify-between">
 										<div className="flex items-center gap-4">
-											<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-sm font-bold text-primary">
+											<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-purple-200 text-sm font-bold text-purple-700">
 												{getInitials(item.personName)}
 											</div>
 											<div>
-												<div className="font-bold">{item.personName}</div>
-												<div className="text-sm text-white/70">
+												<div className="font-bold text-primary">{item.personName}</div>
+												<div className="text-sm text-gray-500">
 													{item.personRole} &bull; {item.company}
 												</div>
 											</div>
 										</div>
-										<div className="text-sm font-medium text-white/50">
+										<div className="text-sm font-medium text-gray-400">
 											{padIndex(index)} / {padIndex(items.length - 1)}
 										</div>
 									</div>
@@ -98,7 +98,7 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 				{/* Navigation Arrows */}
 				<button
 					onClick={scrollPrev}
-					className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 p-2 transition-all hover:bg-white/20"
+					className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full border border-purple-200 bg-white/80 p-2 text-purple-600 transition-all hover:bg-white"
 					type="button"
 					aria-label="Previous testimonial"
 				>
@@ -106,7 +106,7 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 				</button>
 				<button
 					onClick={scrollNext}
-					className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 p-2 transition-all hover:bg-white/20"
+					className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-purple-200 bg-white/80 p-2 text-purple-600 transition-all hover:bg-white"
 					type="button"
 					aria-label="Next testimonial"
 				>
@@ -123,7 +123,7 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 						onClick={() => scrollTo(index)}
 						className={clsx(
 							"h-2.5 rounded-full transition-all",
-							selectedIndex % items.length === index ? "w-8 bg-white" : "w-2.5 bg-white/30"
+							selectedIndex % items.length === index ? "w-8 bg-white" : "w-2.5 bg-white/40"
 						)}
 						aria-label={`Go to testimonial ${index + 1}`}
 					/>
@@ -131,7 +131,7 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 			</div>
 
 			{/* Bottom: Brand chips + CTA */}
-			<div className="mt-10 flex flex-col items-center justify-between gap-6 border-t border-white/20 pt-8 lg:flex-row">
+			<div className="mt-10 flex flex-col items-center justify-between gap-6 border-t border-purple-200/60 pt-8 lg:flex-row">
 				<div className="flex flex-wrap items-center gap-3">
 					{items.map((item, index) => (
 						<button
@@ -139,10 +139,10 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 							type="button"
 							onClick={() => scrollTo(index)}
 							className={clsx(
-								"rounded-full px-4 py-1.5 text-sm font-medium transition-all",
+								"rounded-full border px-4 py-1.5 text-sm font-medium transition-all",
 								selectedIndex % items.length === index
-									? "bg-white text-highlight"
-									: "bg-white/10 text-white hover:bg-white/20"
+									? "border-purple-400 bg-white text-purple-700"
+									: "border-purple-200/60 bg-white/50 text-gray-600 hover:border-purple-300 hover:bg-white/70"
 							)}
 						>
 							{item.company}
@@ -153,7 +153,7 @@ export const TestimonialCarouselClient = ({ items, ctaButton }: Props) => {
 					<Link
 						href={ctaButton.href}
 						target={ctaButton.target}
-						className="group flex items-center gap-2 font-medium text-secondary transition-all hover:text-white"
+						className="group flex items-center gap-2 font-medium text-purple-600 transition-all hover:text-purple-800"
 					>
 						{ctaButton.text}
 						<IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
