@@ -107,11 +107,15 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 										className="group bg-cover bg-no-repeat p-7"
 										style={{ backgroundImage: "url(/images/features/downloadable-pattern.svg)" }}
 									>
+										{resource.fields.bookCover ? (
 										<AgilityPic
 											image={resource.fields.bookCover}
 											fallbackWidth={400}
 											className="w-full rounded-md shadow-md transition-all group-hover:shadow-xl"
 										/>
+									) : (
+										<div className="w-full rounded-md bg-gray-200 shadow-md transition-all group-hover:shadow-xl" style={{ aspectRatio: "264/327" }} />
+									)}
 									</Link>
 									<h3 className="min-h-16 text-balance text-center text-xl font-medium">
 										{resource.fields.title}
