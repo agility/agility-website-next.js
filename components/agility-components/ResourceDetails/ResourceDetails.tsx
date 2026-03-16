@@ -93,9 +93,9 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 							</>
 						)}
 
-						{fields.hubspotForm && res.gated === "true" && (
+						{(res.hubspotForm || fields.hubspotForm) && res.gated === "true" && (
 							<div className="mt-6">
-								<DownloadForm hubspotForm={fields.hubspotForm} redirectURL={downloadRedirectUrl} />
+								<DownloadForm hubspotForm={res.hubspotForm || fields.hubspotForm!} redirectURL={downloadRedirectUrl} />
 							</div>
 						)}
 

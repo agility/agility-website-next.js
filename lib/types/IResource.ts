@@ -34,4 +34,8 @@ export interface IResource {
 	rightCTAContent?: string
 	rightCTAButton?: URLField
 	uRLGatedContent?: string
+	hubspotForm?: string
+	headingTopReads?: string
+	buttonTextTopRead?: string
+	buttonTextTopWebinar?: string
 }
