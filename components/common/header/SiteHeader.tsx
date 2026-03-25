@@ -224,8 +224,8 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 													<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
 														<Link
 															onClick={() => setOpen(false)}
-															href={link.menuItem.fields.uRL.href}
-															target={link.menuItem.fields.uRL.target}
+															href={link.menuItem.fields.uRL?.href || "#"}
+															target={link.menuItem.fields.uRL?.target}
 															key={`mobile-${index}`}
 															className="transition-colors hover:text-highlight"
 														>
@@ -237,7 +237,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 														/>
 													</DisclosureButton>
 													<DisclosurePanel className="mt-2 space-y-2">
-														{link.subMenuList.map((subLink, subIndex) => (
+														{link.subMenuList.filter((subLink) => subLink.fields.uRL?.href).map((subLink, subIndex) => (
 															<DisclosureButton
 																key={subLink.fields.title}
 																as="a"
@@ -253,6 +253,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											)
 										} else {
 											//no sub menu
+											if (!link.menuItem.fields.uRL?.href) return null
 											return (
 												<Link
 													href={link.menuItem.fields.uRL.href}

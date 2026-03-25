@@ -114,7 +114,7 @@ export default async function SiteFooter() {
 
 
 					<div className="flex flex-wrap justify-center lg:justify-start">
-						{footer.fields.bottomLinks.map((link: any, index: number) => (
+						{footer.fields.bottomLinks.filter((link: any) => link.fields.uRL?.href).map((link: any, index: number) => (
 							<div key={link.contentID}>
 								<Link
 									className="text-purple-300 hover:text-white p-1 px-2"

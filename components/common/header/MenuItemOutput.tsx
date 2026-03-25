@@ -71,6 +71,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 	}
 
 	if (!link.subMenuList || link.subMenuList.length == 0) {
+		if (!link.menuItem.fields.uRL?.href) return null
 		return (
 			<Link
 				href={link.menuItem.fields.uRL.href}
@@ -101,8 +102,8 @@ export const MenuItemOutput = ({ link }: Props) => {
 						}}
 					>
 						<Link
-							href={link.menuItem.fields.uRL.href}
-							target={link.menuItem.fields.uRL.target}
+							href={link.menuItem.fields.uRL?.href || "#"}
+							target={link.menuItem.fields.uRL?.target}
 							className={classNames(
 								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
 								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
@@ -139,7 +140,9 @@ export const MenuItemOutput = ({ link }: Props) => {
 
 							<div className="flex flex-1 gap-1">
 								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
-									{link.subMenuList?.map((subLink) => (
+									{link.subMenuList
+									?.filter((subLink) => subLink.fields.uRL?.href)
+									.map((subLink) => (
 										<Link
 											key={subLink.contentID}
 											href={subLink.fields.uRL.href}
