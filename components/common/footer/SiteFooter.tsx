@@ -2,8 +2,10 @@
 import Image from "next/image"
 import React from "react"
 import { IconBrandX, IconBrandInstagram, IconBrandSlack, IconBrandYoutube } from "@tabler/icons-react"
+import { ContentItem } from "@agility/content-fetch"
 import { getContentList } from "lib/cms/getContentList"
 import { useAgilityContext } from "lib/cms/useAgilityContext"
+import { Footer } from "lib/types/Footer"
 import Link from "next/link"
 import { LinkButton } from "components/micro/LinkButton"
 import { FooterSubscribe } from "./FooterSubscribe"
@@ -19,7 +21,7 @@ export default async function SiteFooter() {
 		expandAllContentLinks: true
 	})
 
-	const adjustLink = (url: any) => {
+	const adjustLink = (url: string) => {
 		if (!url) return ""
 		if (url.startsWith("https://agilitycms.com")) {
 			return url.replace("https://agilitycms.com", "")
@@ -31,7 +33,7 @@ export default async function SiteFooter() {
 		return null
 	}
 
-	const footer = footerRes.items[0]
+	const footer = footerRes.items[0] as ContentItem<Footer>
 	const year = new Date().getFullYear()
 
 	return (
@@ -46,7 +48,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column1Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column1Links?.map((link: any) => (
+									{footer.fields.column1Links?.map((link) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -58,7 +60,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column2Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column2Links?.map((link: any) => (
+									{footer.fields.column2Links?.map((link) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -70,7 +72,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column3Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column3Links?.map((link: any) => (
+									{footer.fields.column3Links?.map((link) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -82,7 +84,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column4Title}</h4>
 								)}
 								<ul className="mt-2 flex flex-col text-sm text-gray-100">
-									{footer.fields.column4Links?.map((link: any) => (
+									{footer.fields.column4Links?.map((link) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -94,7 +96,7 @@ export default async function SiteFooter() {
 									<h4 className="font-medium mb-3">{footer.fields.column5Title}</h4>
 								)}
 								<ul className="flex flex-col text-sm">
-									{footer.fields.column5Links?.map((link: any) => (
+									{footer.fields.column5Links?.map((link) => (
 										<li key={link.contentID}>
 											<RenderLink link={link} adjustLink={adjustLink} />
 										</li>
@@ -114,12 +116,12 @@ export default async function SiteFooter() {
 
 
 					<div className="flex flex-wrap justify-center lg:justify-start">
-						{footer.fields.bottomLinks.filter((link: any) => link.fields.uRL?.href).map((link: any, index: number) => (
+						{footer.fields.bottomLinks.filter((link) => link.fields.uRL?.href).map((link, index) => (
 							<div key={link.contentID}>
 								<Link
 									className="text-purple-300 hover:text-white p-1 px-2"
-									href={link.fields.uRL.href}
-									target={link.fields.uRL.target}
+									href={link.fields.uRL!.href}
+									target={link.fields.uRL!.target}
 								>
 									{link.fields.title}
 								</Link>

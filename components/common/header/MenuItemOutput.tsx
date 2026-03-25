@@ -101,24 +101,35 @@ export const MenuItemOutput = ({ link }: Props) => {
 							checkClosePopover()
 						}}
 					>
-						<Link
-							href={link.menuItem.fields.uRL?.href || "#"}
-							target={link.menuItem.fields.uRL?.target}
-							className={classNames(
-								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
-								open && "text-highlight"
-							)}
-							onClick={(e) => {
-								// Allow the link to work normally
-								e.stopPropagation()
-								cancelShowSubmenu()
-								checkClosePopover()
-							}}
-
-						>
-							<div>{link.menuItem.fields.title}</div>
-						</Link>
+						{link.menuItem.fields.uRL?.href ? (
+							<Link
+								href={link.menuItem.fields.uRL.href}
+								target={link.menuItem.fields.uRL.target}
+								className={classNames(
+									"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
+									"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+									open && "text-highlight"
+								)}
+								onClick={(e) => {
+									// Allow the link to work normally
+									e.stopPropagation()
+									cancelShowSubmenu()
+									checkClosePopover()
+								}}
+							>
+								<div>{link.menuItem.fields.title}</div>
+							</Link>
+						) : (
+							<span
+								className={classNames(
+									"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
+									"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+									open && "text-highlight"
+								)}
+							>
+								<div>{link.menuItem.fields.title}</div>
+							</span>
+						)}
 					</PopoverButton>
 					<PopoverPanel
 						transition
@@ -145,15 +156,15 @@ export const MenuItemOutput = ({ link }: Props) => {
 									.map((subLink) => (
 										<Link
 											key={subLink.contentID}
-											href={subLink.fields.uRL.href}
-											target={subLink.fields.uRL.target}
+											href={subLink.fields.uRL!.href}
+											target={subLink.fields.uRL!.target}
 											className={classNames(
 												"text-secondary-500 text-sm font-medium leading-6",
 												"transition-all duration-300 hover:text-highlight focus:text-highlight focus:outline-none"
 											)}
 											onClick={() => close()}
 										>
-											{subLink.fields.uRL.text || subLink.fields.title}
+											{subLink.fields.uRL!.text || subLink.fields.title}
 										</Link>
 									))}
 								</div>

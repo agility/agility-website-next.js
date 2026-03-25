@@ -222,15 +222,21 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											return (
 												<Disclosure as="div" key={`mobile-${index}`} className="-mx-3">
 													<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-														<Link
-															onClick={() => setOpen(false)}
-															href={link.menuItem.fields.uRL?.href || "#"}
-															target={link.menuItem.fields.uRL?.target}
-															key={`mobile-${index}`}
-															className="transition-colors hover:text-highlight"
-														>
-															{link.menuItem.fields.title}
-														</Link>
+														{link.menuItem.fields.uRL?.href ? (
+															<Link
+																onClick={() => setOpen(false)}
+																href={link.menuItem.fields.uRL.href}
+																target={link.menuItem.fields.uRL.target}
+																key={`mobile-${index}`}
+																className="transition-colors hover:text-highlight"
+															>
+																{link.menuItem.fields.title}
+															</Link>
+														) : (
+															<span className="transition-colors hover:text-highlight">
+																{link.menuItem.fields.title}
+															</span>
+														)}
 														<IconChevronDown
 															aria-hidden="true"
 															className="h-5 w-5 flex-none group-data-[open]:rotate-180"
@@ -241,7 +247,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 															<DisclosureButton
 																key={subLink.fields.title}
 																as="a"
-																href={subLink.fields.uRL.href}
+																href={subLink.fields.uRL!.href}
 																onClick={() => setOpen(false)}
 																className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary transition-all hover:bg-gray-50 hover:text-highlight"
 															>
