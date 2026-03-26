@@ -122,14 +122,14 @@ function useAutocomplete({ close }: { close: () => void }) {
 										indexName: 'agility-website',
 										params: {
 											query,
-											hitsPerPage: 5,
+											hitsPerPage: 10,
 										},
 									},
 									{
 										indexName: 'doc_site',
 										params: {
 											query,
-											hitsPerPage: 5,
+											hitsPerPage: 10,
 										},
 									},
 								],
@@ -177,6 +177,15 @@ function SearchDialog({
 	})
 	let pathname = usePathname()
 	let searchParams = useSearchParams()
+	let router = useRouter()
+
+	const [extraResults, setExtraResults] = useState<Result[]>([])
+	const [isLoadingMore, setIsLoadingMore] = useState(false)
+	const [totalHits, setTotalHits] = useState<number | null>(null)
+	const pageRef = useRef(0)
+	const queryRef = useRef('')
+	const isLoadingMoreRef = useRef(false)
+	const hasMoreRef = useRef(true)
 
 	useEffect(() => {
 		setOpen(false)
@@ -200,6 +209,113 @@ function SearchDialog({
 			window.removeEventListener('keydown', onKeyDown)
 		}
 	}, [open, setOpen])
+
+	// Reset pagination when query changes and fetch total count
+	useEffect(() => {
+		const query = (autocompleteState as AutocompleteState<Result>).query || ''
+		if (query !== queryRef.current) {
+			queryRef.current = query
+			pageRef.current = 0
+			isLoadingMoreRef.current = false
+			hasMoreRef.current = true
+			setExtraResults([])
+			setIsLoadingMore(false)
+			setTotalHits(null)
+
+			if (query) {
+				searchClient.search({
+					requests: [
+						{ indexName: 'agility-website', query, hitsPerPage: 0 },
+						{ indexName: 'doc_site', query, hitsPerPage: 0 },
+					]
+				}).then((response: any) => {
+					if (queryRef.current === query) {
+						const total = response.results.reduce(
+							(sum: number, r: any) => sum + (r.nbHits || 0), 0
+						)
+						setTotalHits(total)
+					}
+				}).catch(() => {})
+			}
+		}
+	}, [autocompleteState])
+
+	function navigateToResult(result: Result) {
+		let url = result.url
+		if (!url) return
+		if (url.startsWith("https://agilitycms.com")) {
+			url = url.replace("https://agilitycms.com", "")
+		} else if (url.startsWith('/')) {
+			url = `https://agilitycms.com/docs${url}`
+		}
+		router.push(url)
+		setOpen(false)
+	}
+
+	const loadMore = useCallback(async () => {
+		const query = queryRef.current
+		if (!query || isLoadingMoreRef.current || !hasMoreRef.current) return
+
+		isLoadingMoreRef.current = true
+		setIsLoadingMore(true)
+		const nextPage = pageRef.current + 1
+
+		try {
+			const response: any = await searchClient.search({
+				requests: [
+					{ indexName: 'agility-website', query, hitsPerPage: 10, page: nextPage },
+					{ indexName: 'doc_site', query, hitsPerPage: 10, page: nextPage },
+				]
+			})
+
+			if (queryRef.current !== query) return
+
+			const newResults: Result[] = []
+			for (let i = 0; i < response.results.length; i++) {
+				const indexName = i === 0 ? 'agility-website' : 'doc_site'
+				for (const hit of (response.results[i].hits || [])) {
+					newResults.push({
+						url: hit.url,
+						title: hit.title,
+						description: hit.description,
+						ogImage: hit.ogImage,
+						section: hit.section,
+						concept: hit.concept,
+						__autocomplete_indexName: indexName,
+					})
+				}
+			}
+
+			if (newResults.length === 0) {
+				hasMoreRef.current = false
+			} else {
+				const idxA = newResults.filter(r => r.__autocomplete_indexName !== 'doc_site')
+				const idxB = newResults.filter(r => r.__autocomplete_indexName === 'doc_site')
+				const interleaved: Result[] = []
+				const maxLen = Math.max(idxA.length, idxB.length)
+				for (let i = 0; i < maxLen; i++) {
+					if (i < idxA.length) interleaved.push(idxA[i])
+					if (i < idxB.length) interleaved.push(idxB[i])
+				}
+				setExtraResults(prev => [...prev, ...interleaved])
+				pageRef.current = nextPage
+			}
+		} catch {
+			// ignore errors
+		} finally {
+			if (queryRef.current === query) {
+				isLoadingMoreRef.current = false
+				setIsLoadingMore(false)
+			}
+		}
+	}, [])
+
+	const handlePanelScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+		const { scrollTop, scrollHeight, clientHeight } = e.currentTarget
+		if (scrollHeight - scrollTop - clientHeight < 150) {
+			loadMore()
+		}
+	}, [loadMore])
 
 	return (
 		<Dialog
@@ -235,14 +351,19 @@ function SearchDialog({
 							/>
 							<div
 								ref={panelRef}
-								className="border-t border-zinc-200 bg-white empty:hidden  max-h-96 overflow-y-auto"
+								className="border-t border-zinc-200 bg-white empty:hidden max-h-[70vh] overflow-y-auto"
 								{...autocomplete.getPanelProps({})}
+								onScroll={handlePanelScroll}
 							>
 								{autocompleteState.isOpen && (
 									<SearchResults
 										autocomplete={autocomplete}
 										query={autocompleteState.query}
 										collection={autocompleteState.collections[0]}
+										extraResults={extraResults}
+										isLoadingMore={isLoadingMore}
+										totalHits={totalHits}
+										onExtraResultClick={navigateToResult}
 									/>
 								)}
 							</div>
