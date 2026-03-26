@@ -71,6 +71,7 @@ export const MenuItemOutput = ({ link }: Props) => {
 	}
 
 	if (!link.subMenuList || link.subMenuList.length == 0) {
+		if (!link.menuItem.fields.uRL?.href) return null
 		return (
 			<Link
 				href={link.menuItem.fields.uRL.href}
@@ -100,24 +101,35 @@ export const MenuItemOutput = ({ link }: Props) => {
 							checkClosePopover()
 						}}
 					>
-						<Link
-							href={link.menuItem.fields.uRL.href}
-							target={link.menuItem.fields.uRL.target}
-							className={classNames(
-								"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
-								"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
-								open && "text-highlight"
-							)}
-							onClick={(e) => {
-								// Allow the link to work normally
-								e.stopPropagation()
-								cancelShowSubmenu()
-								checkClosePopover()
-							}}
-
-						>
-							<div>{link.menuItem.fields.title}</div>
-						</Link>
+						{link.menuItem.fields.uRL?.href ? (
+							<Link
+								href={link.menuItem.fields.uRL.href}
+								target={link.menuItem.fields.uRL.target}
+								className={classNames(
+									"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
+									"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+									open && "text-highlight"
+								)}
+								onClick={(e) => {
+									// Allow the link to work normally
+									e.stopPropagation()
+									cancelShowSubmenu()
+									checkClosePopover()
+								}}
+							>
+								<div>{link.menuItem.fields.title}</div>
+							</Link>
+						) : (
+							<span
+								className={classNames(
+									"text-secondary-500 rounded-md px-2 text-sm font-medium leading-6 outline-highlight",
+									"transition-colors hover:text-highlight focus:text-highlight-light focus:outline-none",
+									open && "text-highlight"
+								)}
+							>
+								<div>{link.menuItem.fields.title}</div>
+							</span>
+						)}
 					</PopoverButton>
 					<PopoverPanel
 						transition
@@ -139,18 +151,20 @@ export const MenuItemOutput = ({ link }: Props) => {
 
 							<div className="flex flex-1 gap-1">
 								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
-									{link.subMenuList?.map((subLink) => (
+									{link.subMenuList
+									?.filter((subLink) => subLink.fields.uRL?.href)
+									.map((subLink) => (
 										<Link
 											key={subLink.contentID}
-											href={subLink.fields.uRL.href}
-											target={subLink.fields.uRL.target}
+											href={subLink.fields.uRL!.href}
+											target={subLink.fields.uRL!.target}
 											className={classNames(
 												"text-secondary-500 text-sm font-medium leading-6",
 												"transition-all duration-300 hover:text-highlight focus:text-highlight focus:outline-none"
 											)}
 											onClick={() => close()}
 										>
-											{subLink.fields.uRL.text || subLink.fields.title}
+											{subLink.fields.uRL!.text || subLink.fields.title}
 										</Link>
 									))}
 								</div>
