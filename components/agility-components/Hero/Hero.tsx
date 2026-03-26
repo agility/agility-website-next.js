@@ -24,8 +24,10 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 	})
 
 	return (
-		<div className="mx-auto max-w-7xl">
-			<Container className="text-balance text-center">
+
+
+		<Container className="text-balance text-center">
+			<div className="mx-auto max-w-7xl">
 				{fields.mediaType === "video" && fields.videoURL && (
 					<div className="mb-10 flex w-full justify-center">
 						<HeroVideo videoURL={fields.videoURL} />
@@ -54,7 +56,8 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 						{fields.cTA.text}
 					</LinkButton>
 				)}
-			</Container>
-		</div>
+			</div>
+		</Container>
+
 	)
 }

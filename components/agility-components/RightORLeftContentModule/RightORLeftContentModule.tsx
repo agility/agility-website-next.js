@@ -4,6 +4,25 @@ import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { VimeoVideoPlayer } from "components/common/VimeoVideoPlayer"
+
+interface VimeoVideoData {
+	url?: string
+	video_id?: number
+	title?: string
+	description?: string
+	thumbnail_url?: string
+	thumbnail_url_with_play_button?: string
+	thumbnail_width?: number
+	thumbnail_height?: number
+	width?: number
+	height?: number
+	duration?: number
+	html?: string
+	author_name?: string
+	author_url?: string
+	upload_date?: string
+}
 
 interface IRightORLeftContentModule {
 	title: string
@@ -11,10 +30,11 @@ interface IRightORLeftContentModule {
 	cTA1Optional?: URLField
 	cTA2Optional?: URLField
 	textSide: "left" | "right"
+	mediaType: "image" | "video"
 	graphic?: ImageField
+	video?: string // JSON string from Vimeo field
 	darkMode?: string
 	breadcrumb?: string
-	lessVerticalWhitespace?: boolean
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -27,9 +47,23 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 
 	const { fields, contentID } = componentItem
 
-	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb, lessVerticalWhitespace } = fields
+	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb, video } = fields
 
 	const darkMode = fields.darkMode === "true"
+
+	// Parse Vimeo video data if present
+	let vimeoVideoData: VimeoVideoData | null = null
+	if (video) {
+		try {
+			vimeoVideoData = JSON.parse(video) as VimeoVideoData
+		} catch (error) {
+			console.error("Failed to parse Vimeo video data:", error)
+		}
+	}
+
+	// Determine which media to show: video takes precedence over image
+	const hasVideo = vimeoVideoData && (vimeoVideoData.video_id || vimeoVideoData.url)
+	const hasImage = graphic && !hasVideo
 
 	return (
 		<Container
@@ -39,13 +73,16 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 		>
 			<div
 				className={clsx(
-					"mx-auto flex max-w-5xl flex-col items-center gap-4",
+					"mx-auto flex max-w-7xl flex-col items-center gap-6",
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row",
-					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
+					"pb-14"
 				)}
 			>
-				<div className="flex-1">
-					{graphic && (
+				<div className="w-full flex-1">
+					{hasVideo && vimeoVideoData && (
+						<VimeoVideoPlayer videoData={vimeoVideoData} />
+					)}
+					{hasImage && graphic && (
 						<>
 							{graphic.url.endsWith(".svg") ? (
 								//don't need to use AgilityPic for SVGs
@@ -66,8 +103,8 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 				</div>
 				<div className="flex-1">
-					{breadcrumb && <div className="mb-2">{breadcrumb}</div>}
-					<h2 className="text-balance text-5xl font-medium leading-snug">{title}</h2>
+					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
+					<h2 className="text-balance text-5xl font-medium leading-[1.15]">{title}</h2>
 					{description && (
 						<div
 							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
@@ -76,13 +113,13 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 					)}
 					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
-							<LinkButton type="secondary-bg" href={cTA1Optional.href} target={cTA1Optional.target} size="md">
+							<LinkButton type={darkMode ? "primary" : "primary"} href={cTA1Optional.href} target={cTA1Optional.target} size="md">
 								{cTA1Optional.text}
 							</LinkButton>
 						)}
 						{cTA2Optional && cTA2Optional.href !== "" && (
 							<LinkButton
-								type="secondary"
+								type={darkMode ? "primary" : "primary"}
 								href={cTA2Optional.href}
 								target={cTA2Optional.target}
 								size="md"

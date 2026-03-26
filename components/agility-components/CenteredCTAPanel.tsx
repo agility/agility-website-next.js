@@ -28,13 +28,13 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 		<Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
-			className={clsx("relative overflow-clip !pb-0 text-white", darkMode ? "bg-black" : "bg-highlight")}
+			className={clsx("relative overflow-clip pb-14 text-white", darkMode ? "bg-black" : "bg-highlight mt-14")}
 		>
 			<div
 				className={clsx("absolute -top-7 h-12 w-12 rotate-45", darkMode ? "bg-secondary" : "bg-white")}
 				style={{ left: "calc(50% - 24px)" }}
 			></div>
-			<div className="md:pt-18 mx-auto max-w-5xl py-12 text-center lg:pt-20">
+			<div className="mx-auto max-w-5xl pt-8 text-center">
 				{title && <h2 className="text-balance text-5xl">{title}</h2>}
 				<ThreeDashLine />
 				{description && (
@@ -45,10 +45,10 @@ const CenteredCTAPanel = async ({ module, languageCode }: UnloadedModuleProps) =
 						{cTA1 && cTA1.href && (
 							<>
 								<LinkButton
-									type={darkMode ? "alternate" : "secondary"}
+									type={darkMode ? "alternate" : "alternate"}
 									href={cTA1.href}
 									target={cTA1.target}
-									className={clsx("", darkMode ? "text-black" : "!bg-white")}
+									//className={clsx("", darkMode ? "text-black" : "!bg-white")}
 									size="lg"
 								>
 									{cTA1.text} <IconChevronRight />

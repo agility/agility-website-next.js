@@ -76,8 +76,8 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	const dateStr = DateTime.fromJSDate(new Date(post.date)).toFormat("LLL. dd, yyyy")
 
 	return (
-		<Container className="mx-auto max-w-7xl">
-			<article>
+		<Container >
+			<article className="mx-auto max-w-7xl">
 				<time className="text-slate-600">{dateStr}</time>
 				<h1 className="mt-5 text-balance text-4xl font-medium">{post.title}</h1>
 				<h2 className="mt-5 text-balance text-lg font-medium">{post.subTitle}</h2>
@@ -97,7 +97,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 				)}
 
 				<div className="mt-5 lg:flex lg:flex-row lg:gap-20 xl:gap-32">
-					<div className="flex-1">
+					<div className="min-w-0 flex-1">
 						{post.postImage && (
 							<AgilityPic
 								image={post.postImage}
@@ -172,7 +172,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 							}}
 						/>
 
-						<div className="mt-10 lg:mt-96">
+						<div className="mt-10 lg:mt-60">
 							<h3 className="text-center text-xl font-medium lg:text-left">
 								{post.titleRelatedResources}
 							</h3>
@@ -189,16 +189,29 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 												alt={resource.fields.title}
 												fallbackWidth={400}
 												className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+												sources={[
+													//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
+													{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1200 },
+													{ media: "(min-width: 1200px)", width: 600 },
+													{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 800 },
+													{ media: "(min-width: 1024px)", width: 500 },
+													{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 500 },
+													{ media: "(min-width: 768px)", width: 400 }
+												]}
 											/>
 										</div>
 									)}
 									<div className="space-y-3 border border-t-0 border-background p-6">
 										<h3 className="text-xl font-medium">{resource.fields.title}</h3>
-										<div>
-											<span className="rounded-md bg-background px-2 py-1">
-												{resource.fields.categoriesTitle}
-											</span>
-										</div>
+										{resource.fields.blogTagsTitle &&
+											<div className="flex flex-wrap gap-1">
+												{resource.fields.blogTagsTitle.split(",").map((tag: string, i: number) => (
+													<span key={i} className="rounded-md bg-background px-2 py-1 text-sm">
+														{tag.trim()}
+													</span>
+												))}
+											</div>
+										}
 										<div>
 											<div className="flex items-center gap-1 font-medium text-highlight-light">
 												Learn More

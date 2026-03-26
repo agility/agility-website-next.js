@@ -7,6 +7,8 @@
 
 # testing
 /coverage
+/.playwright-mcp/
+/dark-mode-testing/
 
 # next.js
 /.next/
@@ -37,3 +39,8 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# claude
+.claude/settings.local.json
+
+screenshots/

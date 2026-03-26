@@ -32,19 +32,19 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 		contentLinkDepth: 0
 	})
 
-	if(!pnl) return null;
+	if (!pnl) return null;
 
 	const bgColor = () => {
-		switch(fields?.theme){
+		switch (fields?.theme) {
 			case "secondary": return "bg-secondary";
 			case "highlight": return "bg-highlight";
-			case "primary": 
+			case "primary":
 			default: return "bg-primary";
 		}
 	}
 
 	const calloutTextColor = () => {
-		switch(fields?.theme){
+		switch (fields?.theme) {
 			case "secondary": return "";
 			case "primary": return "text-white";
 			case "highlight": return "text-white";
@@ -57,7 +57,7 @@ export const Callout = async ({ module, languageCode }: UnloadedModuleProps) => 
 	return (
 		<div className={clsx(bgColor())}>
 			<Container id={`agility-component-${module.contentid}`} data-agility-component={module.contentid}>
-				<div className={clsx("mx-auto my-6 max-w-5xl gap-4 text-center")}>
+				<div className={clsx("mx-auto my-6 max-w-5xl gap-4 text-center pb-14")}>
 					<h2 className={clsx("text-balance text-5xl font-medium leading-snug", calloutTextColor())}>{title}</h2>
 					{caption && <div className={clsx("mt-5 max-w-none text-balance text-lg", calloutTextColor())}>{caption}</div>}
 					<div className="mt-8">

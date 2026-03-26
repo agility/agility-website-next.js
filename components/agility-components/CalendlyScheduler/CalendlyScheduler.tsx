@@ -16,8 +16,6 @@ export const CalendlyScheduler = async ({ module, languageCode }: UnloadedModule
 		languageCode
 	})
 
-	console.log("CalendlyScheduler fields:", fields)
-
 	return (
 		<div
 			id="scheduler-page"

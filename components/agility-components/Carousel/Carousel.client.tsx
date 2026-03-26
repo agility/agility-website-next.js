@@ -47,20 +47,40 @@ export const CarouselClient = ({ items }: Props) => {
 											target={item.fields.link.target}
 											className="embla__slide__number flex items-center"
 										>
-											<img
-												loading="lazy"
-												src={`${item.fields.image.url}?format=auto&w=800`}
+											<AgilityPic
+												image={item.fields.image}
+												fallbackWidth={800}
 												className="h-full w-[800px] object-contain"
-												alt={item.fields.image.label}
+												sources={[
+													{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1600 },
+													{ media: "(min-width: 1200px)", width: 800 },
+													{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 1600 },
+													{ media: "(min-width: 1024px)", width: 800 },
+													{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 1200 },
+													{ media: "(min-width: 768px)", width: 600 },
+													{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 880 },
+													{ media: "(min-width: 640px)", width: 480 },
+													{ media: "(min-width: 320px) and (min-resolution: 2x)", width: 640 }
+												]}
 											/>
 										</Link>
 									) : (
 										<div className="embla__slide__number relative mx-4 flex items-center">
-											<img
-												loading="lazy"
-												src={`${item.fields.image.url}?format=auto&w=800`}
+											<AgilityPic
+												image={item.fields.image}
+												fallbackWidth={800}
 												className="h-full w-[800px] object-contain"
-												alt={item.fields.image.label}
+												sources={[
+													{ media: "(min-width: 1200px) and (min-resolution: 2x)", width: 1600 },
+													{ media: "(min-width: 1200px)", width: 800 },
+													{ media: "(min-width: 1024px) and (min-resolution: 2x)", width: 1600 },
+													{ media: "(min-width: 1024px)", width: 800 },
+													{ media: "(min-width: 768px) and (min-resolution: 2x)", width: 1200 },
+													{ media: "(min-width: 768px)", width: 600 },
+													{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 880 },
+													{ media: "(min-width: 640px)", width: 480 },
+													{ media: "(min-width: 320px) and (min-resolution: 2x)", width: 640 }
+												]}
 											/>
 										</div>
 									)}

@@ -24,8 +24,8 @@ const RichTextArea = async ({ module, languageCode }: UnloadedModuleProps) => {
 		<Container id={`${contentID}`} data-agility-component={contentID}>
 			<div
 				className={clsx(
-					"mx-auto max-w-5xl",
-					lessVerticalWhitespace ? "md:mt-6 lg:mt-3" : "md:mt-18 my-12 lg:mt-20"
+					"mx-auto max-w-5xl pb-12",
+					lessVerticalWhitespace ? "" : ""
 				)}
 			>
 				<div

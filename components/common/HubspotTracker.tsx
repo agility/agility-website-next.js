@@ -22,8 +22,7 @@ const HubspotTracker = () => {
 			<Script
 				type="text/javascript"
 				id="hs-script-loader"
-				async
-				defer
+				strategy="lazyOnload"
 				src="//js.hs-scripts.com/23239214.js"
 			></Script>
 		</>

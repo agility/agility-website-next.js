@@ -68,40 +68,42 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 	const posts = sortByIDs(postsPre, sortIDs)
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="mx-auto max-w-7xl">
-			<div className="flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start lg:flex-nowrap">
-				{posts.map((post, index) => (
-					<Link
-						href={`/blog/${post.fields.uRL}`}
-						key={index}
-						className="group flex min-w-80 max-w-96 flex-col bg-highlight-light text-white"
-					>
-						<div className="h-56 overflow-clip">
-							<AgilityPic
-								image={post.fields.postImage}
-								className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
-								fallbackWidth={640}
-								sources={[
-									// For screens with a minimum width of 1200px, the image width is set to 400px
-									{ media: "(min-width: 1200px)", width: 400 }
-								]}
-							/>
-						</div>
-						<div className="flex h-80 flex-col gap-4 p-4">
-							<h3 className="text-balance text-xl font-bold">{post.fields.title}</h3>
-							{post.fields.excerpt && (
-								<div
-									className="prose prose-invert line-clamp-4 flex-1"
-									dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
-								></div>
-							)}
-
-							<div className="border-2 border-white p-3 px-4 text-center font-medium text-white">
-								{fields.readMoreLabel || "Read More"}
+		<Container id={`${contentID}`} data-agility-component={contentID}>
+			<div className="mx-auto max-w-7xl">
+				<div className="flex w-full flex-col items-center justify-between gap-8 md:flex-row md:flex-wrap md:items-start lg:flex-nowrap">
+					{posts.map((post, index) => (
+						<Link
+							href={`/blog/${post.fields.uRL}`}
+							key={index}
+							className="group flex min-w-80 flex-1 flex-col bg-highlight-light text-white"
+						>
+							<div className="h-56 overflow-clip">
+								<AgilityPic
+									image={post.fields.postImage}
+									className="w-full object-contain object-center transition-transform duration-300 group-hover:scale-110"
+									fallbackWidth={640}
+									sources={[
+										// For screens with a minimum width of 1200px, the image width is set to 400px
+										{ media: "(min-width: 1200px)", width: 400 }
+									]}
+								/>
 							</div>
-						</div>
-					</Link>
-				))}
+							<div className="flex h-80 flex-col gap-4 p-4">
+								<h3 className="text-balance text-xl font-bold">{post.fields.title}</h3>
+								{post.fields.excerpt && (
+									<div
+										className="prose prose-invert line-clamp-4 flex-1"
+										dangerouslySetInnerHTML={renderHTMLCustom(post.fields.excerpt)}
+									></div>
+								)}
+
+								<div className="border-2 border-white p-3 px-4 text-center font-medium text-white">
+									{fields.readMoreLabel || "Read More"}
+								</div>
+							</div>
+						</Link>
+					))}
+				</div>
 			</div>
 		</Container>
 	)

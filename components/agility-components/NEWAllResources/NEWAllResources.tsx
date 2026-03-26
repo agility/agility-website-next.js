@@ -102,41 +102,43 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 
 			return foundTopic && foundCategory
 		})
-		console.log("next filteredResources", filteredResources.length, skip, take)
+
 		const retLst = filteredResources.slice(skip, skip + take)
 
-		console.log("next retLst", retLst.length)
+
 		return retLst
 	}
 
 	return (
 		<>
-			<Container className="mx-auto max-w-7xl">
-				<div
-					dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-					className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
-				></div>
+			<Container >
+				<div className="mx-auto max-w-7xl">
+					<div
+						dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+						className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
+					></div>
 
-				<ResourceListingClient
-					{...{
-						pageSize,
-						getNextItems,
-						categoryQStr,
-						topicQStr,
-						resources: filteredResources || [],
+					<ResourceListingClient
+						{...{
+							pageSize,
+							getNextItems,
+							categoryQStr,
+							topicQStr,
+							resources: filteredResources || [],
 
-						topics:
-							topics?.map((topic) => ({
-								text: `${topic.fields.title}`,
-								value: topic.contentID
-							})) || [],
-						categories:
-							types?.map((t) => ({
-								text: `${t.fields.title}`,
-								value: t.contentID
-							})) || []
-					}}
-				/>
+							topics:
+								topics?.map((topic) => ({
+									text: `${topic.fields.title}`,
+									value: topic.contentID
+								})) || [],
+							categories:
+								types?.map((t) => ({
+									text: `${t.fields.title}`,
+									value: t.contentID
+								})) || []
+						}}
+					/>
+				</div>
 			</Container>
 		</>
 	)

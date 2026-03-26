@@ -292,16 +292,18 @@ export function Search() {
 	}, [])
 
 	return (
-		<div className="">
+		<div className="flex-nowrap text-nowrap">
 			<button
 				type="button"
 				title={`Search ${modifierKey}K`}
-				className="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none  outline-violet-600"
+				className="flex h-6 cursor-pointer items-center justify-end rounded-md transition-all duration-300 ease-in-out ui-not-focus-visible:outline-none outline-violet-600 group overflow-hidden w-8 hover:w-24 gap-1"
 				aria-label="Find something..."
 				{...buttonProps}
 			>
-				<SearchIcon className="h-5 w-5 stroke-zinc-900 " />
-
+				<span className="whitespace-nowrap text-sm font-medium text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+					Search
+				</span>
+				<SearchIcon className="h-5 w-5 flex-shrink-0 stroke-white stroke-2 group-hover:stroke-secondary transition-colors" />
 
 			</button>
 			<Suspense fallback={null}>

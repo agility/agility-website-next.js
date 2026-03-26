@@ -20,10 +20,15 @@ export interface MenuLink {
 	megaMenuList?: ContentItem<MegaMenuItem>[]
 }
 
+export interface BasicLink {
+	title: string
+	url: URLField
+}
+
 export interface HeaderContent {
 	header: ContentItem<Header>
 	links: MenuLink[]
-
+	preheaderLinks: BasicLink[]
 }
 
 /**
@@ -117,9 +122,29 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 
 			}
 		}
+
+
+		//get the preheader links
+		const preHeaderLinksRef = header.fields.preHeaderLinks
+		let preheaderLinks: BasicLink[] = []
+		if (preHeaderLinksRef && preHeaderLinksRef.referencename) {
+			const preHeaderLinksList = await getContentList({
+				referenceName: preHeaderLinksRef.referencename,
+				languageCode: locale,
+				take: 5,
+				contentLinkDepth: 0
+			})
+
+			preheaderLinks = preHeaderLinksList.items.map((item: any) => ({
+				title: item.fields.title,
+				url: item.fields.uRL
+			}))
+		}
+
 		return {
 			header,
-			links
+			links,
+			preheaderLinks
 		}
 
 	} catch (error) {

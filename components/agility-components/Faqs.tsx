@@ -37,7 +37,7 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const faqs = lstFaqs.items as ContentItem<Faq>[]
 
 	return (
-		<div className="bg-background/60">
+		<div className="bg-background/60 pb-14">
 			<Container className="mx-auto max-w-5xl">
 				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
 				<dl className="mt-8">

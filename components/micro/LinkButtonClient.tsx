@@ -39,7 +39,7 @@ export const LinkButtonClient = ({
 	const btnClass = useMemo(() => {
 		return classNames(
 			"inline-flex items-center justify-center font-medium",
-			size === "sm" ? "text-sm px-4 h-9" : size === "md" ? "text-base px-6 h-10" : "text-lg px-8 h-12",
+			size === "sm" ? "text-sm px-4 h-9" : size === "md" ? "text-sm px-6 h-10" : "text-lg px-8 h-12",
 			"duration-200 ease-in-out transition-all",
 			"hover:scale-105",
 			type === "black"
@@ -51,7 +51,7 @@ export const LinkButtonClient = ({
 						: type === "alternate"
 							? "bg-secondary ring-2 ring-secondary ring-inset"
 							: type === "slate"
-								? "bg-slate-400 ring-2 ring-slate-400 ring-inset text-white"
+								? "bg-slate-500 ring-2 ring-slate-500 ring-inset text-white"
 								: "text-white bg-highlight-light ring-2 hover:bg-highlight-light-light ring-white ring-inset",
 			"focus:outline-none  focus:ring-4",
 			className

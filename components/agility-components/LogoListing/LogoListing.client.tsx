@@ -27,10 +27,15 @@ export const LogoListingClient = ({ logos }: Props) => {
 
 						return (
 							<div className="embla__slide flex items-center justify-center" key={index}>
-								<div className="my-3">
-									{/* eslint-disable-next-line @next/next/no-img-element */}
-									<img src={src} alt={logo.title} className="h-16 w-auto" />
-								</div>
+							<div className="my-3">
+								{/* eslint-disable-next-line @next/next/no-img-element */}
+								<img 
+									src={src} 
+									alt={logo.title} 
+									className="h-16 w-auto" 
+									loading="lazy"
+								/>
+							</div>
 							</div>
 						)
 					})}

@@ -11,7 +11,7 @@ import { VerticalContentPanelServer } from "./VerticalContentPanel/VerticalConte
 import SingleTestimonialPanel from "./SingleTestimonialPanel"
 import CaseStudyRotator from "./CaseStudyRotator/CaseStudyRotator"
 import CenteredCTAPanel from "./CenteredCTAPanel"
-import RightORLeftContentModule from "./RightORLeftContentModule"
+import RightORLeftContentModule from "./RightORLeftContentModule/RightORLeftContentModule"
 import TriplePanelComparisonModule from "./TriplePanelComparisonModule"
 import RightOrLeftSteps from "./RightOrLeftSteps"
 import FeaturedResources from "./FeaturedResources"
@@ -69,11 +69,20 @@ import { GartnerPeerInsightsBar } from "./GartnerPeerInsightsBar"
 import { ReviewRotator } from "./ReviewRotator/ReviewRotator"
 import { LatestPosts } from "./LatestPosts"
 import { GatedDownload } from "./GatedDownload/GatedDownload"
-import { LogoListingModuleCopy } from "./LogoListingModuleCopy/LogoListingModuleCopy.server"
 import { PodcastContentPanel } from "./Podcast/PodcastContentPanel"
 import { PodcastListing } from "./Podcast/PodcastListing"
 import { SplashImage } from "./SplashImage/SplashImage"
 import { CalendlyScheduler } from "./CalendlyScheduler/CalendlyScheduler"
+import { ROICalculator } from "./ROICalculator/ROICalculator"
+import { GetADemo } from "./GetADemo/GetADemo"
+import { SplitHero } from "./SplitHero/SplitHero"
+import { TrustedByLogos } from "./TrustedByLogos/TrustedByLogos"
+import { CustomerResults } from "./CustomerResults/CustomerResults"
+import { ValuePropositionCards } from "./ValuePropositionCards/ValuePropositionCards"
+import { G2AwardsBanner } from "./G2AwardsBanner/G2AwardsBanner"
+import { HeadlessBenefits } from "./HeadlessBenefits/HeadlessBenefits"
+import { TestimonialCarousel } from "./TestimonialCarousel/TestimonialCarousel"
+import { DualCTABanner } from "./DualCTABanner/DualCTABanner"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -85,7 +94,6 @@ const allModules = [
 	{ name: "RichTextArea", module: RichTextArea },
 	{ name: "CenteredContentPanel", module: CenteredContentPanel },
 	{ name: "LogoListingModule", module: LogoListingModule },
-	{ name: "LogoListingModuleCopy", module: LogoListingModuleCopy },
 	{ name: "LogoListing", module: LogoListing },
 	{ name: "PartnerLogoListing", module: PartnerLogoListing },
 	{ name: "VerticalContentPanel", module: VerticalContentPanelServer },
@@ -156,7 +164,18 @@ const allModules = [
 	{ name: "PodcastSubscribe", module: UnUsedComponent },
 	{ name: "PodcastListing", module: PodcastListing },
 	{ name: "CalendlyScheduler", module: CalendlyScheduler },
+	{ name: "ROICalculator", module: ROICalculator },
+	{ name: "GetADemo", module: GetADemo },
 
+	// Home Page Redesign Components
+	{ name: "SplitHero", module: SplitHero },
+	{ name: "TrustedByLogos", module: TrustedByLogos },
+	{ name: "CustomerResults", module: CustomerResults },
+	{ name: "ValuePropositionCards", module: ValuePropositionCards },
+	{ name: "G2AwardsBanner", module: G2AwardsBanner },
+	{ name: "HeadlessBenefits", module: HeadlessBenefits },
+	{ name: "TestimonialCarousel", module: TestimonialCarousel },
+	{ name: "DualCTABanner", module: DualCTABanner },
 ]
 
 /**

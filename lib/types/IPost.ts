@@ -13,6 +13,7 @@ export interface IPost {
 	displayImageinPost?: string
 	categories: ContentItem<IPostCategory>
 	categoriesTitle?: string
+	blogTagsTitle?: string
 	cTATitle?: string
 	titleRightCTA?: string
 	contentRightCTA?: string

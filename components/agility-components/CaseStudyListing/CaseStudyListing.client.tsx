@@ -99,50 +99,52 @@ export const CaseStudyListingClient = ({
 	}, [])
 
 	return (
-		<Container>
-			<div className="gap-3 md:flex">
-				<FilterComboBox
-					{...{
-						label: "All Industries",
-						items: industries,
-						selectedItem: currentIndustry,
-						onChange: (item) => {
-							changeOptions(challengeQStr || "", item?.value ? item.text : "")
-						}
-					}}
-				/>
+		<Container className="">
+			<div className="mx-auto max-w-7xl">
+				<div className=" gap-3 md:flex">
+					<FilterComboBox
+						{...{
+							label: "All Industries",
+							items: industries,
+							selectedItem: currentIndustry,
+							onChange: (item) => {
+								changeOptions(challengeQStr || "", item?.value ? item.text : "")
+							}
+						}}
+					/>
 
-				<FilterComboBox
-					{...{
-						label: "All Challenges",
-						items: challenges,
-						selectedItem: currentChallenge,
-						onChange: (item) => {
-							changeOptions(item?.value ? item.text : "", industryQStr || "")
-						}
-					}}
-				/>
-			</div>
+					<FilterComboBox
+						{...{
+							label: "All Challenges",
+							items: challenges,
+							selectedItem: currentChallenge,
+							onChange: (item) => {
+								changeOptions(item?.value ? item.text : "", industryQStr || "")
+							}
+						}}
+					/>
+				</div>
 
-			<div className="relative mb-12 mt-8">
-				<div className="max-w-screen-7xl mx-auto">
-					{items.length === 0 && <div className="text-center text-lg">No case studies found.</div>}
-					{items.length > 0 && (
-						<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">
-							{items.map((item, index) => {
-								return <CaseStudyItem key={item.contentID} item={item} index={index} size={size} />
-							})}
+				<div className="relative mb-12 mt-8">
+					<div className="max-w-screen-7xl mx-auto">
+						{items.length === 0 && <div className="text-center text-lg">No case studies found.</div>}
+						{items.length > 0 && (
+							<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">
+								{items.map((item, index) => {
+									return <CaseStudyItem key={item.contentID} item={item} index={index} size={size} />
+								})}
+							</div>
+						)}
+
+						<div className="flex w-full justify-center">
+							<InfiniteLoadMore
+								{...{
+									hasMore,
+									isLoading,
+									onLoadMore: fetchMore
+								}}
+							/>
 						</div>
-					)}
-
-					<div className="flex w-full justify-center">
-						<InfiniteLoadMore
-							{...{
-								hasMore,
-								isLoading,
-								onLoadMore: fetchMore
-							}}
-						/>
 					</div>
 				</div>
 			</div>
