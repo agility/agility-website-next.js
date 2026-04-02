@@ -83,6 +83,10 @@ import { G2AwardsBanner } from "./G2AwardsBanner/G2AwardsBanner"
 import { HeadlessBenefits } from "./HeadlessBenefits/HeadlessBenefits"
 import { TestimonialCarousel } from "./TestimonialCarousel/TestimonialCarousel"
 import { DualCTABanner } from "./DualCTABanner/DualCTABanner"
+import { CompareHero } from "./CompareHero/CompareHero"
+import { CompetitorCards } from "./CompetitorCards/CompetitorCards"
+import { ComparisonTable } from "./ComparisonTable/ComparisonTable"
+import { SwitchTestimonials } from "./SwitchTestimonials/SwitchTestimonials"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -176,6 +180,12 @@ const allModules = [
 	{ name: "HeadlessBenefits", module: HeadlessBenefits },
 	{ name: "TestimonialCarousel", module: TestimonialCarousel },
 	{ name: "DualCTABanner", module: DualCTABanner },
+
+	// Compare Page Components
+	{ name: "CompareHero", module: CompareHero },
+	{ name: "CompetitorCards", module: CompetitorCards },
+	{ name: "ComparisonTable", module: ComparisonTable },
+	{ name: "SwitchTestimonials", module: SwitchTestimonials },
 ]
 
 /**

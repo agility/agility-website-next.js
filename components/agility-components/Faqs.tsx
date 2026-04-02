@@ -15,6 +15,7 @@ interface Faq {
 
 interface IFaqs {
 	title?: string
+	label?: string
 
 	faqs: {
 		referencename: string
@@ -39,6 +40,11 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 	return (
 		<div className="bg-background/60 pb-14">
 			<Container className="mx-auto max-w-5xl">
+				{fields.label && (
+					<p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-primary/70">
+						{fields.label}
+					</p>
+				)}
 				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
 				<dl className="mt-8">
 					{faqs.map((faq) => {
