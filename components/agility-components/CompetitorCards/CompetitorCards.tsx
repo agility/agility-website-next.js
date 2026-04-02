@@ -30,11 +30,13 @@ export const CompetitorCards = async ({ module, languageCode }: UnloadedModulePr
 		contentLinkDepth: 0,
 	})
 
-	const lstCompetitors = await getContentList({
-		referenceName: fields.competitors.referencename,
-		languageCode,
-		take: 20,
-	})
+	const lstCompetitors = fields.competitors?.referencename
+		? await getContentList({
+				referenceName: fields.competitors.referencename,
+				languageCode,
+				take: 20,
+		  })
+		: null
 
 	if (!lstCompetitors || lstCompetitors.items.length === 0) return null
 

@@ -89,11 +89,11 @@ function parseComparisonData(raw: string): ParsedData | null {
 			continue
 		}
 
-		// Feature line (name: val | val | val ...)
-		const colonIdx = trimmed.indexOf(":")
-		if (colonIdx > 0 && currentCategory) {
-			const name = trimmed.slice(0, colonIdx).trim()
-			const valuesStr = trimmed.slice(colonIdx + 1).trim()
+		// Feature line — split on the last colon that precedes pipe-separated values
+		const featureMatch = trimmed.match(/^(.+):\s*((?:full|partial|none|[^|]*)\s*(?:\|.*)?)$/)
+		if (featureMatch && currentCategory) {
+			const name = featureMatch[1].trim()
+			const valuesStr = featureMatch[2].trim()
 			const values: Record<string, string> = {}
 			const vals = valuesStr.split("|").map((s) => s.trim())
 			platforms.forEach((p, i) => {

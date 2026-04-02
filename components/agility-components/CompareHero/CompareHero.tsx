@@ -30,11 +30,13 @@ export const CompareHero = async ({ module, languageCode }: UnloadedModuleProps)
 		contentLinkDepth: 0,
 	})
 
-	const lstStats = await getContentList({
-		referenceName: fields.stats.referencename,
-		languageCode,
-		take: 10,
-	})
+	const lstStats = fields.stats?.referencename
+		? await getContentList({
+				referenceName: fields.stats.referencename,
+				languageCode,
+				take: 10,
+		  })
+		: null
 
 	const stats = (lstStats?.items || []) as ContentItem<ICompareHeroStat>[]
 

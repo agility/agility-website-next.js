@@ -2,7 +2,7 @@
 
 import { IconCheck, IconX, IconMinus, IconInfoCircle, IconChevronDown } from "@tabler/icons-react"
 import clsx from "clsx"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export interface Platform {
 	name: string
@@ -61,6 +61,19 @@ function StatusCell({ status, text }: { status: "full" | "partial" | "none"; tex
 export function ComparisonTableClient({ platforms, rows, footnote }: Props) {
 	const [openTooltip, setOpenTooltip] = useState<string | null>(null)
 	const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
+	const tableRef = useRef<HTMLDivElement>(null)
+
+	// Close tooltip when clicking outside
+	useEffect(() => {
+		if (!openTooltip) return
+		const handleClick = (e: MouseEvent) => {
+			if (tableRef.current && !tableRef.current.contains(e.target as Node)) {
+				setOpenTooltip(null)
+			}
+		}
+		document.addEventListener("click", handleClick)
+		return () => document.removeEventListener("click", handleClick)
+	}, [openTooltip])
 
 	const toggleCategory = (label: string) => {
 		setCollapsedCategories((prev) => {
@@ -75,7 +88,7 @@ export function ComparisonTableClient({ platforms, rows, footnote }: Props) {
 	let currentCategory = ""
 
 	return (
-		<div>
+		<div ref={tableRef}>
 			{/* Legend */}
 			<div className="mb-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600">
 				<div className="flex items-center gap-2">

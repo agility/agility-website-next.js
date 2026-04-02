@@ -25,11 +25,13 @@ export const SwitchTestimonials = async ({ module, languageCode }: UnloadedModul
 		contentLinkDepth: 0,
 	})
 
-	const lstTestimonials = await getContentList({
-		referenceName: fields.testimonials.referencename,
-		languageCode,
-		take: 10,
-	})
+	const lstTestimonials = fields.testimonials?.referencename
+		? await getContentList({
+				referenceName: fields.testimonials.referencename,
+				languageCode,
+				take: 10,
+		  })
+		: null
 
 	if (!lstTestimonials || lstTestimonials.items.length === 0) return null
 
