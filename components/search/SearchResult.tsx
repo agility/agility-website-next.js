@@ -17,27 +17,29 @@ export function SearchResult({
 	autocomplete,
 	collection,
 	query,
+	onClick,
 }: {
 	result: Result
 	resultIndex: number
-	autocomplete: Autocomplete
-	collection: AutocompleteCollection<Result>
+	autocomplete?: Autocomplete
+	collection?: AutocompleteCollection<Result>
 	query: string
+	onClick?: () => void
 }) {
 	let id = useId()
 
+	const itemProps = autocomplete && collection
+		? autocomplete.getItemProps({ item: result, source: collection.source })
+		: { onClick, role: 'option' as const }
 
 	return (
 		<li
 			className={clsx(
-				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 ',
+				'group block cursor-pointer px-4 py-3 aria-selected:bg-zinc-50 hover:bg-zinc-50',
 				resultIndex > 0 && 'border-t border-zinc-100 ',
 			)}
 			aria-labelledby={`${id}-hierarchy ${id}-title`}
-			{...autocomplete.getItemProps({
-				item: result,
-				source: collection.source,
-			})}
+			{...itemProps}
 		>
 			<div
 				id={`${id}-title`}
