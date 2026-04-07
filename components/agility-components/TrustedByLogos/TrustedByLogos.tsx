@@ -55,7 +55,7 @@ export const TrustedByLogos = async ({ module, languageCode }: UnloadedModulePro
 							<img
 								src={src}
 								alt={name || logo.label || ""}
-								className="h-20 w-auto opacity-80 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0 lg:h-24"
+								className="h-20 w-auto lg:h-24"
 								loading="lazy"
 							/>
 						)
