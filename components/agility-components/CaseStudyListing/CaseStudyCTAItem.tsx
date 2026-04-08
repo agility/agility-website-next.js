@@ -13,6 +13,8 @@ export const CaseStudyCTAItem = ({ item }: Props) => {
 		<Link
 			className="group col-span-1 mb-8 flex flex-col border-2 transition-all hover:shadow-lg md:mb-0"
 			href={cTALink.href}
+			target={cTALink.target}
+			rel={cTALink.target === "_blank" ? "noopener noreferrer" : undefined}
 		>
 			<div className="relative flex h-full min-h-[400px] w-full flex-col items-center justify-center overflow-clip">
 				{backgroundImage?.url ? (

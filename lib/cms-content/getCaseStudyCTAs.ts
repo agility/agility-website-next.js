@@ -19,7 +19,7 @@ export interface ICaseStudyCTA {
 			fields: {
 				title: string
 			}
-		}[]
+		}[] | null
 	}
 }
 

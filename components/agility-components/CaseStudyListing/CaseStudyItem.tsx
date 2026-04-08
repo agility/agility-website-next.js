@@ -8,9 +8,10 @@ interface Props {
 	item: ICaseStudyListingItem
 	index: number
 	size: "xs" | "sm" | "md" | "lg" | "2xl"
+	priority?: boolean
 }
 
-export const CaseStudyItem = ({ item, index, size }: Props) => {
+export const CaseStudyItem = ({ item, index, size, priority }: Props) => {
 	const url = `/resources/case-studies/${item.fields.uRL}`
 	const isPurpleBackground = item.fields.isPurpleBackground
 	const isLong =
@@ -33,6 +34,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 						image={item.fields.image}
 						className="w-full object-cover object-center transition-transform group-hover:scale-110"
 						fallbackWidth={820}
+						priority={priority}
 						sources={[
 							//screen at least than 1280, it's 1/3 of the screen
 							{
@@ -104,6 +106,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 						image={item.fields.image}
 						className="h-full w-full object-cover object-center transition-transform group-hover:scale-110"
 						fallbackWidth={480}
+						priority={priority}
 						sources={[
 							//screen at least than 1280, it's 1/3 of the screen
 							{

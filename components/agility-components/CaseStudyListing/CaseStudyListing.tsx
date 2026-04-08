@@ -32,7 +32,7 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		contentLinkDepth: 0
 	})
 
-	const caseCount = parseInt(fields.caseCount)
+	const caseCount = Math.max(parseInt(fields.caseCount) || 18, 18)
 
 	//get all the case studis from the server so we can filter client side...
 	const skip = 0
@@ -71,7 +71,7 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		: null
 
 	//fetch case study CTAs
-	const allCTAs = await getCaseStudyCTAs()
+	const allCTAs = (await getCaseStudyCTAs()).slice(0, 50)
 
 	//find a CTA that matches the selected industry, or pass all CTAs for random scattering
 	const matchingCTA = currentIndustry
