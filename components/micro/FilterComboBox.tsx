@@ -38,7 +38,7 @@ export const FilterComboBox = ({ items, onChange, selectedItem, label, className
 				setQuery("")
 				onChange(item)
 			}}
-			className={clsx("group", className)}
+			className={clsx("group min-w-[250px] w-fit", className)}
 			immediate
 		>
 			<div className="relative mt-2">

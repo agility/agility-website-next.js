@@ -8,9 +8,10 @@ interface Props {
 	item: ICaseStudyListingItem
 	index: number
 	size: "xs" | "sm" | "md" | "lg" | "2xl"
+	priority?: boolean
 }
 
-export const CaseStudyItem = ({ item, index, size }: Props) => {
+export const CaseStudyItem = ({ item, index, size, priority }: Props) => {
 	const url = `/resources/case-studies/${item.fields.uRL}`
 	const isPurpleBackground = item.fields.isPurpleBackground
 	const isLong =
@@ -33,6 +34,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 						image={item.fields.image}
 						className="w-full object-cover object-center transition-transform group-hover:scale-110"
 						fallbackWidth={820}
+						priority={priority}
 						sources={[
 							//screen at least than 1280, it's 1/3 of the screen
 							{
@@ -81,7 +83,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 				"group mb-8 flex flex-col md:mb-0",
 				"transition-all hover:shadow-lg",
 				isLong ? "col-span-2" : "col-span-1",
-				isPurpleBackground ? "bg-highlight-light text-white" : ""
+				isPurpleBackground ? "bg-highlight-light text-white" : "border-2"
 			)}
 			href={url}
 			key={item.contentID}
@@ -102,8 +104,9 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 				<div className="relative h-64 w-full overflow-clip">
 					<AgilityPic
 						image={item.fields.image}
-						className="w-full object-cover object-center transition-transform group-hover:scale-110"
+						className="h-full w-full object-cover object-center transition-transform group-hover:scale-110"
 						fallbackWidth={480}
+						priority={priority}
 						sources={[
 							//screen at least than 1280, it's 1/3 of the screen
 							{
@@ -128,7 +131,7 @@ export const CaseStudyItem = ({ item, index, size }: Props) => {
 					</div>
 				</div>
 			)}
-			<div className={clsx("flex flex-1 flex-col p-8", isPurpleBackground ? "" : "border-2 border-t-0")}>
+			<div className="flex flex-1 flex-col p-8">
 				<h2 className="mt-1 text-2xl font-medium">{item.fields.title}</h2>
 				<div className="mt-3 flex-1">
 					<p className="line-clamp-3">{item.fields.excerpt}</p>
