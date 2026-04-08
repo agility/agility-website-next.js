@@ -1,11 +1,14 @@
 "use client"
 
+import { Fragment } from "react"
 import { Container } from "components/micro/Container"
 import { ComboboItem, FilterComboBox } from "components/micro/FilterComboBox"
 import { ICaseStudyListingItem } from "lib/cms-content/getCaseStudyListing"
+import { ICaseStudyCTA } from "lib/cms-content/getCaseStudyCTAs"
 import { useRouter, usePathname } from "next/navigation"
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { CaseStudyItem } from "./CaseStudyItem"
+import { CaseStudyCTAItem } from "./CaseStudyCTAItem"
 import { InfiniteLoadMore } from "components/common/InfiniteLoadMore"
 
 interface Props {
@@ -15,6 +18,8 @@ interface Props {
 	industries: ComboboItem[]
 	challenges: ComboboItem[]
 	caseStudies: ICaseStudyListingItem[]
+	cta: ICaseStudyCTA | null
+	allCTAs: ICaseStudyCTA[]
 	getNextItems: ({ skip, take }: { skip: number; take: number }) => Promise<ICaseStudyListingItem[]>
 }
 
@@ -25,6 +30,8 @@ export const CaseStudyListingClient = ({
 	industryQStr,
 	challengeQStr,
 	caseStudies,
+	cta,
+	allCTAs,
 	getNextItems
 }: Props) => {
 	const router = useRouter()
@@ -131,7 +138,32 @@ export const CaseStudyListingClient = ({
 						{items.length > 0 && (
 							<div className="grid sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 2xl:grid-cols-4">
 								{items.map((item, index) => {
-									return <CaseStudyItem key={item.contentID} item={item} index={index} size={size} />
+									// When an industry is selected, show matching CTA at position 2
+									// When no industry is selected, scatter all CTAs every 6-7 items
+									const hasIndustryFilter = !!industryQStr
+									const ctaForIndex = cta
+										? index === 2 ? cta : null
+										: !hasIndustryFilter && allCTAs.length > 0
+											? (() => {
+												const spacing = 6
+												const offset = 2
+												if (index >= offset && (index - offset) % spacing === 0) {
+													const ctaIdx = Math.floor((index - offset) / spacing)
+													if (ctaIdx >= allCTAs.length) return null
+													return allCTAs[ctaIdx]
+												}
+												return null
+											})()
+											: null
+
+									return (
+										<Fragment key={item.contentID}>
+											{ctaForIndex && (
+												<CaseStudyCTAItem item={ctaForIndex} />
+											)}
+											<CaseStudyItem item={item} index={index} size={size} />
+										</Fragment>
+									)
 								})}
 							</div>
 						)}

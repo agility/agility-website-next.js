@@ -5,6 +5,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { gql } from "gql/__generated__"
 import { CaseStudyListingClient } from "./CaseStudyListing.client"
 import { getCaseStudyListing } from "lib/cms-content/getCaseStudyListing"
+import { getCaseStudyCTAs } from "lib/cms-content/getCaseStudyCTAs"
 
 interface ICaseStudyListing {
 	caseCount: string
@@ -69,6 +70,16 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		? data.casestudychallenges?.find((c) => c?.fields?.title?.toLowerCase().replaceAll(" ", "-") === challengeQStr)
 		: null
 
+	//fetch case study CTAs
+	const allCTAs = await getCaseStudyCTAs()
+
+	//find a CTA that matches the selected industry, or pass all CTAs for random scattering
+	const matchingCTA = currentIndustry
+		? allCTAs.find((cta) =>
+				cta.fields.caseStudyIndustries?.some((ind) => ind.contentID === currentIndustry?.contentID)
+			) || null
+		: null
+
 	//filter the case studies
 	const caseStudies = await getCaseStudyListing({ skip, take })
 
@@ -112,6 +123,8 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 				industryQStr,
 				challengeQStr,
 				caseStudies: filteredCaseStudies || [],
+				cta: matchingCTA,
+				allCTAs,
 				industries:
 					data.casestudyindustries?.map((industry: any) => ({
 						text: `${industry.fields.title}`,
