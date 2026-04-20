@@ -27,17 +27,32 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 
 						return (
 							<div className="embla__slide flex items-center justify-center" key={index}>
-
-								<div className="my-3 ">
-									{/* eslint-disable-next-line @next/next/no-img-element */}
-									<img
-										src={src}
-										alt={logo.title}
-										className="w-full"
-										loading="lazy"
-									/>
-								</div>
-
+								{logo.uRL ? (
+									<Link
+										href={logo.uRL.href}
+										target={logo.uRL.target}
+										title={logo.uRL.text || logo.title}
+										className="my-3 block"
+									>
+										{/* eslint-disable-next-line @next/next/no-img-element */}
+										<img
+											src={src}
+											alt={logo.title}
+											className="w-full"
+											loading="lazy"
+										/>
+									</Link>
+								) : (
+									<div className="my-3">
+										{/* eslint-disable-next-line @next/next/no-img-element */}
+										<img
+											src={src}
+											alt={logo.title}
+											className="w-full"
+											loading="lazy"
+										/>
+									</div>
+								)}
 							</div>
 						)
 					})}
