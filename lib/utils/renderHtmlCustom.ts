@@ -10,7 +10,9 @@ export const renderHTMLCustom = (html: string | null | undefined) => {
 		$("img").each((_, element) => {
 			const src = $(element).attr("src");
 
-			if (src && src.includes("static.agilitycms.com") && src.indexOf("format=auto") === -1) {
+			const isSvg = src ? src.split("?")[0].toLowerCase().endsWith(".svg") : false;
+
+			if (src && !isSvg && src.includes("static.agilitycms.com") && src.indexOf("format=auto") === -1) {
 				//add format=auto to the src attribute
 				if (src.indexOf("?") > -1) {
 					$(element).attr("src", src + "&format=auto");
