@@ -46,16 +46,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en" className={`font-sans text-primary ${mulish.variable}`}>
 			<head>
-				<head>
-					<link rel="preconnect" href="https://static.agilitycms.com" />
-
-
-					<link rel="preconnect" href="https://js.hsforms.net" />
-					<link rel="preconnect" href="https://forms.hsforms.com" />
-					<link rel="preconnect" href="https://www.googletagmanager.com" />
-
-
-				</head>
+				<link rel="preconnect" href="https://static.agilitycms.com" />
+				<link rel="preconnect" href="https://js.hsforms.net" />
+				<link rel="preconnect" href="https://forms.hsforms.com" />
+				<link rel="preconnect" href="https://www.googletagmanager.com" />
+				<link rel="dns-prefetch" href="https://unpkg.com" />
+				<link rel="dns-prefetch" href="https://cdn.aglty.io" />
 			</head>
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				{/* GTM loaded with lazyOnload strategy to defer until after page interactive */}

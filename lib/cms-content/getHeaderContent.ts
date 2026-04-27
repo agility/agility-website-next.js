@@ -66,79 +66,42 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 
 		if (!header) throw Error("No header found.")
 
+		// Phase 2: fetch menu structure and preheader links in parallel (both depend on header)
 		//expand out the menu structure with MULTIPLE CALLS so that we can purge the cache for any level :)
-		if (header?.fields.menuStructure.referencename) {
+		const [menuStructureList, preHeaderLinksList] = await Promise.all([
+			header.fields.menuStructure?.referencename
+				? getContentList({ referenceName: header.fields.menuStructure.referencename, languageCode: locale, contentLinkDepth: 0 })
+				: Promise.resolve(null),
+			header.fields.preHeaderLinks?.referencename
+				? getContentList({ referenceName: header.fields.preHeaderLinks.referencename, languageCode: locale, take: 5, contentLinkDepth: 0 })
+				: Promise.resolve(null),
+		])
 
-			const menuStructureList = await getContentList({
-				referenceName: header.fields.menuStructure.referencename,
-				languageCode: locale,
-				contentLinkDepth: 0
-			})
+		const preheaderLinks: BasicLink[] = preHeaderLinksList?.items.map((item: any) => ({
+			title: item.fields.title,
+			url: item.fields.uRL
+		})) || []
 
-			for (let i = 0; i < menuStructureList.items.length; i++) {
-				const menuItem: ContentItem<TopLevelNav> = menuStructureList.items[i]
+		// Phase 3: fetch all mega menus and sub-navs in parallel across all menu items
+		if (menuStructureList) {
+			links = await Promise.all(
+				menuStructureList.items.map(async (menuItem: ContentItem<TopLevelNav>) => {
+					const [megaMenuRes, subNavRes] = await Promise.all([
+						menuItem.fields.megaContent?.referencename
+							? getContentList({ referenceName: menuItem.fields.megaContent.referencename, languageCode: locale })
+							: Promise.resolve(null),
+						menuItem.fields.subNavigation?.referencename
+							? getContentList({ referenceName: menuItem.fields.subNavigation.referencename, languageCode: locale, contentLinkDepth: 0, take: 100 })
+							: Promise.resolve(null),
+					])
 
-				let subMenuList: ContentItem<SubLevelNav>[] | undefined = undefined
-				let megaMenuList: ContentItem<MegaMenuItem>[] | undefined = undefined
-
-				//grab the mega menu if needed
-				if (menuItem.fields.megaContent && menuItem.fields.megaContent.referencename) {
-					const res = await getContentList({
-						referenceName: menuItem.fields.megaContent.referencename,
-						languageCode: locale,
-					})
-
-					if (res && res.items && res.items.length > 0) {
-						megaMenuList = res.items
+					return {
+						menuItem,
+						megaMenuList: megaMenuRes?.items?.length ? megaMenuRes.items as ContentItem<MegaMenuItem>[] : undefined,
+						subMenuList: subNavRes?.items?.length ? subNavRes.items as ContentItem<SubLevelNav>[] : undefined,
 					}
-
-
-				}
-
-				if (menuItem.fields.subNavigation && menuItem.fields.subNavigation.referencename) {
-
-					//expand out the subnav
-					const res = await getContentList({
-						referenceName: menuItem.fields.subNavigation.referencename,
-						languageCode: locale,
-						contentLinkDepth: 0,
-						take: 100
-
-					})
-
-					if (res && res.items && res.items.length > 0) {
-						subMenuList = res.items as ContentItem<SubLevelNav>[]
-					}
-
-
-				}
-
-				links.push({
-					menuItem,
-					subMenuList,
-					megaMenuList
-
 				})
-
-			}
-		}
-
-
-		//get the preheader links
-		const preHeaderLinksRef = header.fields.preHeaderLinks
-		let preheaderLinks: BasicLink[] = []
-		if (preHeaderLinksRef && preHeaderLinksRef.referencename) {
-			const preHeaderLinksList = await getContentList({
-				referenceName: preHeaderLinksRef.referencename,
-				languageCode: locale,
-				take: 5,
-				contentLinkDepth: 0
-			})
-
-			preheaderLinks = preHeaderLinksList.items.map((item: any) => ({
-				title: item.fields.title,
-				url: item.fields.uRL
-			}))
+			)
 		}
 
 		return {

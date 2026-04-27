@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
-import React, { useLayoutEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import classNames from "classnames"
 
 import { HeaderContent } from "lib/cms-content/getHeaderContent"
@@ -34,7 +34,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 	/**
 	 * Keep track of whether the user has scrolled so we can show a shadow on the header
 	 */
-	useLayoutEffect(() => {
+	useEffect(() => {
 		const scrollHandler = (e: Event) => {
 			if (window.scrollY > 0) {
 				setIsScrolled(true)
@@ -99,12 +99,13 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 					<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 						<div className="lg:w-0 lg:flex-1">
 							<Link href="/" className="flex items-center">
-								<img
+								<Image
 									className="h-9 w-auto"
 									src={header.fields.stickyLogo.url}
 									alt={header.fields.stickyLogo.label}
-									width={header.fields.stickyLogo.height}
-									height={header.fields.stickyLogo.width}
+									width={header.fields.stickyLogo.width}
+									height={header.fields.stickyLogo.height}
+									priority
 								/>
 							</Link>
 						</div>
@@ -202,7 +203,14 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 						<div className="flex items-center justify-between">
 							<a href="#" className="-m-1.5 p-1.5">
 								<span className="sr-only">Agility CMS</span>
-								<img alt="" src={header.fields.mobileLogo.url} className="h-8 w-auto" />
+								<Image
+									src={header.fields.mobileLogo.url}
+									alt={header.fields.mobileLogo.label || "Agility CMS"}
+									width={header.fields.mobileLogo.width}
+									height={header.fields.mobileLogo.height}
+									className="h-8 w-auto"
+									priority
+								/>
 							</a>
 							<button
 								type="button"
