@@ -103,8 +103,9 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 									className="h-9 w-auto"
 									src={header.fields.stickyLogo.url}
 									alt={header.fields.stickyLogo.label}
-									width={header.fields.stickyLogo.width}
-									height={header.fields.stickyLogo.height}
+									width={header.fields.stickyLogo.width || 200}
+									height={header.fields.stickyLogo.height || 36}
+									unoptimized={header.fields.stickyLogo.url.endsWith(".svg")}
 									priority
 								/>
 							</Link>
@@ -206,8 +207,9 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 								<Image
 									src={header.fields.mobileLogo.url}
 									alt={header.fields.mobileLogo.label || "Agility CMS"}
-									width={header.fields.mobileLogo.width}
-									height={header.fields.mobileLogo.height}
+									width={header.fields.mobileLogo.width || 200}
+									height={header.fields.mobileLogo.height || 32}
+									unoptimized={header.fields.mobileLogo.url.endsWith(".svg")}
 									className="h-8 w-auto"
 									priority
 								/>
