@@ -27,6 +27,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	const ogImages = (await parent).openGraph?.images || []
 	let metaTitle: string | undefined = undefined
 	let metaDescription: string | undefined = undefined
+	let articleOpenGraph: { type: "article"; publishedTime?: string; modifiedTime?: string; authors?: string[]; tags?: string[] } | undefined = undefined
 	//#region *** resolve open graph stuff from dynamic pages/layouts ***
 	if (agilityData.dynamicPageItem) {
 
@@ -54,6 +55,17 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 						alt: post.postImage.label
 					})
 				}
+
+				const tags: string[] = post.blogTags?.map(t => t.fields.title).filter(Boolean) || []
+				if (post.categories?.fields.title) tags.unshift(post.categories.fields.title)
+
+				articleOpenGraph = {
+					type: "article",
+					publishedTime: post.date,
+					modifiedTime: `${contentItem.properties.modified}`,
+					authors: post.author ? [post.author.fields.title] : undefined,
+					tags: tags.length > 0 ? tags : undefined,
+				}
 			} else if (contentItem.properties.definitionName === "Resource") {
 				/** RESOURCE META DATA */
 				const resource = contentItem.fields as IResource
@@ -67,6 +79,13 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 						url: `${resource.image.url}?format=auto&w=1200`,
 						alt: resource.image.label
 					})
+				}
+
+				articleOpenGraph = {
+					type: "article",
+					publishedTime: resource.date,
+					modifiedTime: `${contentItem.properties.modified}`,
+					authors: resource.author ? [resource.author.fields.title] : undefined,
 				}
 			} else if (contentItem.properties.definitionName === "CaseStudy") {
 				/** RESOURCE META DATA */
@@ -185,12 +204,18 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 
 	}
 
+	// Normalize the path: Agility CMS stores the homepage as "/home" but the public URL is "/"
+	const pagePath = agilityData.sitemapNode.path === "/home" ? "/" : agilityData.sitemapNode.path
+
 	const metaData: Metadata = {
 		metadataBase: new URL('https://agilitycms.com'),
 		title,
 		description: metaDescription || agilityData.page?.seo?.metaDescription,
-		keywords: agilityData.page?.seo?.metaKeywords,
+		alternates: {
+			canonical: pagePath,
+		},
 		openGraph: {
+			...articleOpenGraph,
 			images: ogImages,
 		},
 
