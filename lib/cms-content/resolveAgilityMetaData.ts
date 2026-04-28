@@ -205,7 +205,7 @@ export const resolveAgilityMetaData = async ({ agilityData, locale, sitemap, isD
 	}
 
 	// Normalize the path: Agility CMS stores the homepage as "/home" but the public URL is "/"
-	const pagePath = agilityData.sitemapNode.path === "/home" ? "/" : agilityData.sitemapNode.path
+	const pagePath = `https://agilitycms.com${agilityData.sitemapNode.path === "/home" ? "/" : agilityData.sitemapNode.path}`
 
 	const metaData: Metadata = {
 		metadataBase: new URL('https://agilitycms.com'),
