@@ -3,7 +3,10 @@ import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
-import { CarouselClient } from "./Carousel.client"
+import dynamic from "next/dynamic"
+
+// Dynamically imported to split embla-carousel-react out of the shared bundle
+const CarouselClient = dynamic(() => import("./Carousel.client").then(m => ({ default: m.CarouselClient })))
 
 export interface ICarouselItem {
 	title: string

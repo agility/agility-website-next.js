@@ -1,6 +1,9 @@
 import { UnloadedModuleProps } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
-import { TypeFormClient } from "./TypeFormModule.client"
+import dynamic from "next/dynamic"
+
+// Dynamically imported to split @typeform/embed-react out of the shared bundle
+const TypeFormClient = dynamic(() => import("./TypeFormModule.client").then(m => ({ default: m.TypeFormClient })))
 
 export interface ITypeFormModule {
 	form: string

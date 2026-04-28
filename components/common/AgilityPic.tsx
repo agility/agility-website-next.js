@@ -54,7 +54,9 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 	let imgHeight: number | undefined = undefined
 	let imgWidth: number | undefined = undefined
 
-	if (fallbackWidth !== undefined && fallbackWidth > 0) {
+	const isSvg = image.url.toLowerCase().endsWith(".svg")
+
+	if (!isSvg && fallbackWidth !== undefined && fallbackWidth > 0) {
 		src = `${image.url}?format=auto&w=${fallbackWidth}`
 
 		let aspectRatio = image.width / image.height
@@ -71,7 +73,7 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 				let h = Number(source.height) > 0 ? `&h=${source.height}` : ``
 				const key = `${srcSet}-${index}`
 
-				if (h || w) {
+				if (!isSvg && (h || w)) {
 					//if we have a width and NOT a height, do NOT allow the image to be sized larger than the original width
 					if (w && !h) w = `&w=${Math.min(Number(source.width), image.width)}`
 
@@ -85,7 +87,15 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 				return <source key={key} {...source} srcSet={srcSet} />
 			})}
 
-			<img loading={priority ? "eager" : "lazy"} src={src} alt={alt || image.label} className={className} width={imgWidth} height={imgWidth} />
+			<img
+				loading={priority ? "eager" : "lazy"}
+				fetchPriority={priority ? "high" : undefined}
+				src={src}
+				alt={alt || image.label}
+				className={className}
+				width={imgWidth}
+				height={imgHeight}
+			/>
 		</picture>
 	)
 }
