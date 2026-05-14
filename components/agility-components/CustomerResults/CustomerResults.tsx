@@ -60,6 +60,7 @@ export const CustomerResults = async ({ module, languageCode }: UnloadedModulePr
 										src={logoSrc}
 										alt={logo.label || ""}
 										className="h-20 w-auto"
+										height="80"
 										loading="lazy"
 									/>
 								) : (

@@ -63,7 +63,7 @@ export const SubmissionFormClient = ({
 					<div className="flex flex-col gap-10 md:flex-row">
 						<div className="width-1/2 relative flex-1">
 							<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
-								<div id={divID}></div>
+								<div id={divID} className="min-h-[400px]"></div>
 							</div>
 							<img
 								src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"

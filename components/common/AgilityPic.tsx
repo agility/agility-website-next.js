@@ -58,11 +58,12 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 
 	if (!isSvg && fallbackWidth !== undefined && fallbackWidth > 0) {
 		src = `${image.url}?format=auto&w=${fallbackWidth}`
+	}
 
-		let aspectRatio = image.width / image.height
+	// Set width/height for both raster and SVG when CMS has stored dimensions
+	if (fallbackWidth !== undefined && fallbackWidth > 0 && image.width > 0 && image.height > 0) {
 		imgWidth = fallbackWidth
-		imgHeight = Math.round(fallbackWidth / aspectRatio)
-
+		imgHeight = Math.round(fallbackWidth / (image.width / image.height))
 	}
 
 	return (
@@ -91,7 +92,7 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 				loading={priority ? "eager" : "lazy"}
 				fetchPriority={priority ? "high" : undefined}
 				src={src}
-				alt={alt || image.label}
+				alt={alt ?? image.label ?? ""}
 				className={className}
 				width={imgWidth}
 				height={imgHeight}

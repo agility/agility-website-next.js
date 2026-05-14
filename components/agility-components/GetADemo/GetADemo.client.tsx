@@ -11,22 +11,24 @@ interface Props {
 }
 
 const FormBlockedFallback = () => (
-	<p className="text-sm text-gray-600">
-		Form not loading?{" "}
-		<a
-			href="https://agilitycms.com/thank-you/get-a-demo-step-2-book"
-			target="_blank"
-			rel="noopener noreferrer"
-			className="text-highlight underline hover:text-highlight-dark"
-		>
-			Find the calendar here
-		</a>{" "}
-		to book a demo or reach out to us at{" "}
-		<a href="mailto:sales@agilitycms.com" className="text-highlight underline hover:text-highlight-dark">
-			sales@agilitycms.com
-		</a>
-		.
-	</p>
+	<div className="min-h-[400px]">
+		<p className="text-sm text-gray-600">
+			Form not loading?{" "}
+			<a
+				href="https://agilitycms.com/thank-you/get-a-demo-step-2-book"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="text-highlight underline hover:text-highlight-dark"
+			>
+				Find the calendar here
+			</a>{" "}
+			to book a demo or reach out to us at{" "}
+			<a href="mailto:sales@agilitycms.com" className="text-highlight underline hover:text-highlight-dark">
+				sales@agilitycms.com
+			</a>
+			.
+		</p>
+	</div>
 )
 
 export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
@@ -85,7 +87,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
 				onLoad={() => loadForm()}
 				onError={() => setFormBlocked(true)}
 			/>
-			{formBlocked ? <FormBlockedFallback /> : <div id={divID}></div>}
+			{formBlocked ? <FormBlockedFallback /> : <div id={divID} className="min-h-[400px]"></div>}
 		</>
 	)
 }
