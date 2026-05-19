@@ -1,5 +1,6 @@
 import { ImageField } from "@agility/nextjs"
 import React, { FC } from "react"
+import { isSvgUrl } from "lib/utils/isSvgUrl"
 
 
 interface AgilityImageSourceProps
@@ -54,7 +55,7 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 	let imgHeight: number | undefined = undefined
 	let imgWidth: number | undefined = undefined
 
-	const isSvg = image.url.toLowerCase().endsWith(".svg")
+	const isSvg = isSvgUrl(image.url)
 
 	if (!isSvg && fallbackWidth !== undefined && fallbackWidth > 0) {
 		src = `${image.url}?format=auto&w=${fallbackWidth}`

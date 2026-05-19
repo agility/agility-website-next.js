@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import { isSvgUrl } from './isSvgUrl';
 
 export const renderHTMLCustom = (html: string | null | undefined) => {
 	if (!html) return { __html: "" };
@@ -10,7 +11,8 @@ export const renderHTMLCustom = (html: string | null | undefined) => {
 		$("img").each((_, element) => {
 			const src = $(element).attr("src");
 
-			if (src && src.includes("static.agilitycms.com") && src.indexOf("format=auto") === -1) {
+			//skip SVGs — format=auto rasterizes them on the Agility CDN
+			if (src && !isSvgUrl(src) && src.includes("static.agilitycms.com") && src.indexOf("format=auto") === -1) {
 				//add format=auto to the src attribute
 				if (src.indexOf("?") > -1) {
 					$(element).attr("src", src + "&format=auto");
