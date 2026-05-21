@@ -12,16 +12,17 @@ export interface Platform {
 export type ComparisonRow =
 	| { type: "category"; label: string }
 	| {
-			type: "feature"
-			name: string
-			tooltip?: string
-			cells: Record<string, { status: "full" | "partial" | "none"; text?: string }>
-	  }
+		type: "feature"
+		name: string
+		tooltip?: string
+		cells: Record<string, { status: "full" | "partial" | "none"; text?: string }>
+	}
 
 interface Props {
 	platforms: Platform[]
 	rows: ComparisonRow[]
 	footnote?: string
+	hideLegend: boolean
 }
 
 function StatusCell({ status, text }: { status: "full" | "partial" | "none"; text?: string }) {
@@ -58,7 +59,7 @@ function StatusCell({ status, text }: { status: "full" | "partial" | "none"; tex
 	)
 }
 
-export function ComparisonTableClient({ platforms, rows, footnote }: Props) {
+export function ComparisonTableClient({ platforms, rows, footnote, hideLegend }: Props) {
 	const [openTooltip, setOpenTooltip] = useState<string | null>(null)
 	const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
 	const tableRef = useRef<HTMLDivElement>(null)
@@ -90,26 +91,28 @@ export function ComparisonTableClient({ platforms, rows, footnote }: Props) {
 	return (
 		<div ref={tableRef}>
 			{/* Legend */}
-			<div className="mb-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600">
-				<div className="flex items-center gap-2">
-					<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
-						<IconCheck className="h-3 w-3 text-green-600" stroke={3} />
-					</span>
-					<span>Fully supported</span>
+			{!hideLegend && (
+				<div className="mb-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600">
+					<div className="flex items-center gap-2">
+						<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-50">
+							<IconCheck className="h-3 w-3 text-green-600" stroke={3} />
+						</span>
+						<span>Fully supported</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-50">
+							<IconMinus className="h-3 w-3 text-amber-500" stroke={3} />
+						</span>
+						<span>Partial / add-on / plugin required</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
+							<IconX className="h-3 w-3 text-red-400" stroke={3} />
+						</span>
+						<span>Not available</span>
+					</div>
 				</div>
-				<div className="flex items-center gap-2">
-					<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-amber-50">
-						<IconMinus className="h-3 w-3 text-amber-500" stroke={3} />
-					</span>
-					<span>Partial / add-on / plugin required</span>
-				</div>
-				<div className="flex items-center gap-2">
-					<span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-50">
-						<IconX className="h-3 w-3 text-red-400" stroke={3} />
-					</span>
-					<span>Not available</span>
-				</div>
-			</div>
+			)}
 
 			{/* Table */}
 			<div className="mx-auto max-w-6xl overflow-x-auto rounded-2xl border border-gray-200/40 bg-white shadow-lg">
