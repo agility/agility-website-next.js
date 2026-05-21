@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 	const host = request.nextUrl.host
 	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
 
-	if (host !== "localhost:3000" //local
+	if (!host.startsWith("localhost:") //local (any port)
 		&& !host.endsWith("netlify.app") //netlify
 		&& !host.endsWith("publishwithagility.com") //vercel
 		&& !host.endsWith("agilitycms.com")) //prod

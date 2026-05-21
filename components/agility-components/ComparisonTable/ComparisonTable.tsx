@@ -37,6 +37,7 @@ interface IComparisonTable {
 	anchorId?: string
 	comparisonData?: string
 	footnote?: string
+	hideLegend?: string
 }
 
 interface ParsedData {
@@ -109,7 +110,7 @@ function parseComparisonData(raw: string): ParsedData | null {
 }
 
 export const ComparisonTable = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<IComparisonTable>({
+	const { fields, contentID, properties } = await getContentItem<IComparisonTable>({
 		contentID: module.contentid,
 		languageCode,
 		contentLinkDepth: 0,
@@ -202,6 +203,7 @@ export const ComparisonTable = async ({ module, languageCode }: UnloadedModulePr
 					platforms={platformList}
 					rows={rows}
 					footnote={fields.footnote}
+					hideLegend={fields.hideLegend == "true"}
 				/>
 			</div>
 		</Container>
