@@ -49,9 +49,9 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel1Graphic && fields.panel1Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel1Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel1Graphic.url} alt={fields.panel1Graphic.label} className="w-16" />
+								<img src={fields.panel1Graphic.url} alt={fields.panel1Graphic.label} className="w-16" width="64" height="64" />
 							) : (
-								<AgilityPic image={fields.panel1Graphic} className="w-16" />
+								<AgilityPic image={fields.panel1Graphic} className="w-16" fallbackWidth={64} />
 							)}
 							<h3 className="text-lg font-medium">{fields.panel1Title}</h3>
 							{fields.panel1CheckedContent && (
@@ -75,9 +75,9 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel2Graphic && fields.panel2Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel2Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel2Graphic.url} alt={fields.panel2Graphic.label} className="w-16" />
+								<img src={fields.panel2Graphic.url} alt={fields.panel2Graphic.label} className="w-16" width="64" height="64" />
 							) : (
-								<AgilityPic image={fields.panel2Graphic} className="w-16" />
+								<AgilityPic image={fields.panel2Graphic} className="w-16" fallbackWidth={64} />
 							)}
 							<h3 className="text-lg font-medium">{fields.panel2Title}</h3>
 							{fields.panel2CheckedContent && (
@@ -101,9 +101,9 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel3Graphic && fields.panel3Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel3Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel3Graphic.url} alt={fields.panel3Graphic.label} className="w-16" />
+								<img src={fields.panel3Graphic.url} alt={fields.panel3Graphic.label} className="w-16" width="64" height="64" />
 							) : (
-								<AgilityPic image={fields.panel3Graphic} className="w-16" />
+								<AgilityPic image={fields.panel3Graphic} className="w-16" fallbackWidth={64} />
 							)}
 							<h3 className="text-lg font-medium">{fields.panel3Title}</h3>
 							{fields.panel3CheckedContent && (

@@ -56,6 +56,7 @@ export const TrustedByLogos = async ({ module, languageCode }: UnloadedModulePro
 								src={src}
 								alt={name || logo.label || ""}
 								className="h-20 w-auto lg:h-24"
+								height="80"
 								loading="lazy"
 							/>
 						)
