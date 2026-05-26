@@ -5,6 +5,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { gql } from "gql/__generated__"
 import { CaseStudyListingClient } from "./CaseStudyListing.client"
 import { getCaseStudyListing } from "lib/cms-content/getCaseStudyListing"
+import { getCaseStudyCTAs } from "lib/cms-content/getCaseStudyCTAs"
 
 interface ICaseStudyListing {
 	caseCount: string
@@ -31,7 +32,7 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		contentLinkDepth: 0
 	})
 
-	const caseCount = parseInt(fields.caseCount)
+	const caseCount = Math.max(parseInt(fields.caseCount) || 18, 18)
 
 	//get all the case studis from the server so we can filter client side...
 	const skip = 0
@@ -67,6 +68,16 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 		: null
 	const currentChallenge = challengeQStr
 		? data.casestudychallenges?.find((c) => c?.fields?.title?.toLowerCase().replaceAll(" ", "-") === challengeQStr)
+		: null
+
+	//fetch case study CTAs
+	const allCTAs = (await getCaseStudyCTAs()).slice(0, 50)
+
+	//find a CTA that matches the selected industry, or pass all CTAs for random scattering
+	const matchingCTA = currentIndustry
+		? allCTAs.find((cta) =>
+				cta.fields.caseStudyIndustries?.some((ind) => ind.contentID === currentIndustry?.contentID)
+			) || null
 		: null
 
 	//filter the case studies
@@ -112,6 +123,8 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 				industryQStr,
 				challengeQStr,
 				caseStudies: filteredCaseStudies || [],
+				cta: matchingCTA,
+				allCTAs,
 				industries:
 					data.casestudyindustries?.map((industry: any) => ({
 						text: `${industry.fields.title}`,

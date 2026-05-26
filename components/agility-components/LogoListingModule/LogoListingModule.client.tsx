@@ -34,6 +34,7 @@ export const LogoListingModuleClient = ({ logos }: Props) => {
 										src={src}
 										alt={logo.title}
 										className="w-full"
+										height="64"
 										loading="lazy"
 									/>
 								</div>

@@ -99,7 +99,7 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 									className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
 								>
 									{/* these are always SVGs, so no need to formatting */}
-									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
+									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} width="112" height="112" />
 									<h2 className="text-lg font-medium">{feature.fields.title}</h2>
 									<h3>{feature.fields.subtitle}</h3>
 									<p className="flex-1">{feature.fields.textBlob}</p>
@@ -112,7 +112,7 @@ export const FeatureBlocks = async ({ module, languageCode }: UnloadedModuleProp
 									className="flex flex-col items-center gap-4 border border-background p-6 pt-7 shadow-md transition-all hover:shadow-lg"
 								>
 									{/* these are always SVGs, so no need to formatting */}
-									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} />
+									<img className="w-28" src={feature.fields.icon.url} alt={feature.fields.icon.label} width="112" height="112" />
 									<h2 className="text-lg font-medium">{feature.fields.title}</h2>
 									<h3>{feature.fields.subtitle}</h3>
 									<p className="flex-1">{feature.fields.textBlob}</p>

@@ -1,7 +1,10 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
-import { VideoModuleClient } from "./VideoModule.client"
+import dynamic from "next/dynamic"
+
+// Dynamically imported to split react-player (~130 KiB) out of the shared bundle
+const VideoModuleClient = dynamic(() => import("./VideoModule.client").then(m => ({ default: m.VideoModuleClient })))
 
 interface VideoModuleFields {
 	videoPath: URLField

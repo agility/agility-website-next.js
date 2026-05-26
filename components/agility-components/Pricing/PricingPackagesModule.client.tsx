@@ -188,7 +188,7 @@ export const PricingPackagesModuleClient = ({
 
 								{/* descriptions */}
 								<div className="flex flex-1 flex-col">
-									<div className="min-h-[162pxX]">
+									<div className="min-h-[162px]">
 										<h3 className="text-4xl font-bold">{packageItem?.fields?.cost}</h3>
 										<div className="text-sm mt-2">{packageItem?.fields?.pricingPlan}</div>
 

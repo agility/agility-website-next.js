@@ -1,6 +1,9 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
-import { ROICalculatorClient } from "./ROICalculator.client"
+import dynamic from "next/dynamic"
+
+// Dynamically imported to keep the large ROI calculator bundle off pages that don't use it
+const ROICalculatorClient = dynamic(() => import("./ROICalculator.client").then(m => ({ default: m.ROICalculatorClient })))
 
 export interface IROICalculator {
 	// Hero Section
