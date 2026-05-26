@@ -139,6 +139,11 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 										<div className="flex h-full flex-1 flex-col gap-3 border border-t-0 border-background p-5">
 											<h3 className="text-2xl font-medium">{res.fields.title}</h3>
 											<div>{res.fields.excerpt}</div>
+											{selectedResource.fields.buttonTextTopWebinar && (
+												<div className="text-highlight-dark group-hover:text-highlight-light">
+													{selectedResource.fields.buttonTextTopWebinar}
+												</div>
+											)}
 										</div>
 									</Link>
 								</div>
@@ -149,13 +154,13 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 
 				{topReads.length > 0 && (
 					<div className="mt-14">
-						<h2 className="text-center text-3xl font-medium">Top Reads For You</h2>
+						<h2 className="text-center text-3xl font-medium">{selectedResource.fields.headingTopReads || "Top Reads For You"}</h2>
 
 						<div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 							{topReads.map((res) => (
 								<div key={`topres-${res.contentID}`}>
 									<Link
-										className="group flex h-full justify-center"
+										className="group flex h-full flex-col items-center justify-center"
 										href={`/resources/${res.fields.resourceTypeName?.toLowerCase().replaceAll("-", "")}/${res.fields.uRL}`}
 									>
 										{res.fields.bookCover && (
@@ -165,6 +170,11 @@ export const NEWeBookThankYou = async ({ languageCode, globalData }: UnloadedMod
 													className="grouphover:shadow-md h-96 w-full rounded-md object-contain transition-all duration-300 group-hover:scale-110"
 													fallbackWidth={480}
 												/>
+											</div>
+										)}
+										{selectedResource.fields.buttonTextTopRead && (
+											<div className="mt-2 text-highlight-dark group-hover:text-highlight-light">
+												{selectedResource.fields.buttonTextTopRead}
 											</div>
 										)}
 									</Link>
