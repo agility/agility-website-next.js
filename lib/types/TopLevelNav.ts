@@ -2,7 +2,7 @@ import { URLField } from "@agility/nextjs"
 
 export interface TopLevelNav {
 	title: string
-	uRL: URLField
+	uRL?: URLField
 	subNavigation: {
 		referencename: string,
 		fulllist: boolean

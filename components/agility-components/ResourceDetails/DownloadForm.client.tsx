@@ -61,7 +61,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 
 			<div className="relative">
 				<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
-					<div id={divID}></div>
+					<div id={divID} className="min-h-[400px]"></div>
 				</div>
 				<img
 					src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"

@@ -1,5 +1,6 @@
 import { ImageField } from "@agility/nextjs"
 import React, { FC } from "react"
+import { isSvgUrl } from "lib/utils/isSvgUrl"
 
 
 interface AgilityImageSourceProps
@@ -54,13 +55,16 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 	let imgHeight: number | undefined = undefined
 	let imgWidth: number | undefined = undefined
 
-	if (fallbackWidth !== undefined && fallbackWidth > 0) {
+	const isSvg = isSvgUrl(image.url)
+
+	if (!isSvg && fallbackWidth !== undefined && fallbackWidth > 0) {
 		src = `${image.url}?format=auto&w=${fallbackWidth}`
+	}
 
-		let aspectRatio = image.width / image.height
+	// Set width/height for both raster and SVG when CMS has stored dimensions
+	if (fallbackWidth !== undefined && fallbackWidth > 0 && image.width > 0 && image.height > 0) {
 		imgWidth = fallbackWidth
-		imgHeight = Math.round(fallbackWidth / aspectRatio)
-
+		imgHeight = Math.round(fallbackWidth / (image.width / image.height))
 	}
 
 	return (
@@ -71,7 +75,7 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 				let h = Number(source.height) > 0 ? `&h=${source.height}` : ``
 				const key = `${srcSet}-${index}`
 
-				if (h || w) {
+				if (!isSvg && (h || w)) {
 					//if we have a width and NOT a height, do NOT allow the image to be sized larger than the original width
 					if (w && !h) w = `&w=${Math.min(Number(source.width), image.width)}`
 
@@ -85,7 +89,15 @@ export const AgilityPic: FC<AgilityPicProps> = ({ image, alt, priority, classNam
 				return <source key={key} {...source} srcSet={srcSet} />
 			})}
 
-			<img loading={priority ? "eager" : "lazy"} src={src} alt={alt || image.label} className={className} width={imgWidth} height={imgWidth} />
+			<img
+				loading={priority ? "eager" : "lazy"}
+				fetchPriority={priority ? "high" : undefined}
+				src={src}
+				alt={alt ?? image.label ?? ""}
+				className={className}
+				width={imgWidth}
+				height={imgHeight}
+			/>
 		</picture>
 	)
 }

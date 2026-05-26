@@ -24,8 +24,15 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 	})
 
 	return (
-
-
+		<>
+		{fields.mediaType === "image" && fields.image && (
+			<link
+				rel="preload"
+				as="image"
+				href={`${fields.image.url}?format=auto&w=480`}
+				fetchPriority="high"
+			/>
+		)}
 		<Container className="text-balance text-center">
 			<div className="mx-auto max-w-7xl">
 				{fields.mediaType === "video" && fields.videoURL && (
@@ -36,7 +43,7 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 
 				{fields.mediaType === "image" && fields.image && (
 					<div className="mb-10 flex w-full justify-center">
-						<AgilityPic image={fields.image} fallbackWidth={480} />
+						<AgilityPic image={fields.image} fallbackWidth={480} priority />
 					</div>
 				)}
 
@@ -58,6 +65,6 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 				)}
 			</div>
 		</Container>
-
+		</>
 	)
 }

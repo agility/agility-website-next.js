@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
-import React, { useLayoutEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import classNames from "classnames"
 
 import { HeaderContent } from "lib/cms-content/getHeaderContent"
@@ -34,7 +34,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 	/**
 	 * Keep track of whether the user has scrolled so we can show a shadow on the header
 	 */
-	useLayoutEffect(() => {
+	useEffect(() => {
 		const scrollHandler = (e: Event) => {
 			if (window.scrollY > 0) {
 				setIsScrolled(true)
@@ -99,12 +99,14 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 					<div className="flex w-full items-center justify-between py-6 lg:justify-start lg:space-x-10">
 						<div className="lg:w-0 lg:flex-1">
 							<Link href="/" className="flex items-center">
-								<img
+								<Image
 									className="h-9 w-auto"
 									src={header.fields.stickyLogo.url}
 									alt={header.fields.stickyLogo.label}
-									width={header.fields.stickyLogo.height}
-									height={header.fields.stickyLogo.width}
+									width={header.fields.stickyLogo.width || 200}
+									height={header.fields.stickyLogo.height || 36}
+									unoptimized={header.fields.stickyLogo.url.endsWith(".svg")}
+									priority
 								/>
 							</Link>
 						</div>
@@ -202,7 +204,15 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 						<div className="flex items-center justify-between">
 							<a href="#" className="-m-1.5 p-1.5">
 								<span className="sr-only">Agility CMS</span>
-								<img alt="" src={header.fields.mobileLogo.url} className="h-8 w-auto" />
+								<Image
+									src={header.fields.mobileLogo.url}
+									alt={header.fields.mobileLogo.label || "Agility CMS"}
+									width={header.fields.mobileLogo.width || 200}
+									height={header.fields.mobileLogo.height || 32}
+									unoptimized={header.fields.mobileLogo.url.endsWith(".svg")}
+									className="h-8 w-auto"
+									priority
+								/>
 							</a>
 							<button
 								type="button"
@@ -222,26 +232,32 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											return (
 												<Disclosure as="div" key={`mobile-${index}`} className="-mx-3">
 													<DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-														<Link
-															onClick={() => setOpen(false)}
-															href={link.menuItem.fields.uRL.href}
-															target={link.menuItem.fields.uRL.target}
-															key={`mobile-${index}`}
-															className="transition-colors hover:text-highlight"
-														>
-															{link.menuItem.fields.title}
-														</Link>
+														{link.menuItem.fields.uRL?.href ? (
+															<Link
+																onClick={() => setOpen(false)}
+																href={link.menuItem.fields.uRL.href}
+																target={link.menuItem.fields.uRL.target}
+																key={`mobile-${index}`}
+																className="transition-colors hover:text-highlight"
+															>
+																{link.menuItem.fields.title}
+															</Link>
+														) : (
+															<span className="transition-colors hover:text-highlight">
+																{link.menuItem.fields.title}
+															</span>
+														)}
 														<IconChevronDown
 															aria-hidden="true"
 															className="h-5 w-5 flex-none group-data-[open]:rotate-180"
 														/>
 													</DisclosureButton>
 													<DisclosurePanel className="mt-2 space-y-2">
-														{link.subMenuList.map((subLink, subIndex) => (
+														{link.subMenuList.filter((subLink) => subLink.fields.uRL?.href).map((subLink, subIndex) => (
 															<DisclosureButton
 																key={subLink.fields.title}
 																as="a"
-																href={subLink.fields.uRL.href}
+																href={subLink.fields.uRL!.href}
 																onClick={() => setOpen(false)}
 																className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-primary transition-all hover:bg-gray-50 hover:text-highlight"
 															>
@@ -253,6 +269,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 											)
 										} else {
 											//no sub menu
+											if (!link.menuItem.fields.uRL?.href) return null
 											return (
 												<Link
 													href={link.menuItem.fields.uRL.href}

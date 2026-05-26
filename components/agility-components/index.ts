@@ -15,6 +15,7 @@ import RightORLeftContentModule from "./RightORLeftContentModule/RightORLeftCont
 import TriplePanelComparisonModule from "./TriplePanelComparisonModule"
 import RightOrLeftSteps from "./RightOrLeftSteps"
 import FeaturedResources from "./FeaturedResources"
+import TopFeaturedResources from "./TopFeaturedResources/TopFeaturedResources"
 import NewIntegrationListingModule from "./IntegrationListingModule/NewIntegrationListingModule"
 import { TwoPanelFeatureComparison } from "./TwoPanelFeatureComparison/TwoPanelFeatureComparison.server"
 import { Faqs } from "./Faqs"
@@ -83,6 +84,10 @@ import { G2AwardsBanner } from "./G2AwardsBanner/G2AwardsBanner"
 import { HeadlessBenefits } from "./HeadlessBenefits/HeadlessBenefits"
 import { TestimonialCarousel } from "./TestimonialCarousel/TestimonialCarousel"
 import { DualCTABanner } from "./DualCTABanner/DualCTABanner"
+import { CompareHero } from "./CompareHero/CompareHero"
+import { CompetitorCards } from "./CompetitorCards/CompetitorCards"
+import { ComparisonTable } from "./ComparisonTable/ComparisonTable"
+import { SwitchTestimonials } from "./SwitchTestimonials/SwitchTestimonials"
 
 // All of the Agility Page Module Components that are in use in this site need to be imported into this index file.
 // Place Page Modules in allModules array below, passing in a name and the component.
@@ -105,6 +110,7 @@ const allModules = [
 	{ name: "TriplePanelComparisonModule", module: TriplePanelComparisonModule },
 	{ name: "RightOrLeftSteps", module: RightOrLeftSteps },
 	{ name: "FeaturedResources", module: FeaturedResources },
+	{ name: "TopFeaturedResources", module: TopFeaturedResources },
 	{ name: "NewIntegrationListingModule", module: NewIntegrationListingModule },
 	{ name: "TwoPanelFeatureComparison", module: TwoPanelFeatureComparison },
 	{ name: "Faqs", module: Faqs },
@@ -176,6 +182,12 @@ const allModules = [
 	{ name: "HeadlessBenefits", module: HeadlessBenefits },
 	{ name: "TestimonialCarousel", module: TestimonialCarousel },
 	{ name: "DualCTABanner", module: DualCTABanner },
+
+	// Compare Page Components
+	{ name: "CompareHero", module: CompareHero },
+	{ name: "CompetitorCards", module: CompetitorCards },
+	{ name: "ComparisonTable", module: ComparisonTable },
+	{ name: "SwitchTestimonials", module: SwitchTestimonials },
 ]
 
 /**

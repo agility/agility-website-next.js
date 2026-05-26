@@ -76,6 +76,17 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	const dateStr = DateTime.fromJSDate(new Date(post.date)).toFormat("LLL. dd, yyyy")
 
 	return (
+		<>
+		{/* Hoist a preload hint for the hero image so the browser fetches it before
+		    parsing down to the <picture> element — the primary LCP fix for /blog/* */}
+		{post.postImage && (
+			<link
+				rel="preload"
+				as="image"
+				href={`${post.postImage.url}?format=auto&w=800`}
+				fetchPriority="high"
+			/>
+		)}
 		<Container >
 			<article className="mx-auto max-w-7xl">
 				<time className="text-slate-600">{dateStr}</time>
@@ -102,7 +113,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 							<AgilityPic
 								image={post.postImage}
 								alt={post.title}
-								fallbackWidth={400}
+								fallbackWidth={800}
 								priority
 								className="w-full"
 								sources={[
@@ -254,6 +265,7 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 				</div> */}
 			</article>
 		</Container>
+		</>
 	)
 }
 

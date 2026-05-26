@@ -23,10 +23,10 @@ export const ResourceListingItem = ({ item, index, size }: Props) => {
 			href={url}
 			key={item.contentID}
 		>
-			<div className="relative h-52 w-full overflow-clip">
+			<div className="relative h-52 w-full overflow-clip [&_picture]:block [&_picture]:h-full [&_picture]:w-full">
 				<AgilityPic
 					image={item.fields.image}
-					className="w-full object-cover object-center transition-transform group-hover:scale-110"
+					className="h-full w-full object-cover object-center transition-transform group-hover:scale-110"
 					fallbackWidth={480}
 					sources={[
 						//screen at least than 1280, it's 1/3 of the screen

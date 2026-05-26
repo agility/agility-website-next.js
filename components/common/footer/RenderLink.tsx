@@ -1,7 +1,9 @@
+import { ContentItem } from "@agility/content-fetch"
+import { FooterLink } from "lib/types/FooterLink"
 import Link from "next/link"
 
 interface RenderLinkProps {
-	link: any
+	link: ContentItem<FooterLink>
 	adjustLink: (url: string) => string
 }
 
