@@ -8,6 +8,51 @@ export const indexName = "agility-website"
 export const getAlgoliaClient = () =>
 	algoliasearch(process.env.ALGOLIA_APP_ID || "", process.env.ALGOLIA_ADMIN_API_KEY || "")
 
+// Friendly labels for known Agility resource types (the URL segment after
+// /resources/). Unknown types fall back to a humanized version of the slug.
+const RESOURCE_TYPE_LABELS: Record<string, string> = {
+	"events": "Event",
+	"webinars": "Webinar",
+	"webinar": "Webinar",
+	"case-studies": "Case Study",
+	"guide": "Guide",
+	"whitepaper": "Whitepaper",
+	"ebooks": "Ebook",
+	"ebook": "Ebook",
+	"cms-comparison": "Comparison",
+	"agility-sneak-peek": "Sneak Peek",
+}
+
+const humanize = (slug: string) =>
+	slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+
+/**
+ * Infer a content-type label from the page URL. JSON-LD only distinguishes blog
+ * vs event, so the URL (which encodes the Agility resource type) is the reliable
+ * signal. Returns undefined for generic site pages (product/solutions/about/…),
+ * which keep the default label.
+ */
+export const inferContentType = (url: string): string | undefined => {
+	let path = url
+	try { path = new URL(url).pathname } catch { /* already a path */ }
+
+	const seg = path.split("/").filter(Boolean)
+	if (seg.length === 0) return undefined
+
+	if (seg[0] === "blog") return "Blog Post"
+	if (seg[0] === "glossary") return "Glossary"
+	if (seg[0] === "starters") return "Starter"
+	if (seg[0].startsWith("agility-cms-vs-") || seg[0] === "headless-cms-comparison") return "Comparison"
+
+	// Resource items live at /resources/<type>/<slug>; label them by <type>.
+	// (Length 2 is a listing page, e.g. /resources/case-studies — leave generic.)
+	if (seg[0] === "resources" && seg.length >= 3) {
+		return RESOURCE_TYPE_LABELS[seg[1]] || humanize(seg[1])
+	}
+
+	return undefined
+}
+
 export interface PageRecord {
 	objectID: string
 	title: string
@@ -29,6 +74,11 @@ export interface PageRecord {
 	 * Undefined for undated pages. Use this for display in search results.
 	 */
 	publishedDate?: number
+	/**
+	 * Content-type label inferred from the URL (e.g. "Blog Post", "Ebook",
+	 * "Guide", "Event"). Undefined for generic site pages.
+	 */
+	contentType?: string
 }
 
 /**
@@ -126,7 +176,8 @@ export const buildPageRecord = async (path: string): Promise<PageRecord | null> 
 		images: images.toArray(),
 		url,
 		date,
-		publishedDate
+		publishedDate,
+		contentType: inferContentType(url)
 	}
 }
 

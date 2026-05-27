@@ -73,7 +73,7 @@ export function SearchResult({
 					)}
 					{result.__autocomplete_indexName == "agility-website" && (
 						<div className='text-xs'>
-							<span>General</span>
+							<span>{result.contentType || "General"}</span>
 							{publishedLabel && <span> &middot; {publishedLabel}</span>}
 						</div>
 					)}
