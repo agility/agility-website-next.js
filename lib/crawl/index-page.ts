@@ -18,12 +18,17 @@ export interface PageRecord {
 	images: { src?: string; alt?: string }[]
 	url: string
 	/**
-	 * Publish date as a Unix timestamp (seconds), used for the recency tiebreaker
-	 * in Algolia's custom ranking (desc(date)). Dated pages (blog/resource posts)
-	 * use their real publish date; undated pages (product/docs/landing) fall back
-	 * to crawl time so they stay "fresh" and aren't pushed below old posts.
+	 * Unix timestamp (seconds) used for the recency tiebreaker in Algolia's custom
+	 * ranking (desc(date)). Dated pages use their real publish date; undated pages
+	 * (product/docs/landing) fall back to crawl time so they stay "fresh" and
+	 * aren't pushed below old posts. Always present — do NOT display this directly.
 	 */
 	date: number
+	/**
+	 * Real publish date (Unix seconds), set only when the page actually has one.
+	 * Undefined for undated pages. Use this for display in search results.
+	 */
+	publishedDate?: number
 }
 
 /**
@@ -90,7 +95,8 @@ export const buildPageRecord = async (path: string): Promise<PageRecord | null> 
 		jsonld?.datePublished ||
 		jsonldNodes.find((n) => n?.datePublished)?.datePublished
 	const parsedDate = publishedRaw ? Date.parse(publishedRaw) : NaN
-	const date = Number.isNaN(parsedDate) ? Math.floor(Date.now() / 1000) : Math.floor(parsedDate / 1000)
+	const publishedDate = Number.isNaN(parsedDate) ? undefined : Math.floor(parsedDate / 1000)
+	const date = publishedDate ?? Math.floor(Date.now() / 1000)
 
 	let mainHtml = $('main').html() || "";
 	mainHtml = mainHtml
@@ -119,7 +125,8 @@ export const buildPageRecord = async (path: string): Promise<PageRecord | null> 
 		html: mainHtml,
 		images: images.toArray(),
 		url,
-		date
+		date,
+		publishedDate
 	}
 }
 
