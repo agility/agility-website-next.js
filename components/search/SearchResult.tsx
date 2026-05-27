@@ -32,6 +32,12 @@ export function SearchResult({
 		? autocomplete.getItemProps({ item: result, source: collection.source })
 		: { onClick, role: 'option' as const }
 
+	const publishedLabel = result.publishedDate
+		? new Date(result.publishedDate * 1000).toLocaleDateString('en-US', {
+			year: 'numeric', month: 'short', day: 'numeric'
+		})
+		: null
+
 	return (
 		<li
 			className={clsx(
@@ -67,7 +73,8 @@ export function SearchResult({
 					)}
 					{result.__autocomplete_indexName == "agility-website" && (
 						<div className='text-xs'>
-							<span>General</span>
+							<span>{result.contentType || "General"}</span>
+							{publishedLabel && <span> &middot; {publishedLabel}</span>}
 						</div>
 					)}
 				</div>

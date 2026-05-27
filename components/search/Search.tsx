@@ -38,6 +38,10 @@ export type Result = {
 	ogImage?: string
 	section?: string
 	concept?: string
+	/** Real publish date (Unix seconds), present only for dated pages. */
+	publishedDate?: number
+	/** Content-type label (e.g. "Blog Post", "Ebook"), present when inferable. */
+	contentType?: string
 	__autocomplete_indexName?: string
 }
 
@@ -286,6 +290,8 @@ function SearchDialog({
 						ogImage: hit.ogImage,
 						section: hit.section,
 						concept: hit.concept,
+						publishedDate: hit.publishedDate,
+						contentType: hit.contentType,
 						__autocomplete_indexName: indexName,
 					})
 				}
