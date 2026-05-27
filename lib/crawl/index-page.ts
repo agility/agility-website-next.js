@@ -17,6 +17,13 @@ export interface PageRecord {
 	html: string
 	images: { src?: string; alt?: string }[]
 	url: string
+	/**
+	 * Publish date as a Unix timestamp (seconds), used for the recency tiebreaker
+	 * in Algolia's custom ranking (desc(date)). Dated pages (blog/resource posts)
+	 * use their real publish date; undated pages (product/docs/landing) fall back
+	 * to crawl time so they stay "fresh" and aren't pushed below old posts.
+	 */
+	date: number
 }
 
 /**
@@ -73,6 +80,18 @@ export const buildPageRecord = async (path: string): Promise<PageRecord | null> 
 	title = title.replace("- Agility CMS", "");
 
 	const description = $('meta[name=description]').attr('content');
+
+	// Publish date for the recency tiebreaker (Unix seconds). Prefer the article
+	// meta tag, then JSON-LD datePublished. Undated pages fall back to crawl time
+	// so they stay "fresh" rather than sinking below old posts.
+	const jsonldNodes: any[] = Array.isArray(jsonld) ? jsonld : (Array.isArray(jsonld?.["@graph"]) ? jsonld["@graph"] : [jsonld])
+	const publishedRaw =
+		$('meta[property="article:published_time"]').attr('content') ||
+		jsonld?.datePublished ||
+		jsonldNodes.find((n) => n?.datePublished)?.datePublished
+	const parsedDate = publishedRaw ? Date.parse(publishedRaw) : NaN
+	const date = Number.isNaN(parsedDate) ? Math.floor(Date.now() / 1000) : Math.floor(parsedDate / 1000)
+
 	let mainHtml = $('main').html() || "";
 	mainHtml = mainHtml
 		.replaceAll(/<(.|\n)*?>/g, '\n') //replace tags and add a new line
@@ -99,7 +118,8 @@ export const buildPageRecord = async (path: string): Promise<PageRecord | null> 
 		ogImage,
 		html: mainHtml,
 		images: images.toArray(),
-		url
+		url,
+		date
 	}
 }
 

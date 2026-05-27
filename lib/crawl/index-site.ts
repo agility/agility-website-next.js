@@ -75,11 +75,20 @@ export const indexSite = async () => {
 	}
 
 	console.log(`Replacing "${indexName}" with ${records.length} records...`)
+	const client = getAlgoliaClient()
 	try {
-		await getAlgoliaClient().replaceAllObjects({
+		await client.replaceAllObjects({
 			indexName,
 			objects: records as unknown as Record<string, unknown>[],
 			batchSize: 1000
+		})
+
+		// Recency tiebreaker: among equally-relevant results, rank newer content
+		// higher (uses the numeric `date` on each record). Applied as a partial
+		// settings update so searchableAttributes etc. are left untouched.
+		await client.setSettings({
+			indexName,
+			indexSettings: { customRanking: ["desc(date)"] }
 		})
 	} catch (e) {
 		await notifyIndexingFailure(
