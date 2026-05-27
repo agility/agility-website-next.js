@@ -222,6 +222,11 @@ function SearchDialog({
 			setIsLoadingMore(false)
 			setTotalHits(null)
 
+			// Scroll results panel back to top so a new query doesn't auto-load more
+			if (panelRef.current) {
+				panelRef.current.scrollTop = 0
+			}
+
 			if (query) {
 				searchClient.search({
 					requests: [
