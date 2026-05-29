@@ -27,21 +27,6 @@ const PUBLISHER = {
 	}
 }
 
-const ORGANIZATION_SCHEMA = {
-	"@context": "https://schema.org",
-	"@type": "Organization",
-	"name": "Agility CMS",
-	"url": "https://agilitycms.com",
-	"logo": "https://agilitycms.com/assets/agility-logo.svg",
-	"foundingDate": "2003",
-	"sameAs": [
-		"https://www.linkedin.com/company/agility-cms",
-		"https://github.com/agility",
-		"https://twitter.com/AgilityCMS",
-		"https://x.com/AgilityCMS"
-	]
-}
-
 const WEBSITE_SCHEMA = {
 	"@context": "https://schema.org",
 	"@type": "WebSite",
@@ -51,10 +36,11 @@ const WEBSITE_SCHEMA = {
 
 export const getRichSnippet = ({ sitemapNode, page, languageCode, dynamicPageItem }: AgilityPageProps): string | null => {
 
-	// For the homepage, return Organization + WebSite entity schema
+	// For the homepage, return the WebSite entity schema
+	// (Organization schema is now managed by marketing via the CMS "scripts above page" field)
 	const isHomepage = sitemapNode.path === "/" || sitemapNode.path === "/home"
 	if (!dynamicPageItem) {
-		if (isHomepage) return JSON.stringify([ORGANIZATION_SCHEMA, WEBSITE_SCHEMA])
+		if (isHomepage) return JSON.stringify(WEBSITE_SCHEMA)
 		return null
 	}
 
