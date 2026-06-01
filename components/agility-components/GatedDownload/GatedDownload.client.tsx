@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import Script from "next/script"
-import { posthog } from "posthog-js"
+import { capture, identify } from "lib/analytics/posthog"
 import { useCallback, useEffect, useRef } from "react"
 
 import { useRouter } from 'next/navigation'
@@ -49,10 +49,10 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 				console.log("Form submitted successfully:", hsForm.name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
-					posthog.identify(emailAddress);
+					identify(emailAddress);
 				}
 
-				posthog.capture('website-form-submission', {
+				capture('website-form-submission', {
 					name: hsForm.name
 				});
 

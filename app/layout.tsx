@@ -74,11 +74,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					)}
 
 					<HubspotTracker />
-					{/* Load in the agility web-studio-sdk script - deferred to reduce blocking */}
-					<Script 
-						src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js" 
-						strategy="lazyOnload"
-					/>
+					{/* Load in the agility web-studio-sdk script - only in preview/dev (CMS editing context) */}
+					{(isPreview || isDevelopmentMode) && (
+						<Script
+							src="https://unpkg.com/@agility/web-studio-sdk@latest/dist/index.js"
+							strategy="lazyOnload"
+						/>
+					)}
 				</PostHogProvider>
 			</body>
 		</html>

@@ -4,7 +4,7 @@ import Script from "next/script"
 import { ISubmissionForm } from "./SubmissionForm"
 import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
-import { posthog } from "posthog-js"
+import { capture, identify } from "lib/analytics/posthog"
 import { useRouter } from "next/navigation"
 
 export const SubmissionFormClient = ({
@@ -35,10 +35,10 @@ export const SubmissionFormClient = ({
 				console.log("Form submitted successfully:", name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
-					posthog.identify(emailAddress)
+					identify(emailAddress)
 				}
 
-				posthog.capture("website-form-submission", {
+				capture("website-form-submission", {
 					name: name
 				})
 
