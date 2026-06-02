@@ -61,6 +61,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			revalidateTag(itemTag)
 			revalidateTag(listTag)
 
+			// Bust the cached getHeaderContent result when the globalheader item publishes.
+			// Sub-nav / mega-menu changes still propagate within the unstable_cache TTL.
+			if (data.referenceName === "globalheader") {
+				revalidateTag("header-content")
+				console.info("Revalidating header-content tag")
+			}
+
 			console.info("Revalidating content tags:", itemTag, listTag)
 
 			//grab the sitemap and check if this content is in there so we can revalidate a full path

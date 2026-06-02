@@ -5,9 +5,7 @@ import { Header } from "lib/types/Header"
 import { TopLevelNav } from "lib/types/TopLevelNav"
 import { SubLevelNav } from "lib/types/SubLevelNav"
 import { MegaMenuItem } from "lib/types/MegaMenuItem"
-
-
-
+import { unstable_cache } from "next/cache"
 
 interface Props {
 	locale: string
@@ -15,7 +13,7 @@ interface Props {
 }
 
 export interface MenuLink {
-	menuItem: ContentItem<TopLevelNav>,
+	menuItem: ContentItem<TopLevelNav>
 	subMenuList?: ContentItem<SubLevelNav>[]
 	megaMenuList?: ContentItem<MegaMenuItem>[]
 }
@@ -41,9 +39,7 @@ export interface HeaderContent {
  * @param {Props} { locale, sitemap }
  * @return {*}
  */
-export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<HeaderContent> => {
-
-
+const fetchHeaderContent = async ({ locale, sitemap }: Props): Promise<HeaderContent> => {
 	// set up content item
 	let header: ContentItem<Header> | null = null
 
@@ -70,17 +66,27 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 		//expand out the menu structure with MULTIPLE CALLS so that we can purge the cache for any level :)
 		const [menuStructureList, preHeaderLinksList] = await Promise.all([
 			header.fields.menuStructure?.referencename
-				? getContentList({ referenceName: header.fields.menuStructure.referencename, languageCode: locale, contentLinkDepth: 0 })
+				? getContentList({
+						referenceName: header.fields.menuStructure.referencename,
+						languageCode: locale,
+						contentLinkDepth: 0
+					})
 				: Promise.resolve(null),
 			header.fields.preHeaderLinks?.referencename
-				? getContentList({ referenceName: header.fields.preHeaderLinks.referencename, languageCode: locale, take: 5, contentLinkDepth: 0 })
-				: Promise.resolve(null),
+				? getContentList({
+						referenceName: header.fields.preHeaderLinks.referencename,
+						languageCode: locale,
+						take: 5,
+						contentLinkDepth: 0
+					})
+				: Promise.resolve(null)
 		])
 
-		const preheaderLinks: BasicLink[] = preHeaderLinksList?.items.map((item: any) => ({
-			title: item.fields.title,
-			url: item.fields.uRL
-		})) || []
+		const preheaderLinks: BasicLink[] =
+			preHeaderLinksList?.items.map((item: any) => ({
+				title: item.fields.title,
+				url: item.fields.uRL
+			})) || []
 
 		// Phase 3: fetch all mega menus and sub-navs in parallel across all menu items
 		if (menuStructureList) {
@@ -88,17 +94,29 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 				menuStructureList.items.map(async (menuItem: ContentItem<TopLevelNav>) => {
 					const [megaMenuRes, subNavRes] = await Promise.all([
 						menuItem.fields.megaContent?.referencename
-							? getContentList({ referenceName: menuItem.fields.megaContent.referencename, languageCode: locale })
+							? getContentList({
+									referenceName: menuItem.fields.megaContent.referencename,
+									languageCode: locale
+								})
 							: Promise.resolve(null),
 						menuItem.fields.subNavigation?.referencename
-							? getContentList({ referenceName: menuItem.fields.subNavigation.referencename, languageCode: locale, contentLinkDepth: 0, take: 100 })
-							: Promise.resolve(null),
+							? getContentList({
+									referenceName: menuItem.fields.subNavigation.referencename,
+									languageCode: locale,
+									contentLinkDepth: 0,
+									take: 100
+								})
+							: Promise.resolve(null)
 					])
 
 					return {
 						menuItem,
-						megaMenuList: megaMenuRes?.items?.length ? megaMenuRes.items as ContentItem<MegaMenuItem>[] : undefined,
-						subMenuList: subNavRes?.items?.length ? subNavRes.items as ContentItem<SubLevelNav>[] : undefined,
+						megaMenuList: megaMenuRes?.items?.length
+							? (megaMenuRes.items as ContentItem<MegaMenuItem>[])
+							: undefined,
+						subMenuList: subNavRes?.items?.length
+							? (subNavRes.items as ContentItem<SubLevelNav>[])
+							: undefined
 					}
 				})
 			)
@@ -109,15 +127,17 @@ export const getHeaderContent = async ({ locale, sitemap }: Props): Promise<Head
 			links,
 			preheaderLinks
 		}
-
 	} catch (error) {
 		if (console) console.error("Could not load site header item.", error)
 		throw new Error("Could not load site header.")
 	}
-
-
-
 }
 
-
-
+// Cache the fully-transformed header so the layout doesn't re-run 6+ CMS
+// fetches + their response mapping on every request. 5-minute backstop;
+// the `header-content` tag is revalidated by /api/revalidate when the
+// globalheader content publishes (see app/api/revalidate/route.ts).
+export const getHeaderContent = unstable_cache(fetchHeaderContent, ["getHeaderContent"], {
+	revalidate: 300,
+	tags: ["header-content"]
+})
