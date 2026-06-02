@@ -17,6 +17,13 @@ const nextConfig = {
 				hostname: '*.aglty.io',
 			},
 		],
+		// Prefer AVIF (smaller than WebP), fall back to WebP for older browsers.
+		// Browsers that support neither get the original format.
+		formats: ['image/avif', 'image/webp'],
+		// Cache optimized images for a year (Next.js default is 60 seconds, which
+		// means images get re-optimized constantly). Sets the Cache-Control header
+		// on /_next/image responses and controls server-side image cache lifetime.
+		minimumCacheTTL: 31536000,
 	},
 	redirects() {
 		return [
