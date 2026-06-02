@@ -67,6 +67,8 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 											src={item.fields.graphic.url}
 											alt={item.fields.graphic.label}
 											className="w-16"
+											width={item.fields.graphic.width || 64}
+											height={item.fields.graphic.height || 64}
 										/>
 									) : (
 										<AgilityPic image={item.fields.graphic} className="w-16" fallbackWidth={63} />
