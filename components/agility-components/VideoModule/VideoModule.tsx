@@ -1,10 +1,7 @@
 import { UnloadedModuleProps, URLField } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
-import dynamic from "next/dynamic"
-
-// Dynamically imported to split react-player (~130 KiB) out of the shared bundle
-const VideoModuleClient = dynamic(() => import("./VideoModule.client").then(m => ({ default: m.VideoModuleClient })))
+import { getVimeoEmbedUrl } from "lib/utils/vimeoEmbed"
 
 interface VideoModuleFields {
 	videoPath: URLField
@@ -16,11 +13,23 @@ export const VideoModule = async ({ module, languageCode }: UnloadedModuleProps)
 		languageCode
 	})
 
-	const vimeoUrl = fields.videoPath.href
+	const embedUrl = getVimeoEmbedUrl(fields.videoPath.href)
+	if (!embedUrl) return null
 
 	return (
 		<Container className="mx-auto max-w-5xl">
-			<VideoModuleClient videoURL={vimeoUrl} muted={false} playing={false} />
+			<div className="aspect-video">
+				<iframe
+					src={embedUrl}
+					width="100%"
+					height="100%"
+					className="h-full w-full"
+					frameBorder={0}
+					allow="autoplay; fullscreen; picture-in-picture"
+					allowFullScreen
+					title="Video"
+				/>
+			</div>
 		</Container>
 	)
 }
