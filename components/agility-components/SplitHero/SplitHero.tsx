@@ -83,12 +83,13 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 						<AgilityPic
 							image={fields.image}
 							className="w-full"
-							fallbackWidth={600}
+							fallbackWidth={400}
 							priority
 							sources={[
 								{ media: "(min-width: 1200px)", width: 700 },
 								{ media: "(min-width: 768px)", width: 600 },
 								{ media: "(min-width: 640px)", width: 500 },
+								{ media: "(max-width: 639px)", width: 400 },
 							]}
 						/>
 					</div>
