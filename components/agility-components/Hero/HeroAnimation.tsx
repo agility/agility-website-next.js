@@ -1,35 +1,20 @@
 "use client"
-import React, { useEffect, useState } from "react"
-import agilityBanner from "public/js/lottie/Agility_banner_home/Agility_banner_home.json"
+import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 
 interface Props {
 	animation: string
 }
 
+// Dynamic-import the lottie player + animation JSON together so neither
+// is in the initial chunk. ssr: false because lottie-web touches the DOM.
+const HeroLottiePlayer = dynamic(() => import("./HeroLottiePlayer.client"), {
+	ssr: false
+})
+
 export const HeroAnimation = ({ animation }: Props) => {
-	let animationData = null
-	if (animation === "Agility_banner_home") animationData = agilityBanner
-
-	const defaultOptions = {
-		loop: false,
-		autoplay: true,
-		animationData: animationData,
-		rendererSettings: {
-			preserveAspectRatio: "xMidYMid slice"
-		}
-	}
-
 	const [theWidth, setTheWidth] = useState(600)
 	const [theHeight, setTheHeight] = useState(400)
-
-	const [LottieComp, setLottieComp] = useState<any>(null)
-
-	useEffect(() => {
-		import("react-lottie").then((mod) => {
-			setLottieComp(() => mod.default)
-		})
-	}, [])
-
 
 	useEffect(() => {
 		if (typeof window === "undefined") return
@@ -38,7 +23,7 @@ export const HeroAnimation = ({ animation }: Props) => {
 			const width = document.body.clientWidth
 			if (width < 600) {
 				setTheWidth(width)
-				setTheHeight(width * 0.6666666666666666)
+				setTheHeight(width * (2 / 3))
 			} else {
 				setTheHeight(400)
 				setTheWidth(600)
@@ -51,11 +36,12 @@ export const HeroAnimation = ({ animation }: Props) => {
 		}
 	}, [])
 
-	if (!animationData) return null
+	// Only one animation supported today
+	if (animation !== "Agility_banner_home") return null
 
 	return (
 		<div>
-			{LottieComp && <LottieComp options={defaultOptions} height={theHeight} width={theWidth} />}
+			<HeroLottiePlayer width={theWidth} height={theHeight} />
 		</div>
 	)
 }
