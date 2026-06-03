@@ -13,6 +13,7 @@ import { DateTime } from "luxon"
 import agilitySDK from "@agility/content-fetch"
 import { SitemapNode } from "lib/types/SitemapNode"
 import { getRichSnippet } from "lib/cms-content/getRichSnippet"
+import { getPageScripts } from "lib/cms-content/getPageScripts"
 
 export const revalidate = cacheConfig.pathRevalidateDuration
 export const dynamicParams = true
@@ -116,6 +117,14 @@ export default async function Page({ params }: PageProps) {
 
 	const renderTimeStr = DateTime.now().toISO()
 	const jsonLD = getRichSnippet(agilityData)
+	const pageScripts = getPageScripts(agilityData.page as any)
+
+	const renderScript = (s: ReturnType<typeof getPageScripts>["top"][number], i: number) =>
+		s.innerHTML ? (
+			<script key={i} type={s.type} dangerouslySetInnerHTML={{ __html: s.innerHTML }} />
+		) : s.src ? (
+			<script key={i} type={s.type} src={s.src} async={s.async} defer={s.defer} />
+		) : null
 
 	return (
 		<div
@@ -126,11 +135,13 @@ export default async function Page({ params }: PageProps) {
 				//include the rich snipped if we have one
 				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLD }} />
 			)}
+			{pageScripts.top.map(renderScript)}
 			{AgilityPageTemplate && <AgilityPageTemplate {...agilityData} />}
 			{!AgilityPageTemplate && (
 				// if we don't have a template for this page, show an error
 				<InlineError message={`No template found for page template name: ${agilityData.pageTemplateName}`} />
 			)}
+			{pageScripts.bottom.map(renderScript)}
 			<div className="hidden">Rendered on: {renderTimeStr}</div>
 		</div>
 	)
