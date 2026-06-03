@@ -9,9 +9,13 @@ import { IPartner } from "lib/types/IPartner"
 import Link from "next/link"
 import { PartnerListingItem } from "../PartnerListing/PartnerListingItem"
 import { getContentList } from "lib/cms/getContentList"
-import { CaseStudyDetailRotator } from "../CaseStudyDetails/CaseStudyDetailRotator"
 import { GuideLink, GuideWithLinks } from "components/common/GuideWithLinks"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import dynamic from "next/dynamic"
+
+const CaseStudyDetailRotator = dynamic(() =>
+	import("../CaseStudyDetails/CaseStudyDetailRotator").then((m) => m.CaseStudyDetailRotator)
+)
 
 interface IPartnerDetails {
 	cTAContent: string

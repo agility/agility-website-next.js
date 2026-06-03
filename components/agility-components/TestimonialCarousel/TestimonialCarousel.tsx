@@ -3,7 +3,12 @@ import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
-import { TestimonialCarouselClient, TestimonialItem } from "./TestimonialCarousel.client"
+import type { TestimonialItem } from "./TestimonialCarousel.client"
+import dynamic from "next/dynamic"
+
+const TestimonialCarouselClient = dynamic(() =>
+	import("./TestimonialCarousel.client").then((m) => m.TestimonialCarouselClient)
+)
 
 interface ICarouselTestimonial {
 	quote: string

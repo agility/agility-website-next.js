@@ -3,13 +3,21 @@ import { Container } from "components/micro/Container"
 import { ICaseStudy } from "lib/types/ICaseStudy"
 import Link from "next/link"
 import { IconQuote } from "@tabler/icons-react"
-import { CaseStudyDetailRotator } from "./CaseStudyDetailRotator"
 import { ResourceCard } from "./ResourceCard"
 import { stripHtml } from "lib/utils/strip-html"
-import { CaseStudyRotatorClient, MinCaseStudy } from "../CaseStudyRotator/CaseStudyRotator.client"
+import type { MinCaseStudy } from "../CaseStudyRotator/CaseStudyRotator.client"
 import { getContentItem } from "lib/cms/getContentItem"
 import { SharePage } from "components/common/SharePage"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import dynamic from "next/dynamic"
+
+const CaseStudyRotatorClient = dynamic(() =>
+	import("../CaseStudyRotator/CaseStudyRotator.client").then((m) => m.CaseStudyRotatorClient)
+)
+
+const CaseStudyDetailRotator = dynamic(() =>
+	import("./CaseStudyDetailRotator").then((m) => m.CaseStudyDetailRotator)
+)
 
 interface ICaseStudyDetails {
 	relatedCaseStudiesHeading: string

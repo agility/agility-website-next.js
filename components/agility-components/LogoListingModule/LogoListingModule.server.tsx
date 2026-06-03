@@ -1,8 +1,12 @@
 import { UnloadedModuleProps, ImageField, URLField, ContentItem } from "@agility/nextjs"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
-import { LogoListingModuleClient } from "./LogoListingModule.client"
 import { shuffle } from "lodash"
+import dynamic from "next/dynamic"
+
+const LogoListingModuleClient = dynamic(() =>
+	import("./LogoListingModule.client").then((m) => m.LogoListingModuleClient)
+)
 
 export interface LogoItem {
 	title: string

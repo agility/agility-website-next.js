@@ -1,13 +1,18 @@
 import React from "react"
 
 import { useAgilityContext } from "lib/cms/useAgilityContext"
-import { EventListingClient } from "./EventListing.client"
 import { getContentItem } from "lib/cms/getContentItem"
 import { UnloadedModuleProps } from "@agility/nextjs"
 import { getEventListing } from "lib/cms-content/getEventListing"
 import { Container } from "components/micro/Container"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import dynamic from "next/dynamic"
+
+// Defer the infinite-scroll listing client until after initial render.
+const EventListingClient = dynamic(() =>
+	import("./EventListing.client").then((m) => m.EventListingClient)
+)
 
 interface IEventListing {
 	title?: string
