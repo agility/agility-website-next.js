@@ -28,9 +28,16 @@ const parseScripts = (html: string | undefined | null): CustomScript[] => {
 		const props = (item as JSX.Element).props || {}
 
 		// html-react-parser puts script content in dangerouslySetInnerHTML.__html, not children
-		const innerHTML: string | undefined = props.dangerouslySetInnerHTML?.__html
+		let innerHTML: string | undefined = props.dangerouslySetInnerHTML?.__html
 
 		if (!innerHTML && !props.src) continue
+
+		// JSON parsers (RFC 8259) only accept ASCII whitespace. Marketers pasting JSON-LD
+		// from Word/Docs/Notion sometimes bring U+00A0 / U+2028 / U+2029, which Google
+		// Search Console rejects with "Missing '}' or object member name".
+		if (innerHTML && props.type === "application/ld+json") {
+			innerHTML = innerHTML.replace(/[\u00A0\u2028\u2029]/g, " ")
+		}
 
 		scripts.push({
 			type: props.type,
