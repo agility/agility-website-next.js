@@ -4,7 +4,7 @@
 import { LinkButton } from "components/micro/LinkButton"
 import { HubspotForm } from "lib/types/HubspotForm"
 import Script from "next/script"
-import posthog from 'posthog-js'
+import { capture, identify } from 'lib/analytics/posthog'
 
 interface Props {
 	subscribeButtonLabel: string
@@ -46,10 +46,10 @@ export const FooterSubscribe = ({
 								console.log("Newsletter signup submitted.")
 								const emailAddress = data?.submissionValues?.email
 								if (emailAddress) {
-									posthog.identify(emailAddress);
+									identify(emailAddress);
 								}
 
-								posthog.capture('newsletter-signup');
+								capture('newsletter-signup');
 
 							}
 						})

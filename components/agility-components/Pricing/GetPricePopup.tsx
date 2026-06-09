@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import LoadingWidget from "components/common/LoadingWidget"
 import { Bouncy } from "components/micro/loaders/Bouncy"
 import { load } from 'cheerio'
-import { posthog } from 'posthog-js'
+import { capture, identify } from 'lib/analytics/posthog'
 
 interface Props {
 	hubSpotForm: HubspotForm
@@ -39,10 +39,10 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 				console.log("Form submitted successfully:", hubSpotForm.name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
-					posthog.identify(emailAddress);
+					identify(emailAddress);
 				}
 
-				posthog.capture('website-form-submission', {
+				capture('website-form-submission', {
 					name: hubSpotForm.name
 				});
 

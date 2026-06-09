@@ -2,7 +2,7 @@
 "use client"
 import Script from "next/script"
 import { useCallback, useEffect, useRef } from "react"
-import posthog from "posthog-js"
+import { capture, identify } from "lib/analytics/posthog"
 import { useRouter } from 'next/navigation'
 
 interface IDownloadForm {
@@ -34,10 +34,10 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 				console.log("Form submitted successfully:", name)
 				const emailAddress = data?.submissionValues?.email
 				if (emailAddress) {
-					posthog.identify(emailAddress);
+					identify(emailAddress);
 				}
 
-				posthog.capture('website-form-submission', {
+				capture('website-form-submission', {
 					name: name
 				});
 
