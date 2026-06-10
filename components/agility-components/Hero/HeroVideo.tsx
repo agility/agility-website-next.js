@@ -1,31 +1,20 @@
-"use client"
-
-import dynamic from "next/dynamic"
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false })
+import { getVimeoEmbedUrl } from "lib/utils/vimeoEmbed"
 
 interface Props {
 	videoURL: string
 }
 export const HeroVideo = ({ videoURL }: Props) => {
+	const embedUrl = getVimeoEmbedUrl(videoURL, { autoplay: true, muted: true })
+	if (!embedUrl) return null
+
 	return (
-		<ReactPlayer
-			url={videoURL}
-			playing={true}
-			muted={true}
-			controls={true}
-			loop={false}
-			config={{
-				vimeo: {
-					playerOptions: {
-						chromecast: false,
-						controls: true,
-						fullscreen: true,
-						progress_bar: true,
-						pip: false,
-						volume: true
-					}
-				}
-			}}
+		<iframe
+			src={embedUrl}
+			className="h-full w-full"
+			frameBorder={0}
+			allow="autoplay; fullscreen; picture-in-picture"
+			allowFullScreen
+			title="Hero video"
 		/>
 	)
 }

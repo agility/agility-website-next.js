@@ -192,13 +192,14 @@ export const config = {
 	],
 	matcher: [
 		/*
-		 * Match all request paths except for the ones starting with:
+		 * Match all request paths except for:
 		 * - api (API routes)
 		 * - assets (public assets)
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
-		 * - favicon.ico (favicon file)
+		 * - favicon.ico, robots.txt, sitemap.xml, llms.txt, llms-full.txt
+		 * - any path ending in a static asset extension (images, fonts, css/js)
 		 */
-		'/((?!api|assets|_next/static|_next/image|favicon.ico).*)',
+		'/((?!api|assets|_next/static|_next/image|favicon\\.ico|robots\\.txt|sitemap\\.xml|llms\\.txt|llms-full\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|woff|woff2|js|css|map)).*)',
 	],
 }
