@@ -35,6 +35,7 @@ interface IRightORLeftContentModule {
 	video?: string // JSON string from Vimeo field
 	darkMode?: string
 	breadcrumb?: string
+	useH2ForHeading?: string
 }
 
 const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModuleProps) => {
@@ -50,6 +51,9 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 	const { cTA1Optional, cTA2Optional, description, graphic, textSide, title, breadcrumb, video } = fields
 
 	const darkMode = fields.darkMode === "true"
+
+	// Render the title as an H1 by default; use an H2 only when the editor opts in.
+	const HeadingTag = fields.useH2ForHeading === "true" ? "h2" : "h1"
 
 	// Parse Vimeo video data if present
 	let vimeoVideoData: VimeoVideoData | null = null
@@ -104,7 +108,7 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 				</div>
 				<div className="flex-1">
 					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
-					<h2 className="text-balance text-5xl font-medium leading-[1.15]">{title}</h2>
+					<HeadingTag className="text-balance text-5xl font-medium leading-[1.15]">{title}</HeadingTag>
 					{description && (
 						<div
 							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
