@@ -49,7 +49,13 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 						{image.url.endsWith(".svg") ? (
 							//don't need to use AgilityPic for SVGs
 							// eslint-disable-next-line @next/next/no-img-element
-							<img src={image.url} alt={image.label} className="w-full" />
+							<img
+								src={image.url}
+								alt={image.label}
+								className="w-full"
+								width={image.width || 600}
+								height={image.height || 400}
+							/>
 						) : (
 							<AgilityPic
 								image={image}
