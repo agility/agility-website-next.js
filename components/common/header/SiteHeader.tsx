@@ -114,7 +114,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 							<MobileSearch />
 							{
 								/* Contact Us */
-								header.fields.contactus && (
+								header.fields.contactus && header.fields.contactus.text && (
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
@@ -157,7 +157,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 							<div className="w-1"></div>
 							{
 								/* Contact Us */
-								header.fields.contactus && (
+								header.fields.contactus && header.fields.contactus.text && (
 									<LinkButton
 										href={header.fields.contactus.href}
 										target={header.fields.contactus.target}
@@ -170,7 +170,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 
 							{
 								/* Sign In */
-								header.fields.primaryButton && (
+								header.fields.primaryButton && header.fields.primaryButton.text && (
 									<LinkButton
 										href={header.fields.primaryButton.href}
 										target={header.fields.primaryButton.target}
@@ -287,7 +287,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 								<div className="flex flex-col gap-2 py-6">
 									{
 										/* Contact Us */
-										header.fields.contactus && (
+										header.fields.contactus && header.fields.contactus.text && (
 											<LinkButton
 												href={header.fields.contactus.href}
 												target={header.fields.contactus.target}
@@ -301,7 +301,7 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 									}
 									{
 										/* Sign In */
-										header.fields.primaryButton && (
+										header.fields.primaryButton && header.fields.primaryButton.text && (
 											<LinkButton
 												href={header.fields.primaryButton.href}
 												target={header.fields.primaryButton.target}
