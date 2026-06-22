@@ -2,9 +2,15 @@ import { URLField, UnloadedModuleProps } from "@agility/nextjs"
 import { gql } from "@apollo/client"
 import { getAgilityGraphQLClient } from "lib/cms/getAgilityGraphQLClient"
 import { getContentItem } from "lib/cms/getContentItem"
-import { PartnerListingClient } from "./PartnerListing.client"
 import { ComboboItem } from "components/micro/FilterComboBox"
 import { getPartnerListing } from "lib/cms-content/getPartnerListing"
+import dynamic from "next/dynamic"
+
+// Defer the listing client (filter combobox + infinite-load list) until
+// after initial render — this module is always below the fold.
+const PartnerListingClient = dynamic(() =>
+	import("./PartnerListing.client").then((m) => m.PartnerListingClient)
+)
 
 interface IPartnerListing {
 	title?: string

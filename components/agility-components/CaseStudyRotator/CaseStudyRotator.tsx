@@ -4,8 +4,14 @@ import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ICaseStudy } from "lib/types/ICaseStudy"
-import { CaseStudyRotatorClient, MinCaseStudy } from "./CaseStudyRotator.client"
+import type { MinCaseStudy } from "./CaseStudyRotator.client"
 import { stripHtml } from "lib/utils/strip-html"
+import dynamic from "next/dynamic"
+
+// Defer the embla-carousel-powered rotator until after initial render.
+const CaseStudyRotatorClient = dynamic(() =>
+	import("./CaseStudyRotator.client").then((m) => m.CaseStudyRotatorClient)
+)
 
 interface ICaseStudyRotator {
 	title: string

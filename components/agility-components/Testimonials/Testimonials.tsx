@@ -4,9 +4,14 @@ import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { ICaseStudy } from "lib/types/ICaseStudy"
-import { TestimonialsClient, MinCaseStudy } from "./Testimonials.client"
+import type { MinCaseStudy } from "./Testimonials.client"
 import { stripHtml } from "lib/utils/strip-html"
 import { ITestimonial } from "lib/types/ITestimonial"
+import dynamic from "next/dynamic"
+
+const TestimonialsClient = dynamic(() =>
+	import("./Testimonials.client").then((m) => m.TestimonialsClient)
+)
 
 interface ITestimonials {
 	header?: string
