@@ -29,7 +29,8 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 			<link
 				rel="preload"
 				as="image"
-				href={`${fields.image.url}?format=auto&w=480`}
+				imageSrcSet={`${fields.image.url}?format=auto&w=400 400w, ${fields.image.url}?format=auto&w=480 480w, ${fields.image.url}?format=auto&w=800 800w, ${fields.image.url}?format=auto&w=960 960w`}
+				imageSizes="(min-width: 640px) 480px, 400px"
 				fetchPriority="high"
 			/>
 		)}
@@ -43,7 +44,16 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 
 				{fields.mediaType === "image" && fields.image && (
 					<div className="mb-10 flex w-full justify-center">
-						<AgilityPic image={fields.image} fallbackWidth={480} priority />
+						<AgilityPic
+							image={fields.image}
+							fallbackWidth={400}
+							priority
+							sources={[
+								{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 960 },
+								{ media: "(min-width: 640px)", width: 480 },
+								{ media: "(min-resolution: 2x)", width: 800 },
+							]}
+						/>
 					</div>
 				)}
 
