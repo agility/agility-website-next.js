@@ -5,8 +5,13 @@ import { IReview } from "./ReviewRotator"
 import { ContentItem } from "@agility/content-fetch"
 import { useState } from "react"
 import clsx from "clsx"
-import { DateTime } from "luxon"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+	month: "short",
+	day: "2-digit",
+	year: "numeric"
+})
 
 export const ReviewItem = ({
 	review,
@@ -20,7 +25,7 @@ export const ReviewItem = ({
 	const [isExpanded, setIsExpanded] = useState(false)
 
 	const d = new Date(review.fields.reviewDate)
-	const dtStr = DateTime.fromJSDate(d).toFormat("LLL dd, yyyy")
+	const dtStr = dateFormatter.format(d)
 
 	return (
 		<div className="flex flex-col gap-2 rounded-md border border-background p-5">
