@@ -35,17 +35,22 @@ export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
 	const { portalId, formId, name } = JSON.parse(hubspotForm || '{"portalId": "", "formId": ""}')
 	const divID = `get-a-demo-form-${formId}`
 	const formLoadRef = useRef<boolean>(false)
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const router = useRouter()
 	const [formBlocked, setFormBlocked] = useState(false)
 
 	const loadForm = useCallback(() => {
 		if (formLoadRef.current) return
+		if (!window.hbspt) return
 		formLoadRef.current = true
 
 		window.hbspt.forms.create({
 			portalId,
 			formId,
 			target: `#${divID}`,
+			onFormReady: () => {
+				if (timeoutRef.current) clearTimeout(timeoutRef.current)
+			},
 			onFormSubmitted: function (_: any, data: any) {
 				console.log("Form submitted successfully:", name)
 				const emailAddress = data?.submissionValues?.email
@@ -63,14 +68,15 @@ export const GetADemoClient = ({ hubspotForm, redirectURL }: Props) => {
 			}
 		})
 
-		// Check after 3s whether the form actually rendered (some blockers allow
-		// the script to load but prevent the form iframe from rendering)
-		setTimeout(() => {
+		// Show fallback only if HubSpot hasn't rendered after 8s — long enough
+		// for slow connections to succeed without racing a still-loading form.
+		// onFormReady cancels this if the form renders successfully.
+		timeoutRef.current = setTimeout(() => {
 			const el = document.getElementById(divID)
 			if (el && el.children.length === 0) {
 				setFormBlocked(true)
 			}
-		}, 3000)
+		}, 8000)
 	}, [divID, formId, portalId, name, redirectURL, router])
 
 	useEffect(() => {
