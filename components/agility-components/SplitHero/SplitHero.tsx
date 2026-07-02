@@ -1,4 +1,5 @@
-import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic } from "components/common/AgilityPic"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -22,6 +23,11 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 		languageCode,
 	})
 
+	// Preload URLs must byte-match the <picture> sources, which cap the requested
+	// width at the original image width (see AgilityPic)
+	const preloadUrl = (w: number) =>
+		`${fields.image.url}?format=auto&w=${fields.image.width > 0 ? Math.min(w, fields.image.width) : w}`
+
 	// Build cycling words from up to 4 highlighted heading fields
 	const cyclingWords = [
 		fields.highlightedHeading,
@@ -31,6 +37,42 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 	].filter((w): w is string => !!w && w.trim().length > 0)
 
 	return (
+		<>
+		{/* Hoist preload hints so the hero image starts fetching before the parser
+		    reaches the <picture> element. Each media query mirrors the matching
+		    <picture> source below, so the preloaded file is the one actually used. */}
+		{fields.image && (
+			<>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(400)}
+					media="(max-width: 639px)"
+					fetchPriority="high"
+				/>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(500)}
+					media="(min-width: 640px) and (max-width: 767px)"
+					fetchPriority="high"
+				/>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(600)}
+					media="(min-width: 768px) and (max-width: 1199px)"
+					fetchPriority="high"
+				/>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(700)}
+					media="(min-width: 1200px)"
+					fetchPriority="high"
+				/>
+			</>
+		)}
 		<Container id={`${contentID}`} data-agility-component={contentID} className="relative overflow-hidden">
 			{/* Subtle purple gradient wash */}
 			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-purple-50/50" />
@@ -96,5 +138,6 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 				)}
 			</div>
 		</Container>
+		</>
 	)
 }
