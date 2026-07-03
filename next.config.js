@@ -4,7 +4,10 @@ const nextConfig = {
 	experimental: {
 		// one year in seconds for the stale-while-revalidate cache-control
 		swrDelta: 31536000,
-		optimizeCss: true
+		optimizeCss: true,
+		// guarantee per-icon/per-component tree-shaking instead of relying on
+		// Next's implicit default list
+		optimizePackageImports: ['@tabler/icons-react', '@headlessui/react']
 	},
 
 

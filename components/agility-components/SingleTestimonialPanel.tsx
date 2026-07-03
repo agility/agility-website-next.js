@@ -3,7 +3,7 @@ import { ContentItem } from "@agility/content-fetch"
 import { Container } from "components/micro/Container"
 import { getContentItem } from "lib/cms/getContentItem"
 import { ITestimonial } from "lib/types/ITestimonial"
-import { shuffle } from "lodash"
+import shuffle from "lodash/shuffle"
 import { LinkButton } from "components/micro/LinkButton"
 
 interface ISingleTestimonialPanel {

@@ -35,14 +35,13 @@ const SiteHeader = ({ headerContent: { header, links, preheaderLinks } }: Props)
 	 * Keep track of whether the user has scrolled so we can show a shadow on the header
 	 */
 	useEffect(() => {
-		const scrollHandler = (e: Event) => {
-			if (window.scrollY > 0) {
-				setIsScrolled(true)
-			} else {
-				setIsScrolled(false)
-			}
+		const scrollHandler = () => {
+			const scrolled = window.scrollY > 0
+			setIsScrolled((prev) => (prev === scrolled ? prev : scrolled))
 		}
-		window.addEventListener("scroll", scrollHandler)
+		//sync with a restored scroll position on load
+		scrollHandler()
+		window.addEventListener("scroll", scrollHandler, { passive: true })
 
 		return () => {
 			window.removeEventListener("scroll", scrollHandler)

@@ -4,7 +4,6 @@ import SiteFooter from "components/common/footer/SiteFooter"
 import SiteHeader from "components/common/header/SiteHeader"
 
 import { useAgilityContext } from "lib/cms/useAgilityContext"
-import { GoogleTagManager } from "@next/third-parties/google"
 
 import "/styles/output.css"
 
@@ -54,8 +53,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<link rel="dns-prefetch" href="https://cdn.aglty.io" />
 			</head>
 			<body data-agility-guid={process.env.AGILITY_GUID}>
-				{/* GTM loaded with lazyOnload strategy to defer until after page interactive */}
-				{process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
+				{/* GTM via a hand-rolled lazyOnload snippet: the @next/third-parties
+				    GoogleTagManager component always injects afterInteractive (it accepts
+				    no strategy prop), which puts ~2MB of downstream tag JS on the main
+				    thread during the critical window. lazyOnload waits for window.load. */}
+				{process.env.GTM_ID && (
+					<Script id="gtm" strategy="lazyOnload">
+						{`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${process.env.GTM_ID}');`}
+					</Script>
+				)}
 				<PostHogProvider>
 					<div id="site-wrapper">
 						<div id="site">

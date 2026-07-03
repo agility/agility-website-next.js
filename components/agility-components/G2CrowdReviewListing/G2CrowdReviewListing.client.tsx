@@ -2,7 +2,7 @@
 import Script from "next/script"
 import { IG2CrowdReviewListing } from "./G2CrowdReviewListing"
 import { useId, useRef } from "react"
-import { set } from "lodash"
+import set from "lodash/set"
 
 export const G2CrowdReviewListingClient = ({
 	gartnerSourcingLink,

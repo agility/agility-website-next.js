@@ -12,7 +12,7 @@ import {
 	IconSquareCheckFilled,
 	IconStarFilled
 } from "@tabler/icons-react"
-import { entries } from "lodash"
+import entries from "lodash/entries"
 
 import clsx from "clsx"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
