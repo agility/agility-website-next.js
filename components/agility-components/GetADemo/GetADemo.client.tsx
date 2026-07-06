@@ -4,7 +4,6 @@ import classNames from "classnames"
 import { capture, identify } from "lib/analytics/posthog"
 import { LinkButton } from "components/micro/LinkButton"
 import { useCallback, useMemo, useRef, useState } from "react"
-import { useRouter } from "next/navigation"
 import type {
 	HubSpotFormDefinition,
 	HubSpotFormField,
@@ -99,7 +98,6 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 	const { portalId, formId, name: formName } = JSON.parse(
 		hubspotForm || '{"portalId":"","formId":"","name":""}'
 	)
-	const router = useRouter()
 
 	const visibleFields = useMemo(() => def.fields.filter((f) => !f.hidden), [def])
 	const hiddenFields = useMemo(() => def.fields.filter((f) => f.hidden), [def])
@@ -225,21 +223,13 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 
 			const target = redirectURL || def.redirectUrl
 			if (target) {
-				// The redirect is a fully-qualified URL. If it's same-origin, push a
-				// relative path so router.push does a soft (client-side) navigation —
-				// that keeps the JS context alive so the PostHog conversion event above
-				// reliably flushes. A fully-qualified same-origin URL would otherwise be
-				// one protocol/subdomain difference away from a hard page unload.
-				try {
-					const url = new URL(target, window.location.origin)
-					if (url.origin === window.location.origin) {
-						router.push(`${url.pathname}${url.search}${url.hash}`)
-					} else {
-						window.location.href = target
-					}
-				} catch {
-					router.push(target)
-				}
+				// Use a full-page (hard) navigation, NOT router.push: the thank-you
+				// destination mounts a third-party scheduling widget that only
+				// initializes on a real document load — a client-side (soft) SPA
+				// navigation leaves the widget's script un-run and the booking step
+				// broken. The PostHog conversion event captured above is flushed by
+				// posthog-js's pagehide/sendBeacon handler as this page unloads.
+				window.location.assign(target)
 			} else {
 				setSubmitting(false)
 			}
