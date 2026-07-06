@@ -39,7 +39,6 @@ export const MenuItemOutput = ({ link }: Props) => {
 	}
 
 	const cancelShowSubmenu = () => {
-		console.log("cancelShowSubmenu")
 		clearTimeout(refShowSubmenuDelay.current)
 		refIsMouseOnPopover.current = false
 	}
@@ -152,21 +151,21 @@ export const MenuItemOutput = ({ link }: Props) => {
 							<div className="flex flex-1 gap-1">
 								<div className="relative grid min-w-[260px] gap-5  px-6 py-7">
 									{link.subMenuList
-									?.filter((subLink) => subLink.fields.uRL?.href)
-									.map((subLink) => (
-										<Link
-											key={subLink.contentID}
-											href={subLink.fields.uRL!.href}
-											target={subLink.fields.uRL!.target}
-											className={classNames(
-												"text-secondary-500 text-sm font-medium leading-6",
-												"transition-all duration-300 hover:text-highlight focus:text-highlight focus:outline-none"
-											)}
-											onClick={() => close()}
-										>
-											{subLink.fields.uRL!.text || subLink.fields.title}
-										</Link>
-									))}
+										?.filter((subLink) => subLink.fields.uRL?.href)
+										.map((subLink) => (
+											<Link
+												key={subLink.contentID}
+												href={subLink.fields.uRL!.href}
+												target={subLink.fields.uRL!.target}
+												className={classNames(
+													"text-secondary-500 text-sm font-medium leading-6",
+													"transition-all duration-300 hover:text-highlight focus:text-highlight focus:outline-none"
+												)}
+												onClick={() => close()}
+											>
+												{subLink.fields.uRL!.text || subLink.fields.title}
+											</Link>
+										))}
 								</div>
 								{megaContent && megaTitle && (
 									<div className="flex-1 bg-gray-100 px-6 py-7">

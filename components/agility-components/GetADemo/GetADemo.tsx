@@ -4,6 +4,7 @@ import { Container } from "components/micro/Container"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 import { GetADemoClient } from "./GetADemo.client"
 import { VimeoVideoPlayer, VimeoVideoData } from "components/common/VimeoVideoPlayer"
+import { getHubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
 
 export interface IGetADemo {
 	heading?: string
@@ -19,14 +20,28 @@ export interface IGetADemo {
 }
 
 export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields, contentID } = await getContentItem<IGetADemo>({
+	const contentItem = await getContentItem<IGetADemo>({
 		contentID: module.contentid,
 		languageCode,
 	})
 
+	const { fields, contentID } = contentItem
+
 	if (!fields.hubspotForm) {
 		console.warn(`GetADemo module with contentID ${contentID} is missing a HubSpot form`)
 		return null
+	}
+
+	// Fetch the HubSpot form definition SERVER-SIDE (server -> HubSpot) so the
+	// browser never requests forms.hsforms.com — ad blockers / InPrivate can't
+	// block it. The client renders natively from this; a null result falls back
+	// to the component's hardcoded defaults so the form always renders.
+	let hubspotFormDefinition = null
+	try {
+		const { portalId, formId } = JSON.parse(fields.hubspotForm)
+		hubspotFormDefinition = await getHubSpotFormDefinition(portalId, formId)
+	} catch (error) {
+		console.error("GetADemo: failed to parse hubspotForm field:", error)
 	}
 
 	// Parse Vimeo video data if present
@@ -91,6 +106,7 @@ export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) =>
 								<GetADemoClient
 									hubspotForm={fields.hubspotForm}
 									redirectURL={fields.redirectURL}
+									formDefinition={hubspotFormDefinition}
 								/>
 							</div>
 							{fields.formBottomImage?.url && (
