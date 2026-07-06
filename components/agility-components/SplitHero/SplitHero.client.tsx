@@ -27,8 +27,28 @@ export const CyclingHeading = ({ words, heading }: Props) => {
 
 	useEffect(() => {
 		if (words.length <= 1) return
-		const interval = setInterval(cycle, 3000)
-		return () => clearInterval(interval)
+		//respect reduced-motion preferences and pause the repeating main-thread
+		//work while the tab is hidden
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+		let interval: ReturnType<typeof setInterval> | undefined
+		const start = () => {
+			if (!interval) interval = setInterval(cycle, 3000)
+		}
+		const stop = () => {
+			if (interval) {
+				clearInterval(interval)
+				interval = undefined
+			}
+		}
+		const onVisibilityChange = () => (document.hidden ? stop() : start())
+		document.addEventListener("visibilitychange", onVisibilityChange)
+		onVisibilityChange()
+
+		return () => {
+			stop()
+			document.removeEventListener("visibilitychange", onVisibilityChange)
+		}
 	}, [cycle, words.length])
 
 	const getTransformStyle = (): React.CSSProperties => {
