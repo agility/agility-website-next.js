@@ -51,7 +51,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<link rel="preconnect" href="https://forms.hsforms.com" />
 				<link rel="preconnect" href="https://www.googletagmanager.com" />
 				<link rel="dns-prefetch" href="https://unpkg.com" />
-				<link rel="dns-prefetch" href="https://cdn.aglty.io" />
+				{/* LCP images are served from cdn.aglty.io — preconnect (not just dns-prefetch)
+				    so the TCP+TLS handshake is off the LCP critical path */}
+				<link rel="preconnect" href="https://cdn.aglty.io" />
 			</head>
 			<body data-agility-guid={process.env.AGILITY_GUID}>
 				{/* GTM loaded with lazyOnload strategy to defer until after page interactive */}

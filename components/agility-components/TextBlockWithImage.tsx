@@ -1,6 +1,5 @@
 import React from "react"
 import {
-	AgilityPic,
 	ContentItem,
 	ImageField,
 	Module,
@@ -8,6 +7,7 @@ import {
 	UnloadedModule,
 	UnloadedModuleProps
 } from "@agility/nextjs"
+import { AgilityPic } from "components/common/AgilityPic"
 import Link from "next/link"
 import getAgilitySDK from "lib/cms/getAgilitySDK"
 import { getContentItem } from "lib/cms/getContentItem"
@@ -27,7 +27,7 @@ interface ITextBlockWithImage {
  * @param param0
  * @returns
  */
-const TextBlockWithImage = async ({ module, languageCode }: UnloadedModuleProps) => {
+const TextBlockWithImage = async ({ module, languageCode, page }: UnloadedModuleProps) => {
 	const { fields, contentID } = await getContentItem<ITextBlockWithImage>({
 		contentID: module.contentid,
 		languageCode
@@ -67,8 +67,13 @@ const TextBlockWithImage = async ({ module, languageCode }: UnloadedModuleProps)
 		}
 	}
 
-	//determine if the image should be high priority
-	const priority = fields.highPriority === "true"
+	//determine if the image should be high priority: either the CMS field is set,
+	//or this is the first module in its content zone (likely above the fold / the LCP image)
+	const isFirstModuleInZone = Object.values(page?.zones ?? {}).some((zoneModules: any) => {
+		const firstItem = zoneModules?.[0]?.item
+		return (firstItem?.contentid ?? firstItem?.contentID) === module.contentid
+	})
+	const priority = fields.highPriority === "true" || isFirstModuleInZone
 
 	return (
 		<div className="relative px-8" data-agility-component={contentID}>

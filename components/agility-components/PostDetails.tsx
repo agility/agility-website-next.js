@@ -75,17 +75,52 @@ const PostDetails = async ({ dynamicPageItem }: UnloadedModuleProps) => {
 	// format date
 	const dateStr = DateTime.fromJSDate(new Date(post.date)).toFormat("LLL. dd, yyyy")
 
+	// Preload URLs must byte-match the <picture> sources, which cap the requested
+	// width at the original image width (see AgilityPic)
+	const preloadUrl = (w: number) => {
+		if (!post.postImage) return ""
+		return `${post.postImage.url}?format=auto&w=${post.postImage.width > 0 ? Math.min(w, post.postImage.width) : w}`
+	}
+
 	return (
 		<>
-		{/* Hoist a preload hint for the hero image so the browser fetches it before
-		    parsing down to the <picture> element — the primary LCP fix for /blog/* */}
+		{/* Hoist preload hints for the hero image so the browser fetches it before
+		    parsing down to the <picture> element — the primary LCP fix for /blog/*.
+		    Each link's media query mirrors the <picture> source that device will
+		    actually select, so the preload is never wasted. Mid-range breakpoints
+		    (640-1199px) are intentionally uncovered — small traffic share. */}
 		{post.postImage && (
-			<link
-				rel="preload"
-				as="image"
-				href={`${post.postImage.url}?format=auto&w=800`}
-				fetchPriority="high"
-			/>
+			<>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(640)}
+					media="(max-width: 639px) and (min-resolution: 2x)"
+					fetchPriority="high"
+				/>
+				{/* mobile 1x devices fall through to the fallback <img>, whose URL is not width-capped */}
+				<link
+					rel="preload"
+					as="image"
+					href={`${post.postImage.url}?format=auto&w=800`}
+					media="(max-width: 639px) and (max-resolution: 1.9x)"
+					fetchPriority="high"
+				/>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(1600)}
+					media="(min-width: 1200px) and (min-resolution: 2x)"
+					fetchPriority="high"
+				/>
+				<link
+					rel="preload"
+					as="image"
+					href={preloadUrl(800)}
+					media="(min-width: 1200px) and (max-resolution: 1.9x)"
+					fetchPriority="high"
+				/>
+			</>
 		)}
 		<Container >
 			<article className="mx-auto max-w-7xl">

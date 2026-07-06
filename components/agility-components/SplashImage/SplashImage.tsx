@@ -1,5 +1,6 @@
 import React from "react"
-import { AgilityPic, ImageField, UnloadedModuleProps } from "@agility/nextjs"
+import { ImageField, UnloadedModuleProps } from "@agility/nextjs"
+import { AgilityPic } from "components/common/AgilityPic"
 
 import { getContentItem } from "lib/cms/getContentItem"
 
@@ -17,10 +18,9 @@ export const SplashImage = async ({ module, languageCode }: UnloadedModuleProps)
 		<div data-agility-component={contentID} >
 			<div className="mx-auto max-w-7xl">
 				{fields.splashImage && (
-					<div className="flex w-full justify-center">
+					<div className="flex w-full justify-center" data-agility-field="splashImage">
 						<AgilityPic
 							image={fields.splashImage}
-							data-agility-field="splashImage"
 							fallbackWidth={400}
 							priority
 							className="w-full"

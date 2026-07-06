@@ -1,4 +1,5 @@
-import { AgilityPic, ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { ImageField, UnloadedModuleProps, URLField } from "@agility/nextjs"
+import { AgilityPic } from "components/common/AgilityPic"
 import { Container } from "components/micro/Container"
 import { LinkButton } from "components/micro/LinkButton"
 import { getContentItem } from "lib/cms/getContentItem"
