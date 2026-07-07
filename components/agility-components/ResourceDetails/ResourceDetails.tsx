@@ -10,6 +10,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 import { DownloadForm } from "./DownloadForm.client"
 import { LinkButton } from "components/micro/LinkButton"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
+import { getHubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
 
 interface IResourceDetails {
 	backButton: URLField
@@ -43,6 +44,22 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 	const downloadRedirectUrl = fields.redirectURL
 		? fields.redirectURL.href.replace("##URL##", encodeURIComponent(res.uRL))
 		: undefined
+
+	// Fetch the HubSpot form definition SERVER-SIDE so the browser never loads
+	// js.hsforms.net (ad-blocker / InPrivate resilient). null -> client fallback.
+	const downloadForm = res.hubspotForm || fields.hubspotForm
+	// The form config lives on the resource item when it defines one, else on
+	// the module — point the submission route at whichever holds it.
+	const downloadFormContentID = res.hubspotForm ? dynamicPageItem.contentID : module.contentid
+	let downloadFormDefinition = null
+	if (downloadForm && res.gated === "true") {
+		try {
+			const { portalId, formId } = JSON.parse(downloadForm)
+			downloadFormDefinition = await getHubSpotFormDefinition(portalId, formId)
+		} catch (error) {
+			console.error("ResourceDetails: failed to load HubSpot form definition:", error)
+		}
+	}
 	return (
 		<Container >
 			<div className="mx-auto max-w-7xl pb-14">
@@ -93,9 +110,9 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 							</>
 						)}
 
-						{(res.hubspotForm || fields.hubspotForm) && res.gated === "true" && (
+						{downloadForm && res.gated === "true" && (
 							<div className="mt-6">
-								<DownloadForm hubspotForm={res.hubspotForm || fields.hubspotForm!} redirectURL={downloadRedirectUrl} />
+								<DownloadForm hubspotForm={downloadForm} redirectURL={downloadRedirectUrl} formDefinition={downloadFormDefinition} contentID={downloadFormContentID} languageCode={languageCode} />
 							</div>
 						)}
 

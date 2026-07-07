@@ -1,77 +1,42 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
-import Script from "next/script"
-import { capture, identify } from "lib/analytics/posthog"
-import { useCallback, useEffect, useRef } from "react"
 
-import { useRouter } from 'next/navigation'
+import { HubSpotNativeForm, LEAD_FORM_FALLBACK } from "components/common/HubSpotNativeForm"
+import type { HubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
 
 interface IGatedDownloadClient {
 	hubspotForm?: string
 	redirectURL: string
+	/** Fetched server-side in GatedDownload.tsx. Null -> LEAD_FORM_FALLBACK. */
+	formDefinition?: HubSpotFormDefinition | null
+	/** Content item + locale — the submission route resolves the form from these. */
+	contentID?: number
+	languageCode?: string
 }
 
-interface IHubspotForm {
-	name: string
-	portalId: number
-	formId: string
-}
-export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownloadClient) => {
-
-	const router = useRouter()
-
-	let hsForm: IHubspotForm = {
-		name: "Gated Download",
-		portalId: 23239214,
-		formId: "4879f91f-730d-4b2b-9307-67c6670724b1"
-	}
-
+export const GatedDownloadClient = ({ hubspotForm, redirectURL, formDefinition, contentID, languageCode }: IGatedDownloadClient) => {
+	// Only used for the PostHog event name + a11y id prefix; the portal/form IDs
+	// come from the CMS content item via contentID (see the submission route).
+	let formName = "Gated Download"
+	let formId: string | undefined
 	if (hubspotForm) {
-		hsForm = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
-	}
-	const divID = `gatedownload-form-${hsForm.formId}`
-	const formLoadRef = useRef<Boolean>(false)
-
-	const loadForm = useCallback(() => {
-		if (formLoadRef.current) return
-		formLoadRef.current = true
-
-		/**
-		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
-		 */
-		window.hbspt.forms.create({
-			portalId: hsForm.portalId,
-			formId: hsForm.formId,
-			target: `#${divID}`,
-			//redirectUrl: redirectURL,
-			onFormSubmitted: function (_: any, data: any) {
-				// Your custom JavaScript code to execute after successful submission
-				console.log("Form submitted successfully:", hsForm.name)
-				const emailAddress = data?.submissionValues?.email
-				if (emailAddress) {
-					identify(emailAddress);
-				}
-
-				capture('website-form-submission', {
-					name: hsForm.name
-				});
-
-				router.push(redirectURL)
-
-			}
-		})
-	}, [divID, redirectURL, hsForm])
-
-	useEffect(() => {
-		if (window.hbspt) {
-			loadForm()
+		try {
+			const parsed = JSON.parse(hubspotForm)
+			formName = parsed.name || formName
+			formId = parsed.formId
+		} catch {
+			/* keep defaults */
 		}
-	}, [loadForm])
+	}
 
 	return (
-		<>
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
-			<div id={divID} className="min-h-[400px]"></div>
-		</>
+		<HubSpotNativeForm
+			contentID={contentID}
+			languageCode={languageCode}
+			formName={formName}
+			formDefinition={formDefinition}
+			fallbackDefinition={LEAD_FORM_FALLBACK}
+			redirectURL={redirectURL}
+			idPrefix={`gated-${formId || contentID || "form"}`}
+		/>
 	)
 }

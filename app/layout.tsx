@@ -46,8 +46,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		<html lang="en" className={`font-sans text-primary ${mulish.variable}`}>
 			<head>
 				<link rel="preconnect" href="https://static.agilitycms.com" />
-				<link rel="preconnect" href="https://js.hsforms.net" />
-				<link rel="preconnect" href="https://forms.hsforms.com" />
+				{/* HubSpot forms are now rendered natively (definition fetched
+				    server-side, submitted via our first-party /api/forms/hubspot
+				    proxy), so the browser no longer connects to js.hsforms.net /
+				    forms.hsforms.com — those preconnects were removed. See issue #87. */}
 				<link rel="preconnect" href="https://www.googletagmanager.com" />
 				<link rel="dns-prefetch" href="https://unpkg.com" />
 				{/* LCP images are served from cdn.aglty.io — preconnect (not just dns-prefetch)

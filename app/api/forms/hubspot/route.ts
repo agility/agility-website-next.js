@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { getHubSpotFormFromContent } from "lib/hubspot/getHubSpotFormFromContent"
 
 /**
  * First-party proxy for HubSpot form submissions.
@@ -9,16 +10,24 @@ import { NextRequest, NextResponse } from "next/server"
  * HubSpot domain. We forward server-side to the HubSpot Forms Submission API,
  * attaching the real client IP for HubSpot analytics/geo.
  *
- * See GitHub issue #85.
+ * The form a request targets is resolved from the Agility content item
+ * (`contentID` + `fieldName`) SERVER-SIDE — the CMS is the source of truth. The
+ * browser only names a content item; the portal/form IDs come from that item's
+ * form config, which only ever references our own HubSpot portal. That's what
+ * prevents this proxy from being used as an open relay — a tampered request can
+ * at most target another of our own forms, never an external portal, so no
+ * hardcoded portal allowlist is needed.
+ *
+ * See GitHub issues #85 / #87.
  */
 
-// Only our own portal is allowed through, so this can't be abused as an open
-// relay to arbitrary HubSpot portals.
-const ALLOWED_PORTAL_ID = "23239214"
-
 interface SubmitBody {
-	portalId: string
-	formId: string
+	/** Agility content item that holds the HubSpot form config. Required. */
+	contentID: number
+	/** Locale for the content-item lookup. */
+	languageCode?: string
+	/** Field on the content item holding the form JSON. Default "hubspotForm". */
+	fieldName?: string
 	fields: Record<string, string>
 	/** One entry per HubSpot communication-consent checkbox on the form. */
 	communications?: { subscriptionTypeId: number; value: boolean; text?: string }[]
@@ -48,11 +57,23 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ success: false, message: "Invalid request." }, { status: 400 })
 	}
 
-	const { portalId, formId, fields } = body
+	const { fields } = body
 
-	if (portalId !== ALLOWED_PORTAL_ID || !formId) {
+	// Resolve the target form from the CMS content item (the source of truth).
+	// The portal/form IDs come from the item's form config, so the browser can't
+	// point this proxy at an arbitrary/external form.
+	if (!body.contentID) {
 		return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
 	}
+	const resolved = await getHubSpotFormFromContent(
+		Number(body.contentID),
+		body.languageCode,
+		body.fieldName
+	)
+	if (!resolved) {
+		return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
+	}
+	const { portalId, formId } = resolved
 
 	// Honeypot: a real user never fills this hidden field. If it's populated,
 	// silently accept and drop (don't tip off the bot).

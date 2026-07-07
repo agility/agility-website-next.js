@@ -1,67 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import Script from "next/script"
-import { useCallback, useEffect, useRef } from "react"
-import { capture, identify } from "lib/analytics/posthog"
-import { useRouter } from 'next/navigation'
+import { HubSpotNativeForm, LEAD_FORM_FALLBACK } from "components/common/HubSpotNativeForm"
+import type { HubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
 
 interface IDownloadForm {
 	redirectURL?: string
 	hubspotForm?: string
+	/** Fetched server-side in ResourceDetails.tsx. Null -> LEAD_FORM_FALLBACK. */
+	formDefinition?: HubSpotFormDefinition | null
+	/** Agility content item + locale — the submission route resolves the form from these. */
+	contentID?: number
+	languageCode?: string
 }
 
-export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
-	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
-	const divID = `submission-form-${formId}`
-	const formLoadRef = useRef<Boolean>(false)
-
-	const router = useRouter()
-
-	const loadForm = useCallback(() => {
-		if (formLoadRef.current) return
-		formLoadRef.current = true
-
-		/**
-		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
-		 */
-		window.hbspt.forms.create({
-			portalId,
-			formId,
-			target: `#${divID}`,
-			//redirectUrl: redirectURL,
-			onFormSubmitted: function (_: any, data: any) {
-				// Your custom JavaScript code to execute after successful submission
-				console.log("Form submitted successfully:", name)
-				const emailAddress = data?.submissionValues?.email
-				if (emailAddress) {
-					identify(emailAddress);
-				}
-
-				capture('website-form-submission', {
-					name: name
-				});
-
-				if (redirectURL) {
-					router.push(redirectURL)
-				}
-
-			}
-		})
-	}, [divID, formId, portalId, redirectURL])
-
-	useEffect(() => {
-		if (window.hbspt) {
-			loadForm()
-		}
-	}, [loadForm])
+export const DownloadForm = ({ hubspotForm, redirectURL, formDefinition, contentID, languageCode }: IDownloadForm) => {
+	const { portalId, formId, name } = JSON.parse(hubspotForm || '{"portalId":"","formId":"","name":""}')
 
 	return (
 		<div>
-			<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
-
 			<div className="relative">
 				<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
-					<div id={divID} className="min-h-[400px]"></div>
+					<HubSpotNativeForm
+						portalId={portalId}
+						formId={formId}
+						contentID={contentID}
+						languageCode={languageCode}
+						formName={name}
+						formDefinition={formDefinition}
+						fallbackDefinition={LEAD_FORM_FALLBACK}
+						redirectURL={redirectURL}
+						idPrefix={`download-${formId}`}
+					/>
 				</div>
 				<img
 					src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"

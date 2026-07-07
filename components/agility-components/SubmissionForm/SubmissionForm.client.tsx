@@ -1,69 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
-import Script from "next/script"
 import { ISubmissionForm } from "./SubmissionForm"
-import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
-import { capture, identify } from "lib/analytics/posthog"
-import { useRouter } from "next/navigation"
+import { HubSpotNativeForm, LEAD_FORM_FALLBACK } from "components/common/HubSpotNativeForm"
+import type { HubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
+
+interface Props extends ISubmissionForm {
+	/** Fetched server-side in SubmissionForm.tsx. Null -> LEAD_FORM_FALLBACK. */
+	formDefinition?: HubSpotFormDefinition | null
+	/** Agility content item + locale — the submission route resolves the form from these. */
+	contentID?: number
+	languageCode?: string
+}
 
 export const SubmissionFormClient = ({
 	leftColumnBody,
 	leftColumnTitle,
 	hubspotForm,
-	redirectURL
-}: ISubmissionForm) => {
-	const { portalId, formId, name } = JSON.parse(hubspotForm || "{'portalId': '', 'formId': ''}")
-	const divID = `submission-form-${formId}`
-	const formLoadRef = useRef<Boolean>(false)
-	const router = useRouter()
-
-	const loadForm = useCallback(() => {
-		if (formLoadRef.current) return
-		formLoadRef.current = true
-
-		/**
-		 * docs for this are here: https://legacydocs.hubspot.com/docs/methods/forms/advanced_form_options
-		 */
-		window.hbspt.forms.create({
-			portalId,
-			formId,
-			target: `#${divID}`,
-			//redirectUrl: redirectURL,
-			onFormSubmitted: function (_: any, data: any) {
-				// Your custom JavaScript code to execute after successful submission
-				console.log("Form submitted successfully:", name)
-				const emailAddress = data?.submissionValues?.email
-				if (emailAddress) {
-					identify(emailAddress)
-				}
-
-				capture("website-form-submission", {
-					name: name
-				})
-
-				if (redirectURL) {
-					router.push(redirectURL)
-				}
-			}
-		})
-	}, [divID, formId, portalId, redirectURL])
-
-	useEffect(() => {
-		if (window.hbspt) {
-			loadForm()
-		}
-	}, [loadForm])
+	redirectURL,
+	formDefinition,
+	contentID,
+	languageCode
+}: Props) => {
+	const { portalId, formId, name } = JSON.parse(hubspotForm || '{"portalId":"","formId":"","name":""}')
 
 	return (
-		<Container >
+		<Container>
 			<div className="bg-background relative py-14">
-				<Script src={`https://js.hsforms.net/forms/v2.js`} async onLoad={() => loadForm()} />
 				<div className="mx-auto max-w-5xl">
 					<div className="flex flex-col gap-10 md:flex-row">
 						<div className="width-1/2 relative flex-1">
 							<div className="relative z-[2] border-t-2 border-t-highlight-light bg-white p-6 shadow-lg">
-								<div id={divID} className="min-h-[400px]"></div>
+								<HubSpotNativeForm
+									portalId={portalId}
+									formId={formId}
+									contentID={contentID}
+									languageCode={languageCode}
+									formName={name}
+									formDefinition={formDefinition}
+									fallbackDefinition={LEAD_FORM_FALLBACK}
+									redirectURL={redirectURL}
+									idPrefix={`submission-${formId}`}
+								/>
 							</div>
 							<img
 								src="https://static.agilitycms.com/layout/static/triangle-pattern.svg"

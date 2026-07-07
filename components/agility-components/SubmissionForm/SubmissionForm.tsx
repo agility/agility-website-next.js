@@ -1,7 +1,7 @@
 import { UnloadedModuleProps } from "@agility/nextjs"
 import { getContentItem } from "lib/cms/getContentItem"
-import Script from "next/script"
 import { SubmissionFormClient } from "./SubmissionForm.client"
+import { getHubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
 
 export interface ISubmissionForm {
 	leftColumnTitle: string
@@ -21,5 +21,22 @@ export const SubmissionForm = async ({ module, languageCode }: UnloadedModulePro
 		return null
 	}
 
-	return <SubmissionFormClient {...fields} />
+	// Fetch the HubSpot form definition SERVER-SIDE so the browser never loads
+	// js.hsforms.net (ad-blocker / InPrivate resilient). null -> client fallback.
+	let formDefinition = null
+	try {
+		const { portalId, formId } = JSON.parse(fields.hubspotForm)
+		formDefinition = await getHubSpotFormDefinition(portalId, formId)
+	} catch (error) {
+		console.error("SubmissionForm: failed to load HubSpot form definition:", error)
+	}
+
+	return (
+		<SubmissionFormClient
+			{...fields}
+			formDefinition={formDefinition}
+			contentID={contentID}
+			languageCode={languageCode}
+		/>
+	)
 }

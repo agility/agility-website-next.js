@@ -12,7 +12,6 @@ import { IconStarFilled } from "@tabler/icons-react"
 import { LinkButton } from "components/micro/LinkButton"
 import { PricingPackagesModuleClient } from "./PricingPackagesModule.client"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
-import { HubspotForm } from "lib/types/HubspotForm"
 
 interface IPricingPackagesModule {
 	loadsByDefault: string
@@ -52,18 +51,6 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 		contentID: module.contentid,
 		languageCode
 	})
-
-	let hubSpotForm: HubspotForm | null = null
-
-	//MOD Joel V. removed the hubspot popup form - we don';'t need it for now
-	// if (fields.getPricingForm) {
-	// 	try {
-	// 		hubSpotForm = JSON.parse(fields.getPricingForm)
-	// 	} catch (e) {
-	// 		console.warn("Error parsing hubspot form on pricing packages modele", fields.getPricingForm, e)
-	// 	}
-	// }
-
 
 	const gqlQuery = gql(`
 		query getPricingItems {
@@ -191,7 +178,6 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 					headerIDstr,
 					topSectionIDStr,
 					comparePackagesTitle: fields.comparePackagesTitle,
-					hubSpotForm,
 					listPricingByCategory,
 					pricingPackages: data.pricingpackages,
 					featuresListing: data.packagefeaturevalues
