@@ -107,6 +107,8 @@ export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) =>
 									hubspotForm={fields.hubspotForm}
 									redirectURL={fields.redirectURL}
 									formDefinition={hubspotFormDefinition}
+									contentID={contentID}
+									languageCode={languageCode}
 								/>
 							</div>
 							{fields.formBottomImage?.url && (

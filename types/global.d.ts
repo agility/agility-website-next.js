@@ -12,8 +12,6 @@ declare global {
 	interface Window {
 		/** Google Tag Manager data layer */
 		dataLayer?: Object[]
-		/** HubSpot forms embed API (js.hsforms.net) */
-		hbspt?: any
 		/** HubSpot tracking queue (js.hs-scripts.com) */
 		_hsq?: any[]
 		/** Gartner Peer Insights / G2 review widget */

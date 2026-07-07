@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { getHubSpotFormFromContent } from "lib/hubspot/getHubSpotFormFromContent"
 
 /**
  * First-party proxy for HubSpot form submissions.
@@ -9,7 +10,13 @@ import { NextRequest, NextResponse } from "next/server"
  * HubSpot domain. We forward server-side to the HubSpot Forms Submission API,
  * attaching the real client IP for HubSpot analytics/geo.
  *
- * See GitHub issue #85.
+ * The form a request targets is resolved from the Agility content item
+ * (`contentID` + `fieldName`) SERVER-SIDE — the CMS is the source of truth, so
+ * the browser can't point this proxy at an arbitrary form. Requests that
+ * predate that (ROI calculator, footer) may still send `portalId`/`formId`
+ * directly; either way the portal is allowlisted below.
+ *
+ * See GitHub issues #85 / #87.
  */
 
 // Only our own portal is allowed through, so this can't be abused as an open
@@ -17,8 +24,15 @@ import { NextRequest, NextResponse } from "next/server"
 const ALLOWED_PORTAL_ID = "23239214"
 
 interface SubmitBody {
-	portalId: string
-	formId: string
+	/** Agility content item that holds the HubSpot form config (preferred). */
+	contentID?: number
+	/** Locale for the content-item lookup. */
+	languageCode?: string
+	/** Field on the content item holding the form JSON. Default "hubspotForm". */
+	fieldName?: string
+	/** Fallback when no contentID is provided (ROI calculator, footer). */
+	portalId?: string
+	formId?: string
 	fields: Record<string, string>
 	/** One entry per HubSpot communication-consent checkbox on the form. */
 	communications?: { subscriptionTypeId: number; value: boolean; text?: string }[]
@@ -48,7 +62,25 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ success: false, message: "Invalid request." }, { status: 400 })
 	}
 
-	const { portalId, formId, fields } = body
+	const { fields } = body
+
+	// Resolve the target form. Prefer the CMS content item (source of truth);
+	// fall back to client-provided portal/form IDs for the ROI calculator and
+	// footer, which don't map to a single "hubspotForm" content field.
+	let portalId = body.portalId
+	let formId = body.formId
+	if (body.contentID) {
+		const resolved = await getHubSpotFormFromContent(
+			Number(body.contentID),
+			body.languageCode,
+			body.fieldName
+		)
+		if (!resolved) {
+			return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
+		}
+		portalId = resolved.portalId
+		formId = resolved.formId
+	}
 
 	if (portalId !== ALLOWED_PORTAL_ID || !formId) {
 		return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })

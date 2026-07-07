@@ -299,51 +299,43 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		if (hasSubmittedLead) return { success: true }
 
 		try {
-			const url = `https://api.hsforms.com/submissions/v3/integration/submit/${fields.hubspotPortalId}/${fields.hubspotFormId}`
 			const hubspotutk = getHubSpotCookie()
 
-			const data = {
-				fields: [
-					{ objectTypeId: "0-1", name: "email", value: state.email },
-					{ objectTypeId: "0-1", name: "company", value: state.company },
-				],
-				context: {
+			// Submit through our first-party proxy (not api.hsforms.com directly) so
+			// it survives ad blockers / InPrivate — same path as the native forms.
+			const response = await fetch("/api/forms/hubspot", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					portalId: `${fields.hubspotPortalId}`,
+					formId: fields.hubspotFormId,
+					fields: {
+						email: state.email,
+						company: state.company,
+					},
+					communications: marketingOptIn
+						? [
+								{
+									value: true,
+									subscriptionTypeId: 999,
+									text: fields.marketingOptInText || "I agree to receive marketing communications.",
+								},
+						  ]
+						: [],
+					consentToProcess: true,
+					processingConsentText: fields.consentText || "I agree to the privacy policy.",
 					hutk: hubspotutk,
 					pageUri: typeof window !== "undefined" ? window.location.href : "",
 					pageName: "ROI Calculator",
-				},
-				legalConsentOptions: {
-					consent: {
-						consentToProcess: true,
-						text: fields.consentText || "I agree to the privacy policy.",
-						communications: marketingOptIn
-							? [
-									{
-										value: true,
-										subscriptionTypeId: 999,
-										text: fields.marketingOptInText || "I agree to receive marketing communications.",
-									},
-							  ]
-							: [],
-					},
-				},
-			}
-
-			const response = await fetch(url, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data),
+				}),
 			})
 
-			if (!response.ok) {
-				const body = await response.json().catch(() => null)
-				const isBlockedEmail = body?.errors?.some(
-					(e: { errorType?: string }) => e.errorType === "BLOCKED_EMAIL"
-				)
-				if (isBlockedEmail) {
-					console.warn("HubSpot blocked this email address")
-					return { success: false, blockedEmail: true }
-				}
+			const body = await response.json().catch(() => null)
+			if (body?.blockedEmail) {
+				console.warn("HubSpot blocked this email address")
+				return { success: false, blockedEmail: true }
+			}
+			if (!response.ok || !body?.success) {
 				console.error("HubSpot submission error:", body)
 				return { success: false }
 			}
@@ -367,7 +359,6 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		if (hasSubmittedSummary) return
 
 		try {
-			const url = `https://api.hsforms.com/submissions/v3/integration/submit/${fields.hubspotPortalId}/${fields.hubspotFormId}`
 			const hubspotutk = getHubSpotCookie()
 
 			// Build summary text for sales
@@ -400,38 +391,33 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				`• Implementation Budget: ${formatCurrency(state.implementationCost)}`,
 			].filter(line => line !== ``).join(`\n`)
 
-			const data = {
-				fields: [
-					{ objectTypeId: "0-1", name: "email", value: state.email },
-					{ objectTypeId: "0-1", name: "company", value: state.company },
-					{ objectTypeId: "0-1", name: "roi_calculator_summary", value: summary },
-				],
-				context: {
+			// Submit through our first-party proxy (not api.hsforms.com directly).
+			await fetch("/api/forms/hubspot", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					portalId: `${fields.hubspotPortalId}`,
+					formId: fields.hubspotFormId,
+					fields: {
+						email: state.email,
+						company: state.company,
+						roi_calculator_summary: summary,
+					},
+					communications: marketingOptIn
+						? [
+								{
+									value: true,
+									subscriptionTypeId: 999,
+									text: fields.marketingOptInText || "I agree to receive marketing communications.",
+								},
+						  ]
+						: [],
+					consentToProcess: true,
+					processingConsentText: fields.consentText || "I agree to the privacy policy.",
 					hutk: hubspotutk,
 					pageUri: typeof window !== "undefined" ? window.location.href : "",
 					pageName: "ROI Calculator",
-				},
-				legalConsentOptions: {
-					consent: {
-						consentToProcess: true,
-						text: fields.consentText || "I agree to the privacy policy.",
-						communications: marketingOptIn
-							? [
-									{
-										value: true,
-										subscriptionTypeId: 999,
-										text: fields.marketingOptInText || "I agree to receive marketing communications.",
-									},
-							  ]
-							: [],
-					},
-				},
-			}
-
-			await fetch(url, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data),
+				}),
 			})
 
 			setHasSubmittedSummary(true)

@@ -18,10 +18,7 @@ import clsx from "clsx"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 import { ThreeDashLine } from "components/micro/ThreeDashLine"
-import { HubspotForm } from "lib/types/HubspotForm"
-import GetPricePopup from "./GetPricePopup"
 import { LinkButtonClient } from "components/micro/LinkButtonClient"
-import Script from "next/script"
 
 interface PricingPackage {
 	contentID: number | null
@@ -91,7 +88,6 @@ interface Props {
 	headerIDstr: string
 	topSectionIDStr: string
 	comparePackagesTitle: string
-	hubSpotForm: HubspotForm | null
 }
 
 export const PricingPackagesModuleClient = ({
@@ -100,14 +96,12 @@ export const PricingPackagesModuleClient = ({
 	featuresListing,
 	headerIDstr,
 	topSectionIDStr,
-	comparePackagesTitle,
-	hubSpotForm
+	comparePackagesTitle
 }: Props) => {
 	const packages = pricingPackages as PricingPackage[]
 	const features = featuresListing as PackageFeature[]
 
 	const [isScrolling, setIsScrolling] = useState(false)
-	const [priceDialogOpen, setPriceDialogOpen] = useState(false)
 	const idStr = "pricing-page"
 	/**
 	 * This effect will watch the header element and determine if it is showing or not
@@ -359,18 +353,6 @@ export const PricingPackagesModuleClient = ({
 					))}
 				</div>
 			</div>
-			{hubSpotForm && (
-				<>
-					<GetPricePopup {...{ hubSpotForm, priceDialogOpen, setPriceDialogOpen }} />
-					<Script
-						{...{
-							type: "text/javascript",
-							strategy: "lazyOnload",
-							src: "//js.hsforms.net/forms/embed/v2.js"
-						}}
-					/>
-				</>
-			)}
 		</>
 	)
 }

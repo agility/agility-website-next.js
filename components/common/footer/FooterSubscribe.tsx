@@ -1,22 +1,22 @@
-//@ts-nocheck
-"use client"
-
-import { LinkButton } from "components/micro/LinkButton"
 import { HubspotForm } from "lib/types/HubspotForm"
-import Script from "next/script"
-import { capture, identify } from 'lib/analytics/posthog'
+import { getHubSpotFormDefinition } from "lib/hubspot/getHubSpotFormDefinition"
+import { FooterSubscribeClient } from "./FooterSubscribe.client"
 
 interface Props {
-	subscribeButtonLabel: string
-	subscribeEmailPlaceholder: string
-	subscribeRedirect: string
-	newsletterSignupForm: string
-	subscribeConfirmationMessage: string
+	subscribeButtonLabel?: string
+	subscribeEmailPlaceholder?: string
+	subscribeRedirect?: string
+	newsletterSignupForm?: string
+	subscribeConfirmationMessage?: string
 }
 
-export const FooterSubscribe = ({
+/**
+ * Newsletter signup, rendered NATIVELY (no js.hsforms.net embed) so it works
+ * for ad-blocker / InPrivate visitors. Fetches the HubSpot form definition
+ * server-side; the client submits through our first-party proxy. See issue #87.
+ */
+export const FooterSubscribe = async ({
 	subscribeButtonLabel,
-	subscribeEmailPlaceholder,
 	subscribeRedirect,
 	subscribeConfirmationMessage,
 	newsletterSignupForm
@@ -25,53 +25,29 @@ export const FooterSubscribe = ({
 		return null
 	}
 
-	const { portalId, formId }: HubspotForm = JSON.parse(newsletterSignupForm)
-	const divID = `form_${formId}`
+	let portalId = ""
+	let formId = ""
+	let name = "Newsletter Signup"
+	try {
+		const parsed: HubspotForm = JSON.parse(newsletterSignupForm)
+		portalId = parsed.portalId
+		formId = parsed.formId
+		name = parsed.name || name
+	} catch {
+		return null
+	}
+
+	const formDefinition = await getHubSpotFormDefinition(portalId, formId)
 
 	return (
-		<div className="mt-4">
-			<Script
-				{...{
-					type: "text/javascript",
-					strategy: "lazyOnload",
-					src: "//js.hsforms.net/forms/embed/v2.js",
-					onReady: () => {
-						hbspt.forms.create({
-							region: "na1",
-							portalId,
-							formId,
-							target: `#${divID}`,
-							onFormSubmitted: function ($form, data) {
-								// Your custom JavaScript code to execute after successful submission
-								console.log("Newsletter signup submitted.")
-								const emailAddress = data?.submissionValues?.email
-								if (emailAddress) {
-									identify(emailAddress);
-								}
-
-								capture('newsletter-signup');
-
-							}
-						})
-					}
-				}}
-			/>
-			<div id={divID}></div>
-		</div>
+		<FooterSubscribeClient
+			portalId={portalId}
+			formId={formId}
+			formName={name}
+			formDefinition={formDefinition}
+			submitLabel={subscribeButtonLabel}
+			redirectURL={subscribeRedirect}
+			confirmationMessage={subscribeConfirmationMessage}
+		/>
 	)
-
-	// return (
-	// 	<form
-	// 		className="mt-4 flex gap-1"
-	// 		onSubmit={(e) => {
-	// 			e.preventDefault()
-	// 			console.log("SUBSCRIBE")
-	// 		}}
-	// 	>
-	// 		<input type="email" placeholder="Email Address" className="w-full p-2 bg-white leading-6" required />
-	// 		<LinkButton type="secondary-inverted" buttonType="submit">
-	// 			{subscribeButtonLabel}
-	// 		</LinkButton>
-	// 	</form>
-	// )
 }
