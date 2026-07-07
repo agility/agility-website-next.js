@@ -11,28 +11,23 @@ import { getHubSpotFormFromContent } from "lib/hubspot/getHubSpotFormFromContent
  * attaching the real client IP for HubSpot analytics/geo.
  *
  * The form a request targets is resolved from the Agility content item
- * (`contentID` + `fieldName`) SERVER-SIDE — the CMS is the source of truth, so
- * the browser can't point this proxy at an arbitrary form. Requests that
- * predate that (ROI calculator, footer) may still send `portalId`/`formId`
- * directly; either way the portal is allowlisted below.
+ * (`contentID` + `fieldName`) SERVER-SIDE — the CMS is the source of truth. The
+ * browser only names a content item; the portal/form IDs come from that item's
+ * form config, which only ever references our own HubSpot portal. That's what
+ * prevents this proxy from being used as an open relay — a tampered request can
+ * at most target another of our own forms, never an external portal, so no
+ * hardcoded portal allowlist is needed.
  *
  * See GitHub issues #85 / #87.
  */
 
-// Only our own portal is allowed through, so this can't be abused as an open
-// relay to arbitrary HubSpot portals.
-const ALLOWED_PORTAL_ID = "23239214"
-
 interface SubmitBody {
-	/** Agility content item that holds the HubSpot form config (preferred). */
-	contentID?: number
+	/** Agility content item that holds the HubSpot form config. Required. */
+	contentID: number
 	/** Locale for the content-item lookup. */
 	languageCode?: string
 	/** Field on the content item holding the form JSON. Default "hubspotForm". */
 	fieldName?: string
-	/** Fallback when no contentID is provided (ROI calculator, footer). */
-	portalId?: string
-	formId?: string
 	fields: Record<string, string>
 	/** One entry per HubSpot communication-consent checkbox on the form. */
 	communications?: { subscriptionTypeId: number; value: boolean; text?: string }[]
@@ -64,27 +59,21 @@ export async function POST(req: NextRequest) {
 
 	const { fields } = body
 
-	// Resolve the target form. Prefer the CMS content item (source of truth);
-	// fall back to client-provided portal/form IDs for the ROI calculator and
-	// footer, which don't map to a single "hubspotForm" content field.
-	let portalId = body.portalId
-	let formId = body.formId
-	if (body.contentID) {
-		const resolved = await getHubSpotFormFromContent(
-			Number(body.contentID),
-			body.languageCode,
-			body.fieldName
-		)
-		if (!resolved) {
-			return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
-		}
-		portalId = resolved.portalId
-		formId = resolved.formId
-	}
-
-	if (portalId !== ALLOWED_PORTAL_ID || !formId) {
+	// Resolve the target form from the CMS content item (the source of truth).
+	// The portal/form IDs come from the item's form config, so the browser can't
+	// point this proxy at an arbitrary/external form.
+	if (!body.contentID) {
 		return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
 	}
+	const resolved = await getHubSpotFormFromContent(
+		Number(body.contentID),
+		body.languageCode,
+		body.fieldName
+	)
+	if (!resolved) {
+		return NextResponse.json({ success: false, message: "Unknown form." }, { status: 400 })
+	}
+	const { portalId, formId } = resolved
 
 	// Honeypot: a real user never fills this hidden field. If it's populated,
 	// silently accept and drop (don't tip off the bot).
