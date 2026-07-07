@@ -12,10 +12,6 @@ interface IGatedDownload {
 	leftColumnBody?: string
 }
 
-// Fallback IDs must match GatedDownloadClient's DEFAULT_FORM.
-const DEFAULT_PORTAL_ID = 23239214
-const DEFAULT_FORM_ID = "4879f91f-730d-4b2b-9307-67c6670724b1"
-
 export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const { fields, contentID } = await getContentItem<IGatedDownload>({
 		contentID: module.contentid,
@@ -23,20 +19,17 @@ export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProp
 		contentLinkDepth: 0
 	})
 
-	// Fetch the HubSpot form definition SERVER-SIDE so the browser never loads
-	// js.hsforms.net (ad-blocker / InPrivate resilient). null -> client fallback.
+	// Fetch the HubSpot form definition SERVER-SIDE from the item's own form
+	// config so the browser never loads js.hsforms.net (ad-blocker / InPrivate
+	// resilient). null -> client fallback (LEAD_FORM_FALLBACK).
 	let formDefinition = null
-	try {
-		let portalId: string | number = DEFAULT_PORTAL_ID
-		let formId = DEFAULT_FORM_ID
-		if (fields.hubspotForm) {
-			const parsed = JSON.parse(fields.hubspotForm)
-			portalId = parsed.portalId ?? DEFAULT_PORTAL_ID
-			formId = parsed.formId ?? DEFAULT_FORM_ID
+	if (fields.hubspotForm) {
+		try {
+			const { portalId, formId } = JSON.parse(fields.hubspotForm)
+			formDefinition = await getHubSpotFormDefinition(portalId, formId)
+		} catch (error) {
+			console.error("GatedDownload: failed to load HubSpot form definition:", error)
 		}
-		formDefinition = await getHubSpotFormDefinition(portalId, formId)
-	} catch (error) {
-		console.error("GatedDownload: failed to load HubSpot form definition:", error)
 	}
 
 	return (
@@ -51,7 +44,7 @@ export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProp
 						redirectURL={fields.redirectURL.href}
 						hubspotForm={fields.hubspotForm}
 						formDefinition={formDefinition}
-						contentID={fields.hubspotForm ? contentID : undefined}
+						contentID={contentID}
 						languageCode={languageCode}
 					/>
 				</div>

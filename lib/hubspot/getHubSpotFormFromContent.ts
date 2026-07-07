@@ -9,7 +9,9 @@ import { getContentItem } from "lib/cms/getContentItem"
  *
  * `fieldName` is the field on the content item holding the HubSpot form JSON
  * (`{ portalId, formId, name }`) — "hubspotForm" for most components,
- * "newsletterSignupForm" for the footer subscribe form.
+ * "newsletterSignupForm" for the footer subscribe form. If that field isn't a
+ * form JSON, we fall back to the ROI-calculator shape where the portal/form IDs
+ * live in separate `hubspotPortalId` / `hubspotFormId` fields.
  */
 
 export interface ResolvedHubSpotForm {
@@ -34,17 +36,35 @@ export async function getHubSpotFormFromContent(
 			contentLinkDepth: 0,
 		})
 
+		// Shape 1: a single field holding the form JSON ({ portalId, formId, name }).
 		const raw = fields?.[fieldName]
-		if (typeof raw !== "string" || !raw.trim()) return null
-
-		const parsed = JSON.parse(raw)
-		if (!parsed?.portalId || !parsed?.formId) return null
-
-		return {
-			portalId: `${parsed.portalId}`,
-			formId: `${parsed.formId}`,
-			name: parsed.name,
+		if (typeof raw === "string" && raw.trim()) {
+			try {
+				const parsed = JSON.parse(raw)
+				if (parsed?.portalId && parsed?.formId) {
+					return {
+						portalId: `${parsed.portalId}`,
+						formId: `${parsed.formId}`,
+						name: parsed.name,
+					}
+				}
+			} catch {
+				// fall through to shape 2
+			}
 		}
+
+		// Shape 2: separate hubspotPortalId / hubspotFormId fields (ROI calculator).
+		const portalId = fields?.hubspotPortalId
+		const formId = fields?.hubspotFormId
+		if (portalId && formId) {
+			return {
+				portalId: `${portalId}`,
+				formId: `${formId}`,
+				name: typeof fields?.name === "string" ? fields.name : undefined,
+			}
+		}
+
+		return null
 	} catch (e) {
 		console.error(`getHubSpotFormFromContent(${contentID}, ${fieldName}) failed:`, e)
 		return null

@@ -100,7 +100,7 @@ export interface IROICalculator {
 }
 
 export const ROICalculator = async ({ module, languageCode }: UnloadedModuleProps) => {
-	const { fields } = await getContentItem<IROICalculator>({
+	const { fields, contentID } = await getContentItem<IROICalculator>({
 		contentID: module.contentid,
 		languageCode,
 	})
@@ -108,7 +108,7 @@ export const ROICalculator = async ({ module, languageCode }: UnloadedModuleProp
 	return (
 		<section className="bg-gradient-to-b from-background to-white px-4 pt-14 pb-20 md:px-8 2xl:px-0">
 			<div className="mx-auto max-w-7xl">
-				<ROICalculatorClient fields={fields} />
+				<ROICalculatorClient fields={fields} contentID={contentID} languageCode={languageCode} />
 			</div>
 		</section>
 	)

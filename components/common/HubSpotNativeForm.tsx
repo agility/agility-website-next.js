@@ -151,8 +151,12 @@ type LinkButtonType =
 	| "slate"
 
 export interface HubSpotNativeFormProps {
-	portalId: string | number
-	formId: string
+	/**
+	 * Legacy fallback only. Prefer `contentID` — when set, the submission route
+	 * resolves portal/form IDs from the CMS content item and ignores these.
+	 */
+	portalId?: string | number
+	formId?: string
 	/**
 	 * Agility content item that holds the HubSpot form config. When set, the
 	 * submission route resolves portal/form IDs from this item server-side
@@ -346,11 +350,12 @@ export const HubSpotNativeForm = ({
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					// contentID is authoritative server-side; portalId/formId are a
-					// fallback for forms without a single content field (ROI, footer).
-					...(contentID ? { contentID, languageCode, fieldName: formFieldName } : {}),
-					portalId: `${portalId}`,
-					formId,
+					// contentID is authoritative server-side; portalId/formId are only
+					// sent as a legacy fallback when a form has no content item to
+					// resolve from.
+					...(contentID
+						? { contentID, languageCode, fieldName: formFieldName }
+						: { portalId: `${portalId}`, formId }),
 					fields: fieldsPayload,
 					communications,
 					processingConsentText: def.processingConsentText,

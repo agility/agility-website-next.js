@@ -7,6 +7,8 @@ interface Props {
 	portalId: string
 	formId: string
 	formName?: string
+	contentID?: number
+	languageCode?: string
 	formDefinition?: HubSpotFormDefinition | null
 	submitLabel?: string
 	redirectURL?: string
@@ -31,6 +33,8 @@ export const FooterSubscribeClient = ({
 	portalId,
 	formId,
 	formName,
+	contentID,
+	languageCode,
 	formDefinition,
 	submitLabel,
 	redirectURL,
@@ -45,6 +49,9 @@ export const FooterSubscribeClient = ({
 			<HubSpotNativeForm
 				portalId={portalId}
 				formId={formId}
+				contentID={contentID}
+				languageCode={languageCode}
+				formFieldName="newsletterSignupForm"
 				formName={formName}
 				formDefinition={def}
 				fallbackDefinition={NEWSLETTER_FALLBACK}

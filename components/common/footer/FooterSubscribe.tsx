@@ -8,6 +8,9 @@ interface Props {
 	subscribeRedirect?: string
 	newsletterSignupForm?: string
 	subscribeConfirmationMessage?: string
+	/** Footer content item — the submission route resolves the form from it. */
+	contentID?: number
+	languageCode?: string
 }
 
 /**
@@ -19,7 +22,9 @@ export const FooterSubscribe = async ({
 	subscribeButtonLabel,
 	subscribeRedirect,
 	subscribeConfirmationMessage,
-	newsletterSignupForm
+	newsletterSignupForm,
+	contentID,
+	languageCode
 }: Props) => {
 	if (!newsletterSignupForm) {
 		return null
@@ -44,6 +49,8 @@ export const FooterSubscribe = async ({
 			portalId={portalId}
 			formId={formId}
 			formName={name}
+			contentID={contentID}
+			languageCode={languageCode}
 			formDefinition={formDefinition}
 			submitLabel={subscribeButtonLabel}
 			redirectURL={subscribeRedirect}

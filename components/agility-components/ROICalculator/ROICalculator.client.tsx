@@ -29,6 +29,9 @@ import {
 
 interface Props {
 	fields: IROICalculator
+	/** Content item + locale — the submission route resolves the form from these. */
+	contentID?: number
+	languageCode?: string
 }
 
 type CalculatorStep = "form" | "step1" | "step2" | "step3" | "step4" | "results"
@@ -63,7 +66,7 @@ interface CalculatorState {
 	implementationCost: number
 }
 
-export const ROICalculatorClient = ({ fields }: Props) => {
+export const ROICalculatorClient = ({ fields, contentID, languageCode }: Props) => {
 	const [currentStep, setCurrentStep] = useState<CalculatorStep>("step1")
 	const [isTransitioning, setIsTransitioning] = useState(false)
 	const [pendingStep, setPendingStep] = useState<CalculatorStep | null>(null)
@@ -307,8 +310,10 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					portalId: `${fields.hubspotPortalId}`,
-					formId: fields.hubspotFormId,
+					// The route resolves the form from the content item (hubspotPortalId
+					// / hubspotFormId fields) — no client-sent IDs.
+					contentID,
+					languageCode,
 					fields: {
 						email: state.email,
 						company: state.company,
@@ -347,7 +352,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 			console.error("Error submitting lead to HubSpot:", error)
 			return { success: false }
 		}
-	}, [fields, state.email, state.company, marketingOptIn, hasSubmittedLead])
+	}, [fields, state.email, state.company, marketingOptIn, hasSubmittedLead, contentID, languageCode])
 
 	// Submit ROI summary to HubSpot when reaching results (updates existing contact)
 	const submitSummaryToHubSpot = useCallback(async () => {
@@ -391,13 +396,14 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 				`• Implementation Budget: ${formatCurrency(state.implementationCost)}`,
 			].filter(line => line !== ``).join(`\n`)
 
-			// Submit through our first-party proxy (not api.hsforms.com directly).
+			// Submit through our first-party proxy (not api.hsforms.com directly);
+			// the route resolves the form from the content item.
 			await fetch("/api/forms/hubspot", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					portalId: `${fields.hubspotPortalId}`,
-					formId: fields.hubspotFormId,
+					contentID,
+					languageCode,
 					fields: {
 						email: state.email,
 						company: state.company,
@@ -425,7 +431,7 @@ export const ROICalculatorClient = ({ fields }: Props) => {
 		} catch (error) {
 			console.error("Error submitting summary to HubSpot:", error)
 		}
-	}, [fields, state, results, marketingOptIn, hasSubmittedSummary])
+	}, [fields, state, results, marketingOptIn, hasSubmittedSummary, contentID, languageCode])
 
 	// Trigger summary submission when reaching results
 	useEffect(() => {
