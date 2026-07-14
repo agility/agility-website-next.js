@@ -173,7 +173,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			const v = sp.get(f.name) ?? f.defaultValue ?? ""
 			if (v) fieldsPayload[f.name] = v
 		}
-		fieldsPayload._hp_email = honeypotRef.current?.value || ""
+		fieldsPayload._hp_extra_field = honeypotRef.current?.value || ""
 
 		const communications = def.communicationConsentCheckboxes.map((c) => ({
 			subscriptionTypeId: c.communicationTypeId,
@@ -219,7 +219,11 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			const emailField = visibleFields.find(isEmailField)
 			const email = emailField ? (values[emailField.name] || "").trim() : ""
 			if (email) identify(email)
-			capture("website-form-submission", { name: formName })
+			// Send every submitted field to PostHog alongside the form name. We reuse
+			// fieldsPayload (visible + populated hidden fields, already trimmed),
+			// including the honeypot (_hp_extra_field) — a non-empty value there flags
+			// a submission the server silently dropped, so it's worth seeing in analytics.
+			capture("website-form-submission", { name: formName, ...fieldsPayload })
 
 			const target = redirectURL || def.redirectUrl
 			if (target) {
@@ -307,11 +311,17 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 				)
 			})}
 
-			{/* Honeypot — hidden from users, catches bots (form has no captcha). */}
+			{/* Honeypot — hidden from users, catches bots (form has no captcha).
+			    The field name deliberately avoids autofill-magnet tokens like
+			    "email"/"name"/"phone"/"address": browser autofill and password
+			    managers match on the name attribute and will fill an off-screen
+			    field named e.g. `_hp_email` for a real human, tripping the trap.
+			    A neutral name (`_hp_extra_field`) keeps autofill away while bots,
+			    which fill everything, still get caught. */}
 			<div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
 				<label>
 					Please leave this field empty
-					<input ref={honeypotRef} type="text" name="_hp_email" tabIndex={-1} autoComplete="off" />
+					<input ref={honeypotRef} type="text" name="_hp_extra_field" tabIndex={-1} autoComplete="off" />
 				</label>
 			</div>
 
