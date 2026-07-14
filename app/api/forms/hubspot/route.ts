@@ -56,12 +56,12 @@ export async function POST(req: NextRequest) {
 
 	// Honeypot: a real user never fills this hidden field. If it's populated,
 	// silently accept and drop (don't tip off the bot).
-	if (fields?.["_hp_email"]) {
+	if (fields?.["_hp_extra_field"]) {
 		return NextResponse.json({ success: true })
 	}
 
 	const hsFields = Object.entries(fields || {})
-		.filter(([name, value]) => name !== "_hp_email" && value != null && `${value}`.trim() !== "")
+		.filter(([name, value]) => name !== "_hp_extra_field" && value != null && `${value}`.trim() !== "")
 		.map(([name, value]) => ({ objectTypeId: "0-1", name, value: `${value}` }))
 
 	const communications = (body.communications || [])
