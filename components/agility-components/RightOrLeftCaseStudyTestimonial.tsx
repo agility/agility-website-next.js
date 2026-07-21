@@ -42,8 +42,8 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 	if (!testimonial || !casestudy) return null
 
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl">
+        <Container >
+            <div className="mx-auto max-w-7xl">
 				<div className={clsx("flex flex-col gap-10 lg:items-center",
 					fields.textSide == "right" ? "lg:flex-row" : "lg:flex-row-reverse")}>
 					<div className="flex-1 space-y-5">
@@ -52,14 +52,22 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 						</div>
 						<h2 className="text-3xl">{casestudy.fields.title}</h2>
 						<div className="text-lg">{casestudy.fields.contentPanelCopy}</div>
-						<LinkButton href={`/resources/case-studies/${casestudy.fields.uRL}`} type="alternate" size="md">
+						<LinkButton
+                            href={`/resources/case-studies/${casestudy.fields.uRL}`}
+                            type="alternate"
+                            size="md"
+                            data-agility-field="cTA">
 							{fields.cTA}
 							<IconChevronRight size={20} />
 						</LinkButton>
 					</div>
 					<div className="flex-1">
 						<div className="pr-14">
-							<AgilityPic image={fields.image} className="w-full" fallbackWidth={640} />
+							<AgilityPic
+                                image={fields.image}
+                                className="w-full"
+                                fallbackWidth={640}
+                                data-agility-field="image" />
 						</div>
 						<div className="relative -mt-28 ml-[20%] w-4/5 rounded bg-white p-4 pl-10 shadow-md">
 							<div className="text-lg">{testimonial.fields.excerpt}</div>
@@ -72,6 +80,6 @@ export const RightOrLeftCaseStudyTestimonial = async ({ module, languageCode }: 
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

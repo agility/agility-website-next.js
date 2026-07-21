@@ -46,8 +46,8 @@ export const GuideLinks = async ({ module, languageCode }: UnloadedModuleProps) 
 	const items = lst.items as ContentItem<Link>[]
 
 	return (
-		<GuideWithLinks
-			{...{
+        <GuideWithLinks
+            {...{
 				mainInfo: fields,
 				items: items.map((item) => ({
 					title: item.fields.title,
@@ -55,6 +55,6 @@ export const GuideLinks = async ({ module, languageCode }: UnloadedModuleProps) 
 					uRL: item.fields.uRL
 				}))
 			}}
-		/>
-	)
+            data-agility-component={contentID} />
+    );
 }

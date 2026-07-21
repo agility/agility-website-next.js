@@ -56,14 +56,18 @@ export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) =>
 	const hasVideo = vimeoVideoData && (vimeoVideoData.video_id || vimeoVideoData.url)
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-6xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-6xl pb-14">
 				{/* Heading + Subheading */}
 				{fields.heading && (
 					<div className="mb-10 text-center">
-						<h1 className="text-balance text-5xl font-medium">{fields.heading}</h1>
+						<h1
+                            className="text-balance text-5xl font-medium"
+                            data-agility-field="heading">{fields.heading}</h1>
 						{fields.subHeading && (
-							<p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">{fields.subHeading}</p>
+							<p
+                                className="mx-auto mt-4 max-w-2xl text-lg text-gray-600"
+                                data-agility-field="subHeading">{fields.subHeading}</p>
 						)}
 					</div>
 				)}
@@ -80,16 +84,18 @@ export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) =>
 
 						{fields.leftContent && (
 							<div
-								className="prose max-w-none overflow-hidden rounded-lg [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:rounded-lg"
-								dangerouslySetInnerHTML={renderHTMLCustom(fields.leftContent)}
-							/>
+                                className="prose max-w-none overflow-hidden rounded-lg [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:rounded-lg"
+                                dangerouslySetInnerHTML={renderHTMLCustom(fields.leftContent)}
+                                data-agility-field="leftContent"
+                                data-agility-html />
 						)}
 
 						{fields.bulletPoints && (
 							<div
-								className="get-a-demo-bullets mt-6 space-y-4"
-								dangerouslySetInnerHTML={renderHTMLCustom(fields.bulletPoints)}
-							/>
+                                className="get-a-demo-bullets mt-6 space-y-4"
+                                dangerouslySetInnerHTML={renderHTMLCustom(fields.bulletPoints)}
+                                data-agility-field="bulletPoints"
+                                data-agility-html />
 						)}
 					</div>
 
@@ -97,32 +103,36 @@ export const GetADemo = async ({ module, languageCode }: UnloadedModuleProps) =>
 					<div className="flex-1 lg:w-1/2">
 						<div className="rounded-lg bg-white p-8 shadow-lg">
 							{fields.formHeading && (
-								<h2 className="text-balance text-2xl font-medium">{fields.formHeading}</h2>
+								<h2
+                                    className="text-balance text-2xl font-medium"
+                                    data-agility-field="formHeading">{fields.formHeading}</h2>
 							)}
 							{fields.formSubHeading && (
-								<p className="mt-2 text-sm text-gray-600">{fields.formSubHeading}</p>
+								<p
+                                    className="mt-2 text-sm text-gray-600"
+                                    data-agility-field="formSubHeading">{fields.formSubHeading}</p>
 							)}
 							<div className={fields.formHeading ? "mt-6" : ""}>
 								<GetADemoClient
-									hubspotForm={fields.hubspotForm}
-									redirectURL={fields.redirectURL}
-									formDefinition={hubspotFormDefinition}
-								/>
+                                    hubspotForm={fields.hubspotForm}
+                                    redirectURL={fields.redirectURL}
+                                    formDefinition={hubspotFormDefinition}
+                                    data-agility-field="hubspotForm" />
 							</div>
 							{fields.formBottomImage?.url && (
 								<div className="mt-6">
 									<img
-										src={fields.formBottomImage.url}
-										alt={fields.formBottomImage.label || ""}
-										className="max-w-full"
-										loading="lazy"
-									/>
+                                        src={fields.formBottomImage.url}
+                                        alt={fields.formBottomImage.label || ""}
+                                        className="max-w-full"
+                                        loading="lazy"
+                                        data-agility-field="formBottomImage" />
 								</div>
 							)}
 						</div>
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

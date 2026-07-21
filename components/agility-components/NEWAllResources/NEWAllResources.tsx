@@ -110,13 +110,14 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 	}
 
 	return (
-		<>
-			<Container >
+        <>
+            <Container >
 				<div className="mx-auto max-w-7xl">
 					<div
-						dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-						className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
-					></div>
+                        dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+                        className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
+                        data-agility-field="content"
+                        data-agility-html></div>
 
 					<ResourceListingClient
 						{...{
@@ -140,6 +141,6 @@ export const NEWAllResources = async ({ module, languageCode, globalData }: Unlo
 					/>
 				</div>
 			</Container>
-		</>
-	)
+        </>
+    );
 }

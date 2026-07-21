@@ -178,11 +178,13 @@ export const ComparisonTable = async ({ module, languageCode }: UnloadedModulePr
 	}
 
 	return (
-		<Container id={fields.anchorId || `${contentID}`} data-agility-component={contentID} className="bg-[#f8f4ff]">
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={fields.anchorId || `${contentID}`} data-agility-component={contentID} className="bg-[#f8f4ff]">
+            <div className="mx-auto max-w-7xl pb-14">
 				<div className="mb-10 text-center">
 					{fields.label && (
-						<p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-highlight-light/70">
+						<p
+                            className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-highlight-light/70"
+                            data-agility-field="label">
 							{fields.label}
 						</p>
 					)}
@@ -190,22 +192,26 @@ export const ComparisonTable = async ({ module, languageCode }: UnloadedModulePr
 						<h2 className="mb-3 text-balance text-3xl font-extrabold text-primary sm:text-4xl">
 							{fields.heading}{" "}
 							{fields.highlightedText && (
-								<span className="italic text-highlight-light">{fields.highlightedText}</span>
+								<span
+                                    className="italic text-highlight-light"
+                                    data-agility-field="highlightedText">{fields.highlightedText}</span>
 							)}
 						</h2>
 					)}
 					{fields.description && (
-						<p className="mx-auto mb-6 max-w-xl text-gray-500">{fields.description}</p>
+						<p
+                            className="mx-auto mb-6 max-w-xl text-gray-500"
+                            data-agility-field="description">{fields.description}</p>
 					)}
 				</div>
 
 				<ComparisonTableClient
-					platforms={platformList}
-					rows={rows}
-					footnote={fields.footnote}
-					hideLegend={fields.hideLegend == "true"}
-				/>
+                    platforms={platformList}
+                    rows={rows}
+                    footnote={fields.footnote}
+                    hideLegend={fields.hideLegend == "true"}
+                    data-agility-field="footnote" />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

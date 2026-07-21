@@ -36,33 +36,41 @@ export const CTABlocks = async ({ module, languageCode }: UnloadedModuleProps) =
 	const blocks = lstBlocks.items as ContentItem<Block>[]
 
 	return (
-		<Container
+        <Container
 			id={`agility-component-${module.contentid}`}
 			data-agility-component={module.contentid}
 
 		>
-			<div className="mx-auto max-w-7xl">
-				<h2 className="text-center text-5xl font-medium">{fields.heading}</h2>
+            <div className="mx-auto max-w-7xl">
+				<h2 className="text-center text-5xl font-medium" data-agility-field="heading">{fields.heading}</h2>
 				<ThreeDashLine />
-				<h3 className="mt-5 text-center text-xl font-medium">{fields.subHeading}</h3>
+				<h3
+                    className="mt-5 text-center text-xl font-medium"
+                    data-agility-field="subHeading">{fields.subHeading}</h3>
 
 				<div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
 					{blocks.map((block, index) => (
 						<Link
-							href={block.fields.link.href}
-							target={block.fields.link.target}
-							key={block.contentID}
-							className="rounded-lg border border-background/50 bg-white p-5 shadow-md transition-shadow hover:shadow-lg"
-						>
+                            href={block.fields.link.href}
+                            target={block.fields.link.target}
+                            key={block.contentID}
+                            className="rounded-lg border border-background/50 bg-white p-5 shadow-md transition-shadow hover:shadow-lg"
+                            data-agility-component={block.contentID}
+                            data-agility-field="link">
 							{block.fields.image && (
-								<AgilityPic image={block.fields.image} className="h-40 w-full rounded-lg object-contain" />
+								<AgilityPic
+                                    image={block.fields.image}
+                                    className="h-40 w-full rounded-lg object-contain"
+                                    data-agility-field="image" />
 							)}
-							<h4 className="mt-5 text-balance text-center text-xl font-medium">{block.fields.title}</h4>
-							<p className="mt-3 text-balance text-center">{block.fields.subtitle}</p>
+							<h4
+                                className="mt-5 text-balance text-center text-xl font-medium"
+                                data-agility-field="title">{block.fields.title}</h4>
+							<p className="mt-3 text-balance text-center" data-agility-field="subtitle">{block.fields.subtitle}</p>
 						</Link>
 					))}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

@@ -43,44 +43,55 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 	const items = lst.items as ContentItem<PanelContentItem>[]
 
 	return (
-		<Container
+        <Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
 			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
 		>
-			<div className="mx-auto max-w-6xl">
-				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
+            <div className="mx-auto max-w-6xl">
+				<h2 className="text-balance text-center text-5xl" data-agility-field="title">{fields.title}</h2>
 				{fields.description && (
 					<div
-						className="mt-4 text-center text-lg"
-						dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
-					></div>
+                        className="mt-4 text-center text-lg"
+                        dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
+                        data-agility-field="description"
+                        data-agility-html></div>
 				)}
 
 				<div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
 					{items.map((item, index) => (
-						<div key={index} className={clsx("mb-4 p-6", darkMode ? "bg-slate-700" : "")}>
+						<div
+                            key={index}
+                            className={clsx("mb-4 p-6", darkMode ? "bg-slate-700" : "")}
+                            data-agility-component={item.contentID}>
 							{item.fields.graphic && (
 								<div>
 									{item.fields.graphic.url.endsWith(".svg") ? (
 										<img
-											src={item.fields.graphic.url}
-											alt={item.fields.graphic.label}
-											className="w-16"
-											width={item.fields.graphic.width || 64}
-											height={item.fields.graphic.height || 64}
-										/>
+                                            src={item.fields.graphic.url}
+                                            alt={item.fields.graphic.label}
+                                            className="w-16"
+                                            width={item.fields.graphic.width || 64}
+                                            height={item.fields.graphic.height || 64}
+                                            data-agility-field="graphic" />
 									) : (
-										<AgilityPic image={item.fields.graphic} className="w-16" fallbackWidth={63} />
+										<AgilityPic
+                                            image={item.fields.graphic}
+                                            className="w-16"
+                                            fallbackWidth={63}
+                                            data-agility-field="graphic" />
 									)}
 								</div>
 							)}
-							<h3 className="mt-5 text-balance text-xl font-semibold">{item.fields.title}</h3>
+							<h3
+                                className="mt-5 text-balance text-xl font-semibold"
+                                data-agility-field="title">{item.fields.title}</h3>
 							{item.fields.description && (
 								<div
-									className="mt-4"
-									dangerouslySetInnerHTML={renderHTMLCustom(item.fields.description)}
-								></div>
+                                    className="mt-4"
+                                    dangerouslySetInnerHTML={renderHTMLCustom(item.fields.description)}
+                                    data-agility-field="description"
+                                    data-agility-html></div>
 							)}
 						</div>
 					))}
@@ -89,17 +100,17 @@ export const TriplePanelModule = async ({ module, languageCode }: UnloadedModule
 				{fields.cTAButton && fields.cTAButton?.href !== "" && (
 					<div className="mt-14 text-center">
 						<LinkButton
-							href={fields.cTAButton.href}
-							className="flex items-center gap-1"
-							type={darkMode ? "secondary-inverted" : "alternate"}
-							size="md"
-						>
+                            href={fields.cTAButton.href}
+                            className="flex items-center gap-1"
+                            type={darkMode ? "secondary-inverted" : "alternate"}
+                            size="md"
+                            data-agility-field="cTAButton">
 							<span>{fields.cTAButton.text}</span>
 							<IconChevronRight size={18} stroke={2} />
 						</LinkButton>
 					</div>
 				)}
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

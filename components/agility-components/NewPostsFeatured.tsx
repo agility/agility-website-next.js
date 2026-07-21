@@ -68,8 +68,8 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 	const posts = sortByIDs(postsPre, sortIDs)
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
 				<div className="flex w-full flex-col items-center justify-between gap-8 md:flex-row md:flex-wrap md:items-start lg:flex-nowrap">
 					{posts.map((post, index) => (
 						<Link
@@ -97,7 +97,9 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 									></div>
 								)}
 
-								<div className="border-2 border-white p-3 px-4 text-center font-medium text-white">
+								<div
+                                    className="border-2 border-white p-3 px-4 text-center font-medium text-white"
+                                    data-agility-field="readMoreLabel">
 									{fields.readMoreLabel || "Read More"}
 								</div>
 							</div>
@@ -105,6 +107,6 @@ export const NewPostsFeatured = async ({ module, languageCode }: UnloadedModuleP
 					))}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

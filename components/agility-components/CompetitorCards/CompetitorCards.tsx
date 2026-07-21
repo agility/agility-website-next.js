@@ -43,16 +43,18 @@ export const CompetitorCards = async ({ module, languageCode }: UnloadedModulePr
 	const competitors = lstCompetitors.items as ContentItem<ICompetitorCard>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="bg-white">
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID} className="bg-white">
+            <div className="mx-auto max-w-7xl pb-14">
 				<div className="mb-10 max-w-2xl">
 					{fields.heading && (
-						<h2 className="text-balance text-4xl font-bold text-primary lg:text-5xl">
+						<h2
+                            className="text-balance text-4xl font-bold text-primary lg:text-5xl"
+                            data-agility-field="heading">
 							{fields.heading}
 						</h2>
 					)}
 					{fields.description && (
-						<p className="mt-3 text-gray-600">{fields.description}</p>
+						<p className="mt-3 text-gray-600" data-agility-field="description">{fields.description}</p>
 					)}
 				</div>
 
@@ -71,16 +73,18 @@ export const CompetitorCards = async ({ module, languageCode }: UnloadedModulePr
 							<div className="group flex h-full flex-col rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-lg">
 								<div className="mb-3 flex items-center gap-3">
 									<div
-										className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-										style={{ backgroundColor: avatarColor }}
-									>
+                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
+                                        style={{ backgroundColor: avatarColor }}
+                                        data-agility-field="avatarColor">
 										{initial}
 									</div>
-									<h3 className="text-base font-bold text-primary">
+									<h3 className="text-base font-bold text-primary" data-agility-field="title">
 										{comp.fields.title}
 									</h3>
 								</div>
-								<p className="flex-1 text-sm leading-relaxed text-gray-600">
+								<p
+                                    className="flex-1 text-sm leading-relaxed text-gray-600"
+                                    data-agility-field="description">
 									{comp.fields.description}
 								</p>
 								{painPoints.length > 0 && (
@@ -105,16 +109,20 @@ export const CompetitorCards = async ({ module, languageCode }: UnloadedModulePr
 
 						if (comp.fields.link && comp.fields.link.href) {
 							return (
-								<Link key={comp.contentID} href={comp.fields.link.href} target={comp.fields.link.target}>
-									{cardContent}
-								</Link>
-							)
+                                <Link
+                                    key={comp.contentID}
+                                    href={comp.fields.link.href}
+                                    target={comp.fields.link.target}
+                                    data-agility-component={comp.contentID}>
+                                    {cardContent}
+                                </Link>
+                            );
 						}
 
-						return <div key={comp.contentID}>{cardContent}</div>
+						return <div key={comp.contentID} data-agility-component={comp.contentID}>{cardContent}</div>;
 					})}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

@@ -16,8 +16,8 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 	const frameWorkSvgUrl = framework && framework.fields.logo.url.endsWith(".svg") ? framework.fields.logo.url : null
 
 	return (
-		<Container>
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container data-agility-component={dynamicPageItem.contentID}>
+            <div className="mx-auto max-w-7xl pb-14">
 				<div className="gap-5 lg:flex lg:flex-row">
 					<div className="flex-1">
 						<h1 className="text-balance text-5xl font-medium">{starter.name}</h1>
@@ -95,6 +95,6 @@ export const StarterTemplateDetails = async ({ module, languageCode, dynamicPage
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

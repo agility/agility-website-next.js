@@ -37,17 +37,19 @@ export const TrustedByLogos = async ({ module, languageCode }: UnloadedModulePro
 	const logos = lstLogos.items as ContentItem<ITrustedByLogo>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl pb-14">
 				{fields.heading && (
-					<p className="text-center text-sm font-semibold uppercase tracking-widest text-gray-500">
+					<p
+                        className="text-center text-sm font-semibold uppercase tracking-widest text-gray-500"
+                        data-agility-field="heading">
 						{fields.heading}
 					</p>
 				)}
 				<div className="group mt-8 flex flex-wrap items-center justify-center gap-10 lg:gap-16">
 					{logos.map((item) => {
 						const { logo, name, link } = item.fields
-						if (!logo?.url) return <div key={item.contentID} />
+						if (!logo?.url) return <div key={item.contentID} data-agility-component={item.contentID} />;
 
 						let src = logo.url.endsWith(".svg") ? logo.url : `${logo.url}?format=auto&w=300`
 
@@ -63,16 +65,21 @@ export const TrustedByLogos = async ({ module, languageCode }: UnloadedModulePro
 
 						if (link && link.href) {
 							return (
-								<Link key={item.contentID} href={link.href} target={link.target} title={link.text || name}>
-									{imgEl}
-								</Link>
-							)
+                                <Link
+                                    key={item.contentID}
+                                    href={link.href}
+                                    target={link.target}
+                                    title={link.text || name}
+                                    data-agility-component={item.contentID}>
+                                    {imgEl}
+                                </Link>
+                            );
 						}
 
-						return <div key={item.contentID}>{imgEl}</div>
+						return <div key={item.contentID} data-agility-component={item.contentID}>{imgEl}</div>;
 					})}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

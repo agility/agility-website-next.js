@@ -50,13 +50,14 @@ export const TwoPanelFeatureComparison = async ({ module, languageCode }: Unload
 	})
 
 	return (
-		<TwoPanelFeatureComparisonClient
-			{...{
+        <TwoPanelFeatureComparisonClient
+            {...{
 				group1Title: fields.group1Title,
 				group2Title: fields.group2Title,
 				group1Panels: group1Panels.items,
 				group2Panels: group2Panels.items
 			}}
-		/>
-	)
+            data-agility-component={contentID}
+            data-agility-field="group1Title" />
+    );
 }

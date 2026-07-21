@@ -23,5 +23,5 @@ export const TypeFormModule = async ({ module, languageCode }: UnloadedModulePro
 		return null
 	}
 
-	return <TypeFormClient {...fields} />
+	return <TypeFormClient {...fields} data-agility-component={contentID} />;
 }

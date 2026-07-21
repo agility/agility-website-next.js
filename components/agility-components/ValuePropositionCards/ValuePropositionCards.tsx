@@ -59,16 +59,20 @@ export const ValuePropositionCards = async ({ module, languageCode }: UnloadedMo
 	const cards = lstCards.items as ContentItem<IValuePropositionCard>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl pb-14">
 				<div className="mx-auto max-w-3xl text-center">
 					{fields.heading && (
-						<h2 className="text-balance text-4xl font-bold text-primary lg:text-5xl">
+						<h2
+                            className="text-balance text-4xl font-bold text-primary lg:text-5xl"
+                            data-agility-field="heading">
 							{fields.heading}
 						</h2>
 					)}
 					{fields.description && (
-						<p className="mt-4 text-balance text-lg text-gray-600">{fields.description}</p>
+						<p
+                            className="mt-4 text-balance text-lg text-gray-600"
+                            data-agility-field="description">{fields.description}</p>
 					)}
 				</div>
 				<div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -92,16 +96,20 @@ export const ValuePropositionCards = async ({ module, languageCode }: UnloadedMo
 
 						if (link && link.href) {
 							return (
-								<Link key={item.contentID} href={link.href} target={link.target}>
-									{cardContent}
-								</Link>
-							)
+                                <Link
+                                    key={item.contentID}
+                                    href={link.href}
+                                    target={link.target}
+                                    data-agility-component={item.contentID}>
+                                    {cardContent}
+                                </Link>
+                            );
 						}
 
-						return <div key={item.contentID}>{cardContent}</div>
+						return <div key={item.contentID} data-agility-component={item.contentID}>{cardContent}</div>;
 					})}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

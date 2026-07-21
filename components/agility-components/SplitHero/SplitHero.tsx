@@ -37,107 +37,112 @@ export const SplitHero = async ({ module, languageCode }: UnloadedModuleProps) =
 	].filter((w): w is string => !!w && w.trim().length > 0)
 
 	return (
-		<>
-		{/* Hoist preload hints so the hero image starts fetching before the parser
-		    reaches the <picture> element. Each media query mirrors the matching
-		    <picture> source below, so the preloaded file is the one actually used. */}
-		{fields.image && (
-			<>
-				<link
-					rel="preload"
-					as="image"
-					href={preloadUrl(400)}
-					media="(max-width: 639px)"
-					fetchPriority="high"
-				/>
-				<link
-					rel="preload"
-					as="image"
-					href={preloadUrl(500)}
-					media="(min-width: 640px) and (max-width: 767px)"
-					fetchPriority="high"
-				/>
-				<link
-					rel="preload"
-					as="image"
-					href={preloadUrl(600)}
-					media="(min-width: 768px) and (max-width: 1199px)"
-					fetchPriority="high"
-				/>
-				<link
-					rel="preload"
-					as="image"
-					href={preloadUrl(700)}
-					media="(min-width: 1200px)"
-					fetchPriority="high"
-				/>
-			</>
-		)}
-		<Container id={`${contentID}`} data-agility-component={contentID} className="relative overflow-hidden">
-			{/* Subtle purple gradient wash */}
-			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-purple-50/50" />
-			<div className="relative mx-auto flex max-w-7xl flex-col items-center gap-16 pb-14 lg:flex-row">
-				{/* Left: Text Content */}
-				<div className="space-y-8 lg:w-1/2">
-					{cyclingWords.length > 0 && fields.heading ? (
-						<CyclingHeading words={cyclingWords} heading={fields.heading} />
-					) : (
-						fields.heading && (
-							<h1 className="text-balance text-5xl font-extrabold leading-tight tracking-tight text-primary lg:text-7xl">
-								{fields.heading}
-							</h1>
-						)
-					)}
-					{fields.description && (
-						<p className="text-lg text-gray-600 lg:text-xl">{fields.description}</p>
-					)}
-					{(fields.primaryCTA || fields.secondaryCTA) && (
-						<div className="flex flex-col gap-4 sm:flex-row">
-							{fields.primaryCTA && fields.primaryCTA.href && (
-								<LinkButton
-									type="primary"
-									size="lg"
-									href={fields.primaryCTA.href}
-									target={fields.primaryCTA.target}
-									className="rounded-full shadow-xl"
-								>
-									{fields.primaryCTA.text}
-								</LinkButton>
-							)}
-							{fields.secondaryCTA && fields.secondaryCTA.href && (
-								<LinkButton
-									type="secondary"
-									size="lg"
-									href={fields.secondaryCTA.href}
-									target={fields.secondaryCTA.target}
-									className="rounded-full"
-								>
-									{fields.secondaryCTA.text}
-								</LinkButton>
-							)}
-						</div>
-					)}
-				</div>
+        <>
+            {/* Hoist preload hints so the hero image starts fetching before the parser
+                reaches the <picture> element. Each media query mirrors the matching
+                <picture> source below, so the preloaded file is the one actually used. */}
+            {fields.image && (
+                <>
+                    <link
+                        rel="preload"
+                        as="image"
+                        href={preloadUrl(400)}
+                        media="(max-width: 639px)"
+                        fetchPriority="high"
+                    />
+                    <link
+                        rel="preload"
+                        as="image"
+                        href={preloadUrl(500)}
+                        media="(min-width: 640px) and (max-width: 767px)"
+                        fetchPriority="high"
+                    />
+                    <link
+                        rel="preload"
+                        as="image"
+                        href={preloadUrl(600)}
+                        media="(min-width: 768px) and (max-width: 1199px)"
+                        fetchPriority="high"
+                    />
+                    <link
+                        rel="preload"
+                        as="image"
+                        href={preloadUrl(700)}
+                        media="(min-width: 1200px)"
+                        fetchPriority="high"
+                    />
+                </>
+            )}
+            <Container id={`${contentID}`} data-agility-component={contentID} className="relative overflow-hidden">
+                {/* Subtle purple gradient wash */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-purple-50/50" />
+                <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-16 pb-14 lg:flex-row">
+                    {/* Left: Text Content */}
+                    <div className="space-y-8 lg:w-1/2">
+                        {cyclingWords.length > 0 && fields.heading ? (
+                            <CyclingHeading
+                                words={cyclingWords}
+                                heading={fields.heading}
+                                data-agility-field="highlightedHeading" />
+                        ) : (
+                            fields.heading && (
+                                <h1 className="text-balance text-5xl font-extrabold leading-tight tracking-tight text-primary lg:text-7xl">
+                                    {fields.heading}
+                                </h1>
+                            )
+                        )}
+                        {fields.description && (
+                            <p
+                                className="text-lg text-gray-600 lg:text-xl"
+                                data-agility-field="description">{fields.description}</p>
+                        )}
+                        {(fields.primaryCTA || fields.secondaryCTA) && (
+                            <div className="flex flex-col gap-4 sm:flex-row">
+                                {fields.primaryCTA && fields.primaryCTA.href && (
+                                    <LinkButton
+                                        type="primary"
+                                        size="lg"
+                                        href={fields.primaryCTA.href}
+                                        target={fields.primaryCTA.target}
+                                        className="rounded-full shadow-xl"
+                                        data-agility-field="primaryCTA">
+                                        {fields.primaryCTA.text}
+                                    </LinkButton>
+                                )}
+                                {fields.secondaryCTA && fields.secondaryCTA.href && (
+                                    <LinkButton
+                                        type="secondary"
+                                        size="lg"
+                                        href={fields.secondaryCTA.href}
+                                        target={fields.secondaryCTA.target}
+                                        className="rounded-full"
+                                        data-agility-field="secondaryCTA">
+                                        {fields.secondaryCTA.text}
+                                    </LinkButton>
+                                )}
+                            </div>
+                        )}
+                    </div>
 
-				{/* Right: Image */}
-				{fields.image && (
-					<div className="lg:w-1/2">
-						<AgilityPic
-							image={fields.image}
-							className="w-full"
-							fallbackWidth={400}
-							priority
-							sources={[
-								{ media: "(min-width: 1200px)", width: 700 },
-								{ media: "(min-width: 768px)", width: 600 },
-								{ media: "(min-width: 640px)", width: 500 },
-								{ media: "(max-width: 639px)", width: 400 },
-							]}
-						/>
-					</div>
-				)}
-			</div>
-		</Container>
-		</>
-	)
+                    {/* Right: Image */}
+                    {fields.image && (
+                        <div className="lg:w-1/2">
+                            <AgilityPic
+                                image={fields.image}
+                                className="w-full"
+                                fallbackWidth={400}
+                                priority
+                                sources={[
+                                    { media: "(min-width: 1200px)", width: 700 },
+                                    { media: "(min-width: 768px)", width: 600 },
+                                    { media: "(min-width: 640px)", width: 500 },
+                                    { media: "(max-width: 639px)", width: 400 },
+                                ]}
+                                data-agility-field="image" />
+                        </div>
+                    )}
+                </div>
+            </Container>
+        </>
+    );
 }

@@ -61,8 +61,8 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 
 	const partners = data[fields.integrationPartners.referencename] as IIntegration[]
 	return (
-		<div className="bg-background">
-			<Container className="mx-auto max-w-6xl">
+        <div className="bg-background" data-agility-component={contentID}>
+            <Container className="mx-auto max-w-6xl">
 				<div
 					className={clsx(
 						"flex flex-col items-center gap-10",
@@ -70,11 +70,20 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 					)}
 				>
 					<div className="flex w-full flex-col gap-5 lg:w-1/3">
-						<h2 className="text-balance text-4xl">{fields.title}</h2>
-						<div className="prose" dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}></div>
+						<h2 className="text-balance text-4xl" data-agility-field="title">{fields.title}</h2>
+						<div
+                            className="prose"
+                            dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
+                            data-agility-field="description"
+                            data-agility-html></div>
 						{fields.cTA1Optional && (
 							<div>
-								<LinkButton href={fields.cTA1Optional.href} className="mt-4" type="secondary" size="md">
+								<LinkButton
+                                    href={fields.cTA1Optional.href}
+                                    className="mt-4"
+                                    type="secondary"
+                                    size="md"
+                                    data-agility-field="cTA1Optional">
 									{fields.cTA1Optional.text}
 								</LinkButton>
 							</div>
@@ -97,6 +106,6 @@ export const NewIntegrationModule = async ({ module, languageCode }: UnloadedMod
 					</div>
 				</div>
 			</Container>
-		</div>
-	)
+        </div>
+    );
 }

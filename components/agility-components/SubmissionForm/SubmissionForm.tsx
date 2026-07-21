@@ -21,5 +21,5 @@ export const SubmissionForm = async ({ module, languageCode }: UnloadedModulePro
 		return null
 	}
 
-	return <SubmissionFormClient {...fields} />
+	return <SubmissionFormClient {...fields} data-agility-component={contentID} />;
 }
