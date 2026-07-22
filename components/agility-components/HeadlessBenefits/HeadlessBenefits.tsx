@@ -36,26 +36,30 @@ export const HeadlessBenefits = async ({ module, languageCode }: UnloadedModuleP
 	const benefits = (lstBenefits?.items || []) as ContentItem<IHeadlessBenefit>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="relative">
-			{/* Light lavender background wash */}
-			<div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50/80 via-purple-50/40 to-transparent" />
-			<div className="relative mx-auto grid max-w-7xl items-center gap-8 pb-14 lg:grid-cols-2 lg:gap-16">
+        <Container id={`${contentID}`} data-agility-component={contentID} className="relative">
+            {/* Light lavender background wash */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-purple-50/80 via-purple-50/40 to-transparent" />
+            <div className="relative mx-auto grid max-w-7xl items-center gap-8 pb-14 lg:grid-cols-2 lg:gap-16">
 				{/* Left: Illustration */}
 				<div className="flex justify-center">
 					{fields.image && (
 						<>
 							{fields.image.url.endsWith(".svg") ? (
-								<img src={fields.image.url} alt={fields.image.label} className="w-full max-w-md" />
+								<img
+                                    src={fields.image.url}
+                                    alt={fields.image.label}
+                                    className="w-full max-w-md"
+                                    data-agility-field="image" />
 							) : (
 								<AgilityPic
-									image={fields.image}
-									className="w-full max-w-md"
-									fallbackWidth={500}
-									sources={[
+                                    image={fields.image}
+                                    className="w-full max-w-md"
+                                    fallbackWidth={500}
+                                    sources={[
 										{ media: "(min-width: 1200px)", width: 600 },
 										{ media: "(min-width: 768px)", width: 500 },
 									]}
-								/>
+                                    data-agility-field="image" />
 							)}
 						</>
 					)}
@@ -64,7 +68,9 @@ export const HeadlessBenefits = async ({ module, languageCode }: UnloadedModuleP
 				{/* Right: Text + Checklist */}
 				<div>
 					{fields.heading && (
-						<h2 className="text-balance text-3xl font-bold text-primary lg:text-4xl">
+						<h2
+                            className="text-balance text-3xl font-bold text-primary lg:text-4xl"
+                            data-agility-field="heading">
 							{fields.heading}
 						</h2>
 					)}
@@ -83,17 +89,17 @@ export const HeadlessBenefits = async ({ module, languageCode }: UnloadedModuleP
 					{fields.ctaButton && fields.ctaButton.href && (
 						<div className="mt-8">
 							<LinkButton
-								type="primary"
-								size="md"
-								href={fields.ctaButton.href}
-								target={fields.ctaButton.target}
-							>
+                                type="primary"
+                                size="md"
+                                href={fields.ctaButton.href}
+                                target={fields.ctaButton.target}
+                                data-agility-field="ctaButton">
 								{fields.ctaButton.text}
 							</LinkButton>
 						</div>
 					)}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

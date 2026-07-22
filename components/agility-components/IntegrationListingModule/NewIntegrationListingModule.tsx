@@ -80,10 +80,12 @@ const NewIntegrationListingModule = async ({ module, languageCode, globalData }:
 	})
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<NewIntegrationListingModuleClient {...{ data, allTypes, cTATitle, filterLabel, currentIntegration }} />
-		</Container>
-	)
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <NewIntegrationListingModuleClient
+                {...{ data, allTypes, cTATitle, filterLabel, currentIntegration }}
+                data-agility-field="cTATitle" />
+        </Container>
+    );
 }
 
 export default NewIntegrationListingModule

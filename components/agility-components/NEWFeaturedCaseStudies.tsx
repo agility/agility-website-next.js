@@ -66,16 +66,17 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 	const caseStudies = data[refName] as ICaseStudyMini[]
 
 	return (
-		<Container
+        <Container
 			id={`agility-component-${module.contentid}`}
 			data-agility-component={module.contentid}
 
 		>
-			<div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-7xl">
 				<div
-					dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-					className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
-				></div>
+                    dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+                    className="prose-xl mx-auto max-w-5xl text-center prose-h2:my-4 prose-h2:text-balance prose-p:text-balance prose-p:leading-snug"
+                    data-agility-field="content"
+                    data-agility-html></div>
 
 				<div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
 					{caseStudies.map((caseStudy, index) => {
@@ -106,12 +107,16 @@ export const NEWFeaturedCaseStudies = async ({ module, languageCode }: UnloadedM
 				</div>
 				{fields.cTAButton && (
 					<div className="mt-10 text-center">
-						<LinkButton href={fields.cTAButton?.href} type="secondary" size="md">
+						<LinkButton
+                            href={fields.cTAButton?.href}
+                            type="secondary"
+                            size="md"
+                            data-agility-field="cTAButton">
 							{fields.cTAButton?.text}
 						</LinkButton>
 					</div>
 				)}
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

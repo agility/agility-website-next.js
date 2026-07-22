@@ -61,8 +61,8 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 			}) || []
 
 	return (
-		<>
-			<Container >
+        <>
+            <Container >
 				<div className="mx-auto max-w-7xl">
 					<div className="lg:flex lg:flex-row-reverse">
 						<div className="bg-background/60 p-6 lg:w-1/3 lg:bg-white lg:p-0">
@@ -154,33 +154,35 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 					</div>
 				</div>
 			</Container>
-
-			{/* Related Case Studies */}
-			{minCaseStudies.length > 0 && (
+            {/* Related Case Studies */}
+            {minCaseStudies.length > 0 && (
 				<Container id={`${contentID}`} data-agility-component={contentID}>
 					<div className="mx-auto max-w-5xl text-center">
-						<h2 className="text-center text-3xl font-medium">{fields.relatedCaseStudiesHeading}</h2>
+						<h2
+                            className="text-center text-3xl font-medium"
+                            data-agility-field="relatedCaseStudiesHeading">{fields.relatedCaseStudiesHeading}</h2>
 					</div>
 					<CaseStudyRotatorClient
-						{...{ caseStudies: minCaseStudies, cTAbuttonText: fields.relatedCaseStudiesCTALabel }}
-					/>
+                        {...{ caseStudies: minCaseStudies, cTAbuttonText: fields.relatedCaseStudiesCTALabel }}
+                        data-agility-field="relatedCaseStudiesCTALabel" />
 				</Container>
 			)}
-
-			<Container >
+            <Container >
 				<div className="mx-auto max-w-7xl">
 					{/* related resources */}
 					{caseStudy.relatedResources && caseStudy.relatedResources.length > 0 && (
 						<div className="mt-10">
-							<h2 className="text-center text-3xl font-medium">{fields.relatedResourcesHeading}</h2>
+							<h2
+                                className="text-center text-3xl font-medium"
+                                data-agility-field="relatedResourcesHeading">{fields.relatedResourcesHeading}</h2>
 							<div className="mt-6 flex w-full flex-col justify-center gap-6 lg:flex-row">
 								{caseStudy.relatedResources?.map((item) => (
 									<ResourceCard
-										key={item.contentID}
-										languageCode={languageCode}
-										resource={item.fields}
-										ctaLabel={fields.relatedResourcesCTALabel}
-									/>
+                                        key={item.contentID}
+                                        languageCode={languageCode}
+                                        resource={item.fields}
+                                        ctaLabel={fields.relatedResourcesCTALabel}
+                                        data-agility-field="relatedResourcesCTALabel" />
 								))}
 							</div>
 						</div>
@@ -210,6 +212,6 @@ export const CaseStudyDetails = async ({ dynamicPageItem, languageCode, module }
 					</div>
 				</div>
 			</Container>
-		</>
-	)
+        </>
+    );
 }

@@ -42,37 +42,48 @@ export const StarterTemplateListing = async ({ module, languageCode }: UnloadedM
 	const templates = lstTemplates.items as ContentItem<IStarterTemplate>[]
 
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl">
-				<div className="text-center uppercase text-slate-500">{fields.section}</div>
+        <Container data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
+				<div
+                    className="text-center uppercase text-slate-500"
+                    data-agility-field="section">{fields.section}</div>
 
-				<h1 className="mt-10 text-balance text-center text-4xl font-medium">{fields.title}</h1>
-				<p className="mt-5 text-center">{fields.description}</p>
+				<h1
+                    className="mt-10 text-balance text-center text-4xl font-medium"
+                    data-agility-field="title">{fields.title}</h1>
+				<p className="mt-5 text-center" data-agility-field="description">{fields.description}</p>
 
 				<div className="mt-10 grid space-y-3 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
 					{templates.map((template) => (
 						<Link
-							key={template.contentID}
-							href={`/starters/${template.fields.slug}`}
-							className="group flex flex-col shadow-md transition-shadow duration-200 hover:shadow-lg"
-						>
+                            key={template.contentID}
+                            href={`/starters/${template.fields.slug}`}
+                            className="group flex flex-col shadow-md transition-shadow duration-200 hover:shadow-lg"
+                            data-agility-field="slug"
+                            data-agility-nested-listitem={template.contentID}>
 							<div className="relative h-64 overflow-clip">
 								<AgilityPic
-									image={template.fields.image}
-									fallbackWidth={400}
-									className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
-								/>
+                                    image={template.fields.image}
+                                    fallbackWidth={400}
+                                    className="w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                    data-agility-field="image" />
 								<div className="absolute inset-0 flex items-center justify-center bg-highlight-light/60 opacity-0 transition-opacity group-hover:opacity-100">
-									<div className="flex items-center gap-2 bg-white p-3 px-4 font-medium text-highlight-light">
+									<div
+                                        className="flex items-center gap-2 bg-white p-3 px-4 font-medium text-highlight-light"
+                                        data-agility-field="viewDetailsLabel">
 										{fields.viewDetailsLabel}
 										<IconChevronRight size={20} />
 									</div>
 								</div>
 							</div>
 							<div className="flex flex-1 flex-col gap-3 p-5">
-								<h4 className="text-lg font-medium text-highlight-light">{template.fields.name}</h4>
-								<p className="flex-1 text-slate-500">{template.fields.description}</p>
-								<div className="flex items-center gap-3 border-t border-t-background pt-5">
+								<h4
+                                    className="text-lg font-medium text-highlight-light"
+                                    data-agility-field="name">{template.fields.name}</h4>
+								<p className="flex-1 text-slate-500" data-agility-field="description">{template.fields.description}</p>
+								<div
+                                    className="flex items-center gap-3 border-t border-t-background pt-5"
+                                    data-agility-field="frameworks">
 									{template.fields.frameworks.map((framework) => {
 										let imgUrl = `${framework.fields.logo.url}?format=auto&h=50`
 										if (framework.fields.logo.url.endsWith(".svg")) {
@@ -93,6 +104,6 @@ export const StarterTemplateListing = async ({ module, languageCode }: UnloadedM
 					))}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

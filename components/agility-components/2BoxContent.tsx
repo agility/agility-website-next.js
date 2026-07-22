@@ -28,8 +28,10 @@ export const TwoBoxContent = async ({ module, languageCode }: UnloadedModuleProp
 	const darkMode = fields.darkMode === "true"
 
 	return (
-		<div className={clsx(darkMode ? "bg-black" : "bg-white")}>
-			<Container className="relative z-[2] mx-auto -mt-32 max-w-5xl">
+        <div
+            className={clsx(darkMode ? "bg-black" : "bg-white")}
+            data-agility-component={contentID}>
+            <Container className="relative z-[2] mx-auto -mt-32 max-w-5xl">
 				<div className={clsx("flex h-[500px] min-h-0 w-full flex-col justify-center gap-8 lg:flex-row")}>
 					{/* Box 1 */}
 					{fields.image && fields.heading && fields.cTA && fields.description && (
@@ -41,10 +43,10 @@ export const TwoBoxContent = async ({ module, languageCode }: UnloadedModuleProp
 								darkMode ? "bg-slate-800 text-white" : "bg-white"
 							)}
 						>
-							<AgilityPic image={fields.image} className="w-44" />
+							<AgilityPic image={fields.image} className="w-44" data-agility-field="image" />
 
-							<h3 className="text-balance text-4xl">{fields.heading}</h3>
-							<p className="flex-1">{fields.description}</p>
+							<h3 className="text-balance text-4xl" data-agility-field="heading">{fields.heading}</h3>
+							<p className="flex-1" data-agility-field="description">{fields.description}</p>
 							<div className="font-medium text-highlight-light">{fields.cTA.text}</div>
 						</Link>
 					)}
@@ -59,15 +61,18 @@ export const TwoBoxContent = async ({ module, languageCode }: UnloadedModuleProp
 								darkMode ? "bg-slate-800 text-white" : "bg-white"
 							)}
 						>
-							<AgilityPic image={fields.image2} className="w-44 object-contain" />
+							<AgilityPic
+                                image={fields.image2}
+                                className="w-44 object-contain"
+                                data-agility-field="image2" />
 
-							<h3 className="text-balance text-4xl">{fields.heading2}</h3>
-							<p className="flex-1">{fields.description2}</p>
+							<h3 className="text-balance text-4xl" data-agility-field="heading2">{fields.heading2}</h3>
+							<p className="flex-1" data-agility-field="description2">{fields.description2}</p>
 							<div className="font-medium text-highlight-light">{fields.cTA2.text}</div>
 						</Link>
 					)}
 				</div>
 			</Container>
-		</div>
-	)
+        </div>
+    );
 }

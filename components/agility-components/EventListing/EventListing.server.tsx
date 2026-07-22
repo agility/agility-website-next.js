@@ -68,13 +68,17 @@ export const EventListing = async ({ module, languageCode }: UnloadedModuleProps
 	if (events.length === 0) return
 
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl">
-				<h2 className="text-center text-5xl font-medium">{fields.title}</h2>
+        <Container data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
+				<h2 className="text-center text-5xl font-medium" data-agility-field="title">{fields.title}</h2>
 				<ThreeDashLine />
-				<div className="prose prose-lg mx-auto mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.subTitle)}></div>
+				<div
+                    className="prose prose-lg mx-auto mt-5"
+                    dangerouslySetInnerHTML={renderHTMLCustom(fields.subTitle)}
+                    data-agility-field="subTitle"
+                    data-agility-html></div>
 				<EventListingClient {...{ events, locale, getNext, pageSize }} />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

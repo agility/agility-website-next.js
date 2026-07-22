@@ -70,12 +70,12 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 	const hasImage = graphic && !hasVideo
 
 	return (
-		<Container
+        <Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
 			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
 		>
-			<div
+            <div
 				className={clsx(
 					"mx-auto flex max-w-7xl flex-col items-center gap-6",
 					textSide === "left" ? "md:flex-row-reverse" : "md:flex-row",
@@ -91,51 +91,65 @@ const RightORLeftContentModule = async ({ module, languageCode }: UnloadedModule
 							{graphic.url.endsWith(".svg") ? (
 								//don't need to use AgilityPic for SVGs
 								// eslint-disable-next-line @next/next/no-img-element
-								<img src={graphic.url} alt={graphic.label} className="w-full" />
+								(<img
+                                    src={graphic.url}
+                                    alt={graphic.label}
+                                    className="w-full"
+                                    data-agility-field="graphic" />)
 							) : (
 								<AgilityPic
-									image={graphic}
-									className="w-full"
-									fallbackWidth={640}
-									sources={[
+                                    image={graphic}
+                                    className="w-full"
+                                    fallbackWidth={640}
+                                    sources={[
 										//screen at least than 640, it's 1/2 of the screen, so the same size as the prev breakpoint
 										{ media: "(min-width: 1200px)", width: 800 }
 									]}
-								/>
+                                    data-agility-field="graphic" />
 							)}
 						</>
 					)}
 				</div>
 				<div className="flex-1">
-					{breadcrumb && <div className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}>{breadcrumb}</div>}
-					<HeadingTag className="text-balance text-5xl font-medium leading-[1.15]">{title}</HeadingTag>
+					{breadcrumb && <div
+                        className={clsx("mb-2 text-sm font-semibold", darkMode ? "text-gray-400" : "text-gray-600")}
+                        data-agility-field="breadcrumb">{breadcrumb}</div>}
+					<HeadingTag
+                        className="text-balance text-5xl font-medium leading-[1.15]"
+                        data-agility-field="title">{title}</HeadingTag>
 					{description && (
 						<div
-							className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
-							dangerouslySetInnerHTML={renderHTMLCustom(description)}
-						></div>
+                            className={clsx("prose mt-5 max-w-none", darkMode ? "prose-invert" : "")}
+                            dangerouslySetInnerHTML={renderHTMLCustom(description)}
+                            data-agility-field="description"
+                            data-agility-html></div>
 					)}
 					<div className="mt-7 flex gap-2">
 						{cTA1Optional && (
-							<LinkButton type={darkMode ? "primary" : "primary"} href={cTA1Optional.href} target={cTA1Optional.target} size="md">
+							<LinkButton
+                                type={darkMode ? "primary" : "primary"}
+                                href={cTA1Optional.href}
+                                target={cTA1Optional.target}
+                                size="md"
+                                data-agility-field="cTA1Optional">
 								{cTA1Optional.text}
 							</LinkButton>
 						)}
 						{cTA2Optional && cTA2Optional.href !== "" && (
 							<LinkButton
-								type={darkMode ? "primary" : "primary"}
-								href={cTA2Optional.href}
-								target={cTA2Optional.target}
-								size="md"
-							>
+                                type={darkMode ? "primary" : "primary"}
+                                href={cTA2Optional.href}
+                                target={cTA2Optional.target}
+                                size="md"
+                                data-agility-field="cTA2Optional">
 								{cTA2Optional.text}
 							</LinkButton>
 						)}
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default RightORLeftContentModule

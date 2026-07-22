@@ -96,8 +96,8 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 			: partner.website
 
 	return (
-		<Container className="">
-			<div className="mx-auto max-w-7xl">
+        <Container className="" data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
 				<div className="flex flex-col lg:flex-row">
 					<div className="lg:w-2/3">
 						<h2 className="text-3xl font-medium">{heading}</h2>
@@ -210,16 +210,17 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 						{fields.cTAButton && (
 							<div className="mt-14 bg-highlight-light px-6 py-8 text-center">
 								<div
-									className="prose prose-invert"
-									dangerouslySetInnerHTML={renderHTMLCustom(fields.cTAContent)}
-								></div>
+                                    className="prose prose-invert"
+                                    dangerouslySetInnerHTML={renderHTMLCustom(fields.cTAContent)}
+                                    data-agility-field="cTAContent"
+                                    data-agility-html></div>
 								<div className="mt-6">
 									{fields.cTAButton && (
 										<LinkButton
-											type="secondary-inverted"
-											href={fields.cTAButton.href}
-											target={fields.cTAButton.target}
-										>
+                                            type="secondary-inverted"
+                                            href={fields.cTAButton.href}
+                                            target={fields.cTAButton.target}
+                                            data-agility-field="cTAButton">
 											{fields.cTAButton.text}
 										</LinkButton>
 									)}
@@ -251,7 +252,9 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 
 				{otherPartnersFiltered.length > 0 && (
 					<div>
-						<h2 className="mt-14 text-center text-3xl font-medium">{fields.titleMorePartners}</h2>
+						<h2
+                            className="mt-14 text-center text-3xl font-medium"
+                            data-agility-field="titleMorePartners">{fields.titleMorePartners}</h2>
 						<div className="mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row">
 							{otherPartnersFiltered.map((item) => (
 								<div key={item.contentID} className="flex flex-col md:w-[400px] lg:w-[300px] xl:w-[480px]">
@@ -272,16 +275,16 @@ export const PartnerDetails = async ({ languageCode, dynamicPageItem, module }: 
 				<div className="mt-10 text-center">
 					{fields.exploreAllPartners && (
 						<LinkButton
-							size="md"
-							type="secondary"
-							href={fields.exploreAllPartners.href}
-							target={fields.exploreAllPartners.target}
-						>
+                            size="md"
+                            type="secondary"
+                            href={fields.exploreAllPartners.href}
+                            target={fields.exploreAllPartners.target}
+                            data-agility-field="exploreAllPartners">
 							{fields.exploreAllPartners.text}
 						</LinkButton>
 					)}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

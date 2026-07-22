@@ -38,10 +38,12 @@ export const CustomerResults = async ({ module, languageCode }: UnloadedModulePr
 	const results = lstResults.items as ContentItem<ICustomerResult>[]
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="bg-gray-50 border-b border-gray-200">
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID} className="bg-gray-50 border-b border-gray-200">
+            <div className="mx-auto max-w-7xl pb-14">
 				{fields.heading && (
-					<h2 className="text-balance text-center text-sm font-semibold uppercase tracking-widest text-gray-500">
+					<h2
+                        className="text-balance text-center text-sm font-semibold uppercase tracking-widest text-gray-500"
+                        data-agility-field="heading">
 						{fields.heading}
 					</h2>
 				)}
@@ -75,16 +77,20 @@ export const CustomerResults = async ({ module, languageCode }: UnloadedModulePr
 
 						if (link && link.href) {
 							return (
-								<Link key={item.contentID} href={link.href} target={link.target}>
-									{cardContent}
-								</Link>
-							)
+                                <Link
+                                    key={item.contentID}
+                                    href={link.href}
+                                    target={link.target}
+                                    data-agility-nested-listitem={item.contentID}>
+                                    {cardContent}
+                                </Link>
+                            );
 						}
 
-						return <div key={item.contentID}>{cardContent}</div>
+						return <div key={item.contentID} data-agility-nested-listitem={item.contentID}>{cardContent}</div>;
 					})}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

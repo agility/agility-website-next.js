@@ -40,12 +40,16 @@ export const Carousel = async ({ module, languageCode }: UnloadedModuleProps) =>
 	const items: ContentItem<ICarouselItem>[] = lst.items
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl">
-				<h2 className="text-balance text-center text-3xl font-medium">{fields.heading}</h2>
-				<div className="mt-5 text-balance text-center text-xl font-medium">{fields.subheading}</div>
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-5xl">
+				<h2
+                    className="text-balance text-center text-3xl font-medium"
+                    data-agility-field="heading">{fields.heading}</h2>
+				<div
+                    className="mt-5 text-balance text-center text-xl font-medium"
+                    data-agility-field="subheading">{fields.subheading}</div>
 			</div>
-			<CarouselClient {...{ items: items }} />
-		</Container>
-	)
+            <CarouselClient {...{ items: items }} />
+        </Container>
+    );
 }

@@ -44,8 +44,8 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 		? fields.redirectURL.href.replace("##URL##", encodeURIComponent(res.uRL))
 		: undefined
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container >
+            <div className="mx-auto max-w-7xl pb-14">
 				<div className="gap-8 lg:flex lg:flex-row">
 					<div className="flex-1">
 						<time className="text-sm text-gray-500">{dateStr}</time>
@@ -95,7 +95,10 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 
 						{(res.hubspotForm || fields.hubspotForm) && res.gated === "true" && (
 							<div className="mt-6">
-								<DownloadForm hubspotForm={res.hubspotForm || fields.hubspotForm!} redirectURL={downloadRedirectUrl} />
+								<DownloadForm
+                                    hubspotForm={res.hubspotForm || fields.hubspotForm!}
+                                    redirectURL={downloadRedirectUrl}
+                                    data-agility-field="redirectURL" />
 							</div>
 						)}
 
@@ -166,6 +169,6 @@ export const ResourceDetails = async ({ module, languageCode, dynamicPageItem }:
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

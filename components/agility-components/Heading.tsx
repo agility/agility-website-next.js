@@ -14,12 +14,14 @@ const Heading = async ({ module, languageCode }: UnloadedModuleProps) => {
 	})
 
 	return (
-		<div className="relative px-8">
-			<div className="md:mt-18 mx-auto my-12 max-w-7xl lg:mt-20">
-				<h1 className="font-display text-secondary-500 text-4xl font-black tracking-wide">{fields.title}</h1>
+        <div className="relative px-8" data-agility-component={contentID}>
+            <div className="md:mt-18 mx-auto my-12 max-w-7xl lg:mt-20">
+				<h1
+                    className="font-display text-secondary-500 text-4xl font-black tracking-wide"
+                    data-agility-field="title">{fields.title}</h1>
 			</div>
-		</div>
-	)
+        </div>
+    );
 }
 
 export default Heading
