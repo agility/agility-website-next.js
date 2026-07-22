@@ -29,14 +29,18 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 	const darkMode = fields.darkMode === "true"
 
 	return (
-		<Container
+        <Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
 			className={clsx(darkMode ? "bg-gray-900 text-white" : "")}
 		>
-			<div className="mx-auto max-w-5xl pb-14">
-				{title && <h2 className="text-balance text-center text-4xl leading-10 sm:leading-tight">{title}</h2>}
-				{subTitle && <h4 className="mb-10 mt-4 text-balance text-center">{subTitle}</h4>}
+            <div className="mx-auto max-w-5xl pb-14">
+				{title && <h2
+                    className="text-balance text-center text-4xl leading-10 sm:leading-tight"
+                    data-agility-field="title">{title}</h2>}
+				{subTitle && <h4
+                    className="mb-10 mt-4 text-balance text-center"
+                    data-agility-field="subTitle">{subTitle}</h4>}
 
 				<div
 					className={clsx(
@@ -49,20 +53,20 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 						{image.url.endsWith(".svg") ? (
 							//don't need to use AgilityPic for SVGs
 							// eslint-disable-next-line @next/next/no-img-element
-							<img
-								src={image.url}
-								alt={image.label}
-								className="w-full"
-								width={image.width || 600}
-								height={image.height || 400}
-							/>
+							(<img
+                                src={image.url}
+                                alt={image.label}
+                                className="w-full"
+                                width={image.width || 600}
+                                height={image.height || 400}
+                                data-agility-field="image" />)
 						) : (
 							<AgilityPic
-								image={image}
-								className="w-full"
-								fallbackWidth={400}
-								sources={[{ media: "(min-width: 1200px)", width: 600 }]}
-							/>
+                                image={image}
+                                className="w-full"
+                                fallbackWidth={400}
+                                sources={[{ media: "(min-width: 1200px)", width: 600 }]}
+                                data-agility-field="image" />
 						)}
 					</div>
 
@@ -70,23 +74,26 @@ const RightOrLeftSteps = async ({ module, languageCode }: UnloadedModuleProps) =
 						{step && (
 							<div>
 								<span
-									className={clsx(
+                                    className={clsx(
 										"rounded-full px-4 py-1 text-sm font-medium uppercase",
 										darkMode ? "bg-secondary text-black" : "bg-highlight-light text-white"
 									)}
-								>
+                                    data-agility-field="step">
 									{step}
 								</span>
 							</div>
 						)}
-						{heading && <h3 className="mt-5 text-2xl font-medium">{heading}</h3>}
+						{heading && <h3 className="mt-5 text-2xl font-medium" data-agility-field="heading">{heading}</h3>}
 
-						{description && <div dangerouslySetInnerHTML={renderHTMLCustom(description)} />}
+						{description && <div
+                            dangerouslySetInnerHTML={renderHTMLCustom(description)}
+                            data-agility-field="description"
+                            data-agility-html />}
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default RightOrLeftSteps

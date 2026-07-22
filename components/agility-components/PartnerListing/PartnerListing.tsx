@@ -78,8 +78,8 @@ export const PartnerListing = async ({ module, languageCode, globalData }: Unloa
 	}
 
 	return (
-		<PartnerListingClient
-			{...{
+        <PartnerListingClient
+            {...{
 				pageSize,
 				partnerType: fields.partners.referencename.includes("implementation")
 					? "implementation"
@@ -89,6 +89,6 @@ export const PartnerListing = async ({ module, languageCode, globalData }: Unloa
 				firstPage,
 				getNextItems
 			}}
-		/>
-	)
+            data-agility-component={contentID} />
+    );
 }

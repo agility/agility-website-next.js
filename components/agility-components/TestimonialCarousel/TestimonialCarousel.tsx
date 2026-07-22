@@ -54,18 +54,22 @@ export const TestimonialCarousel = async ({ module, languageCode }: UnloadedModu
 	}))
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID} className="bg-purple-100/80">
-			<div className="mx-auto max-w-7xl pb-14">
+        <Container id={`${contentID}`} data-agility-component={contentID} className="bg-purple-100/80">
+            <div className="mx-auto max-w-7xl pb-14">
 				{/* Section Label + Heading + hint */}
 				<div className="flex items-start justify-between">
 					<div>
 						{fields.sectionLabel && (
-							<p className="text-sm font-semibold uppercase tracking-widest text-purple-400">
+							<p
+                                className="text-sm font-semibold uppercase tracking-widest text-purple-400"
+                                data-agility-field="sectionLabel">
 								{fields.sectionLabel}
 							</p>
 						)}
 						{fields.heading && (
-							<h2 className="mt-3 text-balance text-4xl font-bold text-primary lg:text-5xl">
+							<h2
+                                className="mt-3 text-balance text-4xl font-bold text-primary lg:text-5xl"
+                                data-agility-field="heading">
 								{fields.heading}
 							</h2>
 						)}
@@ -78,14 +82,14 @@ export const TestimonialCarousel = async ({ module, languageCode }: UnloadedModu
 
 				{/* Carousel (client) — lavender theme */}
 				<TestimonialCarouselClient
-					items={items}
-					ctaButton={
+                    items={items}
+                    ctaButton={
 						fields.ctaButton
 							? { href: fields.ctaButton.href, target: fields.ctaButton.target, text: fields.ctaButton.text }
 							: undefined
 					}
-				/>
+                    data-agility-field="ctaButton" />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

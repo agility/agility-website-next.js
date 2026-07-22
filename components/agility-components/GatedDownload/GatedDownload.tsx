@@ -19,16 +19,25 @@ export const GatedDownload = async ({ module, languageCode }: UnloadedModuleProp
 	})
 
 	return (
-		<Container className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
-			<div className="lg:w-1/2">
-				<h2 className="text-balance text-4xl font-medium">{fields.leftColumnTitle}</h2>
-				<div className="prose mt-10" dangerouslySetInnerHTML={renderHTMLCustom(fields.leftColumnBody)}></div>
+        <Container className="mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row">
+            <div className="lg:w-1/2">
+				<h2
+                    className="text-balance text-4xl font-medium"
+                    data-agility-field="leftColumnTitle">{fields.leftColumnTitle}</h2>
+				<div
+                    className="prose mt-10"
+                    dangerouslySetInnerHTML={renderHTMLCustom(fields.leftColumnBody)}
+                    data-agility-field="leftColumnBody"
+                    data-agility-html></div>
 			</div>
-			<div className="lg:w-1/2">
+            <div className="lg:w-1/2">
 				<div className="border-t-4 border-t-highlight-light p-6 shadow-lg">
-					<GatedDownloadClient redirectURL={fields.redirectURL.href} hubspotForm={fields.hubspotForm} />
+					<GatedDownloadClient
+                        redirectURL={fields.redirectURL.href}
+                        hubspotForm={fields.hubspotForm}
+                        data-agility-field="redirectURL" />
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

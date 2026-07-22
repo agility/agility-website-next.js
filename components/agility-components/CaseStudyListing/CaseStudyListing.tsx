@@ -116,8 +116,8 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 	}
 
 	return (
-		<CaseStudyListingClient
-			{...{
+        <CaseStudyListingClient
+            {...{
 				caseCount,
 				getNextItems,
 				industryQStr,
@@ -136,6 +136,6 @@ export const CaseStudyListing = async ({ module, languageCode, globalData }: Unl
 						value: c.contentID
 					})) || []
 			}}
-		/>
-	)
+            data-agility-component={contentID} />
+    );
 }

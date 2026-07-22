@@ -22,17 +22,17 @@ export const G2CrowdReviewListing = async ({ module, languageCode }: UnloadedMod
 	const { heading } = fields
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl text-center">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-5xl text-center">
 				{heading && (
 					<>
-						<h1 className="text-balance text-5xl">{heading}</h1>
+						<h1 className="text-balance text-5xl" data-agility-field="heading">{heading}</h1>
 						<ThreeDashLine />
 					</>
 				)}
 
 				<G2CrowdReviewListingClient {...fields} />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

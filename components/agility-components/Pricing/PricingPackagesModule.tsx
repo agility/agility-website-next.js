@@ -183,11 +183,9 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 	const topSectionIDStr = `${contentID}-top`
 
 	return (
-		<>
-
-
-			<PricingPackagesModuleClient
-				{...{
+        <>
+            <PricingPackagesModuleClient
+                {...{
 					headerIDstr,
 					topSectionIDStr,
 					comparePackagesTitle: fields.comparePackagesTitle,
@@ -196,7 +194,8 @@ export const PricingPackagesModule = async ({ module, languageCode }: UnloadedMo
 					pricingPackages: data.pricingpackages,
 					featuresListing: data.packagefeaturevalues
 				}}
-			/>
-		</>
-	)
+                data-agility-component={contentID}
+                data-agility-field="comparePackagesTitle" />
+        </>
+    );
 }

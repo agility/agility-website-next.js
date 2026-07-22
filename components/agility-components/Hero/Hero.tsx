@@ -25,57 +25,61 @@ export const Hero = async ({ module, languageCode }: UnloadedModuleProps) => {
 	})
 
 	return (
-		<>
-		{fields.mediaType === "image" && fields.image && (
-			<link
-				rel="preload"
-				as="image"
-				imageSrcSet={`${fields.image.url}?format=auto&w=400 400w, ${fields.image.url}?format=auto&w=480 480w, ${fields.image.url}?format=auto&w=800 800w, ${fields.image.url}?format=auto&w=960 960w`}
-				imageSizes="(min-width: 640px) 480px, 400px"
-				fetchPriority="high"
-			/>
-		)}
-		<Container className="text-balance text-center">
-			<div className="mx-auto max-w-7xl">
-				{fields.mediaType === "video" && fields.videoURL && (
-					<div className="mb-10 flex w-full justify-center">
-						<HeroVideo videoURL={fields.videoURL} />
-					</div>
-				)}
+        <>
+            {fields.mediaType === "image" && fields.image && (
+                <link
+                    rel="preload"
+                    as="image"
+                    imageSrcSet={`${fields.image.url}?format=auto&w=400 400w, ${fields.image.url}?format=auto&w=480 480w, ${fields.image.url}?format=auto&w=800 800w, ${fields.image.url}?format=auto&w=960 960w`}
+                    imageSizes="(min-width: 640px) 480px, 400px"
+                    fetchPriority="high"
+                />
+            )}
+            <Container className="text-balance text-center" data-agility-component={contentID}>
+                <div className="mx-auto max-w-7xl">
+                    {fields.mediaType === "video" && fields.videoURL && (
+                        <div className="mb-10 flex w-full justify-center">
+                            <HeroVideo videoURL={fields.videoURL} data-agility-field="videoURL" />
+                        </div>
+                    )}
 
-				{fields.mediaType === "image" && fields.image && (
-					<div className="mb-10 flex w-full justify-center">
-						<AgilityPic
-							image={fields.image}
-							fallbackWidth={400}
-							priority
-							sources={[
-								{ media: "(min-width: 640px) and (min-resolution: 2x)", width: 960 },
-								{ media: "(min-width: 640px)", width: 480 },
-								{ media: "(min-resolution: 2x)", width: 800 },
-							]}
-						/>
-					</div>
-				)}
+                    {fields.mediaType === "image" && fields.image && (
+                        <div className="mb-10 flex w-full justify-center">
+                            <AgilityPic
+                                image={fields.image}
+                                fallbackWidth={400}
+                                priority
+                                sources={[
+                                    { media: "(min-width: 640px) and (min-resolution: 2x)", width: 960 },
+                                    { media: "(min-width: 640px)", width: 480 },
+                                    { media: "(min-resolution: 2x)", width: 800 },
+                                ]}
+                            />
+                        </div>
+                    )}
 
-				{fields.mediaType === "animation" && fields.animation && <HeroAnimation animation={fields.animation} />}
+                    {fields.mediaType === "animation" && fields.animation && <HeroAnimation animation={fields.animation} data-agility-field="animation" />}
 
-				{fields.heading && <h1 className="text-6xl font-black text-highlight-light">{fields.heading}</h1>}
-				{fields.subHeading && <h2 className="mt-2 text-5xl font-bold text-black">{fields.subHeading}</h2>}
-				{fields.content && <p className="mt-3">{fields.content}</p>}
-				{fields.cTA && (
-					<LinkButton
-						type="alternate"
-						size="md"
-						href={fields.cTA.href}
-						target={fields.cTA.target}
-						className="mt-5"
-					>
-						{fields.cTA.text}
-					</LinkButton>
-				)}
-			</div>
-		</Container>
-		</>
-	)
+                    {fields.heading && <h1
+                        className="text-6xl font-black text-highlight-light"
+                        data-agility-field="heading">{fields.heading}</h1>}
+                    {fields.subHeading && <h2
+                        className="mt-2 text-5xl font-bold text-black"
+                        data-agility-field="subHeading">{fields.subHeading}</h2>}
+                    {fields.content && <p className="mt-3" data-agility-field="content">{fields.content}</p>}
+                    {fields.cTA && (
+                        <LinkButton
+                            type="alternate"
+                            size="md"
+                            href={fields.cTA.href}
+                            target={fields.cTA.target}
+                            className="mt-5"
+                            data-agility-field="cTA">
+                            {fields.cTA.text}
+                        </LinkButton>
+                    )}
+                </div>
+            </Container>
+        </>
+    );
 }

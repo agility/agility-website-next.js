@@ -87,15 +87,18 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 	const resources = data["resources"] as IMiniResource[]
 
 	return (
-		<div className="bg-gradient-to-b from-background/40 to-white">
-			<Container className="mx-auto flex max-w-7xl flex-col">
+        <div
+            className="bg-gradient-to-b from-background/40 to-white"
+            data-agility-component={contentID}>
+            <Container className="mx-auto flex max-w-7xl flex-col">
 				<div className="flex w-full justify-center">
 					<div
-						className={clsx(
+                        className={clsx(
 							"prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-balance prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
 						)}
-						dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-					/>
+                        dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+                        data-agility-field="content"
+                        data-agility-html />
 				</div>
 
 				<div className="mt-8 flex w-full flex-col items-center justify-center gap-6 lg:flex-row lg:items-start">
@@ -129,11 +132,15 @@ export const NEWWebinarDownload = async ({ module, languageCode }: UnloadedModul
 					})}
 				</div>
 				<div className="mt-8 flex justify-center">
-					<LinkButton type="secondary" size="md" href={fields.cTAButton?.href}>
+					<LinkButton
+                        type="secondary"
+                        size="md"
+                        href={fields.cTAButton?.href}
+                        data-agility-field="cTAButton">
 						{fields.cTAButton?.text}
 					</LinkButton>
 				</div>
 			</Container>
-		</div>
-	)
+        </div>
+    );
 }

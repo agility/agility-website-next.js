@@ -117,9 +117,9 @@ const TopFeaturedResources = async ({ module, languageCode }: UnloadedModuleProp
 	const title = fields.title || "Featured"
 
 	return (
-		<Container id={`agility-component-${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl text-center">
-				<h2 className="text-balance text-5xl font-medium">{title}</h2>
+        <Container id={`agility-component-${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl text-center">
+				<h2 className="text-balance text-5xl font-medium" data-agility-field="title">{title}</h2>
 				<ThreeDashLine />
 
 				<div className="relative mt-10">
@@ -195,8 +195,8 @@ const TopFeaturedResources = async ({ module, languageCode }: UnloadedModuleProp
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default TopFeaturedResources

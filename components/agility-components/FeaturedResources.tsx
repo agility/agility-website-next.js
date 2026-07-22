@@ -42,8 +42,8 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 	if (!lstResources || lstResources.length === 0) return null
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl text-center">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-5xl text-center" data-agility-field="title">
 				{title && <h2 className="text-balance text-5xl">{title}</h2>}
 				<ThreeDashLine />
 
@@ -89,8 +89,8 @@ const FeaturedResources = async ({ module, languageCode }: UnloadedModuleProps) 
 						})}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default FeaturedResources

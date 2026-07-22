@@ -20,8 +20,8 @@ export const PodcastContentPanel = async ({ module, languageCode }: UnloadedModu
 	})
 
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl">
+        <Container data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
 				<div
 					className={clsx(
 						"flex flex-col items-center gap-8 lg:flex-row lg:items-start",
@@ -29,17 +29,27 @@ export const PodcastContentPanel = async ({ module, languageCode }: UnloadedModu
 					)}
 				>
 					<div>
-						{fields.image && <AgilityPic image={fields.image} fallbackWidth={640} className="" />}
+						{fields.image && <AgilityPic
+                            image={fields.image}
+                            fallbackWidth={640}
+                            className=""
+                            data-agility-field="image" />}
 						{fields.podcastEmbedCode && (
-							<div dangerouslySetInnerHTML={{ __html: fields.podcastEmbedCode }}></div>
+							<div
+                                dangerouslySetInnerHTML={{ __html: fields.podcastEmbedCode }}
+                                data-agility-field="podcastEmbedCode"></div>
 						)}
 					</div>
 					<div>
-						<h1 className="text-balance text-4xl font-medium">{fields.title}</h1>
-						<div className="prose mt-5" dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)} />
+						<h1 className="text-balance text-4xl font-medium" data-agility-field="title">{fields.title}</h1>
+						<div
+                            className="prose mt-5"
+                            dangerouslySetInnerHTML={renderHTMLCustom(fields.textblob)}
+                            data-agility-field="textblob"
+                            data-agility-html />
 					</div>
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

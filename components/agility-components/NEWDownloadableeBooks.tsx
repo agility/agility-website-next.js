@@ -86,14 +86,15 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 	const resources = data["resources"] as IMiniResource[]
 
 	return (
-		<div className="py-14">
-			<div className="bg-linear-to-b from-background/40 to-white">
+        <div className="py-14" data-agility-component={contentID}>
+            <div className="bg-linear-to-b from-background/40 to-white">
 				<Container className="mx-auto flex max-w-7xl flex-col">
 					<div className="flex w-full justify-center">
 						<div
-							className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
-							dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
-						/>
+                            className="prose w-full max-w-7xl lg:prose-xl prose-h2:mb-4 prose-h2:text-center prose-h2:font-medium prose-h2:leading-tight prose-p:text-center prose-p:leading-tight"
+                            dangerouslySetInnerHTML={renderHTMLCustom(fields.content)}
+                            data-agility-field="content"
+                            data-agility-html />
 					</div>
 
 					<div className="mt-8 flex w-full flex-col items-center justify-center gap-6 lg:flex-row lg:items-start">
@@ -135,12 +136,16 @@ export const NEWDownloadableeBooks = async ({ module, languageCode }: UnloadedMo
 						})}
 					</div>
 					<div className="mt-8 flex justify-center">
-						<LinkButton type="secondary" size="md" href={fields.cTAButton?.href}>
+						<LinkButton
+                            type="secondary"
+                            size="md"
+                            href={fields.cTAButton?.href}
+                            data-agility-field="cTAButton">
 							{fields.cTAButton?.text}
 						</LinkButton>
 					</div>
 				</Container>
 			</div>
-		</div>
-	)
+        </div>
+    );
 }

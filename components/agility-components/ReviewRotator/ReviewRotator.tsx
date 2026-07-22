@@ -32,17 +32,17 @@ export const ReviewRotator = async ({ module, languageCode }: UnloadedModuleProp
 	})
 
 	return (
-		<Container >
-			<div className="mx-auto max-w-7xl">
-				{fields.title && <h2 className="text-center text-4xl font-medium">{fields.title}</h2>}
+        <Container >
+            <div className="mx-auto max-w-7xl">
+				{fields.title && <h2 className="text-center text-4xl font-medium" data-agility-field="title">{fields.title}</h2>}
 				<ReviewRotatorClient
-					{...{
+                    {...{
 						reviews: lstReviews.items,
 						collapseReviewText: fields.collapseReviewText,
 						expandReviewText: fields.expandReviewText
 					}}
-				/>
+                    data-agility-field="collapseReviewText" />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }

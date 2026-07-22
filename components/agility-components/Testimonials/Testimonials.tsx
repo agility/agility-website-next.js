@@ -51,12 +51,12 @@ export const Testimonials = async ({ module, languageCode }: UnloadedModuleProps
 	const items: ContentItem<ITestimonial>[] = lst.items
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl text-center">
-				{header && <h2 className="text-balance text-4xl">{header}</h2>}
-				{subHeading && <p className="mt-4 text-balance text-lg">{subHeading}</p>}
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-5xl text-center">
+				{header && <h2 className="text-balance text-4xl" data-agility-field="header">{header}</h2>}
+				{subHeading && <p className="mt-4 text-balance text-lg" data-agility-field="subHeading">{subHeading}</p>}
 			</div>
-			<TestimonialsClient {...{ items: items }} />
-		</Container>
-	)
+            <TestimonialsClient {...{ items: items }} />
+        </Container>
+    );
 }

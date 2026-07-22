@@ -39,20 +39,22 @@ export const LogoListing = async ({ module, languageCode }: UnloadedModuleProps)
 	const lst: ContentItem<LogoItem>[] = shuffle(sampleSize(lstLogos.items, logoCount || 6))
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-7xl">
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-7xl">
 				<div className="flex justify-center">
 					{heading && (
 						<div className="mb-5">
-							<h2 className="mb-3 text-balance text-5xl font-medium leading-10 sm:leading-tight">
+							<h2
+                                className="mb-3 text-balance text-5xl font-medium leading-10 sm:leading-tight"
+                                data-agility-field="heading">
 								{heading}
 							</h2>
 							<ThreeDashLine />
 						</div>
 					)}
 				</div>
-				<LogoListingClient logos={lst.map((l) => l.fields)} />
+				<LogoListingClient logos={lst.map((l) => l.fields)} data-agility-field="logos" />
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
