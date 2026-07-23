@@ -39,34 +39,33 @@ export const VerticalContentPanelServer = async ({ module, languageCode }: Unloa
 	const panels = resPanels.items as ContentItem<VerticalPanel>[]
 
 	return (
-		<div id={`${contentID}`} data-agility-component={contentID} className="px-1 sm:px-8 pt-14">
-			<div className="mx-auto max-w-5xl text-center">
-				{title && <h1 className="text-balance text-4xl">{title}</h1>}
+        <div id={`${contentID}`} data-agility-component={contentID} className="px-1 sm:px-8 pt-14">
+            <div className="mx-auto max-w-5xl text-center">
+				{title && <h1 className="text-balance text-4xl" data-agility-field="title">{title}</h1>}
 				{description && (
 					<div
-						className="vertical-content-panel-desc mt-3 text-xl"
-						dangerouslySetInnerHTML={renderHTMLCustom(description)}
-					/>
+                        className="vertical-content-panel-desc mt-3 text-xl"
+                        dangerouslySetInnerHTML={renderHTMLCustom(description)}
+                        data-agility-field="description"
+                        data-agility-html />
 				)}
 			</div>
-
-			<div className="mx-auto mt-14 max-w-7xl">
+            <div className="mx-auto mt-14 max-w-7xl">
 				{fields.cardStyle === "true" ? (
 					<CardStylePanel
-						contentID={contentID}
-						textSide={textSide}
-						darkMode={fields.darkMode === "true"}
-						panels={panels.map((p) => p.fields)}
-					/>
+                        contentID={contentID}
+                        textSide={textSide}
+                        darkMode={fields.darkMode === "true"}
+                        panels={panels.map((p) => p.fields)}
+                        data-agility-field="textSide" />
 				) : (
 					<VerticleStylePanel
-						contentID={contentID}
-						textSide={textSide}
-
-						panels={panels.map((p) => p.fields)}
-					/>
+                        contentID={contentID}
+                        textSide={textSide}
+                        panels={panels.map((p) => p.fields)}
+                        data-agility-field="textSide" />
 				)}
 			</div>
-		</div>
-	)
+        </div>
+    );
 }

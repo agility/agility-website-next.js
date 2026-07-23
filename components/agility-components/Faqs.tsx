@@ -38,19 +38,25 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 	const faqs = lstFaqs.items as ContentItem<Faq>[]
 
 	return (
-		<div className="bg-background/60 pb-14">
-			<Container className="mx-auto max-w-5xl">
+        <div className="bg-background/60 pb-14" data-agility-component={contentID}>
+            <Container className="mx-auto max-w-5xl">
 				{fields.label && (
-					<p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-primary/70">
+					<p
+                        className="mb-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-primary/70"
+                        data-agility-field="label">
 						{fields.label}
 					</p>
 				)}
-				<h2 className="text-balance text-center text-5xl">{fields.title}</h2>
+				<h2 className="text-balance text-center text-5xl" data-agility-field="title">{fields.title}</h2>
 				<dl className="mt-8">
 					{faqs.map((faq) => {
 						return (
-							<>
-								<Disclosure as="div" key={faq.contentID} className="group">
+                            <>
+                                <Disclosure
+                                    as="div"
+                                    key={faq.contentID}
+                                    className="group"
+                                    data-agility-nested-listitem={faq.contentID}>
 									<DisclosureButton className={clsx("w-full text-left flex gap-2 items-center hover:text-highlight-light transition-colors")}>
 										<div className="">
 											<IconChevronRight
@@ -58,7 +64,7 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 												className="h-5 w-5 transition-transform duration-300 ease-in-out group-data-[open]:rotate-90"
 											/>
 										</div>
-										<dt className="text-lg font-medium ">
+										<dt className="text-lg font-medium " data-agility-field="question">
 											{faq.fields.question}
 										</dt>
 									</DisclosureButton>
@@ -68,17 +74,18 @@ export const Faqs = async ({ module, languageCode }: UnloadedModuleProps) => {
 											className="origin-top transition duration-200 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
 										>
 											<dd
-												className="prose max-w-full pb-6 ml-9"
-												dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
-											></dd>
+                                                className="prose max-w-full pb-6 ml-9"
+                                                dangerouslySetInnerHTML={renderHTMLCustom(faq.fields.answer)}
+                                                data-agility-field="answer"
+                                                data-agility-html></dd>
 										</DisclosurePanel>
 									</div>
 								</Disclosure>
-							</>
-						)
+                            </>
+                        );
 					})}
 				</dl>
 			</Container>
-		</div>
-	)
+        </div>
+    );
 }

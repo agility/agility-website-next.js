@@ -31,35 +31,48 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 	})
 
 	return (
-		<Container
+        <Container
 			id={`${contentID}`}
 			data-agility-component={contentID}
 			className="bg-gradient-to-b from-background/60 to-white/0"
 		>
-			<div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
-				<h2 className="text-balance text-center text-5xl font-medium">{fields.title}</h2>
+            <div className="md:mt-18 mx-auto my-12 max-w-5xl lg:mt-20">
+				<h2
+                    className="text-balance text-center text-5xl font-medium"
+                    data-agility-field="title">{fields.title}</h2>
 				{fields.description && (
 					<div
-						className="prose mt-5 max-w-none text-balance text-center"
-						dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
-					></div>
+                        className="prose mt-5 max-w-none text-balance text-center"
+                        dangerouslySetInnerHTML={renderHTMLCustom(fields.description)}
+                        data-agility-field="description"
+                        data-agility-html></div>
 				)}
 
 				<div className="place-items-centerX mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
 					{fields.panel1Graphic && fields.panel1Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel1Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel1Graphic.url} alt={fields.panel1Graphic.label} className="w-16" width="64" height="64" />
+								<img
+                                    src={fields.panel1Graphic.url}
+                                    alt={fields.panel1Graphic.label}
+                                    className="w-16"
+                                    width="64"
+                                    height="64"
+                                    data-agility-field="panel1Graphic" />
 							) : (
-								<AgilityPic image={fields.panel1Graphic} className="w-16" fallbackWidth={64} />
+								<AgilityPic
+                                    image={fields.panel1Graphic}
+                                    className="w-16"
+                                    fallbackWidth={64}
+                                    data-agility-field="panel1Graphic" />
 							)}
-							<h3 className="text-lg font-medium">{fields.panel1Title}</h3>
+							<h3 className="text-lg font-medium" data-agility-field="panel1Title">{fields.panel1Title}</h3>
 							{fields.panel1CheckedContent && (
 								<div className="flex items-start gap-3">
 									<div>
 										<IconCheck stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel1CheckedContent}</p>
+									<p data-agility-field="panel1CheckedContent">{fields.panel1CheckedContent}</p>
 								</div>
 							)}
 							{fields.panel1UncheckedContent && (
@@ -67,7 +80,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel1UncheckedContent}</p>
+									<p data-agility-field="panel1UncheckedContent">{fields.panel1UncheckedContent}</p>
 								</div>
 							)}
 						</div>
@@ -75,17 +88,27 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel2Graphic && fields.panel2Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel2Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel2Graphic.url} alt={fields.panel2Graphic.label} className="w-16" width="64" height="64" />
+								<img
+                                    src={fields.panel2Graphic.url}
+                                    alt={fields.panel2Graphic.label}
+                                    className="w-16"
+                                    width="64"
+                                    height="64"
+                                    data-agility-field="panel2Graphic" />
 							) : (
-								<AgilityPic image={fields.panel2Graphic} className="w-16" fallbackWidth={64} />
+								<AgilityPic
+                                    image={fields.panel2Graphic}
+                                    className="w-16"
+                                    fallbackWidth={64}
+                                    data-agility-field="panel2Graphic" />
 							)}
-							<h3 className="text-lg font-medium">{fields.panel2Title}</h3>
+							<h3 className="text-lg font-medium" data-agility-field="panel2Title">{fields.panel2Title}</h3>
 							{fields.panel2CheckedContent && (
 								<div className="flex items-start gap-3">
 									<div>
 										<IconCheck stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel2CheckedContent}</p>
+									<p data-agility-field="panel2CheckedContent">{fields.panel2CheckedContent}</p>
 								</div>
 							)}
 							{fields.panel2UncheckedContent && (
@@ -93,7 +116,7 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel2UncheckedContent}</p>
+									<p data-agility-field="panel2UncheckedContent">{fields.panel2UncheckedContent}</p>
 								</div>
 							)}
 						</div>
@@ -101,17 +124,27 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 					{fields.panel3Graphic && fields.panel3Title && (
 						<div className="flex flex-col gap-4">
 							{fields.panel3Graphic.url.endsWith(".svg") ? (
-								<img src={fields.panel3Graphic.url} alt={fields.panel3Graphic.label} className="w-16" width="64" height="64" />
+								<img
+                                    src={fields.panel3Graphic.url}
+                                    alt={fields.panel3Graphic.label}
+                                    className="w-16"
+                                    width="64"
+                                    height="64"
+                                    data-agility-field="panel3Graphic" />
 							) : (
-								<AgilityPic image={fields.panel3Graphic} className="w-16" fallbackWidth={64} />
+								<AgilityPic
+                                    image={fields.panel3Graphic}
+                                    className="w-16"
+                                    fallbackWidth={64}
+                                    data-agility-field="panel3Graphic" />
 							)}
-							<h3 className="text-lg font-medium">{fields.panel3Title}</h3>
+							<h3 className="text-lg font-medium" data-agility-field="panel3Title">{fields.panel3Title}</h3>
 							{fields.panel3CheckedContent && (
 								<div className="flex items-start gap-3">
 									<div>
 										<IconCheck stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel3CheckedContent}</p>
+									<p data-agility-field="panel3CheckedContent">{fields.panel3CheckedContent}</p>
 								</div>
 							)}
 							{fields.panel3UncheckedContent && (
@@ -119,15 +152,15 @@ const TriplePanelComparisonModule = async ({ module, languageCode }: UnloadedMod
 									<div>
 										<IconX stroke={2} className="w-6" />
 									</div>
-									<p>{fields.panel3UncheckedContent}</p>
+									<p data-agility-field="panel3UncheckedContent">{fields.panel3UncheckedContent}</p>
 								</div>
 							)}
 						</div>
 					)}
 				</div>
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default TriplePanelComparisonModule

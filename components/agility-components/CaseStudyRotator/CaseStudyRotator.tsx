@@ -72,13 +72,15 @@ const CaseStudyRotator = async ({ module, languageCode }: UnloadedModuleProps) =
 		})
 
 	return (
-		<Container id={`${contentID}`} data-agility-component={contentID}>
-			<div className="mx-auto max-w-5xl text-center">
-				{title && <h2 className="text-balance text-4xl">{title}</h2>}
+        <Container id={`${contentID}`} data-agility-component={contentID}>
+            <div className="mx-auto max-w-5xl text-center">
+				{title && <h2 className="text-balance text-4xl" data-agility-field="title">{title}</h2>}
 			</div>
-			<CaseStudyRotatorClient {...{ caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }} />
-		</Container>
-	)
+            <CaseStudyRotatorClient
+                {...{ caseStudies: minCaseStudies, cTAbuttonText: fields.cTAbuttonText }}
+                data-agility-field="cTAbuttonText" />
+        </Container>
+    );
 }
 
 export default CaseStudyRotator

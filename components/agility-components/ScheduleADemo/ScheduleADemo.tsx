@@ -16,28 +16,31 @@ export const ScheduleADemo = async ({ module, languageCode }: UnloadedModuleProp
 	})
 
 	return (
-		<div
-			id="scheduler-page"
-			className="bg-background/40"
-			style={{
+        <div
+            id="scheduler-page"
+            className="bg-background/40"
+            style={{
 				backgroundImage: "url(/images/icon-agility.svg)",
 				backgroundRepeat: "no-repeat",
 				backgroundPosition: "left bottom"
 			}}
-		>
-			<Container className="mx-auto my-12 flex max-w-7xl">
+            data-agility-component={contentID}>
+            <Container className="mx-auto my-12 flex max-w-7xl">
 				<div className="my-8 flex w-full flex-col gap-5 lg:flex-row">
 					<div className="lg:w-2/5">
 						<div
-							className="prose lg:prose-lg"
-							dangerouslySetInnerHTML={renderHTMLCustom(fields.leftPanelContent)}
-						></div>
+                            className="prose lg:prose-lg"
+                            dangerouslySetInnerHTML={renderHTMLCustom(fields.leftPanelContent)}
+                            data-agility-field="leftPanelContent"
+                            data-agility-html></div>
 					</div>
 					<div className="lg:w-3/5">
-						<ScheduleADemoClient schedulerIFrameURL={fields.schedulerIFrameURL} />
+						<ScheduleADemoClient
+                            schedulerIFrameURL={fields.schedulerIFrameURL}
+                            data-agility-field="schedulerIFrameURL" />
 					</div>
 				</div>
 			</Container>
-		</div>
-	)
+        </div>
+    );
 }
