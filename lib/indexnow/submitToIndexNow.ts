@@ -87,7 +87,10 @@ export const submitToIndexNow = async (urls: string | string[]): Promise<void> =
 			method: "POST",
 			headers: { "Content-Type": "application/json; charset=utf-8" },
 			body: JSON.stringify(body),
-			cache: "no-store"
+			cache: "no-store",
+			// Best-effort and fired from the publish webhook — never let a hung
+			// endpoint stall the webhook response.
+			signal: AbortSignal.timeout(10000)
 		})
 
 		if (res.ok) {

@@ -21,9 +21,12 @@ export interface SitemapLastModifiedParams {
 
 /**
  * A map of sitemap path -> the ISO date string that should be used as
- * `<lastmod>` for that URL.
+ * `<lastmod>` for that URL. Every sitemap-visible path is present as a key;
+ * the value is `undefined` when we couldn't determine a reliable date, in which
+ * case the URL should be emitted with no `<lastmod>` at all (an omitted date is
+ * better than a wrong one).
  */
-export type SitemapLastModifiedMap = Record<string, string>
+export type SitemapLastModifiedMap = Record<string, string | undefined>
 
 /**
  * Parse an Agility "modified" value into a millisecond timestamp.
@@ -181,12 +184,17 @@ export const getSitemapLastModifiedMap = async ({
 		})
 	)
 
-	// Assign dynamic dates; fetch individually for any contentID the bulk pass missed.
+	// Assign dynamic dates. A contentID the bulk pass *saw* but with no usable
+	// modified date resolves to `undefined` (omit lastmod). A contentID the bulk
+	// pass never saw is fetched individually below.
 	const missingDynamic: Array<[string, SitemapNode]> = []
 	for (const [path, node] of dynamicEntries) {
-		const millis = contentModified.get(node.contentID as number)
+		const contentID = node.contentID as number
+		const millis = contentModified.get(contentID)
 		if (millis) {
 			result[path] = new Date(millis).toISOString()
+		} else if (contentModified.has(contentID)) {
+			result[path] = undefined
 		} else {
 			missingDynamic.push([path, node])
 		}
@@ -199,7 +207,9 @@ export const getSitemapLastModifiedMap = async ({
 				languageCode,
 			})
 		)
-		result[path] = new Date(toMillis(item?.properties?.modified) || Date.now()).toISOString()
+		const millis = toMillis(item?.properties?.modified)
+		// No reliable date -> leave lastmod out rather than inventing "now".
+		result[path] = millis ? new Date(millis).toISOString() : undefined
 	})
 
 	// --- Static pages --------------------------------------------------------
@@ -222,7 +232,8 @@ export const getSitemapLastModifiedMap = async ({
 				if (millis > latest) latest = millis
 			}
 		}
-		result[path] = new Date(latest || Date.now()).toISOString()
+		// No reliable date (page fetch failed / nothing datable) -> omit lastmod.
+		result[path] = latest ? new Date(latest).toISOString() : undefined
 	})
 
 	return result

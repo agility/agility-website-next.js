@@ -21,12 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	// Emit only <loc> + <lastmod>. Google ignores <changefreq> and <priority>
 	// entirely, and blanket values for them only contradict our accurate lastmod.
+	// When we couldn't determine a reliable date, omit <lastmod> for that URL —
+	// no date is better than a wrong one.
 	return Object.entries(lastModifiedMap).map(([path, lastModified]) => {
 		//the home page lives at "/home" in the sitemap but is served at the root
 		const isHome = path === "/home"
-		return {
-			url: isHome ? `${baseUrl}/` : `${baseUrl}${path}`,
-			lastModified: new Date(lastModified)
-		}
+		const url = isHome ? `${baseUrl}/` : `${baseUrl}${path}`
+		return lastModified ? { url, lastModified: new Date(lastModified) } : { url }
 	})
 }
