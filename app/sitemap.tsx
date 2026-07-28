@@ -19,14 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	const baseUrl = getSiteUrl()
 
+	// Emit only <loc> + <lastmod>. Google ignores <changefreq> and <priority>
+	// entirely, and blanket values for them only contradict our accurate lastmod.
 	return Object.entries(lastModifiedMap).map(([path, lastModified]) => {
 		//the home page lives at "/home" in the sitemap but is served at the root
 		const isHome = path === "/home"
 		return {
 			url: isHome ? `${baseUrl}/` : `${baseUrl}${path}`,
-			lastModified: new Date(lastModified),
-			changeFrequency: "daily",
-			priority: isHome ? 1 : 0.8
+			lastModified: new Date(lastModified)
 		}
 	})
 }
