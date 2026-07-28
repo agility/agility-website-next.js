@@ -11,6 +11,21 @@ export async function middleware(request: NextRequest) {
 	const host = request.nextUrl.host
 	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
 
+	//*** IndexNow key verification file ***
+	//Serve the IndexNow key at the site root (/<key>.txt) so search engines can
+	//verify ownership before accepting URL submissions. Must run before the host
+	//canonicalization below so it responds on whatever host the crawler requests.
+	const indexNowKey = process.env.INDEXNOW_KEY
+	if (indexNowKey && request.nextUrl.pathname === `/${indexNowKey}.txt`) {
+		return new NextResponse(indexNowKey, {
+			status: 200,
+			headers: {
+				"Content-Type": "text/plain; charset=utf-8",
+				"Cache-Control": "public, max-age=86400"
+			}
+		})
+	}
+
 	if (!host.startsWith("localhost:") //local (any port)
 		&& !host.endsWith("netlify.app") //netlify
 		&& !host.endsWith("publishwithagility.com") //vercel
