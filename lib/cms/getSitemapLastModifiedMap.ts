@@ -43,6 +43,24 @@ const toMillis = (modified?: string | Date | null): number => {
 	return isNaN(t) ? 0 : t
 }
 
+/**
+ * Retry a fetch that may transiently fail (the Agility fetch API occasionally
+ * returns a 408). The content-fetch SDK logs the error and resolves to
+ * `undefined` rather than throwing, so we retry on a null/undefined result as
+ * well as on a thrown error. Returns undefined if every attempt fails.
+ */
+const withRetry = async <T>(fn: () => Promise<T>, attempts = 3): Promise<T | undefined> => {
+	for (let attempt = 0; attempt < attempts; attempt++) {
+		try {
+			const result = await fn()
+			if (result !== undefined && result !== null) return result
+		} catch {
+			/* transient — fall through and retry */
+		}
+	}
+	return undefined
+}
+
 /** Run an async mapper over items with a bounded number of concurrent workers. */
 const mapWithConcurrency = async <T>(
 	items: T[],
@@ -79,7 +97,13 @@ export const getSitemapLastModifiedMap = async ({
 	languageCode,
 }: SitemapLastModifiedParams): Promise<SitemapLastModifiedMap> => {
 
-	const sitemap = (await getSitemapFlat({ channelName, languageCode })) as Record<string, SitemapNode>
+	const sitemap = (await withRetry(() => getSitemapFlat({ channelName, languageCode }))) as
+		| Record<string, SitemapNode>
+		| undefined
+
+	// Without a sitemap there are no URLs to emit; return empty rather than throw
+	// so a transient API failure can never fail the build.
+	if (!sitemap) return {}
 
 	// Only real, sitemap-visible URLs (skip folders, redirects and hidden pages).
 	const entries = Object.entries(sitemap).filter(([, node]) => {
@@ -108,41 +132,51 @@ export const getSitemapLastModifiedMap = async ({
 
 	await Promise.all(
 		Array.from(dynamicByTemplate.values()).map(async (nodes) => {
-			// Learn the content list's reference name from one representative item.
-			let referenceName: string | undefined
+			// A failure here must never reject the whole build — any dates we can't
+			// resolve in bulk fall through to the per-item pass below.
 			try {
-				const sample = await getContentItem<Record<string, unknown>>({
-					contentID: nodes[0].contentID as number,
-					languageCode,
-				})
-				referenceName = sample?.properties?.referenceName
+				// Learn the content list's reference name from one representative item.
+				const sample = await withRetry(() =>
+					getContentItem<Record<string, unknown>>({
+						contentID: nodes[0].contentID as number,
+						languageCode,
+					})
+				)
+				const referenceName = sample?.properties?.referenceName
 				if (sample?.properties?.modified) {
 					contentModified.set(sample.contentID, toMillis(sample.properties.modified))
 				}
+
+				if (!referenceName) return
+
+				// Page through the whole list, recording every item's modified date.
+				// No sort — we read every item into a map keyed by contentID, so order
+				// is irrelevant and sorting only adds load (and timeout risk) server-side.
+				let skip = 0
+				let total = Number.POSITIVE_INFINITY
+				while (skip < total) {
+					const list = await withRetry(() =>
+						getContentList({
+							referenceName,
+							languageCode,
+							take: CONTENT_LIST_PAGE_SIZE,
+							skip,
+						})
+					)
+
+					// Give up this template's remaining pages on a persistent failure;
+					// the per-item fallback pass fills any gaps.
+					if (!list?.items) break
+
+					total = list.totalCount ?? list.items.length
+					for (const item of list.items) {
+						contentModified.set(item.contentID, toMillis(item.properties?.modified))
+					}
+					if (list.items.length === 0) break
+					skip += CONTENT_LIST_PAGE_SIZE
+				}
 			} catch {
 				/* fall back to per-item fetches below */
-			}
-
-			if (!referenceName) return
-
-			// Page through the whole list, recording every item's modified date.
-			let skip = 0
-			let total = Number.POSITIVE_INFINITY
-			while (skip < total) {
-				const list = await getContentList({
-					referenceName,
-					languageCode,
-					take: CONTENT_LIST_PAGE_SIZE,
-					skip,
-					sort: "properties.modified",
-					direction: "desc",
-				})
-				total = list.totalCount ?? list.items.length
-				for (const item of list.items) {
-					contentModified.set(item.contentID, toMillis(item.properties?.modified))
-				}
-				if (list.items.length === 0) break
-				skip += CONTENT_LIST_PAGE_SIZE
 			}
 		})
 	)
@@ -159,38 +193,34 @@ export const getSitemapLastModifiedMap = async ({
 	}
 
 	await mapWithConcurrency(missingDynamic, STATIC_PAGE_CONCURRENCY, async ([path, node]) => {
-		try {
-			const item = await getContentItem<Record<string, unknown>>({
+		const item = await withRetry(() =>
+			getContentItem<Record<string, unknown>>({
 				contentID: node.contentID as number,
 				languageCode,
 			})
-			result[path] = new Date(toMillis(item?.properties?.modified) || Date.now()).toISOString()
-		} catch {
-			result[path] = new Date().toISOString()
-		}
+		)
+		result[path] = new Date(toMillis(item?.properties?.modified) || Date.now()).toISOString()
 	})
 
 	// --- Static pages --------------------------------------------------------
 	await mapWithConcurrency(staticEntries, STATIC_PAGE_CONCURRENCY, async ([path, node]) => {
 		let latest = 0
-		try {
-			// contentLinkDepth:1 expands each module's content item one level so we can
-			// read its properties.modified. At depth 0 the modules are unexpanded
-			// references with no date, which would collapse to just the page date.
-			const page = await getPage({ pageID: node.pageID, languageCode, contentLinkDepth: 1 })
-			latest = toMillis(page?.properties?.modified)
+		// contentLinkDepth:1 expands each module's content item one level so we can
+		// read its properties.modified. At depth 0 the modules are unexpanded
+		// references with no date, which would collapse to just the page date.
+		const page = await withRetry(() =>
+			getPage({ pageID: node.pageID, languageCode, contentLinkDepth: 1 })
+		)
+		latest = toMillis(page?.properties?.modified)
 
-			const zones = (page?.zones ?? {}) as Record<string, ContentZone[]>
-			for (const zone of Object.values(zones)) {
-				for (const moduleRef of zone ?? []) {
-					// Top-level module content items carry their own modified date.
-					const item = moduleRef?.item as ContentItem | undefined
-					const millis = toMillis(item?.properties?.modified)
-					if (millis > latest) latest = millis
-				}
+		const zones = (page?.zones ?? {}) as Record<string, ContentZone[]>
+		for (const zone of Object.values(zones)) {
+			for (const moduleRef of zone ?? []) {
+				// Top-level module content items carry their own modified date.
+				const item = moduleRef?.item as ContentItem | undefined
+				const millis = toMillis(item?.properties?.modified)
+				if (millis > latest) latest = millis
 			}
-		} catch {
-			/* leave latest as 0 -> falls back to "now" below */
 		}
 		result[path] = new Date(latest || Date.now()).toISOString()
 	})
