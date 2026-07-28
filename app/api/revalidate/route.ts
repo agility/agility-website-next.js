@@ -4,6 +4,10 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import agilitySDK from "@agility/content-fetch"
 import { indexPage } from "lib/crawl/index-page";
+import { submitToIndexNow } from "lib/indexnow/submitToIndexNow";
+
+/** The home page lives at "/home" in the sitemap but is served at the root. */
+const toPublicPath = (path: string) => (path === "/home" ? "/" : path)
 
 interface IRevalidateRequest {
 	state: string,
@@ -78,6 +82,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					revalidatePath(path)
 					console.info("Revalidating path:", path)
 					await indexPage(path)
+
+					//notify IndexNow search engines that this dynamic page changed
+					await submitToIndexNow(toPublicPath(path))
 				}
 			}
 
@@ -105,6 +112,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 					//also re-index the path for search
 					await indexPage(path)
+
+					//notify IndexNow search engines that this page changed
+					await submitToIndexNow(toPublicPath(path))
 				}
 			}
 		}
