@@ -44,3 +44,7 @@ next-env.d.ts
 .claude/settings.local.json
 
 screenshots/
+
+# local working folders (design references, content drafts)
+designs/
+drafts/
