@@ -1,15 +1,58 @@
 import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextFetchEvent } from 'next/server'
 import { getDynamicPageURL } from "@agility/nextjs/node"
 import { checkRedirect } from 'lib/cms-content/checkRedirect'
+import { classifyAIBot } from 'lib/analytics/aiBots'
+import { captureServerEvent } from 'lib/analytics/posthogServer'
+
+//Files that AI crawlers hit most, and which must be served untouched.
+//They are inside the matcher only so bot hits on them get counted — the
+//early return below keeps the rest of the middleware away from them.
+const PASSTHROUGH_PATHS = new Set([
+	'/robots.txt',
+	'/sitemap.xml',
+	'/llms.txt',
+	'/llms-full.txt',
+])
 
 // This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest, event: NextFetchEvent) {
 
 	//host level redirect
 	//ONLY allow requests to the correct domain (localhost, netlify.app, agilitycms.com)
 	const host = request.nextUrl.host
 	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
+
+	/*****************************
+	 * *** AI BOT TELEMETRY ***
+	 * GA4 cannot see AI crawlers — it needs JS, and they don't run it. This
+	 * records them server-side so training crawls and live retrieval fetches
+	 * can be separated from AI-referred humans.
+	 *
+	 * Fire-and-forget via waitUntil: never awaited, never blocks the response,
+	 * and captureServerEvent swallows its own failures.
+	 *******************************/
+	const aiBot = classifyAIBot(request.headers.get('user-agent'))
+	if (aiBot) {
+		event.waitUntil(
+			captureServerEvent({
+				event: 'ai_bot_request',
+				distinctId: `ai-bot:${aiBot.bot}`,
+				properties: {
+					ai_bot: aiBot.bot,
+					ai_category: aiBot.category,
+					ai_vendor: aiBot.vendor,
+					path: request.nextUrl.pathname,
+					host,
+				},
+			})
+		)
+	}
+
+	//Serve robots/sitemap/llms files without any further middleware processing.
+	if (PASSTHROUGH_PATHS.has(request.nextUrl.pathname)) {
+		return NextResponse.next()
+	}
 
 	//*** IndexNow key verification file ***
 	//Serve the IndexNow key at the site root (/<key>.txt) so search engines can
@@ -212,9 +255,13 @@ export const config = {
 		 * - assets (public assets)
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
-		 * - favicon.ico, robots.txt, sitemap.xml, llms.txt, llms-full.txt
+		 * - favicon.ico
 		 * - any path ending in a static asset extension (images, fonts, css/js)
+		 *
+		 * robots.txt, sitemap.xml, llms.txt and llms-full.txt are intentionally
+		 * INSIDE the matcher so AI crawler hits on them are counted. They return
+		 * early via PASSTHROUGH_PATHS, so no other middleware logic touches them.
 		 */
-		'/((?!api|assets|_next/static|_next/image|favicon\\.ico|robots\\.txt|sitemap\\.xml|llms\\.txt|llms-full\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|woff|woff2|js|css|map)).*)',
+		'/((?!api|assets|_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|woff|woff2|js|css|map)).*)',
 	],
 }
