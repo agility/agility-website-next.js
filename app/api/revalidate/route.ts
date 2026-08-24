@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import agilitySDK from "@agility/content-fetch"
 import { indexPage } from "lib/crawl/index-page";
 import { submitToIndexNow } from "lib/indexnow/submitToIndexNow";
+import { isSearchVisible } from "lib/cms/isSearchVisible";
 
 /** The home page lives at "/home" in the sitemap but is served at the root. */
 const toPublicPath = (path: string) => (path === "/home" ? "/" : path)
@@ -81,10 +82,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					const path = sitemapNode.path
 					revalidatePath(path)
 					console.info("Revalidating path:", path)
-					await indexPage(path)
 
-					//notify IndexNow search engines that this dynamic page changed
-					await submitToIndexNow(toPublicPath(path))
+					//only tell search engines about pages we'd actually put in the sitemap
+					if (isSearchVisible(sitemapNode)) {
+						await indexPage(path)
+
+						//notify IndexNow search engines that this dynamic page changed
+						await submitToIndexNow(toPublicPath(path))
+					} else {
+						console.info("Skipping search indexing for non-sitemap path:", path)
+					}
 				}
 			}
 
@@ -110,11 +117,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					revalidatePath(path)
 					console.info("Revalidating path:", path)
 
-					//also re-index the path for search
-					await indexPage(path)
+					//only tell search engines about pages we'd actually put in the sitemap
+					if (isSearchVisible(sitemapNode)) {
+						//also re-index the path for search
+						await indexPage(path)
 
-					//notify IndexNow search engines that this page changed
-					await submitToIndexNow(toPublicPath(path))
+						//notify IndexNow search engines that this page changed
+						await submitToIndexNow(toPublicPath(path))
+					} else {
+						console.info("Skipping search indexing for non-sitemap path:", path)
+					}
 				}
 			}
 		}

@@ -1,3 +1,9 @@
+/** Agility's redirect payload on a sitemap node: `{ url, target }`, not a bare string. */
+export interface SitemapRedirect {
+	url: string
+	target: string
+}
+
 export interface SitemapNode {
 
 	title: string
@@ -7,7 +13,7 @@ export interface SitemapNode {
 	menuText: number
 	visible: { menu: boolean, sitemap: boolean },
 	path: string,
-	redirect: string | null,
+	redirect: SitemapRedirect | null,
 	isFolder: boolean
 
 }
