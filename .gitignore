@@ -48,3 +48,4 @@ screenshots/
 # local working folders (design references, content drafts)
 designs/
 drafts/
+.env*
