@@ -147,9 +147,16 @@ The only way to tie an AI referral to a *named person and company*. **Use the sc
 .claude/skills/ai-referral-report/scripts/hubspot.py raw         # NDJSON
 ```
 
-Optional: `--since 2026-01-01`, `--limit N`.
+Optional: `--since 2026-01-01`, `--limit N`. Anything unrecognised is a hard
+error rather than a silent no-op, so a typo'd `--sicne` cannot hand you all-time
+numbers labelled as filtered.
 
-**Auth:** a Private App token in `$HUBSPOT_TOKEN`, or a `HUBSPOT_TOKEN=` line in `.env.local` at the repo root (already gitignored via `.env*.local`). Create it at HubSpot **Settings → Integrations → Private Apps → Create** with scope `crm.objects.contacts.read`. The script never prints or logs the token, and never takes it as an argument.
+`--limit` is a **per-query** cap, not a total. The search runs once per (field,
+provider) pair, so the real ceiling is `limit × 2 fields × 6 providers` before
+de-duplication. The default of 1000 is far above the actual population (~9) and
+exists only to bound a runaway paginate.
+
+**Auth:** a Private App token in `$HUBSPOT_TOKEN`, or a `HUBSPOT_TOKEN=` line in `.env.local` at the repo root (gitignored via `.env*`; a leading `export ` is tolerated). Create it at HubSpot **Settings → Integrations → Private Apps → Create** with scope `crm.objects.contacts.read`. The script never prints or logs the token, and never takes it as an argument.
 
 Properties it reads:
 
@@ -165,33 +172,56 @@ The script searches both referrer fields across all providers and de-dupes by co
 
 **Expect small numbers, and don't treat that as a bug.** HubSpot holds ~9 AI-attributed contacts against ~1,467 marketing-site AI sessions — roughly a 0.6% session→known-contact rate. That is a plausible conversion rate for cold discovery traffic, not a tracking failure. Verified two independent ways: the `AI_REFERRALS` bucket returns 8, and the domain search across both fields returns 9.
 
-## Source 4 — PostHog (the two bot populations)
+## Source 4 — PostHog (the bot populations)
 
 **This is the only source that sees AI bots at all.** GA4 fires from JavaScript;
 crawlers don't run it, so Sources 1–3 cover *referred humans only*. Middleware
-records the other two populations server-side as `ai_bot_request`.
+records the other populations server-side as `ai_bot_request`.
 
 | Property | Values |
 |---|---|
-| `ai_category` | `training` (bulk corpus) · `retrieval` (fetched while answering, or AI-search indexing) |
+| `ai_category` | `training` (bulk corpus) · `retrieval` (fetched while answering, or AI-search indexing) · `scraper` (commercial crawl-for-hire: Firecrawl, Diffbot) |
 | `ai_bot` | `GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `ClaudeBot`, `Claude-User`, `PerplexityBot`, … |
 | `ai_vendor` | OpenAI, Anthropic, Perplexity, Google, Meta, … |
-| `path`, `host` | what was fetched |
+| `path`, `host` | what was **requested** — middleware runs before the response, so there is no status code on the event and a 404 looks identical to a hit |
 | `deploy_context` | `production` for real traffic — preview/dev are suppressed at source |
+| `sample_rate` | fraction of that population being recorded; `1` unless training sampling is on |
 
 **`retrieval` is the number that matters.** It happens whether or not anyone
 clicks, so it separates "we are not being cited" from "we are cited and the
 assistant answered in place". Referral decline means opposite things in those two
 worlds, so never report a referral trend without it.
 
+`scraper` is **not** evidence of citation — it means somebody paid Firecrawl or
+Diffbot to fetch us, and the UA cannot say who or why. Keep it out of any
+retrieval figure.
+
+**A path in this data means "a crawler asked for it", not "we served it".** Spot
+check the URL before drawing a conclusion from its hit count. As of Aug 2026
+`/llms-full.txt` is one to watch: its Agility `LLMSFullText` content list has not
+been authored yet, so it returns a 404 while still logging crawler hits like any
+other path.
+
 Query via the PostHog MCP (`mcp__posthog__exec`) — HogQL, e.g.:
 
 ```sql
-SELECT properties.ai_category, properties.ai_bot, count() AS hits
+SELECT properties.ai_category, properties.ai_bot,
+       sum(1 / toFloat64OrNull(properties.sample_rate)) AS est_hits
 FROM events
-WHERE event = 'ai_bot_request' AND timestamp > now() - INTERVAL 30 DAY
-GROUP BY 1, 2 ORDER BY hits DESC
+WHERE event = 'ai_bot_request'
+  AND timestamp > now() - INTERVAL 30 DAY
+  AND properties.host = 'agilitycms.com'
+GROUP BY 1, 2 ORDER BY est_hits DESC
 ```
+
+Two things that query is doing deliberately:
+
+- **`sum(1 / sample_rate)`, not `count()`.** They are identical while sampling is
+  off, and `count()` silently under-reports the moment it is turned on.
+- **`host` is filtered, not summed.** Telemetry fires before the middleware's
+  canonical-host redirect, so a crawler that follows our 301 is recorded twice —
+  once under the host it asked for, once under `agilitycms.com`. Summing across
+  hosts double-counts exactly the well-behaved crawlers.
 
 PostHog also holds **referred humans** independently, via `$referring_domain` on
 pageviews. Cross-check it against GA4 Source 1: agreement validates the `(not
@@ -200,21 +230,54 @@ additionally has per-event data, session recordings and funnels — which is how
 you answer "what did AI-referred visitors actually *do*", something GA4's
 pre-aggregated API structurally cannot.
 
-**Two caveats before trusting the bot totals:**
+**Coverage is complete — cache hits are counted.** Confirmed on Next.js 14.2.35
+under the Netlify Next runtime: middleware runs on cached responses, not only on
+misses. This matches Netlify's [request
+chain](https://docs.netlify.com/resources/troubleshooting/request-chain/) — *Edge
+Functions (before cache)* at step 5, *Edge Cache* at step 6 — and it is the
+difference between a real number and a lower bound, since crawlers overwhelmingly
+request cacheable pages. So bot counts here are totals, not floors.
 
-1. **Probably complete, but confirm once.** Netlify's [request
-   chain](https://docs.netlify.com/resources/troubleshooting/request-chain/) runs
-   *Edge Functions (before cache)* at step 5 and the *Edge Cache* at step 6, and
-   Next.js middleware compiles to a Netlify edge function — so middleware should
-   see every request, including cache hits. Only an edge function explicitly
-   configured for caching moves to step 7 and gets skipped on hits, which this one
-   is not. Still verify empirically for the Next runtime: hit one path twice with a
-   bot UA, confirm the second reports a `cache-status` hit, and check whether one
-   or two events landed. **If only one landed, every bot total here is a lower
-   bound**, since crawlers overwhelmingly request cacheable pages.
-2. **No sampling or rate limit.** One event per bot request, uncapped. A large
-   GPTBot or Bytespider sweep — or a spoofed UA — can burst thousands of events.
-   Watch volume for the first week and add sampling if it's material.
+Two things would invalidate that, so re-test if either changes:
+
+- **A Next.js or Netlify runtime upgrade.** This is runtime behaviour, not a
+  contract. Re-verify by hitting one path twice with a bot UA, confirming the
+  second response reports a `cache-status` hit, and checking that *two*
+  `ai_bot_request` events landed.
+- **Porting to Vercel.** It does **not** hold there — Vercel's Node-runtime proxy
+  does not see cache hits, so this whole approach needs a different mechanism on
+  the 2026 rebuild.
+
+**Two caveats that do still apply:**
+
+1. **Training capture is uncapped by default.** One event per bot request. A
+   large GPTBot or Bytespider sweep — or anyone running `curl -A GPTBot` in a
+   loop, since the UA is self-reported — can burst thousands of billable events.
+   The lever is `AI_BOT_TRAINING_SAMPLE_RATE`: set it to `0.1` to record 1 in 10
+   training hits, or `0` to stop recording them. It defaults to `1` so the first
+   weeks show true volume, and it only ever affects `training` — `retrieval` is
+   the number that matters and is low-volume by nature, so it is never sampled.
+   It is inlined at build time in the edge runtime, so **changing it needs a
+   redeploy**, not just an env var edit. Check what is actually in force with:
+
+   ```sql
+   SELECT properties.ai_category, properties.sample_rate, count()
+   FROM events WHERE event = 'ai_bot_request' AND timestamp > now() - INTERVAL 7 DAY
+   GROUP BY 1, 2
+   ```
+
+2. **Spoofing sets the floor, not the ceiling.** `ai_bot` means "a request
+   claiming to be this bot". `$ip` is captured so a claim can be checked against
+   a vendor's published crawler ranges, but on anything other than Netlify that
+   IP comes from a caller-controllable `x-forwarded-for` — treat it as advisory.
+
+**Flat retrieval numbers may be an instrumentation gap, not an absence of
+citations.** The agent list is in `lib/analytics/aiBots.ts` and vendors add to it
+often; an agent we don't know about reads as "not cited". Re-check against
+<https://darkvisitors.com> or each vendor's crawler docs before concluding
+anything from a flat line. The list is pinned by `lib/analytics/aiBots.test.ts`
+(`npm test`) — run it after any edit, it catches both a mis-categorised agent and
+a new token shadowed by an existing one.
 
 ## Standard report recipe
 
@@ -231,9 +294,10 @@ pre-aggregated API structurally cannot.
 Always report AI traffic as a **share of total sessions** — it's small (~0.5% of
 the marketing site), and an absolute number without that context overstates it.
 
-Report the three populations separately and never sum them. A crawl hit, a
-retrieval fetch and a human visit are different events with different meanings;
-a combined "AI traffic" figure is the single easiest way to mislead a reader here.
+Report the four populations separately and never sum them. A training crawl, a
+retrieval fetch, a paid-scraper hit and a human visit are different events with
+different meanings; a combined "AI traffic" figure is the single easiest way to
+mislead a reader here.
 
 ## Traps
 

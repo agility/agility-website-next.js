@@ -35,6 +35,20 @@ done
 [ "${#POSITIONAL[@]}" -ge 2 ] && START="${POSITIONAL[1]}"
 [ "${#POSITIONAL[@]}" -ge 3 ] && END="${POSITIONAL[2]}"
 
+# Validate dates locally. Unvalidated, a typo goes into the JSON body and comes
+# back as a GA4 API error string, which reads like a permissions or quota problem
+# rather than "you typed the date wrong".
+check_date() {
+  case "$1" in
+    today|yesterday) return 0 ;;
+    [0-9]*daysAgo) return 0 ;;
+    [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) return 0 ;;
+    *) echo "Bad date: $1 (want YYYY-MM-DD, NdaysAgo, yesterday or today)" >&2; exit 1 ;;
+  esac
+}
+check_date "$START"
+check_date "$END"
+
 TOKEN=$(gcloud auth application-default print-access-token 2>/dev/null) || {
   echo "No ADC token. Run: gcloud auth application-default login --scopes=https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/cloud-platform" >&2
   exit 1
@@ -100,10 +114,14 @@ ORDER='[{"metric":{"metricName":"sessions"},"desc":true}]'
 [ "$PRESET" = "monthly" ] && ORDER='[{"dimension":{"dimensionName":"yearMonth"}}]'
 [ "$PRESET" = "events" ]  && ORDER='[{"metric":{"metricName":"eventCount"},"desc":true}]'
 
+# metricAggregations is what makes the response carry `totals`. Without it the
+# API returns rows only and the TOTAL line below silently never prints — which
+# matters, because the totals are what the baselines in SKILL.md are quoted from.
 BODY=$(cat <<JSON
 {"dateRanges":[{"startDate":"$START","endDate":"$END"}],
  "dimensions":$DIMS,"metrics":$METS,
- "dimensionFilter":$FILTER,"orderBys":$ORDER,"limit":$LIMIT}
+ "dimensionFilter":$FILTER,"orderBys":$ORDER,
+ "metricAggregations":["TOTAL"],"limit":$LIMIT}
 JSON
 )
 

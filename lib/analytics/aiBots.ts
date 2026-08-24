@@ -1,6 +1,6 @@
 // Classification of AI-vendor user agents.
 //
-// There are three populations of "AI traffic" and they need different treatment:
+// There are four populations of "AI traffic" and they need different treatment:
 //
 //   1. referred humans  — a person clicked a link in an AI answer. Sends a
 //      Referer of chatgpt.com / claude.ai etc, runs JS, and therefore shows up
@@ -9,16 +9,21 @@
 //      invisible to GA4. `category: 'training'`.
 //   3. live retrieval   — the assistant fetches the page during a conversation,
 //      or indexes it for AI search. Also invisible to GA4. `category: 'retrieval'`.
+//   4. scraping services — general-purpose commercial crawlers (Firecrawl,
+//      Diffbot). Whoever pointed them at us may or may not be an assistant, so
+//      they are neither evidence of citation nor of training. `category:
+//      'scraper'`, kept separate so they cannot inflate category 3.
 //
 // Category 3 is the leading indicator for AI visibility: retrieval happens
 // whether or not anyone clicks through, so it distinguishes "we are not being
-// cited" from "we are cited and answered in place".
+// cited" from "we are cited and answered in place". Do not fold category 4 into
+// it — "someone ran a scraper at us" is a different fact.
 //
 // Caveat: user agents are self-reported and trivially spoofed. These counts mean
 // "requests claiming to be X" — useful for cooperative AI vendors, useless
 // against anyone who does not want to be identified.
 
-export type AIBotCategory = 'training' | 'retrieval'
+export type AIBotCategory = 'training' | 'retrieval' | 'scraper'
 
 export interface AIBotMatch {
 	/** Canonical vendor token, e.g. "GPTBot" */
@@ -28,7 +33,7 @@ export interface AIBotMatch {
 	vendor: string
 }
 
-interface Rule {
+export interface Rule {
 	/** Lowercased substring to look for in the user agent */
 	token: string
 	bot: string
@@ -36,11 +41,15 @@ interface Rule {
 	vendor: string
 }
 
-// Order matters: first match wins, so the more specific token must come first
-// where one token is a substring of another (e.g. Applebot-Extended before any
-// bare Applebot rule). Retrieval agents are listed first because they are the
-// more specific strings.
-const RULES: Rule[] = [
+// First match wins. No token below is currently a substring of another, so the
+// ordering is presentational — grouped by category to keep the file readable.
+//
+// That invariant is worth preserving, because the day it breaks the shadowed
+// rule fails silently rather than erroring: a UA matching both tokens is simply
+// filed under whichever appears first. `aiBots.test.ts` asserts it on every run,
+// so adding an overlapping token (a future `Applebot-Extended` alongside a bare
+// `Applebot`, say) fails the test rather than quietly mis-categorising traffic.
+export const RULES: Rule[] = [
 	// ---- live retrieval / AI-search indexing ----
 	{ token: 'chatgpt-user', bot: 'ChatGPT-User', category: 'retrieval', vendor: 'OpenAI' },
 	{ token: 'oai-searchbot', bot: 'OAI-SearchBot', category: 'retrieval', vendor: 'OpenAI' },
@@ -51,14 +60,9 @@ const RULES: Rule[] = [
 	{ token: 'duckassistbot', bot: 'DuckAssistBot', category: 'retrieval', vendor: 'DuckDuckGo' },
 	{ token: 'mistralai-user', bot: 'MistralAI-User', category: 'retrieval', vendor: 'Mistral' },
 	{ token: 'google-cloudvertexbot', bot: 'Google-CloudVertexBot', category: 'retrieval', vendor: 'Google' },
-	//meta-externalfetcher must precede meta-externalagent: the agent token is
-	//not a substring of the fetcher's, but keeping the pair adjacent makes the
-	//training/retrieval split obvious to the next reader.
 	{ token: 'meta-externalfetcher', bot: 'Meta-ExternalFetcher', category: 'retrieval', vendor: 'Meta' },
 	{ token: 'youbot', bot: 'YouBot', category: 'retrieval', vendor: 'You.com' },
-	{ token: 'cohere-training-data-crawler', bot: 'cohere-training-data-crawler', category: 'training', vendor: 'Cohere' },
 	{ token: 'cohere-ai', bot: 'cohere-ai', category: 'retrieval', vendor: 'Cohere' },
-	{ token: 'firecrawl', bot: 'Firecrawl', category: 'retrieval', vendor: 'Firecrawl' },
 
 	// ---- training / bulk corpus ----
 	{ token: 'gptbot', bot: 'GPTBot', category: 'training', vendor: 'OpenAI' },
@@ -66,12 +70,19 @@ const RULES: Rule[] = [
 	{ token: 'ccbot', bot: 'CCBot', category: 'training', vendor: 'Common Crawl' },
 	{ token: 'bytespider', bot: 'Bytespider', category: 'training', vendor: 'ByteDance' },
 	{ token: 'meta-externalagent', bot: 'meta-externalagent', category: 'training', vendor: 'Meta' },
+	{ token: 'cohere-training-data-crawler', bot: 'cohere-training-data-crawler', category: 'training', vendor: 'Cohere' },
 	{ token: 'amazonbot', bot: 'Amazonbot', category: 'training', vendor: 'Amazon' },
 	{ token: 'grokbot', bot: 'GrokBot', category: 'training', vendor: 'xAI' },
 	{ token: 'ai2bot', bot: 'AI2Bot', category: 'training', vendor: 'AI2' },
-	{ token: 'diffbot', bot: 'Diffbot', category: 'training', vendor: 'Diffbot' },
 	{ token: 'omgili', bot: 'omgili', category: 'training', vendor: 'Webz.io' },
 	{ token: 'timpibot', bot: 'Timpibot', category: 'training', vendor: 'Timpi' },
+
+	// ---- commercial scraping services ----
+	// Not assistants. Someone paid these to fetch us, and we cannot tell who or
+	// why from the UA. Counting them as retrieval would read as "an assistant
+	// cited us" when the real event is "a customer of Firecrawl crawled us".
+	{ token: 'firecrawl', bot: 'Firecrawl', category: 'scraper', vendor: 'Firecrawl' },
+	{ token: 'diffbot', bot: 'Diffbot', category: 'scraper', vendor: 'Diffbot' },
 ]
 
 // Deliberately absent — all for the same reason, that they cannot be measured

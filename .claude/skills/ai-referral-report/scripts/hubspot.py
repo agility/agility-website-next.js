@@ -11,6 +11,11 @@ Modes:
     stages     funnel position of AI-referred contacts
     raw        newline-delimited JSON of every matched contact
 
+--limit is a per-query cap, not a total: the search runs once per (field,
+provider) pair, so the ceiling is limit x len(SEARCH_FIELDS) x len(PROVIDERS)
+contacts before de-duplication. The default of 1000 is far above the real
+population (~9) and exists only to bound a runaway paginate.
+
 Why this exists instead of the HubSpot MCP: the MCP's CRM Search tool rate-limits
 after ~4 calls and stays limited for a long time, and its SQL tool lacks the
 crm.hubsql.execute scope so it cannot aggregate. A Private App token has far
@@ -55,8 +60,13 @@ def load_token():
     try:
         with open(envfile) as fh:
             for line in fh:
-                if line.startswith("HUBSPOT_TOKEN="):
-                    return line.split("=", 1)[1].strip().strip('"').strip("'")
+                #tolerate a leading `export `, which is common in hand-written
+                #.env files and otherwise reads as "no token configured"
+                stripped = line.strip()
+                if stripped.startswith("export "):
+                    stripped = stripped[len("export "):].lstrip()
+                if stripped.startswith("HUBSPOT_TOKEN="):
+                    return stripped.split("=", 1)[1].strip().strip('"').strip("'")
     except OSError:
         pass
     sys.exit(
@@ -195,27 +205,62 @@ def clean_url(u):
     return u or "/"
 
 
+MODES = ("providers", "content", "leads", "stages", "raw")
+FLAGS = ("--since", "--limit")
+
+
+def parse_args(argv):
+    """
+    Single pass, and an unrecognised argument is an ERROR rather than ignored.
+
+    `--sicne 2026-01-01` used to parse as "no --since given", so the script
+    reported all-time numbers while the operator believed they had filtered.
+    Every wrong answer this skill can produce looks plausible rather than
+    broken, so anything unrecognised has to stop the run.
+
+    The mode is validated here too, before any network call — an unknown mode
+    used to surface only after every HubSpot query had already been paid for.
+    """
+    mode, since, cap, mode_set = "providers", None, 1000, False
+    i = 0
+    while i < len(argv):
+        arg = argv[i]
+        if arg in ("-h", "--help"):
+            sys.exit(__doc__)
+        if arg.startswith("-"):
+            if arg not in FLAGS:
+                sys.exit("Unknown flag: %s (accepts %s)" % (arg, ", ".join(FLAGS)))
+            if i + 1 >= len(argv) or argv[i + 1].startswith("-"):
+                sys.exit("%s requires a value" % arg)
+            value = argv[i + 1]
+            if arg == "--since":
+                if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+                    sys.exit("--since must be YYYY-MM-DD, got %r" % value)
+                try:
+                    to_epoch_ms(value)
+                except ValueError:
+                    sys.exit("--since is not a real date: %r" % value)
+                since = value
+            else:
+                try:
+                    cap = int(value)
+                except ValueError:
+                    sys.exit("--limit must be an integer, got %r" % value)
+                if cap < 1:
+                    sys.exit("--limit must be 1 or more, got %d" % cap)
+            i += 2
+            continue
+        if mode_set:
+            sys.exit("Unexpected argument: %s (only one mode may be given)" % arg)
+        if arg not in MODES:
+            sys.exit("Unknown mode: %s (%s)" % (arg, "|".join(MODES)))
+        mode, mode_set = arg, True
+        i += 1
+    return mode, since, cap
+
+
 def main():
-    args = sys.argv[1:]
-    mode = args[0] if args and not args[0].startswith("--") else "providers"
-
-    def flag_value(name):
-        if name not in args:
-            return None
-        i = args.index(name) + 1
-        if i >= len(args) or args[i].startswith("--"):
-            sys.exit("%s requires a value" % name)
-        return args[i]
-
-    since = flag_value("--since")
-    if since and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", since):
-        sys.exit("--since must be YYYY-MM-DD, got %r" % since)
-
-    cap_raw = flag_value("--limit")
-    try:
-        cap = int(cap_raw) if cap_raw else 1000
-    except ValueError:
-        sys.exit("--limit must be an integer, got %r" % cap_raw)
+    mode, since, cap = parse_args(sys.argv[1:])
 
     token = load_token()
     raw = fetch(token, since, cap)
@@ -270,7 +315,9 @@ def main():
             print(json.dumps(r))
 
     else:
-        sys.exit("Unknown mode: %s (providers|content|leads|stages|raw)" % mode)
+        #unreachable: parse_args validates against MODES. Loud rather than silent
+        #if a mode is ever added to MODES without a branch here.
+        sys.exit("BUG: mode %r is in MODES but has no output branch" % mode)
 
 
 if __name__ == "__main__":

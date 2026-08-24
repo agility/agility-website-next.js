@@ -16,6 +16,7 @@
 		"start": "next start",
 		"crawl": "tsx node/crawl.ts",
 		"lint": "next lint",
+		"test": "tsx --test \"lib/**/*.test.ts\"",
 		"generate": "graphql-codegen"
 	},
 	"engines": {

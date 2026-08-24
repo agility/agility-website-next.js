@@ -15,6 +15,32 @@ const PASSTHROUGH_PATHS = new Set([
 	'/llms-full.txt',
 ])
 
+/**
+ * Sampling lever for training-crawl telemetry, 0..1.
+ *
+ * Training crawls are the high-volume, low-information population, and a user
+ * agent is self-reported: `curl -A GPTBot` in a loop is an unauthenticated way
+ * for anyone to run up billable PostHog event volume. Setting
+ * AI_BOT_TRAINING_SAMPLE_RATE=0.1 records 1 in 10 without a code change; 0 turns
+ * training capture off entirely.
+ *
+ * Defaults to 1 (record everything) so the first weeks show real volume. Every
+ * event carries `sample_rate`, so counts stay recoverable at any setting —
+ * estimate with sum(1 / sample_rate), never count().
+ *
+ * Retrieval and scraper hits are never sampled: retrieval is the number that
+ * actually matters and its volume is low by nature.
+ *
+ * Note this is inlined at build time in the edge runtime — changing it needs a
+ * redeploy, not just an env var edit.
+ */
+const TRAINING_SAMPLE_RATE = (() => {
+	const raw = process.env.AI_BOT_TRAINING_SAMPLE_RATE
+	//Number("") is 0, so an empty env var would silently mean "send nothing".
+	const n = raw ? Number(raw) : NaN
+	return Number.isFinite(n) ? n : 1
+})()
+
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest, event: NextFetchEvent) {
 
@@ -31,18 +57,31 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
 	 *
 	 * Fire-and-forget via waitUntil: never awaited, never blocks the response,
 	 * and captureServerEvent swallows its own failures.
+	 *
+	 * This runs BEFORE the host canonicalization below, deliberately — a bot
+	 * hitting a non-canonical host is still a bot hit worth seeing. The cost is
+	 * that a crawler which follows our 301 is counted twice, once per host, so
+	 * `host` is recorded on every event and any total must filter to
+	 * agilitycms.com rather than summing across hosts. See SKILL.md, Source 4.
 	 *******************************/
 	const aiBot = classifyAIBot(request.headers.get('user-agent'))
 	if (aiBot) {
-		event.waitUntil(
+		//Optional-chained: Next always supplies the event in the edge runtime,
+		//but this keeps the module importable from a plain test harness.
+		event?.waitUntil?.(
 			captureServerEvent({
 				event: 'ai_bot_request',
 				distinctId: `ai-bot:${aiBot.bot}`,
 				//The POST leaves from the edge, so pass the crawler's own IP or
 				//PostHog geo-stamps every event with the serving PoP instead.
+				//x-nf-client-connection-ip is set by Netlify and trustworthy;
+				//the x-forwarded-for fallback is caller-controllable, so treat
+				//$ip as advisory when reconciling against published crawler
+				//ranges off-Netlify.
 				ip: request.headers.get('x-nf-client-connection-ip')
 					|| request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
 					|| null,
+				sampleRate: aiBot.category === 'training' ? TRAINING_SAMPLE_RATE : 1,
 				properties: {
 					ai_bot: aiBot.bot,
 					ai_category: aiBot.category,

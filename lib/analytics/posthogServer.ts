@@ -16,12 +16,36 @@ const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST
 /** Hard cap so a slow ingestion endpoint can never hold an edge invocation open. */
 const TIMEOUT_MS = 1500
 
+/**
+ * The browser SDK accepts a same-origin reverse-proxy path for `api_host`
+ * (`/ingest`), a common PostHog setup. `fetch` from the edge cannot: a relative
+ * URL throws, the catch below swallows it, and every event silently disappears —
+ * indistinguishable from "nothing happened". Fail loudly-in-the-logs-once here
+ * instead of quietly forever.
+ */
+const HOST_IS_ABSOLUTE = /^https?:\/\//i.test(POSTHOG_HOST || '')
+if (POSTHOG_HOST && !HOST_IS_ABSOLUTE) {
+	console.warn(
+		`[posthogServer] NEXT_PUBLIC_POSTHOG_HOST is not an absolute URL ("${POSTHOG_HOST}"). ` +
+			`Server-side capture is disabled — set an absolute ingestion host to re-enable it.`
+	)
+}
+
 interface CaptureArgs {
 	event: string
 	distinctId: string
 	properties?: Record<string, unknown>
 	/** Client IP, so PostHog geo-resolves the caller and not our edge PoP. */
 	ip?: string | null
+	/**
+	 * Fraction of calls to actually send, 0..1. Defaults to 1 (send everything).
+	 *
+	 * The rate in force is recorded on every sent event as `sample_rate`, so
+	 * counts stay recoverable — estimate volume with `sum(1 / sample_rate)`, not
+	 * `count()`. Anything below 1 makes the number an estimate, so only sample a
+	 * population where volume is the point and precision is not.
+	 */
+	sampleRate?: number
 }
 
 /**
@@ -62,11 +86,17 @@ export async function captureServerEvent({
 	distinctId,
 	properties = {},
 	ip,
+	sampleRate = 1,
 }: CaptureArgs): Promise<boolean> {
-	if (!POSTHOG_KEY || !POSTHOG_HOST) return false
+	if (!POSTHOG_KEY || !POSTHOG_HOST || !HOST_IS_ABSOLUTE) return false
 
 	const ctx = deployContext()
 	if (isNonProductionDeploy(ctx)) return false
+
+	//Clamp before use: a misconfigured rate must not silently mean "send nothing".
+	const rate = Number.isFinite(sampleRate) ? Math.min(1, Math.max(0, sampleRate)) : 1
+	if (rate <= 0) return false
+	if (rate < 1 && Math.random() >= rate) return false
 
 	const controller = new AbortController()
 	const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
@@ -89,10 +119,15 @@ export async function captureServerEvent({
 					// against a vendor's published crawler ranges.
 					...(ip ? { $ip: ip } : {}),
 					...properties,
-					// Spread LAST so a caller cannot override it. Bots are not
-					// people: without this PostHog creates a person profile per
-					// distinct_id, polluting person analytics and billable MAU.
+					// Both spread LAST so a caller cannot override them.
+					//
+					// Bots are not people: without $process_person_profile
+					// PostHog creates a person profile per distinct_id,
+					// polluting person analytics and billable MAU.
 					$process_person_profile: false,
+					// Always stamped, even at rate 1, so a query written today
+					// keeps working unchanged if sampling is turned on later.
+					sample_rate: rate,
 				},
 			}),
 			signal: controller.signal,
