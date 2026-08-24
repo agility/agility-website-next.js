@@ -202,10 +202,16 @@ pre-aggregated API structurally cannot.
 
 **Two caveats before trusting the bot totals:**
 
-1. **Possibly a lower bound.** It is *unverified* whether Netlify invokes
-   middleware on cache hits. If it does not, crawlers are undercounted, since they
-   overwhelmingly request cacheable pages. Verify by hitting the same path twice
-   with a bot UA and checking whether one or two events land.
+1. **Probably complete, but confirm once.** Netlify's [request
+   chain](https://docs.netlify.com/resources/troubleshooting/request-chain/) runs
+   *Edge Functions (before cache)* at step 5 and the *Edge Cache* at step 6, and
+   Next.js middleware compiles to a Netlify edge function — so middleware should
+   see every request, including cache hits. Only an edge function explicitly
+   configured for caching moves to step 7 and gets skipped on hits, which this one
+   is not. Still verify empirically for the Next runtime: hit one path twice with a
+   bot UA, confirm the second reports a `cache-status` hit, and check whether one
+   or two events landed. **If only one landed, every bot total here is a lower
+   bound**, since crawlers overwhelmingly request cacheable pages.
 2. **No sampling or rate limit.** One event per bot request, uncapped. A large
    GPTBot or Bytespider sweep — or a spoofed UA — can burst thousands of events.
    Watch volume for the first week and add sampling if it's material.
