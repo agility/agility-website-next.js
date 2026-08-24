@@ -4,7 +4,7 @@
 #   ./ga4.sh <preset> [start] [end] [--all-hosts]
 #
 # Presets: sources | landing-pages | monthly | events | companies | params | referrers
-# Dates:   GA4-style (2025-08-01, 90daysAgo, today). Default: 2025-08-01 -> today.
+# Dates:   GA4-style (2025-08-01, 90daysAgo, today). Default: 365daysAgo -> today.
 #
 # By default every preset filters to hostName = agilitycms.com, which excludes
 # app.agilitycms.com (the CMS app, ~37% of raw AI session counts and not content
@@ -14,10 +14,26 @@ set -euo pipefail
 PROPERTY=354952039
 QUOTA_PROJECT=clear-aurora-382115
 
-PRESET="${1:-sources}"
-START="${2:-2025-08-01}"
-END="${3:-today}"
-ALL_HOSTS="${4:-}"
+PRESET="sources"
+# Relative default so the window stays a rolling 12 months. A hardcoded date
+# silently widens forever and stops matching the baselines in SKILL.md.
+START="365daysAgo"
+END="today"
+ALL_HOSTS=""
+
+# Scan every arg for the flag rather than pinning it to $4, so `ga4.sh sources
+# --all-hosts` cannot land the flag in the start-date slot.
+POSITIONAL=()
+for arg in "$@"; do
+  case "$arg" in
+    --all-hosts) ALL_HOSTS="--all-hosts" ;;
+    --*) echo "Unknown flag: $arg" >&2; exit 1 ;;
+    *) POSITIONAL+=("$arg") ;;
+  esac
+done
+[ "${#POSITIONAL[@]}" -ge 1 ] && PRESET="${POSITIONAL[0]}"
+[ "${#POSITIONAL[@]}" -ge 2 ] && START="${POSITIONAL[1]}"
+[ "${#POSITIONAL[@]}" -ge 3 ] && END="${POSITIONAL[2]}"
 
 TOKEN=$(gcloud auth application-default print-access-token 2>/dev/null) || {
   echo "No ADC token. Run: gcloud auth application-default login --scopes=https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/cloud-platform" >&2
@@ -28,11 +44,15 @@ AI_SOURCES='["chatgpt.com","claude.ai","perplexity.ai","perplexity","gemini.goog
 AI_FILTER="{\"filter\":{\"fieldName\":\"sessionSource\",\"inListFilter\":{\"values\":$AI_SOURCES}}}"
 HOST_FILTER='{"filter":{"fieldName":"hostName","stringFilter":{"value":"agilitycms.com"}}}'
 
+# The scope as a bare expression LIST, so presets that add their own conditions
+# can append to it. Building a finished andGroup here is what previously let the
+# events/params presets drop the host scope and silently ignore --all-hosts.
 if [ "$ALL_HOSTS" = "--all-hosts" ]; then
-  SCOPED="$AI_FILTER"
+  SCOPE_EXPRS="$AI_FILTER"
 else
-  SCOPED="{\"andGroup\":{\"expressions\":[$AI_FILTER,$HOST_FILTER]}}"
+  SCOPE_EXPRS="$AI_FILTER,$HOST_FILTER"
 fi
+SCOPED="{\"andGroup\":{\"expressions\":[$SCOPE_EXPRS]}}"
 
 case "$PRESET" in
   sources)
@@ -52,7 +72,7 @@ case "$PRESET" in
     NOISE='["page_view","session_start","first_visit","user_engagement","scroll","click","view_search_results","form_start"]'
     DIMS='[{"name":"sessionSource"},{"name":"eventName"}]'
     METS='[{"name":"eventCount"}]'
-    FILTER="{\"andGroup\":{\"expressions\":[$AI_FILTER,$HOST_FILTER,{\"notExpression\":{\"filter\":{\"fieldName\":\"eventName\",\"inListFilter\":{\"values\":$NOISE}}}}]}}"
+    FILTER="{\"andGroup\":{\"expressions\":[$SCOPE_EXPRS,{\"notExpression\":{\"filter\":{\"fieldName\":\"eventName\",\"inListFilter\":{\"values\":$NOISE}}}}]}}"
     LIMIT=40 ;;
   companies)
     # Snitcher reverse-IP firmographics. ~97% "(not set)" — see Trap 5.
@@ -63,7 +83,7 @@ case "$PRESET" in
     # What query strings arrive. Only ChatGPT tags links (utm_source=chatgpt.com).
     DIMS='[{"name":"pageLocation"}]'
     METS='[{"name":"sessions"}]'
-    FILTER="{\"andGroup\":{\"expressions\":[$AI_FILTER,$HOST_FILTER,{\"filter\":{\"fieldName\":\"pageLocation\",\"stringFilter\":{\"matchType\":\"CONTAINS\",\"value\":\"?\"}}}]}}"
+    FILTER="{\"andGroup\":{\"expressions\":[$SCOPE_EXPRS,{\"filter\":{\"fieldName\":\"pageLocation\",\"stringFilter\":{\"matchType\":\"CONTAINS\",\"value\":\"?\"}}}]}}"
     LIMIT=30 ;;
   referrers)
     # Proof the prompt is unrecoverable: bare origins only.

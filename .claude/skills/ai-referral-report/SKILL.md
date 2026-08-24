@@ -165,16 +165,69 @@ The script searches both referrer fields across all providers and de-dupes by co
 
 **Expect small numbers, and don't treat that as a bug.** HubSpot holds ~9 AI-attributed contacts against ~1,467 marketing-site AI sessions — roughly a 0.6% session→known-contact rate. That is a plausible conversion rate for cold discovery traffic, not a tracking failure. Verified two independent ways: the `AI_REFERRALS` bucket returns 8, and the domain search across both fields returns 9.
 
+## Source 4 — PostHog (the two bot populations)
+
+**This is the only source that sees AI bots at all.** GA4 fires from JavaScript;
+crawlers don't run it, so Sources 1–3 cover *referred humans only*. Middleware
+records the other two populations server-side as `ai_bot_request`.
+
+| Property | Values |
+|---|---|
+| `ai_category` | `training` (bulk corpus) · `retrieval` (fetched while answering, or AI-search indexing) |
+| `ai_bot` | `GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `ClaudeBot`, `Claude-User`, `PerplexityBot`, … |
+| `ai_vendor` | OpenAI, Anthropic, Perplexity, Google, Meta, … |
+| `path`, `host` | what was fetched |
+| `deploy_context` | `production` for real traffic — preview/dev are suppressed at source |
+
+**`retrieval` is the number that matters.** It happens whether or not anyone
+clicks, so it separates "we are not being cited" from "we are cited and the
+assistant answered in place". Referral decline means opposite things in those two
+worlds, so never report a referral trend without it.
+
+Query via the PostHog MCP (`mcp__posthog__exec`) — HogQL, e.g.:
+
+```sql
+SELECT properties.ai_category, properties.ai_bot, count() AS hits
+FROM events
+WHERE event = 'ai_bot_request' AND timestamp > now() - INTERVAL 30 DAY
+GROUP BY 1, 2 ORDER BY hits DESC
+```
+
+PostHog also holds **referred humans** independently, via `$referring_domain` on
+pageviews. Cross-check it against GA4 Source 1: agreement validates the `(not
+set)` exclusion in Trap 3, and disagreement is itself informative. PostHog
+additionally has per-event data, session recordings and funnels — which is how
+you answer "what did AI-referred visitors actually *do*", something GA4's
+pre-aggregated API structurally cannot.
+
+**Two caveats before trusting the bot totals:**
+
+1. **Possibly a lower bound.** It is *unverified* whether Netlify invokes
+   middleware on cache hits. If it does not, crawlers are undercounted, since they
+   overwhelmingly request cacheable pages. Verify by hitting the same path twice
+   with a bot UA and checking whether one or two events land.
+2. **No sampling or rate limit.** One event per bot request, uncapped. A large
+   GPTBot or Bytespider sweep — or a spoofed UA — can burst thousands of events.
+   Watch volume for the first week and add sampling if it's material.
+
 ## Standard report recipe
 
 1. Auth check.
 2. `sources` + `monthly` over the last 12 months via the Data API → volume and trend.
 3. `landing-pages` → which content AI actually surfaces.
 4. `events` → conversions (`free_trial`, `request_a_demo`, `new_demo_request`, `file_download`).
-5. HubSpot search per provider → named leads with landing pages.
-6. Cross-check any company names against `customUser:Snitcher*` dims (Trap 5).
+5. `hubspot.py content` + `leads` → named leads with landing pages.
+6. **PostHog `ai_bot_request` grouped by `ai_category`** → the crawl-vs-retrieval split.
+   Do this before writing any conclusion about the referral trend, for the reason
+   in Source 4.
+7. Cross-check any company names against `customUser:Snitcher*` dims (Trap 5).
 
-Always report AI traffic as a **share of total sessions** — it's small (~0.4%), and an absolute number without that context overstates it.
+Always report AI traffic as a **share of total sessions** — it's small (~0.5% of
+the marketing site), and an absolute number without that context overstates it.
+
+Report the three populations separately and never sum them. A crawl hit, a
+retrieval fetch and a human visit are different events with different meanings;
+a combined "AI traffic" figure is the single easiest way to mislead a reader here.
 
 ## Traps
 

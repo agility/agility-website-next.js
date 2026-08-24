@@ -51,6 +51,14 @@ const RULES: Rule[] = [
 	{ token: 'duckassistbot', bot: 'DuckAssistBot', category: 'retrieval', vendor: 'DuckDuckGo' },
 	{ token: 'mistralai-user', bot: 'MistralAI-User', category: 'retrieval', vendor: 'Mistral' },
 	{ token: 'google-cloudvertexbot', bot: 'Google-CloudVertexBot', category: 'retrieval', vendor: 'Google' },
+	//meta-externalfetcher must precede meta-externalagent: the agent token is
+	//not a substring of the fetcher's, but keeping the pair adjacent makes the
+	//training/retrieval split obvious to the next reader.
+	{ token: 'meta-externalfetcher', bot: 'Meta-ExternalFetcher', category: 'retrieval', vendor: 'Meta' },
+	{ token: 'youbot', bot: 'YouBot', category: 'retrieval', vendor: 'You.com' },
+	{ token: 'cohere-training-data-crawler', bot: 'cohere-training-data-crawler', category: 'training', vendor: 'Cohere' },
+	{ token: 'cohere-ai', bot: 'cohere-ai', category: 'retrieval', vendor: 'Cohere' },
+	{ token: 'firecrawl', bot: 'Firecrawl', category: 'retrieval', vendor: 'Firecrawl' },
 
 	// ---- training / bulk corpus ----
 	{ token: 'gptbot', bot: 'GPTBot', category: 'training', vendor: 'OpenAI' },
@@ -58,21 +66,31 @@ const RULES: Rule[] = [
 	{ token: 'ccbot', bot: 'CCBot', category: 'training', vendor: 'Common Crawl' },
 	{ token: 'bytespider', bot: 'Bytespider', category: 'training', vendor: 'ByteDance' },
 	{ token: 'meta-externalagent', bot: 'meta-externalagent', category: 'training', vendor: 'Meta' },
-	{ token: 'applebot-extended', bot: 'Applebot-Extended', category: 'training', vendor: 'Apple' },
 	{ token: 'amazonbot', bot: 'Amazonbot', category: 'training', vendor: 'Amazon' },
+	{ token: 'grokbot', bot: 'GrokBot', category: 'training', vendor: 'xAI' },
 	{ token: 'ai2bot', bot: 'AI2Bot', category: 'training', vendor: 'AI2' },
 	{ token: 'diffbot', bot: 'Diffbot', category: 'training', vendor: 'Diffbot' },
 	{ token: 'omgili', bot: 'omgili', category: 'training', vendor: 'Webz.io' },
 	{ token: 'timpibot', bot: 'Timpibot', category: 'training', vendor: 'Timpi' },
 ]
 
-// Deliberately absent:
+// Deliberately absent — all for the same reason, that they cannot be measured
+// from a user agent even though they are real:
 //
-//   Google-Extended — a robots.txt token, not a user agent. Gemini training
-//     crawls arrive as ordinary Googlebot and cannot be distinguished from
-//     search crawling at the UA level. Controllable via robots.txt, not measurable.
-//   Applebot, Bingbot — dual-purpose (search + assistant). Counting them here
-//     would inflate "AI" with ordinary search crawling.
+//   Google-Extended    a robots.txt token, NOT a user agent. Gemini training
+//                      crawls arrive as ordinary Googlebot and are
+//                      indistinguishable from search crawling at the UA layer.
+//                      Controllable via robots.txt; not measurable.
+//   Applebot-Extended  same shape: Apple always sends `Applebot/x.y`, and
+//                      -Extended exists only as a robots.txt opt-out token. A
+//                      UA rule for it would be dead code.
+//   Applebot, Bingbot  dual-purpose (search + assistant). Counting them here
+//                      would inflate "AI" with ordinary search crawling.
+//
+// This list is not stable — vendors add agents often. Re-check against
+// https://darkvisitors.com or each vendor's published crawler docs when the
+// retrieval numbers look flat, because a missing agent reads as "not cited"
+// rather than as a gap in instrumentation.
 
 /**
  * Identify an AI-vendor bot from a user agent string.

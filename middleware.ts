@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { NextRequest, NextFetchEvent } from 'next/server'
+import type { NextRequest, NextFetchEvent } from 'next/server'
 import { getDynamicPageURL } from "@agility/nextjs/node"
 import { checkRedirect } from 'lib/cms-content/checkRedirect'
 import { classifyAIBot } from 'lib/analytics/aiBots'
@@ -38,6 +38,11 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
 			captureServerEvent({
 				event: 'ai_bot_request',
 				distinctId: `ai-bot:${aiBot.bot}`,
+				//The POST leaves from the edge, so pass the crawler's own IP or
+				//PostHog geo-stamps every event with the serving PoP instead.
+				ip: request.headers.get('x-nf-client-connection-ip')
+					|| request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+					|| null,
 				properties: {
 					ai_bot: aiBot.bot,
 					ai_category: aiBot.category,

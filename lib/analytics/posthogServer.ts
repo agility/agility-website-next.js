@@ -20,18 +20,53 @@ interface CaptureArgs {
 	event: string
 	distinctId: string
 	properties?: Record<string, unknown>
+	/** Client IP, so PostHog geo-resolves the caller and not our edge PoP. */
+	ip?: string | null
 }
 
 /**
- * Send one event to PostHog. Resolves false when telemetry is unconfigured or
- * the request fails — callers should ignore the result.
+ * Deploy context, so preview and local traffic never lands in the production
+ * PostHog project.
+ *
+ * Deliberately fails OPEN: we skip only when a platform variable positively
+ * identifies a non-production deploy. If we cannot tell, we send — losing
+ * production telemetry to a misdetected env var is worse than a few stray
+ * preview events, and `deploy_context` on every event makes them filterable.
+ */
+function deployContext(): string {
+	return (
+		process.env.CONTEXT || // Netlify: production | deploy-preview | branch-deploy
+		process.env.VERCEL_ENV || // Vercel: production | preview | development
+		process.env.NODE_ENV ||
+		'unknown'
+	)
+}
+
+function isNonProductionDeploy(ctx: string): boolean {
+	return (
+		ctx === 'deploy-preview' ||
+		ctx === 'branch-deploy' ||
+		ctx === 'preview' ||
+		ctx === 'development' ||
+		ctx === 'test'
+	)
+}
+
+/**
+ * Send one event to PostHog. Resolves false when telemetry is unconfigured,
+ * suppressed for this environment, or the request fails — callers should
+ * ignore the result.
  */
 export async function captureServerEvent({
 	event,
 	distinctId,
 	properties = {},
+	ip,
 }: CaptureArgs): Promise<boolean> {
 	if (!POSTHOG_KEY || !POSTHOG_HOST) return false
+
+	const ctx = deployContext()
+	if (isNonProductionDeploy(ctx)) return false
 
 	const controller = new AbortController()
 	const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
@@ -46,11 +81,18 @@ export async function captureServerEvent({
 				distinct_id: distinctId,
 				timestamp: new Date().toISOString(),
 				properties: {
-					// Bots are not people. Without this PostHog would create a person
-					// profile per distinct_id, polluting person analytics and counting
-					// toward billable MAU.
-					$process_person_profile: false,
+					deploy_context: ctx,
+					// Forward the caller's IP. The POST originates from the edge
+					// runtime, so without this PostHog geo-stamps every event with
+					// the serving PoP — plausible-looking and meaningless. Keeping
+					// the IP also allows a claimed bot UA to be checked later
+					// against a vendor's published crawler ranges.
+					...(ip ? { $ip: ip } : {}),
 					...properties,
+					// Spread LAST so a caller cannot override it. Bots are not
+					// people: without this PostHog creates a person profile per
+					// distinct_id, polluting person analytics and billable MAU.
+					$process_person_profile: false,
 				},
 			}),
 			signal: controller.signal,

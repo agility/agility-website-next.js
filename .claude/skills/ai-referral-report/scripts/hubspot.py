@@ -22,6 +22,7 @@ repo root. Never printed, never logged, never passed as a CLI argument.
 Create one at: HubSpot Settings -> Integrations -> Private Apps -> Create,
 with scope `crm.objects.contacts.read`.
 """
+import datetime
 import json
 import os
 import re
@@ -93,8 +94,18 @@ def post(token, body, attempt=0):
 SEARCH_FIELDS = ["hs_analytics_source_data_1", "hs_analytics_first_referrer"]
 
 
+def to_epoch_ms(day):
+    """
+    HubSpot treats createdate as a datetime, which its search API expects as
+    UTC epoch milliseconds. A bare YYYY-MM-DD is rejected.
+    """
+    dt = datetime.datetime.strptime(day, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
+    return str(int(dt.timestamp() * 1000))
+
+
 def fetch(token, since=None, cap=1000):
     """Search each provider across both referrer fields, merged and de-duplicated by id."""
+    since_ms = to_epoch_ms(since) if since else None
     found, seen = [], set()
     for field in SEARCH_FIELDS:
         for prov in PROVIDERS:
@@ -105,8 +116,8 @@ def fetch(token, since=None, cap=1000):
                     "operator": "CONTAINS_TOKEN",
                     "value": "*%s*" % prov,
                 }]
-                if since:
-                    filters.append({"propertyName": "createdate", "operator": "GTE", "value": since})
+                if since_ms:
+                    filters.append({"propertyName": "createdate", "operator": "GTE", "value": since_ms})
                 body = {
                     "filterGroups": [{"filters": filters}],
                     "properties": PROPS,
@@ -128,40 +139,96 @@ def fetch(token, since=None, cap=1000):
     return found
 
 
+def referrer_host(url):
+    """Host of a referrer URL, or '' — so a provider name in a PATH cannot match."""
+    if not url:
+        return ""
+    m = re.match(r"^https?://([^/?#]+)", url.strip(), re.I)
+    return (m.group(1) if m else url.strip()).lower()
+
+
 def provider_of(p):
-    d = (p.get("hs_analytics_source_data_1") or p.get("hs_analytics_first_referrer") or "").lower()
-    for prov in PROVIDERS:
-        if prov in d:
-            return {"openai": "chatgpt"}.get(prov, prov)
+    """
+    Check BOTH fields rather than `or`-ing them: a contact recovered via
+    first_referrer often has a non-AI source_data_1 (IMPORT, a campaign name,
+    the pre-AI_REFERRALS bucketing), and short-circuiting on the first
+    non-empty value labels exactly those contacts "unknown".
+    """
+    candidates = [
+        (p.get("hs_analytics_source_data_1") or "").lower(),
+        referrer_host(p.get("hs_analytics_first_referrer")),
+    ]
+    for value in candidates:
+        for prov in PROVIDERS:
+            if prov in value:
+                return {"openai": "chatgpt"}.get(prov, prov)
     return "unknown"
 
 
+def is_ai_referred(p):
+    """
+    Server-side search matches `*provider*` anywhere in the field, including a
+    URL path — so `/blog/claude-vs-chatgpt-for-content` would qualify as an AI
+    referral. Re-check host-only here and drop the false positives.
+    """
+    return provider_of(p) != "unknown"
+
+
+# Tracking params to drop so the same page groups as one row. utm_source is the
+# one ChatGPT appends; the rest are ordinary campaign/ad noise.
+_TRACKING = re.compile(
+    r"(?:utm_[a-z]+|gclid|fbclid|msclkid|hsa_[a-z]+|_hsenc|_hsmi)=[^&]*", re.I
+)
+
+
 def clean_url(u):
-    """Strip origin and the utm_source ChatGPT appends, so pages group together."""
+    """Strip origin and tracking params so the same page groups together."""
     if not u:
         return "(none)"
     u = re.sub(r"^https?://[^/]+", "", u)
-    u = re.sub(r"[?&]utm_source=[^&]*", "", u)
-    u = re.sub(r"\?$", "", u)
+    # Split query off first, filter it, then reassemble — regex-substituting
+    # params in place leaves orphaned separators (`/p?a=1&b=2` -> `/p&b=2`).
+    path, sep, query = u.partition("?")
+    if sep:
+        kept = [kv for kv in query.split("&") if kv and not _TRACKING.fullmatch(kv)]
+        u = path + ("?" + "&".join(kept) if kept else "")
     return u or "/"
 
 
 def main():
     args = sys.argv[1:]
     mode = args[0] if args and not args[0].startswith("--") else "providers"
-    since = None
-    cap = 1000
-    if "--since" in args:
-        since = args[args.index("--since") + 1]
-    if "--limit" in args:
-        cap = int(args[args.index("--limit") + 1])
+
+    def flag_value(name):
+        if name not in args:
+            return None
+        i = args.index(name) + 1
+        if i >= len(args) or args[i].startswith("--"):
+            sys.exit("%s requires a value" % name)
+        return args[i]
+
+    since = flag_value("--since")
+    if since and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", since):
+        sys.exit("--since must be YYYY-MM-DD, got %r" % since)
+
+    cap_raw = flag_value("--limit")
+    try:
+        cap = int(cap_raw) if cap_raw else 1000
+    except ValueError:
+        sys.exit("--limit must be an integer, got %r" % cap_raw)
 
     token = load_token()
-    rows = fetch(token, since, cap)
+    raw = fetch(token, since, cap)
+
+    # Drop server-side false positives (provider name matched a URL path).
+    rows = [r for r in raw if is_ai_referred(r.get("properties", {}))]
+    dropped = len(raw) - len(rows)
     props = [r.get("properties", {}) for r in rows]
 
     print("== hubspot %s | %d AI-referred contacts%s ==" % (
         mode, len(rows), " since " + since if since else ""))
+    if dropped:
+        print("   (%d matched on a URL path rather than a referrer host — excluded)" % dropped)
     if not rows:
         print("(none)")
         return
