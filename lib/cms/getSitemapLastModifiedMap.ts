@@ -1,6 +1,7 @@
 import "server-only"
 
 import { getSitemapFlat } from "lib/cms/getSitemapFlat"
+import { isSearchVisible } from "lib/cms/isSearchVisible"
 import { getContentItem } from "lib/cms/getContentItem"
 import { getContentList } from "lib/cms/getContentList"
 import { getPage } from "lib/cms/getPage"
@@ -109,12 +110,7 @@ export const getSitemapLastModifiedMap = async ({
 	if (!sitemap) return {}
 
 	// Only real, sitemap-visible URLs (skip folders, redirects and hidden pages).
-	const entries = Object.entries(sitemap).filter(([, node]) => {
-		if (!node) return false
-		if (node.isFolder || node.redirect) return false
-		if (!node.visible?.sitemap) return false
-		return true
-	})
+	const entries = Object.entries(sitemap).filter(([, node]) => isSearchVisible(node))
 
 	const dynamicEntries = entries.filter(([, node]) => typeof node.contentID === "number")
 	const staticEntries = entries.filter(([, node]) => typeof node.contentID !== "number")

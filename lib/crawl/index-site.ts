@@ -1,4 +1,5 @@
 import { SitemapNode } from "lib/types/SitemapNode";
+import { isSearchVisible } from "lib/cms/isSearchVisible";
 import agilitySDK from "@agility/content-fetch"
 import { buildPageRecord, getAlgoliaClient, indexName, PageRecord } from "lib/crawl/index-page";
 import { notifyIndexingFailure } from "lib/crawl/notify-slack";
@@ -56,10 +57,7 @@ export const indexSite = async () => {
 		const path = keys[i]
 		const node = sitemapFlat[path]
 
-		if (node.isFolder || node.redirect) continue;
-		if (!node.visible.sitemap) {
-			continue;
-		}
+		if (!isSearchVisible(node)) continue;
 
 		const record = await buildPageRecord(path)
 		if (record) records.push(record)
