@@ -38,6 +38,12 @@ interface CaptureArgs {
 	/** Client IP, so PostHog geo-resolves the caller and not our edge PoP. */
 	ip?: string | null
 	/**
+	 * Request host. REQUIRED, and the environment gate — anything other than the
+	 * production host is dropped. Not optional on purpose: a caller that forgets
+	 * it should fail closed, not quietly ship preview traffic to production.
+	 */
+	host: string | null | undefined
+	/**
 	 * Fraction of calls to actually send, 0..1. Defaults to 1 (send everything).
 	 *
 	 * The rate in force is recorded on every sent event as `sample_rate`, so
@@ -49,30 +55,31 @@ interface CaptureArgs {
 }
 
 /**
- * Deploy context, so preview and local traffic never lands in the production
- * PostHog project.
+ * The only host whose traffic belongs in the production PostHog project.
  *
- * Deliberately fails OPEN: we skip only when a platform variable positively
- * identifies a non-production deploy. If we cannot tell, we send — losing
- * production telemetry to a misdetected env var is worse than a few stray
- * preview events, and `deploy_context` on every event makes them filterable.
+ * This gate used to read `process.env.CONTEXT` / `VERCEL_ENV`, which DID NOT
+ * WORK: Netlify does not surface CONTEXT into the Next edge bundle, so it fell
+ * through to NODE_ENV ('production' for any production build, previews
+ * included) and preview traffic landed in the production project. Observed
+ * directly — 1,546 events stamped `deploy_context: production` on host
+ * `deploy-preview-95--agility-cms-website.netlify.app`.
+ *
+ * The request's own host is the reliable signal, and it needs no build-time
+ * plumbing. Middleware already canonicalises every other host to this one.
  */
+const PRODUCTION_HOST = 'agilitycms.com'
+
+function isProductionHost(host: string | null | undefined): boolean {
+	return !!host && host.toLowerCase().split(':')[0] === PRODUCTION_HOST
+}
+
+/** Recorded for diagnostics only — never used to decide whether to send. */
 function deployContext(): string {
 	return (
 		process.env.CONTEXT || // Netlify: production | deploy-preview | branch-deploy
 		process.env.VERCEL_ENV || // Vercel: production | preview | development
 		process.env.NODE_ENV ||
 		'unknown'
-	)
-}
-
-function isNonProductionDeploy(ctx: string): boolean {
-	return (
-		ctx === 'deploy-preview' ||
-		ctx === 'branch-deploy' ||
-		ctx === 'preview' ||
-		ctx === 'development' ||
-		ctx === 'test'
 	)
 }
 
@@ -86,12 +93,16 @@ export async function captureServerEvent({
 	distinctId,
 	properties = {},
 	ip,
+	host,
 	sampleRate = 1,
 }: CaptureArgs): Promise<boolean> {
 	if (!POSTHOG_KEY || !POSTHOG_HOST || !HOST_IS_ABSOLUTE) return false
 
+	//Fail closed on anything that is not production: previews, branch deploys,
+	//localhost, and the netlify.app/publishwithagility.com aliases.
+	if (!isProductionHost(host)) return false
+
 	const ctx = deployContext()
-	if (isNonProductionDeploy(ctx)) return false
 
 	//Clamp before use: a misconfigured rate must not silently mean "send nothing".
 	const rate = Number.isFinite(sampleRate) ? Math.min(1, Math.max(0, sampleRate)) : 1

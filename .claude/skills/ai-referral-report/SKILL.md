@@ -206,11 +206,10 @@ Query via the PostHog MCP (`mcp__posthog__exec`) — HogQL, e.g.:
 
 ```sql
 SELECT properties.ai_category, properties.ai_bot,
-       sum(1 / toFloat64OrNull(properties.sample_rate)) AS est_hits
+       sum(1 / toFloat(coalesce(properties.sample_rate, 1))) AS est_hits
 FROM events
 WHERE event = 'ai_bot_request'
   AND timestamp > now() - INTERVAL 30 DAY
-  AND properties.host = 'agilitycms.com'
 GROUP BY 1, 2 ORDER BY est_hits DESC
 ```
 
@@ -218,10 +217,26 @@ Two things that query is doing deliberately:
 
 - **`sum(1 / sample_rate)`, not `count()`.** They are identical while sampling is
   off, and `count()` silently under-reports the moment it is turned on.
-- **`host` is filtered, not summed.** Telemetry fires before the middleware's
-  canonical-host redirect, so a crawler that follows our 301 is recorded twice —
-  once under the host it asked for, once under `agilitycms.com`. Summing across
-  hosts double-counts exactly the well-behaved crawlers.
+- **`toFloat()`, not `toFloat64()` / `toFloat64OrNull()`.** HogQL rejects the
+  width-suffixed conversions outright — the query fails rather than returning a
+  wrong number, but it fails confusingly.
+- **`coalesce(..., 1)` is load-bearing — do not drop it.** Events sent before
+  `sample_rate` existed have no such property, `toFloat(null)` is null, `1/null` is
+  null, and `sum` skips nulls *silently*. Verified: without the coalesce the same
+  query returned **8** against 1,546 actual events — a 190× under-report that
+  looks like a plausible small number. This is worse than the `count()` it
+  replaces, because `count()` at least fails in a direction you'd notice. Sanity
+  check any sampling query by selecting `count()` alongside `est_hits`: with
+  sampling off they must match.
+
+**No `host` filter is needed.** `captureServerEvent` drops anything whose host is
+not exactly `agilitycms.com`, so previews, `www.`, netlify.app aliases and
+localhost never reach the project. Earlier guidance said to filter on `host`
+because telemetry fires before the canonical-host redirect and a crawler
+following the 301 was recorded twice; the gate removes that at source. `host` is
+still stamped on every event, and `deploy_context` is **diagnostic only** — don't
+filter on it, since it reported `production` on preview traffic before the gate
+existed.
 
 PostHog also holds **referred humans** independently, via `$referring_domain` on
 pageviews. Cross-check it against GA4 Source 1: agreement validates the `(not

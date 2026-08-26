@@ -58,11 +58,22 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
 	 * Fire-and-forget via waitUntil: never awaited, never blocks the response,
 	 * and captureServerEvent swallows its own failures.
 	 *
-	 * This runs BEFORE the host canonicalization below, deliberately — a bot
-	 * hitting a non-canonical host is still a bot hit worth seeing. The cost is
-	 * that a crawler which follows our 301 is counted twice, once per host, so
-	 * `host` is recorded on every event and any total must filter to
-	 * agilitycms.com rather than summing across hosts. See SKILL.md, Source 4.
+	 * This runs BEFORE the host canonicalization below, but `host` is passed to
+	 * captureServerEvent, which DROPS anything that is not the production host.
+	 * That is deliberate and it fails closed:
+	 *
+	 *   - preview / branch / localhost traffic never reaches the production
+	 *     PostHog project. The previous env-var guard did not work — Netlify does
+	 *     not surface CONTEXT into the edge bundle, and 1,546 preview events
+	 *     landed in production stamped `deploy_context: production`.
+	 *   - a crawler that follows our 301 can no longer be double counted, since
+	 *     only the apex hit is recorded.
+	 *
+	 * The cost is that a bot which hits www (or a netlify.app alias) and never
+	 * follows the redirect is invisible. Accepted: anything that follows the 301
+	 * is still counted at the apex, which is the number we report.
+	 *
+	 * See SKILL.md, Source 4.
 	 *******************************/
 	const aiBot = classifyAIBot(request.headers.get('user-agent'))
 	if (aiBot) {
@@ -81,6 +92,9 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
 				ip: request.headers.get('x-nf-client-connection-ip')
 					|| request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
 					|| null,
+				//Environment gate: captureServerEvent drops anything that is not
+				//the production host. Passing it is what makes previews safe.
+				host,
 				sampleRate: aiBot.category === 'training' ? TRAINING_SAMPLE_RATE : 1,
 				properties: {
 					ai_bot: aiBot.bot,
