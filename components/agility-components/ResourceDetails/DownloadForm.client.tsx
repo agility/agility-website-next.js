@@ -3,6 +3,7 @@
 import Script from "next/script"
 import { useCallback, useEffect, useRef } from "react"
 import { capture, identify } from "lib/analytics/posthog"
+import { pushDataLayer } from "lib/analytics/dataLayer"
 import { useRouter } from 'next/navigation'
 
 interface IDownloadForm {
@@ -37,9 +38,10 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 					identify(emailAddress);
 				}
 
-				capture('website-form-submission', {
-					name: name
-				});
+				// HubSpot may redirect the page as soon as this callback returns, so send
+				// the event immediately by beacon instead of waiting for the next batch.
+				capture('website-form-submission', { name: name }, { transport: "sendBeacon", send_instantly: true })
+				pushDataLayer("website_form_submission", { form_name: name, form_type: "resource_download" })
 
 				if (redirectURL) {
 					router.push(redirectURL)

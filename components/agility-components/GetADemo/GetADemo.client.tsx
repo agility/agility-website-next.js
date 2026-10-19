@@ -2,6 +2,7 @@
 
 import classNames from "classnames"
 import { capture, identify } from "lib/analytics/posthog"
+import { pushDataLayer } from "lib/analytics/dataLayer"
 import { LinkButton } from "components/micro/LinkButton"
 import { useCallback, useMemo, useRef, useState } from "react"
 import type {
@@ -17,6 +18,16 @@ interface Props {
 }
 
 const SUBMIT_ENDPOINT = "/api/forms/hubspot"
+
+type FormErrorReason =
+	| "required"
+	| "invalid_email"
+	| "free_email"
+	| "consent_required"
+	| "multiple"
+	| "blocked_email"
+	| "server_error"
+	| "network_error"
 
 // Used ONLY if the server-side definition fetch failed, so the form always
 // renders. Mirrors the live "Demo Request On All Agility.com Webpages" form.
@@ -129,25 +140,36 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 		return undefined
 	}, [])
 
-	const validate = useCallback((): boolean => {
+	// Returns the failure reason per field (empty when valid) and shows the messages.
+	const validate = useCallback((): Record<string, FormErrorReason> => {
 		const next: Record<string, string | undefined> = {}
-		let ok = true
+		const reasons: Record<string, FormErrorReason> = {}
 		for (const f of visibleFields) {
-			const err = getFieldError(f, values[f.name] || "")
+			const val = (values[f.name] || "").trim()
+			const err = getFieldError(f, val)
 			if (err) {
 				next[f.name] = err
-				ok = false
+				reasons[f.name] = !val
+					? "required"
+					: isEmailField(f) && !EMAIL_RE.test(val)
+						? "invalid_email"
+						: "free_email"
 			}
 		}
 		for (const c of def.communicationConsentCheckboxes) {
 			if (c.required && !consents[c.communicationTypeId]) {
 				next[`consent_${c.communicationTypeId}`] = "This consent is required."
-				ok = false
+				reasons[`consent_${c.communicationTypeId}`] = "consent_required"
 			}
 		}
 		setErrors(next)
-		return ok
+		return reasons
 	}, [visibleFields, values, def.communicationConsentCheckboxes, consents, getFieldError])
+
+	// Every way a submit can fail, recorded without the visitor's data, so a drop in
+	// completions can be told apart from a drop in attempts.
+	const captureFormError = (reason: FormErrorReason, extra?: Record<string, unknown>) =>
+		capture("website-form-error", { name: formName, form_type: "demo", reason, ...extra })
 
 	// Instant feedback on blur for the work-email field only (skip when empty).
 	const handleFieldBlur = (f: HubSpotFormField) => {
@@ -160,7 +182,15 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 		e.preventDefault()
 		setSubmitError(null)
 		if (submitting) return
-		if (!validate()) return
+		const invalid = validate()
+		if (Object.keys(invalid).length) {
+			const reasons = Array.from(new Set(Object.values(invalid)))
+			captureFormError(reasons.length === 1 ? reasons[0] : "multiple", {
+				reasons,
+				fields: Object.keys(invalid),
+			})
+			return
+		}
 
 		setSubmitting(true)
 
@@ -201,6 +231,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 
 			// HubSpot's server-side "block free email domains" backstop.
 			if (data?.blockedEmail) {
+				captureFormError("blocked_email")
 				const emailField = visibleFields.find(isEmailField)
 				if (emailField) {
 					setErrors((prev) => ({ ...prev, [emailField.name]: "Please use your business email address." }))
@@ -210,6 +241,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			}
 
 			if (!res.ok || !data?.success) {
+				captureFormError("server_error", { status: res.status })
 				setSubmitError(SUBMIT_ERROR_MESSAGE)
 				setSubmitting(false)
 				return
@@ -224,6 +256,11 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			// including the honeypot (_hp_extra_field) — a non-empty value there flags
 			// a submission the server silently dropped, so it's worth seeing in analytics.
 			capture("website-form-submission", { name: formName, ...fieldsPayload })
+			// GTM/GA4: count completed requests only, and never a honeypot hit (the
+			// server reports those as success so bots aren't tipped off).
+			if (!fieldsPayload._hp_extra_field) {
+				pushDataLayer("website_form_submission", { form_name: formName, form_type: "demo" })
+			}
 
 			const target = redirectURL || def.redirectUrl
 			if (target) {
@@ -239,6 +276,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			}
 		} catch (err) {
 			console.error("Demo form submission error:", err)
+			captureFormError("network_error")
 			setSubmitError(SUBMIT_ERROR_MESSAGE)
 			setSubmitting(false)
 		}

@@ -3,6 +3,7 @@
 // initial JS bundle.
 
 type PostHogModule = typeof import('posthog-js')['default']
+type CaptureOptions = import('posthog-js').CaptureOptions
 
 let instance: PostHogModule | null = null
 let loadPromise: Promise<PostHogModule | null> | null = null
@@ -58,11 +59,18 @@ export function initPostHog() {
 	}
 }
 
-export function capture(event: string, properties?: Record<string, unknown>) {
+// `options` passes through to posthog-js. Use { transport: 'sendBeacon',
+// send_instantly: true } for an event fired just before the page navigates away
+// (e.g. a HubSpot embed that redirects on submit), so it isn't lost in the batch.
+export function capture(
+	event: string,
+	properties?: Record<string, unknown>,
+	options?: CaptureOptions
+) {
 	if (instance) {
-		instance.capture(event, properties)
+		instance.capture(event, properties, options)
 	} else {
-		queue.push((ph) => ph.capture(event, properties))
+		queue.push((ph) => ph.capture(event, properties, options))
 		// If a capture is called before initPostHog() has run, trigger the load
 		// so the event eventually fires.
 		load()

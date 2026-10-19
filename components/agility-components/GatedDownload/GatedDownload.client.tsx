@@ -2,6 +2,7 @@
 "use client"
 import Script from "next/script"
 import { capture, identify } from "lib/analytics/posthog"
+import { pushDataLayer } from "lib/analytics/dataLayer"
 import { useCallback, useEffect, useRef } from "react"
 
 import { useRouter } from 'next/navigation'
@@ -52,9 +53,10 @@ export const GatedDownloadClient = ({ hubspotForm, redirectURL }: IGatedDownload
 					identify(emailAddress);
 				}
 
-				capture('website-form-submission', {
-					name: hsForm.name
-				});
+				// HubSpot may redirect the page as soon as this callback returns, so send
+				// the event immediately by beacon instead of waiting for the next batch.
+				capture('website-form-submission', { name: hsForm.name }, { transport: "sendBeacon", send_instantly: true })
+				pushDataLayer("website_form_submission", { form_name: hsForm.name, form_type: "gated_download" })
 
 				router.push(redirectURL)
 
