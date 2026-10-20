@@ -111,6 +111,9 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 	const { portalId, formId, name: formName } = JSON.parse(
 		hubspotForm || '{"portalId":"","formId":"","name":""}'
 	)
+	// This component also renders the /subscribe newsletter form, so only a demo
+	// form may report itself as one (GA4's demo conversion keys off form_type).
+	const formType = /demo/i.test(formName) ? "demo" : "newsletter"
 
 	const visibleFields = useMemo(() => def.fields.filter((f) => !f.hidden), [def])
 	const hiddenFields = useMemo(() => def.fields.filter((f) => f.hidden), [def])
@@ -167,7 +170,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 	// Every way a submit can fail, recorded without the visitor's data, so a drop in
 	// completions can be told apart from a drop in attempts.
 	const captureFormError = (reason: FormErrorReason, extra?: Record<string, unknown>) =>
-		capture("website-form-error", { name: formName, form_type: "demo", reason, ...extra })
+		capture("website-form-error", { name: formName, form_type: formType, reason, ...extra })
 
 	// Instant feedback on blur for the work-email field only (skip when empty).
 	const handleFieldBlur = (f: HubSpotFormField) => {
@@ -266,7 +269,7 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 		// a submission the server silently dropped, so it's worth seeing in analytics.
 		// GTM/GA4 gets the form name and type only, never the field values, and never
 		// a honeypot hit (the server reports those as success so bots aren't tipped off).
-		const conversion = { name: formName, form_type: "demo" }
+		const conversion = { name: formName, form_type: formType }
 		const tracked = trackConversion(
 			"website-form-submission",
 			{ ...conversion, ...fieldsPayload },
