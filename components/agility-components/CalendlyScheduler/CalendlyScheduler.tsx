@@ -4,6 +4,7 @@ import { getContentItem } from "lib/cms/getContentItem"
 
 import { renderHTMLCustom } from "lib/utils/renderHtmlCustom"
 import Script from "next/script"
+import { CalendlyWidget } from "./CalendlyWidget.client"
 
 interface ICalendlyScheduler {
 	iFrameURL: string
@@ -36,11 +37,7 @@ export const CalendlyScheduler = async ({ module, languageCode }: UnloadedModule
                             data-agility-html></div>
 					</div>
 					<div className="lg:w-3/5">
-						<div
-                            className="calendly-inline-widget px-3 -mt-10"
-                            data-url={fields.iFrameURL}
-                            style={{ minWidth: "320px", height: "1100px" }}
-                            data-agility-field="iFrameURL"></div>
+						<CalendlyWidget url={fields.iFrameURL} />
 					</div>
 				</div>
 			</Container>

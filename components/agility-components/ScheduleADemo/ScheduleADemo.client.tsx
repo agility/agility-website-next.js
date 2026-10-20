@@ -1,14 +1,16 @@
 "use client"
-import Script from "next/script"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
+import { useBookingTracker } from "lib/analytics/conversions"
+
+// HubSpot's meetings embed posts this from its iframe when a booking succeeds.
+const isBooked = (data: any) => !!data?.meetingBookSucceeded
 
 interface Props {
 	schedulerIFrameURL: string
 }
 
 export const ScheduleADemoClient = ({ schedulerIFrameURL }: Props) => {
-	const refIframe = useRef<HTMLIFrameElement>(null)
-	const [iframeUrl, setIframeUrl] = useState("")
+	const containerRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		if (typeof window === "undefined") return
@@ -26,9 +28,13 @@ export const ScheduleADemoClient = ({ schedulerIFrameURL }: Props) => {
 		}
 	}, [])
 
+	// Record completed bookings, the real MQL. Before this, a booking was only
+	// visible in HubSpot, so a stop in bookings could go unnoticed for weeks.
+	useBookingTracker(containerRef, schedulerIFrameURL, isBooked)
+
 	return (
 		<>
-			<div className="meetings-iframe-container h-[800px] w-full" data-src={schedulerIFrameURL}></div>
+			<div ref={containerRef} className="meetings-iframe-container h-[800px] w-full" data-src={schedulerIFrameURL}></div>
 		</>
 	)
 }

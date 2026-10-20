@@ -4,7 +4,8 @@ import Script from "next/script"
 import { ISubmissionForm } from "./SubmissionForm"
 import { useCallback, useEffect, useRef } from "react"
 import { Container } from "components/micro/Container"
-import { capture, identify } from "lib/analytics/posthog"
+import { identify } from "lib/analytics/posthog"
+import { trackConversion } from "lib/analytics/conversions"
 import { useRouter } from "next/navigation"
 
 export const SubmissionFormClient = ({
@@ -38,9 +39,7 @@ export const SubmissionFormClient = ({
 					identify(emailAddress)
 				}
 
-				capture("website-form-submission", {
-					name: name
-				})
+				trackConversion("website-form-submission", { name: name, form_type: "submission_form" })
 
 				if (redirectURL) {
 					router.push(redirectURL)

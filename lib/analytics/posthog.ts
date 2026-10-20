@@ -3,6 +3,7 @@
 // initial JS bundle.
 
 type PostHogModule = typeof import('posthog-js')['default']
+type CaptureOptions = import('posthog-js').CaptureOptions
 
 let instance: PostHogModule | null = null
 let loadPromise: Promise<PostHogModule | null> | null = null
@@ -58,15 +59,27 @@ export function initPostHog() {
 	}
 }
 
-export function capture(event: string, properties?: Record<string, unknown>) {
+// `options` passes through to posthog-js. Resolves once posthog-js has taken the
+// event, which can be later than the call if the library is still loading; see
+// trackConversion in ./conversions.
+export function capture(
+	event: string,
+	properties?: Record<string, unknown>,
+	options?: CaptureOptions
+): Promise<void> {
 	if (instance) {
-		instance.capture(event, properties)
-	} else {
-		queue.push((ph) => ph.capture(event, properties))
+		instance.capture(event, properties, options)
+		return Promise.resolve()
+	}
+	return new Promise((resolve) => {
+		queue.push((ph) => {
+			ph.capture(event, properties, options)
+			resolve()
+		})
 		// If a capture is called before initPostHog() has run, trigger the load
 		// so the event eventually fires.
 		load()
-	}
+	})
 }
 
 export function identify(

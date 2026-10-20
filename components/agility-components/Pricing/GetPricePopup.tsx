@@ -8,7 +8,8 @@ import clsx from 'clsx'
 import LoadingWidget from "components/common/LoadingWidget"
 import { Bouncy } from "components/micro/loaders/Bouncy"
 import { load } from 'cheerio'
-import { capture, identify } from 'lib/analytics/posthog'
+import { identify } from 'lib/analytics/posthog'
+import { trackConversion } from "lib/analytics/conversions"
 
 interface Props {
 	hubSpotForm: HubspotForm
@@ -42,9 +43,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 					identify(emailAddress);
 				}
 
-				capture('website-form-submission', {
-					name: hubSpotForm.name
-				});
+				trackConversion("website-form-submission", { name: hubSpotForm.name, form_type: "pricing" })
 
 			}
 

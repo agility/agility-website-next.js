@@ -4,7 +4,8 @@
 import { LinkButton } from "components/micro/LinkButton"
 import { HubspotForm } from "lib/types/HubspotForm"
 import Script from "next/script"
-import { capture, identify } from 'lib/analytics/posthog'
+import { identify } from 'lib/analytics/posthog'
+import { trackConversion } from 'lib/analytics/conversions'
 
 interface Props {
 	subscribeButtonLabel: string
@@ -49,7 +50,7 @@ export const FooterSubscribe = ({
 									identify(emailAddress);
 								}
 
-								capture('newsletter-signup');
+								trackConversion('newsletter-signup', { form_type: 'newsletter' })
 
 							}
 						})

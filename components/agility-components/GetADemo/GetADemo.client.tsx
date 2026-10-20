@@ -2,6 +2,7 @@
 
 import classNames from "classnames"
 import { capture, identify } from "lib/analytics/posthog"
+import { trackConversion } from "lib/analytics/conversions"
 import { LinkButton } from "components/micro/LinkButton"
 import { useCallback, useMemo, useRef, useState } from "react"
 import type {
@@ -17,6 +18,18 @@ interface Props {
 }
 
 const SUBMIT_ENDPOINT = "/api/forms/hubspot"
+
+type FormErrorReason =
+	| "required"
+	| "invalid_email"
+	| "free_email"
+	| "consent_required"
+	| "multiple"
+	| "blocked_email"
+	| "server_error"
+	| "network_error"
+
+type FieldError = { reason: FormErrorReason; message: string }
 
 // Used ONLY if the server-side definition fetch failed, so the form always
 // renders. Mirrors the live "Demo Request On All Agility.com Webpages" form.
@@ -98,6 +111,9 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 	const { portalId, formId, name: formName } = JSON.parse(
 		hubspotForm || '{"portalId":"","formId":"","name":""}'
 	)
+	// This component also renders the /subscribe newsletter form, so only a demo
+	// form may report itself as one (GA4's demo conversion keys off form_type).
+	const formType = /demo/i.test(formName) ? "demo" : "newsletter"
 
 	const visibleFields = useMemo(() => def.fields.filter((f) => !f.hidden), [def])
 	const hiddenFields = useMemo(() => def.fields.filter((f) => f.hidden), [def])
@@ -118,49 +134,64 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 		if (errors[name]) setErrors((e) => ({ ...e, [name]: undefined }))
 	}
 
-	// Per-field validation. Returns an error message or undefined.
-	const getFieldError = useCallback((f: HubSpotFormField, raw: string): string | undefined => {
+	// Per-field validation. Returns the failure reason and its message, or undefined.
+	const getFieldError = useCallback((f: HubSpotFormField, raw: string): FieldError | undefined => {
 		const val = (raw ?? "").trim()
-		if (f.required && !val) return `${f.label || f.name} is required.`
+		if (f.required && !val) return { reason: "required", message: `${f.label || f.name} is required.` }
 		if (isEmailField(f) && val) {
-			if (!EMAIL_RE.test(val)) return "Please enter a valid email address."
-			if (f.blockFreeEmail && isFreeEmailDomain(val)) return "Please use your business email address."
+			if (!EMAIL_RE.test(val)) return { reason: "invalid_email", message: "Please enter a valid email address." }
+			if (f.blockFreeEmail && isFreeEmailDomain(val))
+				return { reason: "free_email", message: "Please use your business email address." }
 		}
 		return undefined
 	}, [])
 
-	const validate = useCallback((): boolean => {
+	// Returns the failure reason per field (empty when valid) and shows the messages.
+	const validate = useCallback((): Record<string, FormErrorReason> => {
 		const next: Record<string, string | undefined> = {}
-		let ok = true
+		const reasons: Record<string, FormErrorReason> = {}
 		for (const f of visibleFields) {
 			const err = getFieldError(f, values[f.name] || "")
 			if (err) {
-				next[f.name] = err
-				ok = false
+				next[f.name] = err.message
+				reasons[f.name] = err.reason
 			}
 		}
 		for (const c of def.communicationConsentCheckboxes) {
 			if (c.required && !consents[c.communicationTypeId]) {
 				next[`consent_${c.communicationTypeId}`] = "This consent is required."
-				ok = false
+				reasons[`consent_${c.communicationTypeId}`] = "consent_required"
 			}
 		}
 		setErrors(next)
-		return ok
+		return reasons
 	}, [visibleFields, values, def.communicationConsentCheckboxes, consents, getFieldError])
+
+	// Every way a submit can fail, recorded without the visitor's data, so a drop in
+	// completions can be told apart from a drop in attempts.
+	const captureFormError = (reason: FormErrorReason, extra?: Record<string, unknown>) =>
+		capture("website-form-error", { name: formName, form_type: formType, reason, ...extra })
 
 	// Instant feedback on blur for the work-email field only (skip when empty).
 	const handleFieldBlur = (f: HubSpotFormField) => {
 		if (!isEmailField(f)) return
 		if (!(values[f.name] || "").trim()) return
-		setErrors((prev) => ({ ...prev, [f.name]: getFieldError(f, values[f.name] || "") }))
+		setErrors((prev) => ({ ...prev, [f.name]: getFieldError(f, values[f.name] || "")?.message }))
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setSubmitError(null)
 		if (submitting) return
-		if (!validate()) return
+		const invalid = validate()
+		if (Object.keys(invalid).length) {
+			const reasons = Array.from(new Set(Object.values(invalid)))
+			captureFormError(reasons.length === 1 ? reasons[0] : "multiple", {
+				reasons,
+				fields: Object.keys(invalid),
+			})
+			return
+		}
 
 		setSubmitting(true)
 
@@ -181,8 +212,12 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			text: c.label,
 		}))
 
+		// Only the request itself is in the try, so nothing after a successful submit
+		// can be reported as a network error.
+		let res: Response
+		let data: any
 		try {
-			const res = await fetch(SUBMIT_ENDPOINT, {
+			res = await fetch(SUBMIT_ENDPOINT, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -197,49 +232,60 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 				}),
 			})
 
-			const data = await res.json().catch(() => null)
-
-			// HubSpot's server-side "block free email domains" backstop.
-			if (data?.blockedEmail) {
-				const emailField = visibleFields.find(isEmailField)
-				if (emailField) {
-					setErrors((prev) => ({ ...prev, [emailField.name]: "Please use your business email address." }))
-				}
-				setSubmitting(false)
-				return
-			}
-
-			if (!res.ok || !data?.success) {
-				setSubmitError(SUBMIT_ERROR_MESSAGE)
-				setSubmitting(false)
-				return
-			}
-
-			// --- Conversion tracking: parity with the old embed's onFormSubmitted ---
-			const emailField = visibleFields.find(isEmailField)
-			const email = emailField ? (values[emailField.name] || "").trim() : ""
-			if (email) identify(email)
-			// Send every submitted field to PostHog alongside the form name. We reuse
-			// fieldsPayload (visible + populated hidden fields, already trimmed),
-			// including the honeypot (_hp_extra_field) — a non-empty value there flags
-			// a submission the server silently dropped, so it's worth seeing in analytics.
-			capture("website-form-submission", { name: formName, ...fieldsPayload })
-
-			const target = redirectURL || def.redirectUrl
-			if (target) {
-				// Use a full-page (hard) navigation, NOT router.push: the thank-you
-				// destination mounts a third-party scheduling widget that only
-				// initializes on a real document load — a client-side (soft) SPA
-				// navigation leaves the widget's script un-run and the booking step
-				// broken. The PostHog conversion event captured above is flushed by
-				// posthog-js's pagehide/sendBeacon handler as this page unloads.
-				window.location.assign(target)
-			} else {
-				setSubmitting(false)
-			}
+			data = await res.json().catch(() => null)
 		} catch (err) {
 			console.error("Demo form submission error:", err)
+			captureFormError("network_error")
 			setSubmitError(SUBMIT_ERROR_MESSAGE)
+			setSubmitting(false)
+			return
+		}
+
+		// HubSpot's server-side "block free email domains" backstop.
+		if (data?.blockedEmail) {
+			captureFormError("blocked_email")
+			const emailField = visibleFields.find(isEmailField)
+			if (emailField) {
+				setErrors((prev) => ({ ...prev, [emailField.name]: "Please use your business email address." }))
+			}
+			setSubmitting(false)
+			return
+		}
+
+		if (!res.ok || !data?.success) {
+			captureFormError("server_error", { status: res.status })
+			setSubmitError(SUBMIT_ERROR_MESSAGE)
+			setSubmitting(false)
+			return
+		}
+
+		// --- Conversion tracking: parity with the old embed's onFormSubmitted ---
+		const emailField = visibleFields.find(isEmailField)
+		const email = emailField ? (values[emailField.name] || "").trim() : ""
+		if (email) identify(email)
+		// Send every submitted field to PostHog alongside the form name. We reuse
+		// fieldsPayload (visible + populated hidden fields, already trimmed),
+		// including the honeypot (_hp_extra_field) — a non-empty value there flags
+		// a submission the server silently dropped, so it's worth seeing in analytics.
+		// GTM/GA4 gets the form name and type only, never the field values, and never
+		// a honeypot hit (the server reports those as success so bots aren't tipped off).
+		const conversion = { name: formName, form_type: formType }
+		const tracked = trackConversion(
+			"website-form-submission",
+			{ ...conversion, ...fieldsPayload },
+			fieldsPayload._hp_extra_field ? null : conversion
+		)
+
+		const target = redirectURL || def.redirectUrl
+		if (target) {
+			// Use a full-page (hard) navigation, NOT router.push: the thank-you
+			// destination mounts a third-party scheduling widget that only
+			// initializes on a real document load — a client-side (soft) SPA
+			// navigation leaves the widget's script un-run and the booking step
+			// broken. Wait for the conversion to be sent first (at most 1s).
+			await tracked
+			window.location.assign(target)
+		} else {
 			setSubmitting(false)
 		}
 	}

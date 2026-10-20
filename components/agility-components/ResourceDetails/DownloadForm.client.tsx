@@ -2,7 +2,8 @@
 "use client"
 import Script from "next/script"
 import { useCallback, useEffect, useRef } from "react"
-import { capture, identify } from "lib/analytics/posthog"
+import { identify } from "lib/analytics/posthog"
+import { trackConversion } from "lib/analytics/conversions"
 import { useRouter } from 'next/navigation'
 
 interface IDownloadForm {
@@ -37,9 +38,7 @@ export const DownloadForm = ({ hubspotForm, redirectURL }: IDownloadForm) => {
 					identify(emailAddress);
 				}
 
-				capture('website-form-submission', {
-					name: name
-				});
+				trackConversion("website-form-submission", { name: name, form_type: "resource_download" })
 
 				if (redirectURL) {
 					router.push(redirectURL)
