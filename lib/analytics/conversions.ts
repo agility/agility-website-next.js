@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from "react"
+import { useEffect } from "react"
 import { capture } from "./posthog"
 import { pushDataLayer } from "./dataLayer"
 
@@ -30,24 +30,33 @@ export async function trackConversion(
 	}
 }
 
+// The scheduler embeds we know: the iframes each one renders, and the message it
+// posts to the page when a booking succeeds.
+const SCHEDULERS = [
+	{ frames: ".meetings-iframe-container iframe", isBooked: (data: any) => !!data?.meetingBookSucceeded },
+	{ frames: ".calendly-inline-widget iframe", isBooked: (data: any) => data?.event === "calendly.event_scheduled" },
+]
+
 /**
- * Record `demo-booked` when the scheduler iframe inside `containerRef` posts a message
- * that `isBooked` recognises. Matching on the message's source rather than its origin
- * works on any scheduler domain, and two schedulers on one page can't count each
- * other's bookings. Define `isBooked` at module level so the listener isn't rebound.
+ * Record `demo-booked` when any scheduler on the page reports a booking. Mounted once
+ * for the whole site, because the booking step embeds HubSpot's scheduler through CMS
+ * rich text, where no component owns it. A message counts only if it comes from one of
+ * the scheduler iframes, so nothing else on the page can fake a booking.
  */
-export function useBookingTracker(
-	containerRef: RefObject<HTMLElement>,
-	scheduler: string,
-	isBooked: (data: any) => boolean
-) {
+export function useBookingTracking() {
 	useEffect(() => {
 		const onMessage = (e: MessageEvent) => {
-			const frame = containerRef.current?.querySelector("iframe")
-			if (!frame || e.source !== frame.contentWindow || !isBooked(e.data)) return
-			trackConversion("demo-booked", { scheduler: scheduler.split("?")[0], page: window.location.pathname })
+			for (const { frames, isBooked } of SCHEDULERS) {
+				const frame = Array.from(document.querySelectorAll<HTMLIFrameElement>(frames)).find(
+					(f) => f.contentWindow === e.source
+				)
+				if (frame && isBooked(e.data)) {
+					trackConversion("demo-booked", { scheduler: frame.src.split("?")[0], page: window.location.pathname })
+					return
+				}
+			}
 		}
 		window.addEventListener("message", onMessage)
 		return () => window.removeEventListener("message", onMessage)
-	}, [containerRef, scheduler, isBooked])
+	}, [])
 }
