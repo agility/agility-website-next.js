@@ -181,7 +181,7 @@ Before saving, confirm:
 After a successful save, provide:
 
 1. Content ID (from the save response)
-2. **Preview URL:** `https://agilitycms.com/blog/post-details?ContentID={contentID}&lang=en-ca&agilitypreviewkey=%2b8njrinSYiOFEXvr1SdYXZ8B4P8WNLaRwQojpCY%2beeJP4U2OZlBUWyQADkWl22ipb%2bavkFT%2fkQE95I0cDRB%2b5Q%3d%3d&agilityts={YYYYMMDDHHMMSS}` — replace `{contentID}` with the saved item's contentID and `{YYYYMMDDHHMMSS}` with the current UTC timestamp (e.g., `20260407153022`).
+2. **Preview URL:** `https://agilitycms.com/blog/post-details?ContentID={contentID}&lang=en-ca&agilitypreviewkey=%2b8njrinSYiOFEXvr1SdYXZ8B4P8WNLaRwQojpCY%2beeJP4U2OZlBUWyQADkWl22ipb%2bavkFT%2fkQE95I0cDRB%2f5Q%3d%3d&agilityts={YYYYMMDDHHMMSS}` — replace `{contentID}` with the saved item's contentID and `{YYYYMMDDHHMMSS}` with the current UTC timestamp (e.g., `20260407153022`). The link signs you in with a cookie and redirects to `/blog/{slug}?preview=1`, so test it in a browser (or with `curl -L -c jar -b jar`); without the cookie it 404s. Key corrected 2026-10-20 (the last segment is `%2f5Q`, not `%2b5Q`).
 3. CMS editor link: `https://app.agilitycms.com/instance/{GUID}/en-ca/content/list-36/listitem-{contentID}`
 4. Live URL (after publish): `https://agilitycms.com/blog/{slug}`
 5. Remind them to review and publish in the CMS
