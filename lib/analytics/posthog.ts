@@ -59,22 +59,27 @@ export function initPostHog() {
 	}
 }
 
-// `options` passes through to posthog-js. Use { transport: 'sendBeacon',
-// send_instantly: true } for an event fired just before the page navigates away
-// (e.g. a HubSpot embed that redirects on submit), so it isn't lost in the batch.
+// `options` passes through to posthog-js. Resolves once posthog-js has taken the
+// event, which can be later than the call if the library is still loading; see
+// trackConversion in ./conversions.
 export function capture(
 	event: string,
 	properties?: Record<string, unknown>,
 	options?: CaptureOptions
-) {
+): Promise<void> {
 	if (instance) {
 		instance.capture(event, properties, options)
-	} else {
-		queue.push((ph) => ph.capture(event, properties, options))
+		return Promise.resolve()
+	}
+	return new Promise((resolve) => {
+		queue.push((ph) => {
+			ph.capture(event, properties, options)
+			resolve()
+		})
 		// If a capture is called before initPostHog() has run, trigger the load
 		// so the event eventually fires.
 		load()
-	}
+	})
 }
 
 export function identify(

@@ -8,8 +8,8 @@ import clsx from 'clsx'
 import LoadingWidget from "components/common/LoadingWidget"
 import { Bouncy } from "components/micro/loaders/Bouncy"
 import { load } from 'cheerio'
-import { capture, identify } from 'lib/analytics/posthog'
-import { pushDataLayer } from "lib/analytics/dataLayer"
+import { identify } from 'lib/analytics/posthog'
+import { trackConversion } from "lib/analytics/conversions"
 
 interface Props {
 	hubSpotForm: HubspotForm
@@ -43,10 +43,7 @@ export default function GetPricePopup({ priceDialogOpen, setPriceDialogOpen, hub
 					identify(emailAddress);
 				}
 
-				// HubSpot may redirect the page as soon as this callback returns, so send
-				// the event immediately by beacon instead of waiting for the next batch.
-				capture('website-form-submission', { name: hubSpotForm.name }, { transport: "sendBeacon", send_instantly: true })
-				pushDataLayer("website_form_submission", { form_name: hubSpotForm.name, form_type: "pricing" })
+				trackConversion("website-form-submission", { name: hubSpotForm.name, form_type: "pricing" })
 
 			}
 
