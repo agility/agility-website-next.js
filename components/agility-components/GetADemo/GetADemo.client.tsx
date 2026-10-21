@@ -3,6 +3,7 @@
 import classNames from "classnames"
 import { capture, identify } from "lib/analytics/posthog"
 import { trackConversion } from "lib/analytics/conversions"
+import { savePrefill } from "lib/hubspot/meetingsPrefill"
 import { LinkButton } from "components/micro/LinkButton"
 import { useCallback, useMemo, useRef, useState } from "react"
 import type {
@@ -283,6 +284,8 @@ export const GetADemoClient = ({ hubspotForm, redirectURL, formDefinition }: Pro
 			// initializes on a real document load — a client-side (soft) SPA
 			// navigation leaves the widget's script un-run and the booking step
 			// broken. Wait for the conversion to be sent first (at most 1s).
+			// The booking step's scheduler fills in these details itself.
+			savePrefill({ firstName: fieldsPayload.firstname, lastName: fieldsPayload.lastname, email })
 			await tracked
 			window.location.assign(target)
 		} else {
