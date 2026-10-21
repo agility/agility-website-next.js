@@ -28,7 +28,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env*.local
+# Broad on purpose: .env*.local left .env and .env.production tracked-able.
+# Keep the example file so new contributors still get the variable list.
+.env*
+!.env.example
 
 # vercel
 .vercel
@@ -48,3 +51,7 @@ screenshots/
 # local working folders (design references, content drafts)
 designs/
 drafts/
+
+# python bytecode from .claude/skills scripts
+__pycache__/
+*.py[cod]
