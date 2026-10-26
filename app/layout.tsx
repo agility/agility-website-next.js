@@ -42,8 +42,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 		redirect(url)
 	}
 
+	// Light-only site: say so, so a dual-theme SVG in an <img> (light default + a
+	// prefers-color-scheme: dark block) follows the page, not the visitor's OS.
 	return (
-		<html lang="en" className={`font-sans text-primary ${mulish.variable}`}>
+		<html lang="en" className={`font-sans text-primary ${mulish.variable}`} style={{ colorScheme: "light" }}>
 			<head>
 				<link rel="preconnect" href="https://static.agilitycms.com" />
 				<link rel="preconnect" href="https://js.hsforms.net" />
