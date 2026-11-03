@@ -1,15 +1,116 @@
 import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
+import type { NextRequest, NextFetchEvent } from 'next/server'
 import { getDynamicPageURL } from "@agility/nextjs/node"
 import { checkRedirect } from 'lib/cms-content/checkRedirect'
+import { classifyAIBot } from 'lib/analytics/aiBots'
+import { captureServerEvent } from 'lib/analytics/posthogServer'
+
+//Files that AI crawlers hit most, and which must be served untouched.
+//They are inside the matcher only so bot hits on them get counted — the
+//early return below keeps the rest of the middleware away from them.
+const PASSTHROUGH_PATHS = new Set([
+	'/robots.txt',
+	'/sitemap.xml',
+	'/llms.txt',
+	'/llms-full.txt',
+])
+
+/**
+ * Sampling lever for training-crawl telemetry, 0..1.
+ *
+ * Training crawls are the high-volume, low-information population, and a user
+ * agent is self-reported: `curl -A GPTBot` in a loop is an unauthenticated way
+ * for anyone to run up billable PostHog event volume. Setting
+ * AI_BOT_TRAINING_SAMPLE_RATE=0.1 records 1 in 10 without a code change; 0 turns
+ * training capture off entirely.
+ *
+ * Defaults to 1 (record everything) so the first weeks show real volume. Every
+ * event carries `sample_rate`, so counts stay recoverable at any setting —
+ * estimate with sum(1 / sample_rate), never count().
+ *
+ * Retrieval and scraper hits are never sampled: retrieval is the number that
+ * actually matters and its volume is low by nature.
+ *
+ * Note this is inlined at build time in the edge runtime — changing it needs a
+ * redeploy, not just an env var edit.
+ */
+const TRAINING_SAMPLE_RATE = (() => {
+	const raw = process.env.AI_BOT_TRAINING_SAMPLE_RATE
+	//Number("") is 0, so an empty env var would silently mean "send nothing".
+	const n = raw ? Number(raw) : NaN
+	return Number.isFinite(n) ? n : 1
+})()
 
 // This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest, event: NextFetchEvent) {
 
 	//host level redirect
 	//ONLY allow requests to the correct domain (localhost, netlify.app, agilitycms.com)
 	const host = request.nextUrl.host
 	const pathAndQuery = request.nextUrl.pathname + request.nextUrl.search
+
+	/*****************************
+	 * *** AI BOT TELEMETRY ***
+	 * GA4 cannot see AI crawlers — it needs JS, and they don't run it. This
+	 * records them server-side so training crawls and live retrieval fetches
+	 * can be separated from AI-referred humans.
+	 *
+	 * Fire-and-forget via waitUntil: never awaited, never blocks the response,
+	 * and captureServerEvent swallows its own failures.
+	 *
+	 * This runs BEFORE the host canonicalization below, but `host` is passed to
+	 * captureServerEvent, which DROPS anything that is not the production host.
+	 * That is deliberate and it fails closed:
+	 *
+	 *   - preview / branch / localhost traffic never reaches the production
+	 *     PostHog project. The previous env-var guard did not work — Netlify does
+	 *     not surface CONTEXT into the edge bundle, and 1,546 preview events
+	 *     landed in production stamped `deploy_context: production`.
+	 *   - a crawler that follows our 301 can no longer be double counted, since
+	 *     only the apex hit is recorded.
+	 *
+	 * The cost is that a bot which hits www (or a netlify.app alias) and never
+	 * follows the redirect is invisible. Accepted: anything that follows the 301
+	 * is still counted at the apex, which is the number we report.
+	 *
+	 * See SKILL.md, Source 4.
+	 *******************************/
+	const aiBot = classifyAIBot(request.headers.get('user-agent'))
+	if (aiBot) {
+		//Optional-chained: Next always supplies the event in the edge runtime,
+		//but this keeps the module importable from a plain test harness.
+		event?.waitUntil?.(
+			captureServerEvent({
+				event: 'ai_bot_request',
+				distinctId: `ai-bot:${aiBot.bot}`,
+				//The POST leaves from the edge, so pass the crawler's own IP or
+				//PostHog geo-stamps every event with the serving PoP instead.
+				//x-nf-client-connection-ip is set by Netlify and trustworthy;
+				//the x-forwarded-for fallback is caller-controllable, so treat
+				//$ip as advisory when reconciling against published crawler
+				//ranges off-Netlify.
+				ip: request.headers.get('x-nf-client-connection-ip')
+					|| request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+					|| null,
+				//Environment gate: captureServerEvent drops anything that is not
+				//the production host. Passing it is what makes previews safe.
+				host,
+				sampleRate: aiBot.category === 'training' ? TRAINING_SAMPLE_RATE : 1,
+				properties: {
+					ai_bot: aiBot.bot,
+					ai_category: aiBot.category,
+					ai_vendor: aiBot.vendor,
+					path: request.nextUrl.pathname,
+					host,
+				},
+			})
+		)
+	}
+
+	//Serve robots/sitemap/llms files without any further middleware processing.
+	if (PASSTHROUGH_PATHS.has(request.nextUrl.pathname)) {
+		return NextResponse.next()
+	}
 
 	//*** IndexNow key verification file ***
 	//Serve the IndexNow key at the site root (/<key>.txt) so search engines can
@@ -212,9 +313,13 @@ export const config = {
 		 * - assets (public assets)
 		 * - _next/static (static files)
 		 * - _next/image (image optimization files)
-		 * - favicon.ico, robots.txt, sitemap.xml, llms.txt, llms-full.txt
+		 * - favicon.ico
 		 * - any path ending in a static asset extension (images, fonts, css/js)
+		 *
+		 * robots.txt, sitemap.xml, llms.txt and llms-full.txt are intentionally
+		 * INSIDE the matcher so AI crawler hits on them are counted. They return
+		 * early via PASSTHROUGH_PATHS, so no other middleware logic touches them.
 		 */
-		'/((?!api|assets|_next/static|_next/image|favicon\\.ico|robots\\.txt|sitemap\\.xml|llms\\.txt|llms-full\\.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|woff|woff2|js|css|map)).*)',
+		'/((?!api|assets|_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|woff|woff2|js|css|map)).*)',
 	],
 }
