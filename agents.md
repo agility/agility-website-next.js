@@ -1,5 +1,7 @@
 # Agents.md - AI Agent Context for Agility CMS Next.js Website
 
+> **⚠️ RETIRED (2026-11-03):** This site no longer serves agilitycms.com. The live site is [agility/agility-website-nextjs-2026](https://github.com/agility/agility-website-nextjs-2026). Don't make website changes here. The rest of this file describes the old site and is kept only for history.
+
 > This document provides AI agents and LLMs with comprehensive context about this codebase to enable effective assistance with development tasks.
 
 ## Project Overview
