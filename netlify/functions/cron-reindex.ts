@@ -1,14 +1,10 @@
-
 import type { Config } from "@netlify/functions";
-import { indexSite } from "lib/crawl/index-site";
 
+// Disabled 2026-11-03: agilitycms.com moved to the agility-website-2026 project,
+// which now owns the Algolia index. This old project must not reindex it.
+// The schedule is removed so Netlify no longer runs this function.
 export default async () => {
-
-	await indexSite()
-
+	return new Response("cron-reindex disabled", { status: 200 })
 }
 
-export const config: Config = {
-	//run this every 2 hours (0 */2 * * *)
-	schedule: "0 */2 * * *"
-};
+export const config: Config = {}
